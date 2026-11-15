@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-15T20:07:00.901Z",
- "updatedAt": 1794772530000,
+ "exportedAt": "2026-11-15T22:21:04.139Z",
+ "updatedAt": 1794780129769,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -477,6 +477,17 @@
     "vcm": 75,
     "wbc": 15600
    }
+  },
+  {
+   "id": "ecvpuu9aa8mcsi350pue",
+   "date": "2026-11-15",
+   "time": "19:01",
+   "kind": "Pesagem",
+   "lab": "Vet Rio",
+   "params": {
+    "peso": 18.6
+   },
+   "other": []
   },
   {
    "id": "eq4inr9xpdeo1dmzuivp",
@@ -2746,6 +2757,14 @@
    "date": "2026-10-14",
    "time": "12:22",
    "video": false
+  },
+  {
+   "id": "l1ploq6umb60p3ohay09",
+   "assetId": "a730d65d4ede40c0d6fd23f92c47854b",
+   "date": "2026-11-15",
+   "caption": "Odin deitado sobre manta branca em baia de internação, com sonda nasal fixada com esparadrapo no focinho e testa, olhando para o lado",
+   "video": false,
+   "createdAt": 1794780052850
   },
   {
    "id": "mmnnby19vwofhva15fzj",
