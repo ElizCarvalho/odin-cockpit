@@ -1274,7 +1274,7 @@ const CATS = [
 function catOf(m) { const t = `${m.purpose || ''} ${m.name || ''} ${m.composition || ''}`.toLowerCase(); for (const [c, re] of CATS) if (re.test(t)) return c; return 'Outros'; }
 let medCat = 'Todos';
 const medVisible = m => medCat === 'Todos' || catOf(m) === medCat;
-function staleOf(m) { return isActive(m) && !m.end && m.start && dayNum(todayIso()) - dayNum(m.start) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
+function staleOf(m) { const base = m.confirmedAt || m.start; return isActive(m) && !m.end && base && dayNum(todayIso()) - dayNum(base) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
 function medDetail(m) {
   const comp = Array.isArray(m.components) && m.components.length;
   return `${m.composition ? `<div class="s"><b>Composição:</b> ${esc(m.composition)}</div>` : ''}
@@ -1288,10 +1288,10 @@ function medLine(m) {
   const comp = Array.isArray(m.components) && m.components.length;
   return `<div class="mrow">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}
     <details class="mitem"><summary>
-      <span class="mname">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim há mais de 30 dias">confirmar se continua</span>' : ''}</span>
+      <span class="mname">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim e sem confirmação há mais de 30 dias">confirmar se continua</span>' : ''}</span>
       <span class="mcat">${esc(catOf(m))}</span><span class="mper num">${medPeriod(m)}</span></summary>
       <div class="mbody">${medDetail(m)}
-        ${canWrite ? `<div class="acts" style="margin-top:6px">${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button></div>` : ''}</div>
+        ${canWrite ? `<div class="acts" style="margin-top:6px">${staleOf(m) ? `<button class="tiny ghost" data-mok="${esc(m.id)}">ainda usa</button>` : ''}${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button></div>` : ''}</div>
     </details></div>`;
 }
 function openMed(key) {
@@ -1369,6 +1369,8 @@ $('mBtn').addEventListener('click', async () => {
   } catch (e) { alertErr(e); } finally { $('mBtn').disabled = false; }
 });
 document.addEventListener('click', async ev => {
+  const ok1 = ev.target.closest('button[data-mok]');
+  if (ok1) { ok1.disabled = true; try { await db.collection('meds').doc(ok1.dataset.mok).update({ confirmedAt: todayIso() }); } catch (e) { alertErr(e); } return; }
   const e1 = ev.target.closest('button[data-mend]'), d1 = ev.target.closest('button[data-mdel]');
   if (e1) { e1.disabled = true; try { await db.collection('meds').doc(e1.dataset.mend).update({ end: todayIso(), endEstimated: false }); } catch (e) { alertErr(e); } }
   if (d1 && armed(d1, 'excluir')) { d1.disabled = true; try { await db.collection('meds').doc(d1.dataset.mdel).delete(); } catch (e) { alertErr(e); } }
