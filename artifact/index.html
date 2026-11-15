@@ -212,6 +212,14 @@ body.ro .wr { display: none !important; }
 .mdesc { font-size: 13.5px; color: var(--muted); margin: 0 0 10px; }
 .mtable td, .mtable th { padding: 6px 12px 6px 0; text-align: left; }
 #evo th:first-child, #evo td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 1; }
+.legend-box { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 8px; }
+.legend-box h2 { font-size: 14px; margin: 0; }
+.legend-row { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: baseline; }
+.lgt { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+#evoWrap { max-height: 75vh; overflow: auto; }
+#evo thead th { position: sticky; top: 0; background: var(--surface); z-index: 2; }
+#evo thead th:first-child { z-index: 3; }
+@media (max-width: 560px) { .legend-row { grid-template-columns: 1fr; gap: 4px; } }
 </style>
 </head>
 <body>
@@ -317,7 +325,12 @@ body.ro .wr { display: none !important; }
   </div>
 
   <div class="panel" id="p-exames" role="tabpanel" hidden>
-  <div class="legend-note" aria-label="Legenda dos gráficos"><span><i></i>exames próximos</span><span><i class="dash"></i>mais de 6 dias sem exame (não mostra o que aconteceu no meio)</span><span><i class="band"></i>faixa de referência</span><span><i class="ev"></i>acontecimento marcado</span><span>Toque no <b>?</b> pra ver o que cada exame avalia; clique no gráfico pra ampliar</span><span>Nos cards do topo: <b style="color:var(--ok)">▲▼ verde</b> = indo pra faixa normal, <b style="color:var(--warn)">▲▼ laranja</b> = se afastando</span></div>
+  <section class="legend-box" aria-label="Como ler os gráficos">
+    <h2>Como ler os gráficos</h2>
+    <div class="legend-row"><span class="lgt">Linhas</span><div class="legend-note"><span><i></i>exames próximos</span><span><i class="dash"></i>mais de 6 dias sem exame (não mostra o que aconteceu no meio)</span><span><i class="band"></i>faixa de referência</span><span><i class="ev"></i>acontecimento marcado (internação, transfusão…)</span></div></div>
+    <div class="legend-row"><span class="lgt">Status</span><div class="legend-note"><span><span class="pill ok">na faixa</span> dentro da referência</span><span><span class="pill lo">abaixo</span> / <span class="pill hi">acima</span> fora da referência</span><span>nos cards do Painel: <b style="color:var(--ok)">▲▼ verde</b> = voltando pra faixa, <b style="color:var(--warn)">▲▼ laranja</b> = se afastando</span></div></div>
+    <div class="legend-row"><span class="lgt">Dicas</span><div class="legend-note"><span>toque no <b>?</b> pra ver o que cada exame avalia</span><span>clique no gráfico pra ampliar e ver todos os valores</span></div></div>
+  </section>
   <div class="extools" role="toolbar" aria-label="Filtrar gráficos">
     <div class="chips" id="exChips"></div>
     <label class="chk"><input type="checkbox" id="exOut"> Só o que está fora da faixa</label>
@@ -326,7 +339,7 @@ body.ro .wr { display: none !important; }
 
   <section class="card">
     <div class="row between"><h2>Tabela evolutiva</h2><span class="note">Faixas de referência variam entre laboratórios; as daqui são aproximadas.</span></div>
-    <div class="tablewrap" style="margin-top:10px"><table id="evo"></table></div>
+    <div class="tablewrap" id="evoWrap" style="margin-top:10px"><table id="evo"></table></div>
   </section>
 
   </div>
