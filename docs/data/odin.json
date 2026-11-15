@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-15T17:52:41.473Z",
+ "exportedAt": "2026-11-15T18:30:00.266Z",
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1158,36 +1158,6 @@
    "start": "2026-10-29"
   },
   {
-   "id": "6gutuc3glo13tt9icemv",
-   "allergy": false,
-   "clinic": "Vetreabilite (neuro)",
-   "components": [
-    {
-     "dose": "10 mg/kg/dose",
-     "name": "Ginkgo biloba"
-    },
-    {
-     "dose": "5 mg/kg/dose",
-     "name": "Pentoxifilina"
-    },
-    {
-     "dose": "200 mcg/dose",
-     "name": "Vitamina B12"
-    },
-    {
-     "dose": "10 mg/kg/dose",
-     "name": "Vitamina E"
-    }
-   ],
-   "dose": "1 biscoito a cada 24h por 30 dias",
-   "end": "2026-11-25",
-   "endEstimated": true,
-   "name": "Biscoito neuro manipulado",
-   "notes": "indicado pela neuro; a receita magistral saiu pela Tododoy em 26/10",
-   "purpose": "suporte neurológico",
-   "start": "2026-10-26"
-  },
-  {
    "id": "78fwenijjd7jwbo2uafk",
    "allergy": false,
    "clinic": "Tododoy",
@@ -1255,13 +1225,13 @@
    "id": "9yrs0iz5nrbp1mpofmky",
    "allergy": false,
    "clinic": "Animalis",
-   "composition": "vitamina A, líquida",
-   "dose": "conforme receita",
-   "end": null,
+   "composition": "vitaminas A e D",
+   "dose": "conforme orientação da Animalis",
+   "end": "2026-11-08",
    "endEstimated": false,
-   "name": "Vitamina A líquida",
-   "notes": "fim não registrado",
-   "purpose": "suporte",
+   "name": "Aditil",
+   "notes": "é a \"vitamina A líquida\" indicada pela Animalis em 09/10; a Rio Vet manteve na receita de 08/11 (segue no período seguinte)",
+   "purpose": "vitaminas",
    "start": "2026-10-09"
   },
   {
@@ -1453,7 +1423,7 @@
    "allergy": false,
    "clinic": "Tododoy",
    "composition": "fenobarbital 100 mg por comprimido",
-   "dose": "3/4 de comprimido de 100 mg (75 mg) VO a cada 12h (9h e 21h)",
+   "dose": "3/4 de comprimido de 100 mg (75 mg) VO a cada 12h (9h e 21h), uso contínuo",
    "end": null,
    "endEstimated": false,
    "name": "Gardenal 100 mg",
@@ -1516,6 +1486,7 @@
    "allergy": false,
    "clinic": "Animalis",
    "composition": "betaglucanas (beta-1,3/1,6-glucanas) purificadas de levedura",
+   "confirmedAt": "2026-11-15",
    "dose": "3 sticks VO 1x ao dia",
    "end": null,
    "endEstimated": false,
@@ -1542,6 +1513,7 @@
    "allergy": false,
    "clinic": "Animalis",
    "composition": "medicamento homeopático",
+   "confirmedAt": "2026-11-15",
    "dose": "2 mL injetável; agora 3 dias seguidos e depois a cada 2 dias",
    "end": null,
    "endEstimated": false,

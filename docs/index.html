@@ -355,6 +355,7 @@ body.ro .wr { display: none !important; }
         <li>Pra conferir antes (opcional): <code>npm run publicar</code> e depois <code>npm run ver</code>, que abre em localhost:4173.</li>
         <li>Pra publicar: <code>npm run publicar -- --push</code>. O site atualiza em 1 a 2 minutos.</li>
       </ol>
+      <div id="pubStatus" class="status" aria-live="polite"></div>
       <p class="note" style="margin:0; max-width:none">Se o script parar avisando que sobrou um nome, inclua esse nome em <code>config/anonimizacao.json</code> e rode de novo. Ou só me peça pra publicar.</p>
     </section>
   </div>
@@ -1537,7 +1538,8 @@ const STATIC = window.ODIN_STATIC || null;
 function photoSrc(id) { return STATIC ? 'data/photos/' + encodeURIComponent(id) + '.jpg' : '/_blob/' + encodeURIComponent(id); }
 async function blobToDataUrl(b) { return await new Promise((ok, no) => { const fr = new FileReader(); fr.onload = () => ok(fr.result); fr.onerror = no; fr.readAsDataURL(b); }); }
 async function exportForSite() {
-  const btn = $('pubBtn'); btn.disabled = true; const st = say('Preparando o arquivo do site…');
+  const btn = $('pubBtn'); btn.disabled = true;
+  const st = document.createElement('div'); st.textContent = 'Preparando o arquivo do site…'; $('pubStatus').replaceChildren(st);
   try {
     const dl = await window.claude.use('downloads');
     if (!dl) throw new Error('download indisponível aqui');
@@ -1550,7 +1552,7 @@ async function exportForSite() {
     const out = { exportedAt: new Date().toISOString(), exams, events, analyses, meds, prevent, photos: ph };
     const name = 'odin-export-' + todayIso() + '.json';
     await dl.save({ filename: name, data: new Blob([JSON.stringify(out)], { type: 'application/json' }) });
-    st.textContent = `Arquivo ${name} salvo. Rode "npm run publicar" no repositório (ou me peça).`; st.className = 'done';
+    st.textContent = `Arquivo ${name} salvo em Downloads. Agora siga os passos 2 a 4 acima (ou me peça pra publicar).`; st.className = 'done';
   } catch (e) { st.textContent = 'Não consegui exportar: ' + (e.code === 'declined' ? 'download cancelado.' : (e.message || e.code)); st.className = 'err'; }
   finally { btn.disabled = false; }
 }
