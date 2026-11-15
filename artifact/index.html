@@ -220,6 +220,24 @@ body.ro .wr { display: none !important; }
 #evo thead th { position: sticky; top: 0; background: var(--surface); z-index: 2; }
 #evo thead th:first-child { z-index: 3; }
 @media (max-width: 560px) { .legend-row { grid-template-columns: 1fr; gap: 4px; } }
+.grow[data-mk] { cursor: pointer; border-radius: 4px; }
+.grow[data-mk]:hover .gl { color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip .cnt { opacity: .7; font-size: 11px; margin-left: 2px; }
+.mrow { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 0 10px; border-bottom: 1px solid var(--line); }
+.mrow:not(:has(.msel)) { grid-template-columns: minmax(0,1fr); }
+.mrow .msel { margin-top: 12px; }
+.mitem summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 4px 14px; align-items: center; padding: 9px 0; }
+.mitem summary::-webkit-details-marker { display: none; }
+.mitem summary::before { content: '▸'; color: var(--muted); position: absolute; margin-left: -14px; }
+.mitem[open] summary::before { content: '▾'; }
+.mitem { position: relative; padding-left: 14px; }
+.mname { font-weight: 600; font-size: 14px; }
+.mcat { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.mper { font-size: 12.5px; color: var(--muted); white-space: nowrap; min-width: 112px; text-align: right; }
+.mbody { padding: 0 0 10px; display: grid; gap: 2px; }
+.mper-box { border-top: 1px solid var(--line); padding: 10px 0; display: grid; gap: 3px; }
+@media (max-width: 560px) { .mitem summary { grid-template-columns: 1fr; } .mper, .mcat { text-align: left; } }
 </style>
 </head>
 <body>
@@ -353,7 +371,8 @@ body.ro .wr { display: none !important; }
         <span><i class="bar alg" style="position:static"></i>reação/alergia</span>
         <span><i class="bar on mix" style="position:static"></i>fórmula manipulada (vários ativos juntos)</span>
       </div>
-      <p class="note" style="margin:0 0 12px">Em cima, o que já terminou (na ordem em que acabou); embaixo, o que está em uso. Quando o mesmo remédio foi usado mais de uma vez, os períodos ficam na mesma linha. Datas de fim estimadas vêm da duração na receita.</p>
+      <p class="note" style="margin:0 0 12px">Em cima, o que já terminou (na ordem em que acabou); embaixo, o que está em uso. Clique numa linha pra ver composição e posologia. Quando o mesmo remédio foi usado mais de uma vez, os períodos ficam na mesma linha. Datas de fim estimadas vêm da duração na receita.</p>
+      <div class="chips" id="medChips" style="margin:0 0 12px"></div>
       <div id="medGantt" class="gantt"></div>
     </section>
     <section class="card wr">
@@ -382,8 +401,8 @@ body.ro .wr { display: none !important; }
         <button id="mgCancel" class="ghost">Cancelar</button>
       </div>
     </section>
-    <section class="card"><h2>Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list"></div></section>
-    <section class="card"><h2>Já usou</h2><div id="medPast" class="list"></div></section>
+    <section class="card"><h2 id="medActiveH">Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list"></div></section>
+    <section class="card"><h2 id="medPastH">Já usou</h2><div id="medPast" class="list"></div></section>
   </div>
 
   <div class="panel" id="p-vacinas" role="tabpanel" hidden>
@@ -1240,17 +1259,51 @@ function clinicPill(c) {
   const i = Math.max(0, all.indexOf(c.toLowerCase()));
   return `<span class="pill cl" style="--clc:${CL_COLORS[i % CL_COLORS.length]}">${esc(c)}</span>`;
 }
-function medLine(m) {
-  const period = `${m.start ? dm(m.start) : '?'} → ${m.end ? dm(m.end) + (m.endEstimated ? ' (estimado)' : '') : 'em uso'}`;
+const CATS = [
+  ['Olhos', /olho|col[ií]rio|lubrific/],
+  ['Antibióticos', /antibi|cefalex|ceftriax|doxici|amoxic|trissulf|sulfadiaz.*trimet/],
+  ['Antiviral', /antiviral|ribavir/],
+  ['Neurológico', /convuls|neuro|amantad|fenobarb/],
+  ['Anemia', /anemia|ferro|hemolit|eritr|spirulina/],
+  ['Imunidade', /imun|engystol|macrogard|betaglucan/],
+  ['Dor e inflamação', /(^|[^a-zà-ú])dor([^a-zà-ú]|$)|febre|cortic|inflam/],
+  ['Suplementos', /massa|suplement|vitamin|[ôo]mega|creatin|carnitin|aditil/],
+];
+function catOf(m) { const t = `${m.purpose || ''} ${m.name || ''} ${m.composition || ''}`.toLowerCase(); for (const [c, re] of CATS) if (re.test(t)) return c; return 'Outros'; }
+let medCat = 'Todos';
+const medVisible = m => medCat === 'Todos' || catOf(m) === medCat;
+function staleOf(m) { return isActive(m) && !m.end && m.start && dayNum(todayIso()) - dayNum(m.start) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
+function medDetail(m) {
   const comp = Array.isArray(m.components) && m.components.length;
-  return `<div class="item">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}<div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''}</div>
-    ${m.composition ? `<div class="s"><b>Composição:</b> ${esc(m.composition)}</div>` : ''}
+  return `${m.composition ? `<div class="s"><b>Composição:</b> ${esc(m.composition)}</div>` : ''}
     ${m.dose ? `<div class="s"><b>Posologia:</b> ${esc(m.dose)}</div>` : ''}
     ${m.purpose ? `<div class="s"><b>Para quê:</b> ${esc(m.purpose)}</div>` : ''}
     ${comp ? `<ul class="comp">${m.components.map(c => `<li>${esc(c.name)}${c.dose ? ' <span class="muted">· ' + esc(c.dose) + '</span>' : ''}</li>`).join('')}</ul>` : ''}
-    <div class="s num">${period}${m.notes ? ' · ' + esc(m.notes) : ''}</div></div>
-    <div class="acts">${canWrite ? `${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button>` : ''}</div></div>`;
+    ${m.notes ? `<div class="s"><b>Obs.:</b> ${esc(m.notes)}</div>` : ''}`;
 }
+function medPeriod(m) { return `${m.start ? dm(m.start) : '?'} → ${m.end ? dm(m.end) + (m.endEstimated ? '*' : '') : 'em uso'}`; }
+function medLine(m) {
+  const comp = Array.isArray(m.components) && m.components.length;
+  return `<div class="mrow">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}
+    <details class="mitem"><summary>
+      <span class="mname">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim há mais de 30 dias">confirmar se continua</span>' : ''}</span>
+      <span class="mcat">${esc(catOf(m))}</span><span class="mper num">${medPeriod(m)}</span></summary>
+      <div class="mbody">${medDetail(m)}
+        ${canWrite ? `<div class="acts" style="margin-top:6px">${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button></div>` : ''}</div>
+    </details></div>`;
+}
+function openMed(key) {
+  closeBig(true);
+  const list = meds.filter(m => (m.name || '').replace(/\s*\(\s*\d+\s*[ºo°]?\s*ciclo\s*\)/i, '').trim().toLowerCase() === key).sort((a, b) => (a.start || '') < (b.start || '') ? -1 : 1);
+  if (!list.length) return;
+  const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+  box.innerHTML = `<div class="mbox" style="width:min(720px,100%)"><div class="mhead"><div><h2>${esc(list[0].name.replace(/\s*\(\s*\d+\s*[ºo°]?\s*ciclo\s*\)/i, ''))}</h2><div class="note" style="margin-top:4px">${esc(catOf(list[0]))} · ${list.length > 1 ? list.length + ' períodos' : '1 período'}</div></div>
+    <button class="ghost tiny" data-close aria-label="Fechar">✕</button></div>` + list.map(m => `<div class="mper-box"><div class="t num">${medPeriod(m)} ${clinicPill(m.clinic)} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''}</div>${medDetail(m)}</div>`).join('') +
+    `<p class="note" style="margin:8px 0 0">* data de fim estimada pela duração na receita.</p></div>`;
+  document.body.appendChild(box); document.body.style.overflow = 'hidden'; box.querySelector('[data-close]').focus();
+}
+$('medChips').addEventListener('click', ev => { const b = ev.target.closest('[data-mcat]'); if (!b) return; medCat = b.dataset.mcat; renderMeds(); });
+$('medGantt').addEventListener('click', ev => { const g = ev.target.closest('[data-mk]'); if (g) openMed(g.dataset.mk); });
 const mergeSel = new Set();
 function updateMergeBar() {
   for (const id of [...mergeSel]) if (!meds.some(m => m.id === id)) mergeSel.delete(id);
@@ -1261,14 +1314,17 @@ function updateMergeBar() {
 function renderMeds() {
   updateMergeBar();
   $('clinicList').innerHTML = [...new Set(meds.map(m => m.clinic).filter(Boolean))].map(c => `<option value="${esc(c)}">`).join('');
-  const sorted = [...meds].sort((a,b) => (a.start || '') < (b.start || '') ? 1 : -1);
-  const act = sorted.filter(isActive), past = sorted.filter(m => !isActive(m));
-  $('medActive').innerHTML = act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>';
-  $('medPast').innerHTML = past.map(medLine).join('') || '<p class="muted">Nada registrado.</p>';
+  const cats = ['Todos', ...CATS.map(c => c[0]), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
+  $('medChips').innerHTML = cats.map(c => `<button class="chip${medCat === c ? ' on' : ''}" data-mcat="${esc(c)}">${esc(c)} <span class="cnt">${c === 'Todos' ? meds.length : meds.filter(m => catOf(m) === c).length}</span></button>`).join('');
+  const sorted = [...meds].filter(medVisible).sort((a,b) => (a.start || '') < (b.start || '') ? 1 : -1);
+  const act = sorted.filter(isActive), past = sorted.filter(m => !isActive(m)).sort((a, b) => (a.end || '') < (b.end || '') ? 1 : -1);
+  $('medActiveH').textContent = `Em uso (${act.length})`; $('medPastH').textContent = `Já usou (${past.length})`;
+  $('medActive').innerHTML = (act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>') + (act.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
+  $('medPast').innerHTML = (past.map(medLine).join('') || '<p class="muted">Nada registrado.</p>') + (past.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
   if ($('activeMeds')) $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
     : '<p class="muted">Nenhum medicamento em uso registrado.</p>';
   // gantt
-  const withStart = [...meds].filter(m => m.start).sort((a,b) => a.start < b.start ? -1 : 1);
+  const withStart = [...meds].filter(medVisible).filter(m => m.start).sort((a,b) => a.start < b.start ? -1 : 1);
   if (!withStart.length) { $('medGantt').innerHTML = '<p class="muted">Sem medicamentos com data de início.</p>'; return; }
   const t0 = dayNum(withStart[0].start), t1 = Math.max(dayNum(todayIso()), ...withStart.map(m => m.end ? dayNum(m.end) : 0)) + 1;
   const pct = d => ((d - t0) / (t1 - t0) * 100).toFixed(2);
@@ -1297,7 +1353,7 @@ function renderMeds() {
       const cls = (m.allergy ? 'alg' : isActive(m) ? 'on' : '') + (comps.length ? ' mix' : '');
       return `<div class="bar ${cls}" style="left:${pct(a)}%; width:${Math.max(0.6, pct(b) - pct(a))}%" title="${esc(m.name)}: ${dm(m.start)} → ${m.end ? dm(m.end) : 'em uso'}"></div>`;
     }).join('');
-    return (i === firstActive && i > 0 ? '<div class="gsep">em uso agora</div>' : '') + `<div class="grow"><div class="gl" title="${esc(tip)}">${label}</div><div class="track${comps.length ? ' tall' : ''}"><div class="today" style="left:${tday}%"></div>${bars}</div></div>`;
+    return (i === firstActive && i > 0 ? '<div class="gsep">em uso agora</div>' : '') + `<div class="grow" data-mk="${esc(row.k)}" role="button" tabindex="0" aria-label="Ver detalhes de ${esc(row.name)}"><div class="gl" title="${esc(tip)}">${label}</div><div class="track${comps.length ? ' tall' : ''}"><div class="today" style="left:${tday}%"></div>${bars}</div></div>`;
   }).join('');
 }
 $('mStart').value = todayIso();
