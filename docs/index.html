@@ -245,6 +245,16 @@ body.ro .wr { display: none !important; }
 .mbody { padding: 0 0 10px; display: grid; gap: 2px; }
 .mper-box { border-top: 1px solid var(--line); padding: 10px 0; display: grid; gap: 3px; }
 @media (max-width: 560px) { .mitem summary { grid-template-columns: 1fr; } .mper, .mcat { text-align: left; } }
+.medtools { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; margin: 0 0 12px; }
+@media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .tabs { flex-wrap: wrap; overflow: visible; gap: 4px; }
+  .tabs .tab { flex: 1 1 30%; text-align: center; padding: 7px 6px; font-size: 13.5px; }
+  .tiles { gap: 8px; }
+  .tile { padding: 10px 12px; }
+  .tile .val { font-size: 21px; }
+  .tile .reft, .tile .meta { font-size: 11px; }
+}
 </style>
 </head>
 <body>
@@ -379,7 +389,7 @@ body.ro .wr { display: none !important; }
         <span><i class="bar on mix" style="position:static"></i>fórmula manipulada (vários ativos juntos)</span>
       </div>
       <p class="note" style="margin:0 0 12px">Em cima, o que já terminou (na ordem em que acabou); embaixo, o que está em uso. Clique numa linha pra ver composição e posologia. Quando o mesmo remédio foi usado mais de uma vez, os períodos ficam na mesma linha. Datas de fim estimadas vêm da duração na receita.</p>
-      <div class="chips" id="medChips" style="margin:0 0 12px"></div>
+      <div class="medtools"><div class="chips" id="medChips"></div><div class="chips" id="medRange" aria-label="Período"></div></div>
       <div id="medGantt" class="gantt"></div>
     </section>
     <section class="card wr">
@@ -1277,7 +1287,7 @@ const CATS = [
   ['Suplementos', /massa|suplement|vitamin|[ôo]mega|creatin|carnitin|aditil/],
 ];
 function catOf(m) { const t = `${m.purpose || ''} ${m.name || ''} ${m.composition || ''}`.toLowerCase(); for (const [c, re] of CATS) if (re.test(t)) return c; return 'Outros'; }
-let medCat = 'Todos';
+let medCat = 'Todos', medRange = 'all';
 const medVisible = m => medCat === 'Todos' || catOf(m) === medCat;
 function staleOf(m) { const base = m.confirmedAt || m.start; return isActive(m) && !m.end && base && dayNum(todayIso()) - dayNum(base) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
 function medDetail(m) {
@@ -1309,6 +1319,7 @@ function openMed(key) {
     `<p class="note" style="margin:8px 0 0">* data de fim estimada pela duração na receita.</p></div>`;
   document.body.appendChild(box); document.body.style.overflow = 'hidden'; box.querySelector('[data-close]').focus();
 }
+$('medRange').addEventListener('click', ev => { const b = ev.target.closest('[data-mrange]'); if (!b) return; medRange = b.dataset.mrange; renderMeds(); });
 $('medChips').addEventListener('click', ev => { const b = ev.target.closest('[data-mcat]'); if (!b) return; medCat = b.dataset.mcat; renderMeds(); });
 $('medGantt').addEventListener('click', ev => { const g = ev.target.closest('[data-mk]'); if (g) openMed(g.dataset.mk); });
 const mergeSel = new Set();
@@ -1331,15 +1342,18 @@ function renderMeds() {
   if ($('activeMeds')) $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
     : '<p class="muted">Nenhum medicamento em uso registrado.</p>';
   // gantt
-  const withStart = [...meds].filter(medVisible).filter(m => m.start).sort((a,b) => a.start < b.start ? -1 : 1);
+  $('medRange').innerHTML = [['all','Tudo'],['60','60 dias'],['30','30 dias'],['14','14 dias']].map(([v, t]) => `<button class="chip${medRange === v ? ' on' : ''}" data-mrange="${v}">${t}</button>`).join('');
+  const winStart = medRange === 'all' ? null : dayIso(dayNum(todayIso()) - +medRange);
+  const withStart = [...meds].filter(medVisible).filter(m => m.start).filter(m => !winStart || !m.end || m.end >= winStart).sort((a,b) => a.start < b.start ? -1 : 1);
   if (!withStart.length) { $('medGantt').innerHTML = '<p class="muted">Sem medicamentos com data de início.</p>'; return; }
-  const t0 = dayNum(withStart[0].start), t1 = Math.max(dayNum(todayIso()), ...withStart.map(m => m.end ? dayNum(m.end) : 0)) + 1;
+  const t0 = winStart ? dayNum(winStart) : dayNum(withStart[0].start), t1 = Math.max(dayNum(todayIso()), ...withStart.map(m => m.end ? dayNum(m.end) : 0)) + 1;
   const pct = d => ((d - t0) / (t1 - t0) * 100).toFixed(2);
   let ticks = '';
   const d0 = new Date(t0 * 864e5);
   for (let d = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth(), 1); d / 864e5 <= t1; ) {
     const dd = new Date(d), n = d / 864e5;
-    for (const day of [1, 15]) { const x = Date.UTC(dd.getUTCFullYear(), dd.getUTCMonth(), day) / 864e5; if (x >= t0 && x <= t1) ticks += `<span style="left:${pct(x)}%">${dm(dayIso(x))}</span>`; }
+    const narrow = ($('medGantt').clientWidth || 800) < 520;
+    for (const day of (t1 - t0 <= 45 ? (narrow ? [1, 15] : [1, 8, 15, 22]) : (narrow ? [1] : [1, 15]))) { const x = Date.UTC(dd.getUTCFullYear(), dd.getUTCMonth(), day) / 864e5; if (x >= t0 && x <= t1) ticks += `<span style="left:${pct(x)}%">${dm(dayIso(x))}</span>`; }
     d = Date.UTC(dd.getUTCFullYear(), dd.getUTCMonth() + 1, 1);
   }
   const tday = pct(dayNum(todayIso()));
@@ -1355,8 +1369,8 @@ function renderMeds() {
     const clinics = [...new Set(row.items.map(m => m.clinic).filter(Boolean))];
     const label = `<span class="gl1">${comps.length ? '<span class="mtag">manipulado</span>' : ''}<span class="gn">${esc(row.name)}</span>${clinics.map(clinicPill).join('')}</span>${comps.length ? `<span class="gc">${comps.map(c => esc(c.name)).join(' + ')}</span>` : ''}`;
     const tip = row.name + (clinics.length ? ' (' + clinics.join(', ') + ')' : '') + (comps.length ? ' — ' + comps.map(c => c.name + (c.dose ? ' ' + c.dose : '')).join(', ') : '');
-    const bars = row.items.map(m => {
-      const a = dayNum(m.start), b = m.end ? dayNum(m.end) : dayNum(todayIso()) + 1;
+    const bars = row.items.filter(m => !winStart || !m.end || m.end >= winStart).map(m => {
+      const a = Math.max(t0, dayNum(m.start)), b = m.end ? dayNum(m.end) : dayNum(todayIso()) + 1;
       const cls = (m.allergy ? 'alg' : isActive(m) ? 'on' : '') + (comps.length ? ' mix' : '');
       return `<div class="bar ${cls}" style="left:${pct(a)}%; width:${Math.max(0.6, pct(b) - pct(a))}%" title="${esc(m.name)}: ${dm(m.start)} → ${m.end ? dm(m.end) : 'em uso'}"></div>`;
     }).join('');
