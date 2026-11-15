@@ -771,6 +771,22 @@ function renderCharts() {
       if (s.length === 1) continue;
       charts.push(makeChart(card.querySelector('canvas'), k, false, ctxC));
     }
+    if (G.g === 'clin' && canWrite) {
+      const f = document.createElement('div'); f.className = 'card wr';
+      f.innerHTML = `<details><summary>Anotar peso</summary><div class="vform">
+        <label>Data<input type="date" data-w="date" value="${todayIso()}"></label><label>Hora<input type="time" data-w="time"></label>
+        <label>Peso (kg)<input type="number" step="0.01" min="1" max="80" data-w="kg" placeholder="19,2"></label>
+        <label>Onde<input type="text" data-w="where" list="wPlaces" placeholder="Em casa"><datalist id="wPlaces"><option>Em casa</option><option>Rio Vet</option><option>Animalis</option><option>Tododoy</option><option>Vetreabilite (neuro)</option></datalist></label>
+        <button data-wsave>Salvar</button></div></details>`;
+      sec.appendChild(f);
+      f.querySelector('[data-wsave]').addEventListener('click', async ev => {
+        const g = k => f.querySelector(`[data-w="${k}"]`).value, kg = num(g('kg')), date = g('date');
+        if (!date || !kg) { say('Preencha a data e o peso.', 'err'); return; }
+        ev.target.disabled = true;
+        try { await db.collection('exams').add({ date, time: g('time') || null, kind: 'Pesagem', lab: g('where').trim() || 'Em casa', params: { peso: kg }, other: [], createdAt: Date.now() }); say('Peso anotado.', 'done'); }
+        catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); ev.target.disabled = false; }
+      });
+    }
   }
   if (!shown) host.innerHTML = '<p class="muted">Nenhum parâmetro fora da faixa no último exame.</p>';
 }
