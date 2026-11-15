@@ -259,6 +259,14 @@ body.ro .wr { display: none !important; }
   .mhead { flex-direction: column; gap: 6px; }
   .mhead .mnav { order: -1; align-self: flex-end; }
   .mtable td, .mtable th { padding-right: 8px; }
+  /* each reading = one block: date · value · variation on top, lab on its own line below */
+  .mbox .tablewrap { overflow-x: visible; }
+  .mtable, .mtable tbody { display: block; width: 100%; }
+  .mtable thead { display: none; }
+  .mtable tr { display: flex; flex-wrap: wrap; column-gap: 10px; row-gap: 2px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .mtable td { display: block; border: 0; padding: 0; white-space: nowrap; }
+  .mtable td:nth-child(3) { margin-left: auto; }
+  .mtable td.mlab { flex: 1 0 100%; min-width: 0; font-size: 12px; white-space: normal; }
 }
 .mdesc { font-size: 13.5px; color: var(--muted); margin: 0 0 10px; }
 .mtable td, .mtable th { padding: 6px 12px 6px 0; text-align: left; }
