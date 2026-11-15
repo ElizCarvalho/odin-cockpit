@@ -589,9 +589,27 @@ function examsByDate() {
 function say(msg, cls='') { const d = document.createElement('div'); d.className = cls; d.textContent = msg; $('status').prepend(d); return d; }
 
 /* ---------- Tiles ---------- */
+function lastTemps() {
+  const toTs = (d, t) => Date.parse(d + 'T' + (t || '12:00') + ':00');
+  return [...vitals.filter(v => typeof v.temp === 'number' && v.date).map(v => ({ ts: toTs(v.date, v.time), y: Math.max(v.temp, v.temp2 || 0), date: v.date, time: v.time, where: 'em casa' })),
+    ...exams.filter(e => typeof e.params?.temp === 'number').map(e => ({ ts: toTs(e.date, e.time), y: e.params.temp, date: e.date, time: e.time, where: e.lab || 'clínica' }))].sort((a, b) => a.ts - b.ts);
+}
+function tempTile() {
+  const p = P.temp, all = lastTemps();
+  const info = `<button class="info" type="button" aria-label="O que Temperatura avalia" aria-expanded="false">?</button>`, tipBox = `<div class="tip" role="tooltip">${esc(p.d)}</div>`;
+  if (!all.length) return `<div class="tile"><div class="lbl">Temperatura ${info}</div>${tipBox}<div class="val">–</div><div class="meta">sem dados ainda</div></div>`;
+  const last = all[all.length - 1], st = statusOf('temp', last.y);
+  const day = all.filter(x => x.ts > last.ts - 864e5), mx = Math.max(...day.map(x => x.y)), hot = day.filter(x => x.y > 39.2).length;
+  const iv = vitals.filter(v => v.date === last.date), water = iv.reduce((a, v) => a + (v.water_ml || 0), 0), meals = iv.filter(ate).length;
+  const extra = [day.length > 1 && `máx 24h ${fmt(mx)}${hot ? ` (${hot}× febre)` : ''}`, water && `água ${water} mL`, meals && `comeu ${meals}×`].filter(Boolean).join(' · ');
+  return `<div class="tile ${st}" data-go="exames" style="cursor:pointer" title="Ver gráficos de temperatura, água e comida"><div class="lbl">Temperatura ${info} <span class="pill ${st}">${statusTxt(st)}</span></div>${tipBox}
+    <div class="val">${fmt(last.y)}<small>°C</small></div><div class="reft">${extra || 'ref. ' + refTxt(p) + ' °C'}</div>
+    <div class="meta">${dm(last.date)}${last.time ? ' ' + esc(last.time) : ''} · ${esc(last.where)}</div></div>`;
+}
 function renderTiles() {
   const keys = ['ht','wbc','plt','peso'];
-  $('tiles').innerHTML = keys.map(k => {
+  $('tiles').innerHTML = tempTile() + keys.map(k => {
+
     const s = series(k); const p = P[k];
     const info = `<button class="info" type="button" aria-label="O que ${esc(p.l)} avalia" aria-expanded="false">?</button>`;
     const tipBox = `<div class="tip" role="tooltip">${esc(p.d || '')}</div>`;
@@ -729,7 +747,8 @@ function renderCharts() {
     shown += keys.length;
     const sec = document.createElement('section');
     sec.style.display = 'grid'; sec.style.gap = '12px';
-    sec.innerHTML = `<div class="section-title"><h2>${esc(G.t)}</h2><span>${esc(G.d)}</span></div><div class="charts"></div>`;
+    const gt = G.g === 'clin' && homeOn ? 'Peso' : G.t, gd = G.g === 'clin' && homeOn ? '' : G.d;
+    sec.innerHTML = `<div class="section-title"><h2>${esc(gt)}</h2><span>${esc(gd)}</span></div><div class="charts"></div>`;
     host.appendChild(sec);
     const grid = sec.querySelector('.charts');
     for (const k of keys) {
@@ -1727,7 +1746,7 @@ function go(tab, push = true) {
   scheduleRender();
 }
 document.querySelector('.tabs').addEventListener('click', ev => { const b = ev.target.closest('.tab'); if (b) go(b.dataset.tab); });
-document.addEventListener('click', ev => { const b = ev.target.closest('[data-go]'); if (b) go(b.dataset.go); });
+document.addEventListener('click', ev => { const b = ev.target.closest('[data-go]'); if (b && !ev.target.closest('.info, .tip')) go(b.dataset.go); });
 window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
 /* ---------- Render all ---------- */
