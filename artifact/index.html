@@ -96,6 +96,8 @@ button:disabled { opacity: .5; cursor: progress; }
 .section-title { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 -6px; }
 .section-title span { color: var(--muted); font-size: 13px; }
 .charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.charts > .chart:only-child { grid-column: 1 / -1; }
+.charts > .chart:only-child:not(.single) > div[style*="height:150px"] { height: 220px !important; }
 .chart { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 8px; position: relative; }
 .chart h3 { display: flex; align-items: center; gap: 6px; }
 .info { width: 20px; height: 20px; padding: 0; border-radius: 50%; font-size: 12px; font-weight: 600; line-height: 1; border: 1px solid var(--line); background: var(--bg); color: var(--muted); cursor: help; }
