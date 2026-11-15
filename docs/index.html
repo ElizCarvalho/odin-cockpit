@@ -193,7 +193,11 @@ select { font: inherit; color: var(--ink); background: var(--bg); border: 1px so
 .comp { margin: 4px 0 2px; padding-left: 18px; font-size: 13px; color: var(--muted); }
 .comp li { margin: 1px 0; }
 body.ro .wr { display: none !important; }
-.pubcard { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.pubhead { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.pubtxt { margin: 8px 0 10px; color: var(--muted); font-size: 14px; line-height: 1.5; max-width: none; }
+.pubtxt a { color: var(--accent); }
+.pubsteps { margin: 0 0 10px; padding-left: 20px; font-size: 14px; line-height: 1.7; }
+.pubsteps code, #pubCard .note code { font-size: 12.5px; background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -279,9 +283,16 @@ body.ro .wr { display: none !important; }
     <div id="analysis" class="analysis"><p class="muted">Carregando…</p></div>
     <p class="note" id="anMeta"></p>
   </section>
-    <section class="card wr pubcard" id="pubCard">
-      <div><h2>Publicar no site</h2><p class="note" style="margin:4px 0 0">Gera o arquivo com tudo (exames, remédios, vacinas, fotos) pra atualizar o site público. Os dados pessoais são removidos na hora de publicar.</p></div>
-      <button id="pubBtn" class="ghost">Exportar para o site</button>
+    <section class="card wr" id="pubCard">
+      <div class="pubhead"><h2>Publicar no site</h2><button id="pubBtn" class="ghost">Exportar para o site</button></div>
+      <p class="pubtxt">Atualiza o site público <a href="https://elizcarvalho.github.io/odin-cockpit/" target="_blank" rel="noopener">elizcarvalho.github.io/odin-cockpit</a> com tudo que está aqui (exames, remédios, vacinas e fotos). Os dados pessoais são removidos na hora de publicar.</p>
+      <ol class="pubsteps">
+        <li>Clique em <b>Exportar para o site</b>. O arquivo <code>odin-export-AAAA-MM-DD.json</code> vai pra pasta Downloads.</li>
+        <li>No terminal, entre na pasta do repositório: <code>cd ~/Documents/GitHub/odin-cockpit</code></li>
+        <li>Pra conferir antes (opcional): <code>npm run publicar</code> e depois <code>npm run ver</code>, que abre em localhost:4173.</li>
+        <li>Pra publicar: <code>npm run publicar -- --push</code>. O site atualiza em 1 a 2 minutos.</li>
+      </ol>
+      <p class="note" style="margin:0; max-width:none">Se o script parar avisando que sobrou um nome, inclua esse nome em <code>config/anonimizacao.json</code> e rode de novo. Ou só me peça pra publicar.</p>
     </section>
   </div>
 
