@@ -186,7 +186,8 @@ select { font: inherit; color: var(--ink); background: var(--bg); border: 1px so
 .grow { display: grid; grid-template-columns: minmax(130px, 290px) 1fr; gap: 10px; align-items: center; }
 .grow .gl { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .grow .gl1 { display: flex; align-items: center; min-width: 0; }
-.grow .gl1 .gn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.grow .gl1 .gn { white-space: normal; overflow-wrap: anywhere; min-width: 0; }
+.grow .gl { white-space: normal; }
 .grow .gl1 .pill.cl, .grow .gl1 .mtag { flex: none; }
 .grow .gl .gc { display: block; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .grow .gl .mtag { display: inline-block; font-size: 10px; font-weight: 600; padding: 0 5px; margin-right: 5px; border-radius: 3px; border: 1px solid var(--accent); color: var(--accent); vertical-align: 1px; }
@@ -212,7 +213,11 @@ select { font: inherit; color: var(--ink); background: var(--bg); border: 1px so
 .lightbox img, .lightbox video { max-width: 100%; max-height: 100%; border-radius: 8px; }
 .tl .thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; display: block; margin-top: 4px; }
 @media (max-width: 560px) {
-  .grow { grid-template-columns: 120px 1fr; }
+  .grow { grid-template-columns: 1fr; gap: 2px; padding: 4px 0; }
+  .grow:first-child > div:first-child { display: none; }
+  .grow .gl { white-space: normal; overflow: visible; }
+  .grow .gl1 { flex-wrap: wrap; }
+  .grow .gl1 .gn { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
   .grow .gl1 .pill.cl { font-size: 0; width: 8px; height: 8px; padding: 0; border-radius: 50%; background: var(--clc); border: 0; margin-left: 5px; flex: none; }
   .grow .gl1 .mtag { display: none; }
   .grow .gl .gc { display: none; }
@@ -242,6 +247,17 @@ body.ro .wr { display: none !important; }
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.72); display: grid; place-items: center; z-index: 60; padding: 18px; }
 .mbox { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; width: min(1000px, 100%); max-height: 100%; overflow: auto; padding: 18px 20px; }
 .mhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+.mhead > div:first-child { min-width: 0; }
+.mhead .mnav { flex: none; flex-wrap: nowrap; }
+.mtable { width: 100%; }
+.mtable td.mlab { white-space: normal; overflow-wrap: anywhere; min-width: 120px; }
+.mmarks { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+@media (max-width: 600px) {
+  .mbox { padding: 14px; }
+  .mhead { flex-direction: column; gap: 6px; }
+  .mhead .mnav { order: -1; align-self: flex-end; }
+  .mtable td, .mtable th { padding-right: 8px; }
+}
 .mdesc { font-size: 13.5px; color: var(--muted); margin: 0 0 10px; }
 .mtable td, .mtable th { padding: 6px 12px 6px 0; text-align: left; }
 #evo th:first-child, #evo td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 1; }
@@ -249,7 +265,29 @@ body.ro .wr { display: none !important; }
 .legend-box h2 { font-size: 14px; margin: 0; }
 .legend-row { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: baseline; }
 .lgt { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
-#evoWrap { max-height: 75vh; overflow: auto; }
+#evoWrap { max-height: 75vh; overflow: auto; scroll-snap-type: x mandatory; scroll-padding-left: var(--pw, 190px); max-width: 100%; }
+#evo { table-layout: fixed; width: auto; min-width: 0; }
+#evo th, #evo td { width: var(--cw, 96px); min-width: var(--cw, 96px); max-width: var(--cw, 96px); box-sizing: border-box; overflow: hidden; }
+#evo th:not(:first-child) { scroll-snap-align: start; white-space: normal; vertical-align: bottom; }
+#evo th .lab { display: block; white-space: normal; overflow-wrap: anywhere; line-height: 1.2; }
+#evo th:first-child, #evo td:first-child { width: var(--pw, 190px); min-width: var(--pw, 190px); max-width: var(--pw, 190px); white-space: normal; overflow-wrap: anywhere; box-shadow: 1px 0 0 var(--line); }
+#evo td.grp { white-space: normal; }
+#evo .refcol { white-space: normal; }
+#evoCards { display: none; }
+@media (max-width: 600px) {
+  #evoWrap { display: none; }
+  #evoCards { display: grid; gap: 4px; margin-top: 10px; }
+  #evoCards .eg { font-family: var(--font-display); font-weight: 700; color: var(--accent); margin: 10px 0 2px; }
+  #evoCards .ep { border-bottom: 1px solid var(--line); padding: 8px 0; display: grid; gap: 6px; }
+  #evoCards .epn { font-size: 14px; }
+  #evoCards .epn small { color: var(--muted); font-size: 11.5px; }
+  #evoCards .epv { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; }
+  #evoCards .epv div { display: grid; gap: 1px; padding: 4px 6px; border-radius: 6px; background: var(--bg); }
+  #evoCards .epv .d { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+  #evoCards .epv .v { font-family: var(--font-mono); font-size: 14px; white-space: nowrap; }
+  #evoCards .epv .v.lo, #evoCards .epv .v.hi { color: var(--warn); font-weight: 600; }
+  #evoCards .epr { font-size: 11.5px; color: var(--muted); }
+}
 #evo thead th { position: sticky; top: 0; background: var(--surface); z-index: 2; }
 #evo thead th:first-child { z-index: 3; }
 @media (max-width: 560px) { .legend-row { grid-template-columns: 1fr; gap: 4px; } }
@@ -411,7 +449,7 @@ body.ro .wr { display: none !important; }
 
   <section class="card">
     <div class="row between"><h2>Tabela evolutiva</h2><span class="note">Faixas de referência variam entre laboratórios; as daqui são aproximadas.</span></div>
-    <div class="tablewrap" id="evoWrap" style="margin-top:10px"><table id="evo"></table></div>
+    <div class="tablewrap" id="evoWrap" style="margin-top:10px"><table id="evo"></table></div><div id="evoCards"></div>
   </section>
 
   </div>
@@ -672,11 +710,11 @@ const eventPlugin = {
       ctx.beginPath(); ctx.moveTo(px, ar.top); ctx.lineTo(px, ar.bottom); ctx.stroke();
       if (!e.short || o.labels === false) continue;
       const w = ctx.measureText(e.short).width;
-      const lx = Math.min(px + 3, ar.right - w - 2);
-      let row = 0;
-      while (placed.some(p => p.row === row && lx < p.end + 4)) row++;
-      placed.push({ row, end: lx + w });
-      ctx.fillText(e.short, lx, ar.top + 9 + row * 11);
+      const lx = px + 3;
+      if (lx + w > ar.right - 2) continue;                       // doesn't fit: full text is in the list below the chart
+      if (placed.some(p => lx < p.end + 6 && lx + w > p.start - 6)) continue;   // would overlap another label
+      placed.push({ start: lx, end: lx + w });
+      ctx.fillText(e.short, lx, ar.top + 9);
     }
     ctx.restore();
   }
@@ -687,7 +725,13 @@ const valuePlugin = {
     if (!o || !o.on) return;
     const ctx = c.ctx, meta = c.getDatasetMeta(0);
     ctx.save(); ctx.fillStyle = o.color; ctx.font = '11px "IBM Plex Mono", monospace'; ctx.textAlign = 'center';
-    meta.data.forEach((pt, i) => { const v = c.data.datasets[0].data[i]; ctx.fillText(fmt(v.y), pt.x, pt.y - 9); });
+    // draw from the newest point backwards and skip any label that would overlap one already drawn
+    const drawn = [];
+    for (let i = meta.data.length - 1; i >= 0; i--) {
+      const pt = meta.data[i], t = fmt(c.data.datasets[0].data[i].y), w = ctx.measureText(t).width, x0 = pt.x - w / 2, x1 = pt.x + w / 2, y0 = pt.y - 20, y1 = pt.y - 6;
+      if (drawn.some(d => x0 < d.x1 + 3 && x1 > d.x0 - 3 && y0 < d.y1 && y1 > d.y0)) continue;
+      drawn.push({ x0, x1, y0, y1 }); ctx.fillText(t, pt.x, pt.y - 9);
+    }
     ctx.restore();
   }
 };
@@ -869,19 +913,21 @@ function openBig(k) {
   const p = P[k], s = series(k), last = s[s.length - 1], st = statusOf(k, last.y);
   const rows = [...s].reverse().map((d, i, arr) => {
     const prev = arr[i + 1], dd = prev ? d.y - prev.y : null, sti = statusOf(k, d.y);
-    return `<tr><td class="num">${dmy(d.date)}</td><td class="num ${sti === 'ok' ? '' : sti}">${fmt(d.y)} ${esc(p.u)}</td><td class="num muted">${dd == null ? '' : (dd > 0 ? '▲ ' : dd < 0 ? '▼ ' : '= ') + fmt(Math.abs(dd))}</td><td class="muted">${esc(d.lab || '')}</td></tr>`;
+    return `<tr><td class="num">${dmy(d.date)}</td><td class="num ${sti === 'ok' ? '' : sti}">${fmt(d.y)} ${esc(p.u)}</td><td class="num muted">${dd == null ? '' : (dd > 0 ? '▲ ' : dd < 0 ? '▼ ' : '= ') + fmt(Math.abs(dd))}</td><td class="muted mlab">${esc(d.lab || '')}</td></tr>`;
   }).join('');
+  const C = chartCtx(), inRange = C.marks.filter(m => s.length > 1 && m.x >= C.xMin && m.x <= C.xMax).sort((a, b) => a.x - b.x);
   const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', p.l);
   box.innerHTML = `<div class="mbox">
     <div class="mhead"><div><h2>${esc(p.l)} <span class="pill ${st}">${statusTxt(st)}</span></h2>
       <div class="note" style="margin-top:4px">${(p.lo != null || p.hi != null) ? `Referência ${refTxt(p)} ${esc(p.u)} · ` : ''}último: <b>${fmt(last.y)} ${esc(p.u)}</b> em ${dmy(last.date)}</div></div>
-      <div class="row"><button class="ghost tiny" data-mv="-1" aria-label="Parâmetro anterior">◀</button><button class="ghost tiny" data-mv="1" aria-label="Próximo parâmetro">▶</button><button class="ghost tiny" data-close aria-label="Fechar">✕</button></div></div>
+      <div class="row mnav"><button class="ghost tiny" data-mv="-1" aria-label="Parâmetro anterior">◀</button><button class="ghost tiny" data-mv="1" aria-label="Próximo parâmetro">▶</button><button class="ghost tiny" data-close aria-label="Fechar">✕</button></div></div>
     ${p.d ? `<p class="mdesc">${esc(p.d)}</p>` : ''}
     ${s.length > 1 ? `<div style="position:relative;height:min(52vh,420px)"><canvas aria-label="Gráfico ampliado de ${esc(p.l)}"></canvas></div>` : ''}
+    ${inRange.length ? `<p class="mmarks">Linhas pontilhadas: ${inRange.map(m => `<b>${dm(dayIso(m.x))}</b> ${esc(m.short || 'acontecimento')}`).join(' · ')}</p>` : ''}
     <div class="tablewrap" style="margin-top:12px"><table class="mtable"><thead><tr><th>Data</th><th>Valor</th><th>Variação</th><th>Laboratório</th></tr></thead><tbody>${rows}</tbody></table></div>
   </div>`;
   document.body.appendChild(box); document.body.style.overflow = 'hidden';
-  if (s.length > 1) bigChart = makeChart(box.querySelector('canvas'), k, true, chartCtx());
+  if (s.length > 1) bigChart = makeChart(box.querySelector('canvas'), k, true, C);
   box.querySelector('[data-close]').focus();
 }
 function closeBig(keep) {
@@ -921,14 +967,19 @@ function renderTable() {
   const all = examsByDate().reverse();
   const t = $('evo');
   if (!all.length) { t.innerHTML = '<tr><td class="muted">Nenhum exame ainda.</td></tr>'; return; }
+  let cards = '';
   let h = '<thead><tr><th>Parâmetro</th>' + all.map(e => `<th><span class="num">${dm(e.date)}</span><span class="lab">${esc([...e.labs].join(', ').slice(0,22))}</span>
     ${canWrite ? `<button class="tiny danger" data-del="${esc(e.ids.join(','))}" aria-label="Excluir exames de ${dm(e.date)}">excluir</button>` : ''}</th>`).join('') + '<th class="refcol">Ref.</th></tr></thead><tbody>';
   for (const G of GROUPS) {
     const keys = PARAMS.filter(p => p.g === G.g && all.some(e => e.params && typeof e.params[p.k] === 'number')).map(p => p.k);
     if (!keys.length) continue;
-    h += `<tr><td class="grp" colspan="${all.length + 2}">${esc(G.t)}</td></tr>`;
+    h += `<tr><td class="grp">${esc(G.t)}</td><td colspan="${all.length + 1}"></td></tr>`;
+    cards += `<div class="eg">${esc(G.t)}</div>`;
     for (const k of keys) {
       const p = P[k];
+      const vals = all.filter(e => typeof e.params?.[k] === 'number').slice(0, 6);
+      cards += `<div class="ep"><div class="epn">${esc(p.l)} <small>${esc(p.u)}</small></div><div class="epv">${vals.map(e => { const v = e.params[k], st = statusOf(k, v);
+        return `<div><span class="d">${dm(e.date)}</span><span class="v ${st === 'ok' ? '' : st}">${fmt(v)}${st === 'lo' ? ' ▼' : st === 'hi' ? ' ▲' : ''}</span></div>`; }).join('')}</div>${(p.lo != null || p.hi != null) ? `<div class="epr">referência ${refTxt(p)} ${esc(p.u)}</div>` : ''}</div>`;
       h += `<tr><td title="${esc(p.d || '')}">${esc(p.l)} <span class="muted" style="font-size:11.5px">${esc(p.u)}</span></td>` + all.map(e => {
         const v = e.params?.[k]; if (typeof v !== 'number') return '<td></td>';
         const st = statusOf(k, v);
@@ -937,7 +988,23 @@ function renderTable() {
     }
   }
   t.innerHTML = h + '</tbody>';
+  $('evoCards').innerHTML = cards;
+  fitEvo();
 }
+// show only whole date columns: the visible width is the parameter column + N full date columns
+function fitEvo() {
+  const wrap = $('evoWrap'); if (!wrap || getComputedStyle(wrap).display === 'none') return;
+  const pw = window.innerWidth < 900 ? 150 : 190, cw = 96;
+  wrap.style.setProperty('--pw', pw + 'px'); wrap.style.setProperty('--cw', cw + 'px');
+  wrap.style.width = '';
+  const avail = wrap.parentElement.clientWidth - 2; if (avail <= 0) return;
+  const cols = $('evo').rows[0] ? $('evo').rows[0].cells.length - 1 : 0;
+  const fit = Math.max(1, Math.min(cols, Math.floor((avail - pw) / cw)));
+  wrap.style.width = (pw + fit * cw) + 'px';
+  const sb = wrap.offsetWidth - wrap.clientWidth;   // vertical scrollbar eats width
+  if (sb > 0) { const f2 = pw + fit * cw + sb <= avail ? fit : Math.max(1, fit - 1); wrap.style.width = (pw + f2 * cw + sb) + 'px'; }
+}
+let fitT; window.addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(fitEvo, 120); });
 $('evo').addEventListener('click', async ev => {
   const b = ev.target.closest('button[data-del]'); if (!b) return;
   if (b.dataset.armed !== '1') { b.dataset.armed = '1'; b.textContent = 'confirmar?'; setTimeout(() => { b.dataset.armed = ''; b.textContent = 'excluir'; }, 4000); return; }
