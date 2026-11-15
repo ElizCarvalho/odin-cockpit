@@ -92,11 +92,13 @@ for (const p of raw.photos || []) {
 const strip = list => (list || []).map(({ source, createdAt, ...rest }) => rest);
 const data = walk({
   exportedAt: raw.exportedAt,
+  updatedAt: raw.updatedAt || null,
   exams: strip(raw.exams),
   events: strip(raw.events),
   analyses: (raw.analyses || []).map(({ text, createdAt, basedOn, id }) => ({ id, text, createdAt })),
   meds: strip(raw.meds),
   prevent: strip(raw.prevent),
+  vitals: strip(raw.vitals),
   photos
 });
 if (!cfg.manter_clinicas) {
@@ -122,7 +124,7 @@ const html = fs.readFileSync(path.join(ROOT, 'artifact/index.html'), 'utf8')
 fs.writeFileSync(path.join(ROOT, 'docs/index.html'), html);
 fs.writeFileSync(path.join(ROOT, 'docs/.nojekyll'), '');
 
-console.log(`OK: ${data.exams.length} exames, ${data.events.length} acontecimentos, ${data.meds.length} remédios, ${data.prevent.length} vacinas/vermífugos, ${photos.length} fotos.`);
+console.log(`OK: ${data.exams.length} exames, ${data.events.length} acontecimentos, ${data.meds.length} remédios, ${data.prevent.length} vacinas/vermífugos, ${data.vitals.length} medições de temperatura, ${photos.length} fotos.`);
 
 if (push) {
   const day = (raw.exportedAt || new Date().toISOString()).slice(0, 10);

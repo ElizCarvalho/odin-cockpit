@@ -527,6 +527,7 @@ const PARAMS = [
   {k:'cdv', l:'Cinomose PCR (sangue)', u:'cópias/µL', g:'virus', lo:null, hi:null, d:'Quantidade de material genético do vírus da cinomose na amostra. Serve pra acompanhar a carga viral ao longo do tempo. Só compare com outra medida do mesmo tipo de amostra.'},
   {k:'csf_wbc', l:'Líquor: leucócitos', u:'/µL', g:'csf', lo:null, hi:5, d:'Células de defesa no líquor (o líquido que envolve cérebro e medula). Alto = inflamação no sistema nervoso.'},
   {k:'csf_prot', l:'Líquor: proteína', u:'mg/dL', g:'csf', lo:null, hi:30, d:'Proteína no líquor. Alta indica inflamação ou lesão no sistema nervoso.'},
+  {k:'fenob', l:'Fenobarbital (Gardenal) no sangue', u:'mcg/mL', g:'drug', lo:15, hi:45, d:'Quanto do Gardenal está circulando no sangue. Abaixo da faixa a proteção contra convulsões pode ser insuficiente; acima, risco de efeito tóxico (sonolência, fígado). Serve pra ajustar a dose.'},
   {k:'csf_glic', l:'Líquor: glicose', u:'mg/dL', g:'csf', lo:53, hi:104, d:'Açúcar no líquor. Muito baixo pode indicar infecção bacteriana no sistema nervoso.'},
 ];
 const GROUPS = [
@@ -537,12 +538,13 @@ const GROUPS = [
   {g:'chem', t:'Bioquímica', d:'fígado, rim, eletrólitos'},
   {g:'virus', t:'Carga viral', d:'compare só com o mesmo tipo de amostra'},
   {g:'csf', t:'Líquor', d:''},
+  {g:'drug', t:'Remédios no sangue', d:'nível do remédio na circulação'},
 ];
 const P = Object.fromEntries(PARAMS.map(p => [p.k, p]));
 const KEY_ORDER = PARAMS.map(p => p.k);
 
 let db = null, sample = null;
-let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [];
+let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [], vitals = [];
 let assets = null;
 const TABS = ['painel','exames','remedios','vacinas','fotos','linha'];
 let activeTab = 'painel';
@@ -717,6 +719,7 @@ function renderCharts() {
   $('exChips').innerHTML = [{g:'all', t:'Todos'}, ...GROUPS.filter(G => PARAMS.some(p => p.g === G.g && series(p.k).length))].map(G =>
     `<button class="chip${exGroup === G.g ? ' on' : ''}" data-exg="${G.g}">${esc(G.t)}</button>`).join('');
   let shown = 0;
+  if (vitals.some(v => typeof v.temp === 'number') && (exGroup === 'all' || exGroup === 'clin') && !exOnlyOut) { renderHomeTemp(host); shown++; }
   for (const G of GROUPS) {
     if (exGroup !== 'all' && exGroup !== G.g) continue;
     const keys = PARAMS.filter(p => p.g === G.g && series(p.k).length).map(p => p.k)
@@ -742,6 +745,34 @@ function renderCharts() {
     }
   }
   if (!shown) host.innerHTML = '<p class="muted">Nenhum parâmetro fora da faixa no último exame.</p>';
+}
+function renderHomeTemp(host) {
+  const pts = vitals.filter(v => typeof v.temp === 'number' && v.date)
+    .map(v => { const [h, m] = (v.time || '').split(':').map(Number); const x = dayNum(v.date) + (v.time ? (h + m / 60) / 24 : 0.08 + (v.seq || 0) % 10 * 0.02);
+      return { x, y: Math.max(v.temp, v.temp2 || 0), v }; }).sort((a, b) => a.x - b.x);
+  const byDay = new Map(); for (const p of pts) { if (!byDay.has(p.v.date)) byDay.set(p.v.date, []); byDay.get(p.v.date).push(p); }
+  const water = d => vitals.filter(v => v.date === d).reduce((a, v) => a + (v.water_ml || 0), 0);
+  const rows = [...byDay.entries()].reverse().map(([d, l]) => { const ys = l.map(p => p.y), mx = Math.max(...ys), mn = Math.min(...ys), hot = ys.filter(y => y > 39.2).length;
+    return `<tr><td>${dmy(d)}</td><td class="num">${l.length}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${fmt(mx)}</td><td class="num">${fmt(mn)}</td><td class="num">${hot}</td><td class="num">${water(d) || ''}</td></tr>`; }).join('');
+  const sec = document.createElement('section'); sec.style.display = 'grid'; sec.style.gap = '12px';
+  sec.innerHTML = `<div class="section-title"><h2>Temperatura em casa</h2><span>anotada no quadro branco · ${pts.length} medições</span></div>
+    <div class="card"><div style="position:relative;height:240px"><canvas aria-label="Gráfico da temperatura medida em casa"></canvas></div>
+    <p class="note" style="margin-top:6px">Faixa verde: 37,5 a 39,2 °C. Quando foram usados dois termômetros, o gráfico mostra o maior valor. Passe o dedo/mouse nos pontos pra ver hora e anotações.</p>
+    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água mL</th></tr></thead><tbody>${rows}</tbody></table></div></details></div>`;
+  host.appendChild(sec);
+  const accent = css('--accent'), muted = css('--muted'), line = css('--line'), band = css('--band'), ink = css('--ink'), surface = css('--surface'), warn = css('--warn');
+  const xMin = Math.floor(pts[0].x), xMax = Math.ceil(pts[pts.length - 1].x);
+  charts.push(new Chart(sec.querySelector('canvas'), { type: 'line',
+    data: { datasets: [{ data: pts, parsing: false, borderColor: accent, borderWidth: 1.5, tension: 0.2, pointRadius: 3,
+      pointBackgroundColor: pts.map(p => p.y > 39.2 ? warn : surface), pointBorderColor: pts.map(p => p.y > 39.2 ? warn : accent),
+      segment: { borderDash: c => (c.p1.parsed.x - c.p0.parsed.x) > 0.5 ? [4, 4] : undefined } }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      scales: { x: { type: 'linear', min: xMin, max: xMax, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { stepSize: 1, color: muted, font: { size: 10.5 }, callback: v => dm(dayIso(Math.round(v))), maxRotation: 0 } },
+        y: { suggestedMin: 38, suggestedMax: 40.5, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => fmt(v) } } },
+      plugins: { legend: { display: false }, refband: { lo: 37.5, hi: 39.2, color: band },
+        tooltip: { backgroundColor: ink, titleColor: surface, bodyColor: surface, displayColors: false,
+          callbacks: { title: it => dmy(it[0].raw.v.date) + (it[0].raw.v.time ? ' · ' + it[0].raw.v.time + (it[0].raw.v.approx ? ' (aprox.)' : '') : ''),
+            label: it => { const v = it.raw.v; return `${fmt(v.temp)}${v.temp2 ? ' / ' + fmt(v.temp2) : ''} °C${v.water_ml ? ' · ' + v.water_ml + ' mL' : ''}${v.note ? ' · ' + v.note : ''}`; } } } } } }));
 }
 $('exChips').addEventListener('click', ev => { const b = ev.target.closest('[data-exg]'); if (!b) return; exGroup = b.dataset.exg; renderCharts(); });
 $('exOut').addEventListener('change', ev => { exOnlyOut = ev.target.checked; renderCharts(); });
@@ -856,12 +887,23 @@ function tlItems() {
     if (m.end && m.end <= todayIso()) out.push({ date: m.end, kind: 'Medicamento', med: 'end', name: m.name, allergy: m.allergy });
   }
   for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', text: `${v.kind}: ${v.product}` });
+  const vByDay = new Map();
+  for (const v of vitals) if (v.date) { if (!vByDay.has(v.date)) vByDay.set(v.date, []); vByDay.get(v.date).push(v); }
+  for (const [d, list] of vByDay) {
+    const ts = list.filter(v => typeof v.temp === 'number').map(v => ({ t: Math.max(v.temp, v.temp2 || 0), h: v.time }));
+    const water = list.reduce((a, v) => a + (v.water_ml || 0), 0);
+    if (!ts.length && !water) continue;
+    const mx = ts.reduce((a, b) => b.t > a.t ? b : a, ts[0] || { t: null }), mn = ts.reduce((a, b) => b.t < a.t ? b : a, ts[0] || { t: null });
+    const fever = ts.filter(x => x.t > 39.2).length;
+    out.push({ date: d, kind: 'Temperatura', text: ts.length ? `${ts.length} ${ts.length === 1 ? 'medição' : 'medições'} em casa · máx ${fmt(mx.t)} °C${mx.h ? ' (' + mx.h + ')' : ''} · mín ${fmt(mn.t)} °C${fever ? ` · ${fever} acima de 39,2` : ''}` : '',
+      sub: water ? `Água/líquido anotado: ${water} mL` : '' });
+  }
   for (const p of photos) if (p.date) out.push({ date: p.date, time: p.time, kind: 'Foto', text: p.caption || 'Foto', assetId: p.assetId, video: p.video, createdAt: p.createdAt || 0 });
   return out.filter(i => i.date);
 }
 function renderTimeline() {
   const all = tlItems();
-  const kinds = ['Tudo', 'Acontecimento', 'Exame', 'Receita', 'Medicamento', 'Vacina/vermífugo', 'Foto'];
+  const kinds = ['Tudo', 'Acontecimento', 'Exame', 'Receita', 'Temperatura', 'Medicamento', 'Vacina/vermífugo', 'Foto'];
   const count = k => k === 'Tudo' ? all.length : all.filter(i => i.kind === k).length;
   $('tlFilters').innerHTML = kinds.filter(k => count(k)).map(k => `<button class="tiny ${k === tlFilter ? '' : 'ghost'}" data-f="${k}">${k} <span class="muted">${count(k)}</span></button>`).join('')
     + `<span style="flex:1"></span><label class="chk"><input type="checkbox" id="tlMarks" ${tlMarks ? 'checked' : ''}> só os marcos</label>`
@@ -886,7 +928,7 @@ function renderTimeline() {
     const marks = list.filter(i => i.mark);
     const byTime = (a, b) => (a.time || '99') < (b.time || '99') ? -1 : (a.time || '99') > (b.time || '99') ? 1 : 0;
     const evs = list.filter(i => i.kind === 'Acontecimento').sort((a, b) => (b.mark ? 1 : 0) - (a.mark ? 1 : 0) || byTime(a, b));
-    const others = list.filter(i => ['Exame', 'Receita', 'Vacina/vermífugo'].includes(i.kind));
+    const others = list.filter(i => ['Exame', 'Receita', 'Temperatura', 'Vacina/vermífugo'].includes(i.kind));
     const starts = list.filter(i => i.med === 'start'), ends = list.filter(i => i.med === 'end');
     const pics = list.filter(i => i.kind === 'Foto').sort((a, b) => byTime(a, b) || a.createdAt - b.createdAt);
     let body = '';
@@ -1661,7 +1703,7 @@ async function exportForSite() {
       if (!p.video) { try { const res = await fetch('/_blob/' + encodeURIComponent(p.assetId)); dataUrl = await blobToDataUrl(await shrinkImage(await res.blob())); } catch {} }
       ph.push({ ...p, dataUrl });
     }
-    const out = { exportedAt: new Date().toISOString(), updatedAt: lastUpdate || fallbackUpdate(), exams, events, analyses, meds, prevent, photos: ph };
+    const out = { exportedAt: new Date().toISOString(), updatedAt: lastUpdate || fallbackUpdate(), exams, events, analyses, meds, prevent, vitals, photos: ph };
     const _n = new Date(), _hm = String(_n.getHours()).padStart(2, '0') + 'h' + String(_n.getMinutes()).padStart(2, '0');
     const name = 'odin-export-' + todayIso() + '_' + _hm + '.json';
     await dl.save({ filename: name, data: new Blob([JSON.stringify(out)], { type: 'application/json' }) });
@@ -1704,7 +1746,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
     canWrite = false; document.body.classList.add('ro');
     try {
       const d = await (await fetch(STATIC, { cache: 'no-store' })).json();
-      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; photos = d.photos || [];
+      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; vitals = d.vitals || []; photos = d.photos || [];
       lastUpdate = d.updatedAt || (d.exportedAt ? Date.parse(d.exportedAt) : null);
       $('conn').textContent = `${exams.length} exames · ${events.length} acontecimentos`;
       renderAll();
@@ -1732,6 +1774,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
   sub('meds', v => meds = v);
   sub('prevent', v => prevent = v);
   sub('photos', v => photos = v);
+  sub('vitals', v => vitals = v);
   rawDb.collection('meta').onSnapshot(snap => { const m = snap.docs.find(x => x.id === 'status'); lastUpdate = m ? m.data().updatedAt : null; renderUpdated(); }, () => {});
 })();
 </script>
