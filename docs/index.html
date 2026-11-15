@@ -255,6 +255,15 @@ body.ro .wr { display: none !important; }
   .tile .val { font-size: 21px; }
   .tile .reft, .tile .meta { font-size: 11px; }
 }
+.vsum { font-size: 13.5px; background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
+.vgroup { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.vgh { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.vkind { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); min-width: 74px; }
+.vdoses { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.vdose { display: grid; grid-auto-flow: column; gap: 6px; align-items: center; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 5px 9px; font-size: 12.5px; }
+.vdose .vn { font-weight: 600; color: var(--accent); }
+.vdose .va { color: var(--muted); font-size: 11.5px; }
+.vdose button { padding: 0 6px; }
 </style>
 </head>
 <body>
@@ -424,6 +433,9 @@ body.ro .wr { display: none !important; }
   </div>
 
   <div class="panel" id="p-vacinas" role="tabpanel" hidden>
+    <section class="card"><div class="row between"><h2>Próximas doses</h2></div><div id="vNextList" class="list" style="margin-top:6px"></div></section>
+    <section class="card"><h2>Para conversar com a vet</h2><p class="note" style="margin:4px 0 8px">Vacinas e prevenções que ele ainda não tomou. Nada aqui é aplicado sem a vet liberar, ainda mais enquanto ele se recupera.</p><div id="vPlanList" class="list"></div></section>
+    <section class="card"><h2>Carteirinha</h2><p class="note" style="margin:4px 0 10px">Cada linha é uma vacina ou produto, com as doses em ordem e a idade dele em cada uma.</p><div id="vSummary"></div><div id="vList" style="margin-top:6px"></div></section>
     <section class="card wr">
       <h2>Registrar vacina, vermífugo ou prevenção</h2>
       <div class="formgrid" style="margin-top:10px">
@@ -436,9 +448,6 @@ body.ro .wr { display: none !important; }
         <button id="vBtn">Registrar</button>
       </div>
     </section>
-    <section class="card"><div class="row between"><h2>Próximas doses</h2></div><div id="vNextList" class="list" style="margin-top:6px"></div></section>
-    <section class="card"><h2>Para conversar com a vet</h2><p class="note" style="margin:4px 0 8px">Vacinas e prevenções que ele ainda não tomou. Nada aqui é aplicado sem a vet liberar, ainda mais enquanto ele se recupera.</p><div id="vPlanList" class="list"></div></section>
-    <section class="card"><h2>Histórico</h2><div id="vList" class="list" style="margin-top:6px"></div></section>
   </div>
 
   <div class="panel" id="p-fotos" role="tabpanel" hidden>
@@ -1421,6 +1430,10 @@ $('mgBtn').addEventListener('click', async () => {
 });
 
 /* ---------- Vaccines & prevention ---------- */
+const BIRTH = '2025-10-23';
+const ageDays = iso => dayNum(iso) - dayNum(BIRTH);
+function ageTxt(iso) { const d = ageDays(iso); if (d < 0) return ''; if (d < 150) return `${Math.floor(d / 7)} sem`; const m = Math.floor(d / 30.44); return m < 12 ? `${m} meses` : `${Math.floor(m / 12)} ano${m >= 24 ? 's' : ''}${m % 12 ? ' e ' + (m % 12) + ' m' : ''}`; }
+function relDays(iso) { const n = dayNum(iso) - dayNum(todayIso()); if (n === 0) return 'hoje'; if (n < 0) return `há ${-n} dias`; if (n < 45) return `em ${n} dias`; return `em ${Math.round(n / 30.44)} meses`; }
 function renderPrev() {
   const planned = prevent.filter(v => v.planned).sort((a,b) => (a.next || '9999') < (b.next || '9999') ? -1 : 1);
   const done = prevent.filter(v => !v.planned && v.date);
@@ -1432,14 +1445,29 @@ function renderPrev() {
   const nexts = [...latest.values()].filter(v => v.next).sort((a,b) => a.next < b.next ? -1 : 1);
   $('vNextList').innerHTML = nexts.map(v => {
     const st = v.next < today ? ['bad','atrasada'] : v.next <= in30 ? ['hi','em breve'] : ['ok','em dia'];
-    return `<div class="item"><div><div class="t">${esc(v.kind)}: ${esc(v.product)}</div><div class="s num">última em ${dmy(v.date)} · próxima em ${dmy(v.next)}</div></div><span class="pill ${st[0]}">${st[1]}</span></div>`;
+    return `<div class="item"><div><div class="t">${esc(v.kind)}: ${esc(v.product)}</div><div class="s num">próxima em ${dmy(v.next)} (${relDays(v.next)}) · última em ${dmy(v.date)}</div></div><span class="pill ${st[0]}">${st[1]}</span></div>`;
   }).join('') + (prevent.some(v => v.kind === 'Vermífugo') ? '' : '<div class="item"><div><div class="t">Vermífugo</div><div class="s">Nenhum registro ainda. Registre o último que ele tomou.</div></div><span class="pill">sem registro</span></div>');
   $('vPlanList').innerHTML = planned.map(v => `<div class="item"><div><div class="t">${esc(v.kind)}: ${esc(v.product)}</div>
     <div class="s num">${v.next ? 'sugestão: a partir de ' + dmy(v.next) : 'data a combinar com a vet'}</div>${v.notes ? `<div class="s">${esc(v.notes)}</div>` : ''}</div>
     <div class="acts"><span class="pill">a decidir</span>${canWrite ? `<button class="tiny ghost" data-vdone="${esc(v.id)}">tomou hoje</button><button class="tiny danger" data-vdel="${esc(v.id)}">excluir</button>` : ''}</div></div>`).join('') || '<p class="muted">Nada planejado.</p>';
-  $('vList').innerHTML = sorted.map(v => `<div class="item"><div><div class="t">${esc(v.kind)}: ${esc(v.product)}</div>
-    <div class="s num">${dmy(v.date)}${v.next ? ' · próxima ' + dmy(v.next) : ''}${v.notes ? ' · ' + esc(v.notes) : ''}</div></div>
-    <div class="acts">${canWrite ? `<button class="tiny danger" data-vdel="${esc(v.id)}">excluir</button>` : ''}</div></div>`).join('') || '<p class="muted">Nada registrado.</p>';
+  // carteirinha: agrupa por produto/grupo, doses em ordem com idade
+  const groups = new Map();
+  for (const v of [...done].sort((a, b) => a.date < b.date ? -1 : 1)) {
+    const key = (v.kind + '|' + (v.group || v.product)).toLowerCase();
+    if (!groups.has(key)) groups.set(key, { kind: v.kind, label: v.group === 'C8' ? 'Polivalente (V10 / C8): cinomose, hepatite, parvo, parainfluenza, lepto' : v.product, items: [] });
+    groups.get(key).items.push(v);
+  }
+  const korder = k => ({ 'Vacina': 0, 'Vermífugo': 1, 'Antipulgas/carrapatos': 2, 'Prevenção de dirofilariose': 3 })[k] ?? 4;
+  const glist = [...groups.values()].sort((a, b) => korder(a.kind) - korder(b.kind) || (a.items[0].date < b.items[0].date ? -1 : 1));
+  const poli = glist.find(g => g.label.startsWith('Polivalente'));
+  $('vSummary').innerHTML = poli ? (() => {
+    const last = poli.items[poli.items.length - 1], wk = Math.floor(ageDays(last.date) / 7);
+    return `<div class="vsum"><b>Protocolo de filhote completo:</b> ${poli.items.length} doses de polivalente entre ${dmy(poli.items[0].date)} e ${dmy(last.date)}, a última com ${wk} semanas de vida. Mesmo assim ele pegou cinomose; vale levar isso pra vet quando for decidir os reforços.</div>`;
+  })() : '';
+  $('vList').innerHTML = glist.map(g => `<div class="vgroup"><div class="vgh"><span class="vkind">${esc(g.kind)}</span><span class="t">${esc(g.label)}</span></div>
+    <div class="vdoses">${g.items.map((v, i) => `<div class="vdose" title="${esc((v.product || '') + (v.notes ? ' · ' + v.notes : ''))}"><span class="vn">${i + 1}ª</span><span class="num">${dmy(v.date)}</span><span class="va">${ageTxt(v.date)}</span>${(v.notes || '').match(/^[\d.,]+\s*m[lL]/) ? `<span class="va">${esc(v.notes.match(/^[\d.,]+\s*m[lL]/)[0])}</span>` : ''}${canWrite ? `<button class="tiny danger" data-vdel="${esc(v.id)}" aria-label="Excluir dose">×</button>` : ''}</div>`).join('')}</div>
+    ${(() => { const n = g.items.map(v => (v.notes || '').replace(/^[\d.,]+\s*m[lL]\.?\s*/, '').trim()).filter(t => t && !/veterin/i.test(t)); return n.length ? `<p class="note" style="margin:8px 0 0">${esc(n[n.length - 1])}</p>` : ''; })()}
+  </div>`).join('') || '<p class="muted">Nada registrado.</p>';
 }
 $('vDate').value = todayIso();
 $('vBtn').addEventListener('click', async () => {
