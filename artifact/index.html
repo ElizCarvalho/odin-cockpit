@@ -772,13 +772,13 @@ function renderCharts() {
       charts.push(makeChart(card.querySelector('canvas'), k, false, ctxC));
     }
     if (G.g === 'clin' && canWrite) {
-      const f = document.createElement('div'); f.className = 'card wr';
-      f.innerHTML = `<details><summary>Anotar peso</summary><div class="vform">
+      const f = document.createElement('details'); f.className = 'wr inform'; f.style.marginTop = '8px';
+      f.innerHTML = `<summary>Anotar peso</summary><div class="vform">
         <label>Data<input type="date" data-w="date" value="${todayIso()}"></label><label>Hora<input type="time" data-w="time"></label>
         <label>Peso (kg)<input type="number" step="0.01" min="1" max="80" data-w="kg" placeholder="19,2"></label>
         <label>Onde<input type="text" data-w="where" list="wPlaces" placeholder="Em casa"><datalist id="wPlaces"><option>Em casa</option><option>Rio Vet</option><option>Animalis</option><option>Tododoy</option><option>Vetreabilite (neuro)</option></datalist></label>
-        <button data-wsave>Salvar</button></div></details>`;
-      sec.appendChild(f);
+        <button data-wsave>Salvar</button></div>`;
+      const pc = sec.querySelector('.chart[data-k="peso"]') || sec; pc.appendChild(f);
       f.querySelector('[data-wsave]').addEventListener('click', async ev => {
         const g = k => f.querySelector(`[data-w="${k}"]`).value, kg = num(g('kg')), date = g('date');
         if (!date || !kg) { say('Preencha a data e o peso.', 'err'); return; }
@@ -891,10 +891,10 @@ function closeBig(keep) {
 }
 function moveBig(d) { const ks = visibleKeys(); const i = ks.indexOf(bigKey); if (i < 0) return; openBig(ks[(i + d + ks.length) % ks.length]); }
 $('chartSections').addEventListener('click', ev => {
-  if (ev.target.closest('.info, .tip')) return;
+  if (ev.target.closest('.info, .tip, .inform')) return;
   const c = ev.target.closest('.chart[data-k]'); if (c) openBig(c.dataset.k);
 });
-$('chartSections').addEventListener('keydown', ev => { const c = ev.target.closest('.chart[data-k]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openBig(c.dataset.k); } });
+$('chartSections').addEventListener('keydown', ev => { if (ev.target.closest('.inform')) return; const c = ev.target.closest('.chart[data-k]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openBig(c.dataset.k); } });
 document.addEventListener('click', ev => {
   const m = ev.target.closest('.modal'); if (!m) return;
   if (ev.target.closest('[data-close]') || ev.target === m) { closeBig(); return; }
