@@ -1232,7 +1232,7 @@ function renderAttention() {
     if ((st === 'lo' || st === 'hi') && dayNum(today) - dayNum(l.date) <= 14) add('hi', `${P[k].l}: ${fmt(l.y)} ${P[k].u}`, `${st === 'hi' ? 'Acima' : 'Abaixo'} da referência (${refTxt(P[k])}). Medido em ${dm(l.date)} (${ago(l.date)}).`);
   }
   // convulsões
-  const conv = events.filter(e => /convuls/i.test(e.text || '') && !/(sem|nenhuma|n[aã]o teve)\s+(novas?\s+)?convuls/i.test(e.text || '')).sort((a, b) => a.date < b.date ? 1 : -1)[0];
+  const conv = events.filter(e => /convuls/i.test(e.text || '') && !/(sem|nenhuma|n[aã]o teve)\s+(novas?\s+)?convuls|achou que (fosse|era) convuls|n[aã]o era convuls/i.test(e.text || '')).sort((a, b) => a.date < b.date ? 1 : -1)[0];
   if (conv) add('', 'Convulsões', `Último registro de convulsão em ${dm(conv.date)} (${ago(conv.date)}).`);
   // exames: há quanto tempo
   const lastBlood = [...exams].filter(e => e.params && (e.params.ht != null || e.params.wbc != null)).sort((a, b) => a.date < b.date ? 1 : -1)[0];
