@@ -78,7 +78,7 @@ header { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wr
 .drop strong { font-family: var(--font-display); font-size: 17px; }
 .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
 @media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
-textarea, input[type=text], input[type=date], input[type=number] {
+textarea, input[type=text], input[type=date], input[type=number], input[type=time] {
   font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%;
 }
 textarea { min-height: 84px; resize: vertical; }
@@ -98,6 +98,8 @@ button:disabled { opacity: .5; cursor: progress; }
 .section-title { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 -6px; }
 .section-title span { color: var(--muted); font-size: 13px; }
 .charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.charts > .chart:only-child { grid-column: 1 / -1; }
+.charts > .chart:only-child:not(.single) > div[style*="height:150px"] { height: 220px !important; }
 .chart { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 8px; position: relative; }
 .chart h3 { display: flex; align-items: center; gap: 6px; }
 .info { width: 20px; height: 20px; padding: 0; border-radius: 50%; font-size: 12px; font-weight: 600; line-height: 1; border: 1px solid var(--line); background: var(--bg); color: var(--muted); cursor: help; }
@@ -137,6 +139,12 @@ td .arr { font-size: 11px; margin-left: 2px; }
 .pill.mkp { background: var(--accent); color: var(--bg); font-weight: 600; }
 .warnt { color: var(--warn); }
 #tlFilters .tiny:not(.ghost) .muted { color: inherit; opacity: .75; }
+.vform { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; align-items: end; margin-top: 10px; }
+.vform label { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); }
+.vform label.wide { grid-column: span 2; }
+.vform .vchk { display: flex; align-items: center; gap: 6px; padding-bottom: 10px; color: var(--ink); }
+.vform button { justify-self: start; }
+@media (max-width: 600px) { .vform label.wide { grid-column: 1 / -1; } }
 .tlpics { display: flex; flex-wrap: wrap; gap: 6px; }
 .tlp { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; cursor: zoom-in; display: block; }
 .tlp.vid { display: grid; place-items: center; background: var(--accent-soft); border: 0; color: var(--ink); font-size: 18px; }
@@ -266,7 +274,7 @@ body.ro .wr { display: none !important; }
 .mper-box { border-top: 1px solid var(--line); padding: 10px 0; display: grid; gap: 3px; }
 @media (max-width: 560px) { .mitem summary { grid-template-columns: 1fr; } .mper, .mcat { text-align: left; } }
 .medtools { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; margin: 0 0 12px; }
-@media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tiles > .tile:last-child:nth-child(odd) { grid-column: span 2; } }
 @media (max-width: 600px) {
   .tabs { flex-wrap: wrap; overflow: visible; gap: 4px; }
   .tabs .tab { flex: 1 1 30%; text-align: center; padding: 7px 6px; font-size: 13.5px; }
@@ -529,6 +537,7 @@ const PARAMS = [
   {k:'cdv', l:'Cinomose PCR (sangue)', u:'cópias/µL', g:'virus', lo:null, hi:null, d:'Quantidade de material genético do vírus da cinomose na amostra. Serve pra acompanhar a carga viral ao longo do tempo. Só compare com outra medida do mesmo tipo de amostra.'},
   {k:'csf_wbc', l:'Líquor: leucócitos', u:'/µL', g:'csf', lo:null, hi:5, d:'Células de defesa no líquor (o líquido que envolve cérebro e medula). Alto = inflamação no sistema nervoso.'},
   {k:'csf_prot', l:'Líquor: proteína', u:'mg/dL', g:'csf', lo:null, hi:30, d:'Proteína no líquor. Alta indica inflamação ou lesão no sistema nervoso.'},
+  {k:'fenob', l:'Fenobarbital (Gardenal) no sangue', u:'mcg/mL', g:'drug', lo:15, hi:45, d:'Quanto do Gardenal está circulando no sangue. Abaixo da faixa a proteção contra convulsões pode ser insuficiente; acima, risco de efeito tóxico (sonolência, fígado). Serve pra ajustar a dose.'},
   {k:'csf_glic', l:'Líquor: glicose', u:'mg/dL', g:'csf', lo:53, hi:104, d:'Açúcar no líquor. Muito baixo pode indicar infecção bacteriana no sistema nervoso.'},
 ];
 const GROUPS = [
@@ -539,17 +548,18 @@ const GROUPS = [
   {g:'chem', t:'Bioquímica', d:'fígado, rim, eletrólitos'},
   {g:'virus', t:'Carga viral', d:'compare só com o mesmo tipo de amostra'},
   {g:'csf', t:'Líquor', d:''},
+  {g:'drug', t:'Remédios no sangue', d:'nível do remédio na circulação'},
 ];
 const P = Object.fromEntries(PARAMS.map(p => [p.k, p]));
 const KEY_ORDER = PARAMS.map(p => p.k);
 
 let db = null, sample = null;
-let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [];
+let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [], vitals = [];
 let assets = null;
 const TABS = ['painel','exames','remedios','vacinas','fotos','linha'];
 let activeTab = 'painel';
 const todayIso = () => new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0,10);
-let pending = [], pendingEvents = [], pendingPrev = [], pendingPhotos = [];
+let pending = [], pendingEvents = [], pendingPrev = [], pendingPhotos = [], pendingVitals = [];
 let charts = [];
 let canWrite = true;
 
@@ -589,9 +599,27 @@ function examsByDate() {
 function say(msg, cls='') { const d = document.createElement('div'); d.className = cls; d.textContent = msg; $('status').prepend(d); return d; }
 
 /* ---------- Tiles ---------- */
+function lastTemps() {
+  const toTs = (d, t) => Date.parse(d + 'T' + (t || '12:00') + ':00');
+  return [...vitals.filter(v => typeof v.temp === 'number' && v.date).map(v => ({ ts: toTs(v.date, v.time), y: Math.max(v.temp, v.temp2 || 0), date: v.date, time: v.time, where: 'em casa' })),
+    ...exams.filter(e => typeof e.params?.temp === 'number').map(e => ({ ts: toTs(e.date, e.time), y: e.params.temp, date: e.date, time: e.time, where: e.lab || 'clínica' }))].sort((a, b) => a.ts - b.ts);
+}
+function tempTile() {
+  const p = P.temp, all = lastTemps();
+  const info = `<button class="info" type="button" aria-label="O que Temperatura avalia" aria-expanded="false">?</button>`, tipBox = `<div class="tip" role="tooltip">${esc(p.d)}</div>`;
+  if (!all.length) return `<div class="tile"><div class="lbl">Temperatura ${info}</div>${tipBox}<div class="val">–</div><div class="meta">sem dados ainda</div></div>`;
+  const last = all[all.length - 1], st = statusOf('temp', last.y);
+  const day = all.filter(x => x.ts > last.ts - 864e5), mx = Math.max(...day.map(x => x.y)), hot = day.filter(x => x.y > 39.2).length;
+  const iv = vitals.filter(v => v.date === last.date), water = iv.reduce((a, v) => a + (v.water_ml || 0), 0), meals = iv.filter(ate).length;
+  const extra = [day.length > 1 && `máx 24h ${fmt(mx)}${hot ? ` (${hot}× febre)` : ''}`, water && `água ${water} mL`, meals && `comeu ${meals}×`].filter(Boolean).join(' · ');
+  return `<div class="tile ${st}" data-go="exames" style="cursor:pointer" title="Ver gráficos de temperatura, água e comida"><div class="lbl">Temperatura ${info} <span class="pill ${st}">${statusTxt(st)}</span></div>${tipBox}
+    <div class="val">${fmt(last.y)}<small>°C</small></div><div class="reft">${extra || 'ref. ' + refTxt(p) + ' °C'}</div>
+    <div class="meta">${dm(last.date)}${last.time ? ' ' + esc(last.time) : ''} · ${esc(last.where)}</div></div>`;
+}
 function renderTiles() {
   const keys = ['ht','wbc','plt','peso'];
-  $('tiles').innerHTML = keys.map(k => {
+  $('tiles').innerHTML = tempTile() + keys.map(k => {
+
     const s = series(k); const p = P[k];
     const info = `<button class="info" type="button" aria-label="O que ${esc(p.l)} avalia" aria-expanded="false">?</button>`;
     const tipBox = `<div class="tip" role="tooltip">${esc(p.d || '')}</div>`;
@@ -719,15 +747,18 @@ function renderCharts() {
   $('exChips').innerHTML = [{g:'all', t:'Todos'}, ...GROUPS.filter(G => PARAMS.some(p => p.g === G.g && series(p.k).length))].map(G =>
     `<button class="chip${exGroup === G.g ? ' on' : ''}" data-exg="${G.g}">${esc(G.t)}</button>`).join('');
   let shown = 0;
+  const homeOn = (vitals.length || exams.some(e => typeof e.params?.temp === 'number')) && (exGroup === 'all' || exGroup === 'clin') && !exOnlyOut;
+  if (homeOn) { renderHomeTemp(host); shown++; }
   for (const G of GROUPS) {
     if (exGroup !== 'all' && exGroup !== G.g) continue;
-    const keys = PARAMS.filter(p => p.g === G.g && series(p.k).length).map(p => p.k)
+    const keys = PARAMS.filter(p => p.g === G.g && series(p.k).length && !(p.k === 'temp' && homeOn)).map(p => p.k)
       .filter(k => { if (!exOnlyOut) return true; const s = series(k); const st = statusOf(k, s[s.length-1].y); return st === 'lo' || st === 'hi'; });
     if (!keys.length) continue;
     shown += keys.length;
     const sec = document.createElement('section');
     sec.style.display = 'grid'; sec.style.gap = '12px';
-    sec.innerHTML = `<div class="section-title"><h2>${esc(G.t)}</h2><span>${esc(G.d)}</span></div><div class="charts"></div>`;
+    const gt = G.g === 'clin' && homeOn ? 'Peso' : G.t, gd = G.g === 'clin' && homeOn ? '' : G.d;
+    sec.innerHTML = `<div class="section-title"><h2>${esc(gt)}</h2><span>${esc(gd)}</span></div><div class="charts"></div>`;
     host.appendChild(sec);
     const grid = sec.querySelector('.charts');
     for (const k of keys) {
@@ -742,8 +773,92 @@ function renderCharts() {
       if (s.length === 1) continue;
       charts.push(makeChart(card.querySelector('canvas'), k, false, ctxC));
     }
+    if (G.g === 'clin' && canWrite) {
+      const f = document.createElement('details'); f.className = 'wr inform'; f.style.marginTop = '8px';
+      f.innerHTML = `<summary>Anotar peso</summary><div class="vform">
+        <label>Data<input type="date" data-w="date" value="${todayIso()}"></label><label>Hora<input type="time" data-w="time"></label>
+        <label>Peso (kg)<input type="number" step="0.01" min="1" max="80" data-w="kg" placeholder="19,2"></label>
+        <label>Onde<input type="text" data-w="where" list="wPlaces" placeholder="Em casa"><datalist id="wPlaces"><option>Em casa</option><option>Rio Vet</option><option>Animalis</option><option>Tododoy</option><option>Vetreabilite (neuro)</option></datalist></label>
+        <button data-wsave>Salvar</button></div>`;
+      const pc = sec.querySelector('.chart[data-k="peso"]') || sec; pc.appendChild(f);
+      f.querySelector('[data-wsave]').addEventListener('click', async ev => {
+        const g = k => f.querySelector(`[data-w="${k}"]`).value, kg = num(g('kg')), date = g('date');
+        if (!date || !kg) { say('Preencha a data e o peso.', 'err'); return; }
+        ev.target.disabled = true;
+        try { await db.collection('exams').add({ date, time: g('time') || null, kind: 'Pesagem', lab: g('where').trim() || 'Em casa', params: { peso: kg }, other: [], createdAt: Date.now() }); say('Peso anotado.', 'done'); }
+        catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); ev.target.disabled = false; }
+      });
+    }
   }
   if (!shown) host.innerHTML = '<p class="muted">Nenhum parâmetro fora da faixa no último exame.</p>';
+}
+const ate = v => !!(v.food || v.food_g || /comid|comeu|ração|racao|quiabo|iogurte|recovery/i.test(v.note || ''));
+function renderHomeTemp(host) {
+  const accent = css('--accent'), muted = css('--muted'), line = css('--line'), band = css('--band'), ink = css('--ink'), surface = css('--surface'), warn = css('--warn'), ok = css('--ok');
+  // temperature: home board + clinic/exam readings, one source of truth
+  const home = vitals.filter(v => typeof v.temp === 'number' && v.date).map(v => { const [h, m] = (v.time || '').split(':').map(Number);
+    return { x: dayNum(v.date) + (v.time ? (h + m / 60) / 24 : 0.08 + (v.seq || 0) % 10 * 0.02), y: Math.max(v.temp, v.temp2 || 0), v, src: 'casa' }; });
+  const clinic = exams.filter(e => typeof e.params?.temp === 'number').map(e => ({ x: dayNum(e.date) + 0.5, y: e.params.temp, v: { date: e.date, temp: e.params.temp, note: e.lab || e.kind }, src: 'clinica' }));
+  const pts = [...home, ...clinic].sort((a, b) => a.x - b.x);
+  const byDay = new Map(); for (const p of pts) { if (!byDay.has(p.v.date)) byDay.set(p.v.date, []); byDay.get(p.v.date).push(p); }
+  const days = [...new Set(vitals.map(v => v.date).filter(Boolean))].sort();
+  const intake = d => { const l = vitals.filter(v => v.date === d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_g || 0), 0), meals: l.filter(ate).length }; };
+  const rows = [...new Set([...byDay.keys(), ...days])].sort().reverse().map(d => { const l = byDay.get(d) || [], ys = l.map(p => p.y), I = intake(d);
+    const mx = ys.length ? Math.max(...ys) : null, mn = ys.length ? Math.min(...ys) : null, hot = ys.filter(y => y > 39.2).length;
+    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.water || ''}</td><td class="num">${I.food || ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
+  const sec = document.createElement('section'); sec.style.display = 'grid'; sec.style.gap = '12px';
+  sec.innerHTML = `<div class="section-title"><h2>Temperatura</h2><span>${home.length} medições em casa (quadro branco)${clinic.length ? ` + ${clinic.length} na clínica/exame` : ''}</span></div>
+    <div class="card"><div style="position:relative;height:240px"><canvas id="tempCv" aria-label="Gráfico de temperatura"></canvas></div>
+    <p class="note" style="margin-top:6px">Faixa verde: 37,5 a 39,2 °C · ● em casa · ■ clínica/exame · laranja = acima de 39,2. Com dois termômetros, vale o maior valor. Passe o dedo/mouse nos pontos pra ver hora e anotações.</p>
+    ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar temperatura</summary><div class="vform">
+      <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
+      <label>Temperatura (°C)<input type="number" step="0.1" min="35" max="43" data-v="temp" placeholder="39,2"></label><label>2º termômetro (opcional)<input type="number" step="0.1" min="35" max="43" data-v="temp2"></label>
+      <label class="wide">Anotação<input type="text" data-v="note" placeholder="dipirona, sem ar-condicionado, no chão…"></label><button data-vsave="temp">Salvar</button></div></details>` : ''}</div>
+    <div class="section-title"><h2>Água e comida</h2><span>o que foi anotado por dia</span></div>
+    <div class="card"><div style="position:relative;height:200px"><canvas id="intakeCv" aria-label="Gráfico de água e comida por dia"></canvas></div>
+    <p class="note" style="margin-top:6px">Barras: água/líquido em mL (escala da esquerda) e comida em gramas (escala da direita) anotados no dia. O número em cima é quantas vezes ele comeu (inclui refeições sem quantidade anotada). Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
+    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água mL</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+    ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar água ou comida</summary><div class="vform">
+      <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
+      <label>Água/líquido (mL)<input type="number" min="0" data-v="water"></label><label>Comida (g)<input type="number" min="0" data-v="food"></label>
+      <label class="chk vchk"><input type="checkbox" data-v="ate"> comeu (sem medir)</label>
+      <label class="wide">Anotação<input type="text" data-v="note" placeholder="ração pastosa, iogurte, xixi, fezes…"></label><button data-vsave="intake">Salvar</button></div></details>` : ''}</div>`;
+  host.appendChild(sec);
+  if (pts.length) {
+    const xMin = Math.floor(pts[0].x), xMax = Math.ceil(pts[pts.length - 1].x);
+    charts.push(new Chart(sec.querySelector('#tempCv'), { type: 'line',
+      data: { datasets: [{ data: pts, parsing: false, borderColor: accent, borderWidth: 1.5, tension: 0.2,
+        pointStyle: pts.map(p => p.src === 'clinica' ? 'rect' : 'circle'), pointRadius: pts.map(p => p.src === 'clinica' ? 5 : 3),
+        pointBackgroundColor: pts.map(p => p.y > 39.2 ? warn : surface), pointBorderColor: pts.map(p => p.y > 39.2 ? warn : accent),
+        segment: { borderDash: c => (c.p1.parsed.x - c.p0.parsed.x) > 0.5 ? [4, 4] : undefined } }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: false,
+        scales: { x: { type: 'linear', min: xMin, max: xMax, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { stepSize: Math.max(1, Math.round((xMax - xMin) / 10)), color: muted, font: { size: 10.5 }, callback: v => dm(dayIso(Math.round(v))), maxRotation: 0 } },
+          y: { suggestedMin: 38, suggestedMax: 40.5, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => fmt(v) } } },
+        plugins: { legend: { display: false }, refband: { lo: 37.5, hi: 39.2, color: band },
+          evlines: { events: events.filter(e => e.mark && e.date).map(e => ({ x: dayNum(e.date), short: e.short || '' })), color: muted, labels: true },
+          tooltip: { backgroundColor: ink, titleColor: surface, bodyColor: surface, displayColors: false,
+            callbacks: { title: it => dmy(it[0].raw.v.date) + (it[0].raw.v.time ? ' · ' + it[0].raw.v.time + (it[0].raw.v.approx ? ' (aprox.)' : '') : '') + (it[0].raw.src === 'clinica' ? ' · clínica/exame' : ''),
+              label: it => { const v = it.raw.v; return `${fmt(v.temp)}${v.temp2 ? ' / ' + fmt(v.temp2) : ''} °C${v.water_ml ? ' · água ' + v.water_ml + ' mL' : ''}${v.food_g ? ' · comida ' + v.food_g + ' g' : ''}${v.note ? ' · ' + v.note : ''}`; } } } } } }));
+  }
+  if (days.length) {
+    const lab = days.map(d => dm(d)), I = days.map(intake);
+    const mealsPlugin = { id: 'meals', afterDatasetsDraw(c) { const ctx = c.ctx; ctx.save(); ctx.fillStyle = ink; ctx.font = '11px "IBM Plex Mono", monospace'; ctx.textAlign = 'center';
+      c.getDatasetMeta(0).data.forEach((b, i) => { const n = I[i].meals; if (!n) return; const top = Math.min(b.y, c.getDatasetMeta(1).data[i].y); ctx.fillText('🍽 ' + n, b.x + (c.getDatasetMeta(1).data[i].x - b.x) / 2, top - 6); }); ctx.restore(); } };
+    charts.push(new Chart(sec.querySelector('#intakeCv'), { type: 'bar', plugins: [mealsPlugin],
+      data: { labels: lab, datasets: [{ label: 'Água/líquido (mL)', data: I.map(x => x.water || null), backgroundColor: accent }, { label: 'Comida (g)', yAxisID: 'y2', data: I.map(x => x.food || null), backgroundColor: ok }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 18 } },
+        scales: { x: { grid: { display: false }, ticks: { color: muted, font: { size: 10.5 } } }, y: { beginAtZero: true, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' mL' } },
+          y2: { position: 'right', beginAtZero: true, grid: { display: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' g' } } },
+        plugins: { legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { afterBody: it => I[it[0].dataIndex].meals ? `Comeu ${I[it[0].dataIndex].meals}x` : '' } } } } }));
+  }
+  sec.querySelectorAll('[data-vsave]').forEach(btn => btn.addEventListener('click', async () => {
+    const f = btn.closest('.vform'), g = k => f.querySelector(`[data-v="${k}"]`), val = k => g(k) ? g(k).value : '', n = k => num(val(k));
+    const doc = { date: val('date'), time: val('time') || null, note: val('note').trim(), source: 'cockpit', createdAt: Date.now() };
+    if (btn.dataset.vsave === 'temp') { doc.temp = n('temp'); if (n('temp2')) doc.temp2 = n('temp2'); if (!doc.temp) { say('Preencha a temperatura.', 'err'); return; } }
+    else { doc.water_ml = n('water'); doc.food_g = n('food'); doc.food = g('ate').checked || !!doc.food_g; if (!doc.water_ml && !doc.food) { say('Preencha a água, a comida ou marque que ele comeu.', 'err'); return; } }
+    if (!doc.date) { say('Preencha a data.', 'err'); return; }
+    btn.disabled = true; try { await db.collection('vitals').add(doc); say('Anotado.', 'done'); } catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); btn.disabled = false; }
+  }));
 }
 $('exChips').addEventListener('click', ev => { const b = ev.target.closest('[data-exg]'); if (!b) return; exGroup = b.dataset.exg; renderCharts(); });
 $('exOut').addEventListener('change', ev => { exOnlyOut = ev.target.checked; renderCharts(); });
@@ -778,10 +893,10 @@ function closeBig(keep) {
 }
 function moveBig(d) { const ks = visibleKeys(); const i = ks.indexOf(bigKey); if (i < 0) return; openBig(ks[(i + d + ks.length) % ks.length]); }
 $('chartSections').addEventListener('click', ev => {
-  if (ev.target.closest('.info, .tip')) return;
+  if (ev.target.closest('.info, .tip, .inform')) return;
   const c = ev.target.closest('.chart[data-k]'); if (c) openBig(c.dataset.k);
 });
-$('chartSections').addEventListener('keydown', ev => { const c = ev.target.closest('.chart[data-k]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openBig(c.dataset.k); } });
+$('chartSections').addEventListener('keydown', ev => { if (ev.target.closest('.inform')) return; const c = ev.target.closest('.chart[data-k]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openBig(c.dataset.k); } });
 document.addEventListener('click', ev => {
   const m = ev.target.closest('.modal'); if (!m) return;
   if (ev.target.closest('[data-close]') || ev.target === m) { closeBig(); return; }
@@ -858,12 +973,23 @@ function tlItems() {
     if (m.end && m.end <= todayIso()) out.push({ date: m.end, kind: 'Medicamento', med: 'end', name: m.name, allergy: m.allergy });
   }
   for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', text: `${v.kind}: ${v.product}` });
+  const vByDay = new Map();
+  for (const v of vitals) if (v.date) { if (!vByDay.has(v.date)) vByDay.set(v.date, []); vByDay.get(v.date).push(v); }
+  for (const [d, list] of vByDay) {
+    const ts = list.filter(v => typeof v.temp === 'number').map(v => ({ t: Math.max(v.temp, v.temp2 || 0), h: v.time }));
+    const water = list.reduce((a, v) => a + (v.water_ml || 0), 0);
+    if (!ts.length && !water && !list.some(ate)) continue;
+    const mx = ts.reduce((a, b) => b.t > a.t ? b : a, ts[0] || { t: null }), mn = ts.reduce((a, b) => b.t < a.t ? b : a, ts[0] || { t: null });
+    const fever = ts.filter(x => x.t > 39.2).length;
+    out.push({ date: d, kind: 'Temperatura', text: ts.length ? `${ts.length} ${ts.length === 1 ? 'medição' : 'medições'} em casa · máx ${fmt(mx.t)} °C${mx.h ? ' (' + mx.h + ')' : ''} · mín ${fmt(mn.t)} °C${fever ? ` · ${fever} acima de 39,2` : ''}` : 'Anotações de casa',
+      sub: [water && `água/líquido ${water} mL`, list.reduce((a, v) => a + (v.food_g || 0), 0) && `comida ${list.reduce((a, v) => a + (v.food_g || 0), 0)} g`, list.filter(ate).length && `comeu ${list.filter(ate).length}x`].filter(Boolean).join(' · ') });
+  }
   for (const p of photos) if (p.date) out.push({ date: p.date, time: p.time, kind: 'Foto', text: p.caption || 'Foto', assetId: p.assetId, video: p.video, createdAt: p.createdAt || 0 });
   return out.filter(i => i.date);
 }
 function renderTimeline() {
   const all = tlItems();
-  const kinds = ['Tudo', 'Acontecimento', 'Exame', 'Receita', 'Medicamento', 'Vacina/vermífugo', 'Foto'];
+  const kinds = ['Tudo', 'Acontecimento', 'Exame', 'Receita', 'Temperatura', 'Medicamento', 'Vacina/vermífugo', 'Foto'];
   const count = k => k === 'Tudo' ? all.length : all.filter(i => i.kind === k).length;
   $('tlFilters').innerHTML = kinds.filter(k => count(k)).map(k => `<button class="tiny ${k === tlFilter ? '' : 'ghost'}" data-f="${k}">${k} <span class="muted">${count(k)}</span></button>`).join('')
     + `<span style="flex:1"></span><label class="chk"><input type="checkbox" id="tlMarks" ${tlMarks ? 'checked' : ''}> só os marcos</label>`
@@ -888,7 +1014,7 @@ function renderTimeline() {
     const marks = list.filter(i => i.mark);
     const byTime = (a, b) => (a.time || '99') < (b.time || '99') ? -1 : (a.time || '99') > (b.time || '99') ? 1 : 0;
     const evs = list.filter(i => i.kind === 'Acontecimento').sort((a, b) => (b.mark ? 1 : 0) - (a.mark ? 1 : 0) || byTime(a, b));
-    const others = list.filter(i => ['Exame', 'Receita', 'Vacina/vermífugo'].includes(i.kind));
+    const others = list.filter(i => ['Exame', 'Receita', 'Temperatura', 'Vacina/vermífugo'].includes(i.kind));
     const starts = list.filter(i => i.med === 'start'), ends = list.filter(i => i.med === 'end');
     const pics = list.filter(i => i.kind === 'Foto').sort((a, b) => byTime(a, b) || a.createdAt - b.createdAt);
     let body = '';
@@ -1041,9 +1167,10 @@ Primeiro classifique o que recebeu e coloque cada informação no lugar certo:
 - Receita, pedido de exame ou receituário → "exams" sem params, com os remédios em "meds".
 - Carteirinha ou registro de vacina, vermífugo, antipulgas ou prevenção → "prevent".
 - Foto do próprio cachorro (não é documento) → "photo" com uma legenda curta e descritiva em português.
+- Medições de casa com hora (temperatura, água em mL ou comida em gramas que ele ingeriu, inclusive fotos de quadro/anotação com várias linhas) → "vitals", um item por horário; não duplique essas medições em "exams" nem em "events".
 - Relato escrito ou falado (sintomas, o que ele comeu, procedimento, alta, visita etc.) → "events", um item por acontecimento, em frases curtas na 3ª pessoa. Peso ou temperatura citados no relato também entram em "exams" (kind "Pesagem" ou "Temperatura", params peso ou temp). Remédio novo citado no relato entra em "meds" de um item de "exams" sem params (kind "Relato").
 Responda SOMENTE com JSON válido, sem texto antes ou depois, neste formato (deixe vazio o que não se aplica):
-{"events":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
+{"vitals":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","temp":numero_ou_null,"water_ml":numero_ou_null,"food_g":gramas_ou_null,"food":true_se_comeu_sem_quantidade,"note":"xixi, fezes, remédio etc."}],"events":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
 
 Use somente estas chaves em params, na unidade indicada:
 ${keys}
@@ -1087,6 +1214,7 @@ function cleanExam(e, name) {
     other: Array.isArray(e.other) ? e.other.map(String).slice(0, 20) : [], labInterpretation: String(e.lab_interpretation || '').slice(0, 1500), source: name };
 }
 
+const num = v => { const n = typeof v === 'string' ? parseFloat(v.replace(',', '.')) : v; return typeof n === 'number' && isFinite(n) && n > 0 ? n : null; };
 async function extract(name, text, images) {
   const prompt = extractPrompt(name, text, images.length > 0);
   const opts = { modelTier: 'default', cache: false };
@@ -1103,7 +1231,8 @@ async function extract(name, text, images) {
   const isoOk = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '');
   return {
     exams: (val.exams || []).map(e => cleanExam(e, name)).filter(e => Object.keys(e.params).length || e.other.length || e.meds.length),
-    events: (Array.isArray(val.events) ? val.events : []).filter(x => x && x.text).slice(0, 20).map(x => ({ date: isoOk(x.date) ? x.date : todayIso(), text: String(x.text).slice(0, 300), mark: false, add: true, source: name })),
+    vitals: (Array.isArray(val.vitals) ? val.vitals : []).filter(x => x && isoOk(x.date) && (num(x.temp) || num(x.water_ml) || num(x.food_g) || x.food)).slice(0, 80).map(x => ({ date: x.date, time: /^\d{2}:\d{2}$/.test(x.time || '') ? x.time : null, temp: num(x.temp), water_ml: num(x.water_ml), food_g: num(x.food_g), food: !!x.food || !!num(x.food_g), note: String(x.note || '').slice(0, 120), add: true })),
+    events: (Array.isArray(val.events) ? val.events : []).filter(x => x && x.text).slice(0, 20).map(x => ({ date: isoOk(x.date) ? x.date : todayIso(), time: x.time || null, text: String(x.text).slice(0, 300), mark: false, add: true, source: name })),
     prevent: (Array.isArray(val.prevent) ? val.prevent : []).filter(x => x && x.product && isoOk(x.date)).slice(0, 30).map(x => ({ kind: String(x.kind || 'Outro').slice(0, 40), product: String(x.product).slice(0, 100), date: x.date, next: isoOk(x.next) ? x.next : null, notes: String(x.notes || '').slice(0, 200), add: true })),
     photo: val.photo && typeof val.photo === 'object' ? { caption: String(val.photo.caption || '').slice(0, 200), date: isoOk(val.photo.date) ? val.photo.date : null } : null
   };
@@ -1125,6 +1254,7 @@ async function handleInputs(list) {
       const r = await extract(item.name, text, images);
       pending.push(...r.exams);
       pendingEvents.push(...r.events);
+      pendingVitals.push(...(r.vitals || []));
       pendingPrev.push(...r.prevent);
       const isImg = item.file && item.file.type.startsWith('image/');
       if (r.photo && isImg && assets) {
@@ -1133,6 +1263,7 @@ async function handleInputs(list) {
       }
       const parts = [];
       if (r.exams.length) parts.push(`${r.exams.length} exame/receita`);
+      if (r.vitals && r.vitals.length) parts.push(`${r.vitals.length} medição(ões) de temperatura/água/comida`);
       if (r.events.length) parts.push(`${r.events.length} acontecimento(s)`);
       if (r.prevent.length) parts.push(`${r.prevent.length} vacina/vermífugo`);
       if (r.photo && isImg) parts.push('1 foto dele');
@@ -1149,7 +1280,7 @@ async function handleInputs(list) {
 /* ---------- Review ---------- */
 function renderReview() {
   const box = $('review');
-  const any = pending.length || pendingEvents.length || pendingPrev.length || pendingPhotos.length;
+  const any = pending.length || pendingEvents.length || pendingPrev.length || pendingPhotos.length || pendingVitals.length;
   if (!any) { box.classList.add('hidden'); return; }
   box.classList.remove('hidden');
   renderReviewExtra();
@@ -1175,6 +1306,10 @@ function renderReview() {
 }
 function renderReviewExtra() {
   let h = '';
+  if (pendingVitals.length) h += `<div class="exam"><div class="muted" style="font-size:12px">Medições de casa (vão pros gráficos de temperatura e de água/comida)</div>` + pendingVitals.map((x, i) => {
+    const dup = vitals.some(v => v.date === x.date && v.time === x.time && v.temp === x.temp);
+    return `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-xv="${i}" ${x.add && !dup ? 'checked' : ''}> ${dm(x.date)}${x.time ? ' ' + esc(x.time) : ''}${x.temp ? ' · ' + fmt(x.temp) + ' °C' : ''}${x.water_ml ? ' · água ' + x.water_ml + ' mL' : ''}${x.food_g ? ' · comida ' + x.food_g + ' g' : x.food ? ' · comeu' : ''}${x.note ? ' · ' + esc(x.note) : ''}${dup ? ' <span class="pill hi">já registrado</span>' : ''}</label>`;
+  }).join('') + '</div>';
   if (pendingEvents.length) h += `<div class="exam"><div class="muted" style="font-size:12px">Acontecimentos (vão pra linha do tempo)</div>` + pendingEvents.map((x, i) =>
     `<div class="row" style="align-items:center; flex-wrap:nowrap"><input type="checkbox" data-xe="${i}" ${x.add ? 'checked' : ''} aria-label="Salvar este acontecimento">
       <input type="date" data-xed="${i}" value="${esc(x.date)}" style="flex:0 0 150px"><input type="text" data-xet="${i}" value="${esc(x.text)}" style="flex:1 1 auto; min-width:0"></div>`).join('') + '</div>';
@@ -1190,6 +1325,7 @@ function renderReviewExtra() {
 }
 $('reviewExtra').addEventListener('input', ev => {
   const t = ev.target, d = t.dataset;
+  if (d.xv != null) pendingVitals[+d.xv].add = t.checked;
   if (d.xe != null) pendingEvents[+d.xe].add = t.checked;
   if (d.xed != null) pendingEvents[+d.xed].date = t.value;
   if (d.xet != null) pendingEvents[+d.xet].text = t.value;
@@ -1211,7 +1347,7 @@ $('reviewBody').addEventListener('click', ev => {
   if (rm) { pending.splice(+rm.dataset.rm, 1); renderReview(); }
   if (pd) { const ex = pd.closest('.exam'); delete pending[+ex.dataset.i].params[pd.dataset.pdel]; renderReview(); }
 });
-$('discardBtn').addEventListener('click', () => { pending = []; pendingEvents = []; pendingPrev = []; pendingPhotos.forEach(p => URL.revokeObjectURL(p.url)); pendingPhotos = []; renderReview(); });
+$('discardBtn').addEventListener('click', () => { pending = []; pendingEvents = []; pendingPrev = []; pendingVitals = []; pendingPhotos.forEach(p => URL.revokeObjectURL(p.url)); pendingPhotos = []; renderReview(); });
 $('saveBtn').addEventListener('click', async () => {
   const btn = $('saveBtn'); btn.disabled = true;
   const dates = [];
@@ -1231,7 +1367,11 @@ $('saveBtn').addEventListener('click', async () => {
       await db.collection('exams').add({ ...rest, createdAt: Date.now() });
       dates.push(e.date);
     }
-    let nEv = 0, nPv = 0, nPh = 0;
+    let nEv = 0, nPv = 0, nPh = 0, nVt = 0;
+    for (const x of pendingVitals.filter(x => x.add)) {
+      if (vitals.some(v => v.date === x.date && v.time === x.time && v.temp === x.temp)) continue;
+      const { add, ...doc } = x; await db.collection('vitals').add({ ...doc, source: 'registrar', createdAt: Date.now() }); nVt++;
+    }
     for (const x of pendingEvents.filter(x => x.add && x.text.trim() && /^\d{4}-\d{2}-\d{2}$/.test(x.date))) {
       await db.collection('events').add({ date: x.date, time: /^\d{2}:\d{2}$/.test(x.time || '') ? x.time : null, text: x.text.trim(), mark: false, short: '', createdAt: Date.now() }); nEv++; dates.push(x.date);
     }
@@ -1246,8 +1386,8 @@ $('saveBtn').addEventListener('click', async () => {
     }
     const nEx = dates.length - nEv;
     pendingPhotos.forEach(p => URL.revokeObjectURL(p.url));
-    pending = []; pendingEvents = []; pendingPrev = []; pendingPhotos = []; renderReview();
-    const done = [nEx && `${nEx} exame(s)`, nEv && `${nEv} acontecimento(s)`, nPv && `${nPv} vacina/vermífugo`, nPh && `${nPh} foto(s)`].filter(Boolean);
+    pending = []; pendingEvents = []; pendingPrev = []; pendingPhotos = []; pendingVitals = []; renderReview();
+    const done = [nVt && `${nVt} medição(ões)`, nEx && `${nEx} exame(s)`, nEv && `${nEv} acontecimento(s)`, nPv && `${nPv} vacina/vermífugo`, nPh && `${nPh} foto(s)`].filter(Boolean);
     say(`Salvo: ${done.join(', ') || 'nada novo'}${skipped ? ` (${skipped} exame repetido ignorado)` : ''}.${dates.length ? ' Atualizando a avaliação…' : ''}`, 'done');
     if (dates.length) runAnalysis(dates);
   } catch (e) {
@@ -1638,7 +1778,7 @@ function go(tab, push = true) {
   scheduleRender();
 }
 document.querySelector('.tabs').addEventListener('click', ev => { const b = ev.target.closest('.tab'); if (b) go(b.dataset.tab); });
-document.addEventListener('click', ev => { const b = ev.target.closest('[data-go]'); if (b) go(b.dataset.go); });
+document.addEventListener('click', ev => { const b = ev.target.closest('[data-go]'); if (b && !ev.target.closest('.info, .tip')) go(b.dataset.go); });
 window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
 /* ---------- Render all ---------- */
@@ -1663,7 +1803,7 @@ async function exportForSite() {
       if (!p.video) { try { const res = await fetch('/_blob/' + encodeURIComponent(p.assetId)); dataUrl = await blobToDataUrl(await shrinkImage(await res.blob())); } catch {} }
       ph.push({ ...p, dataUrl });
     }
-    const out = { exportedAt: new Date().toISOString(), updatedAt: lastUpdate || fallbackUpdate(), exams, events, analyses, meds, prevent, photos: ph };
+    const out = { exportedAt: new Date().toISOString(), updatedAt: lastUpdate || fallbackUpdate(), exams, events, analyses, meds, prevent, vitals, photos: ph };
     const _n = new Date(), _hm = String(_n.getHours()).padStart(2, '0') + 'h' + String(_n.getMinutes()).padStart(2, '0');
     const name = 'odin-export-' + todayIso() + '_' + _hm + '.json';
     await dl.save({ filename: name, data: new Blob([JSON.stringify(out)], { type: 'application/json' }) });
@@ -1706,7 +1846,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
     canWrite = false; document.body.classList.add('ro');
     try {
       const d = await (await fetch(STATIC, { cache: 'no-store' })).json();
-      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; photos = d.photos || [];
+      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; vitals = d.vitals || []; photos = d.photos || [];
       lastUpdate = d.updatedAt || (d.exportedAt ? Date.parse(d.exportedAt) : null);
       $('conn').textContent = `${exams.length} exames · ${events.length} acontecimentos`;
       renderAll();
@@ -1734,6 +1874,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
   sub('meds', v => meds = v);
   sub('prevent', v => prevent = v);
   sub('photos', v => photos = v);
+  sub('vitals', v => vitals = v);
   rawDb.collection('meta').onSnapshot(snap => { const m = snap.docs.find(x => x.id === 'status'); lastUpdate = m ? m.data().updatedAt : null; renderUpdated(); }, () => {});
 })();
 </script>
