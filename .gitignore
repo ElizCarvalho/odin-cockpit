@@ -1,0 +1,5 @@
+# exports brutos têm dados pessoais: nunca vão pro git
+exports/
+odin-export-*.json
+node_modules/
+.DS_Store

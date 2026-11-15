@@ -1,0 +1,1815 @@
+{
+ "exportedAt": "2026-11-15T17:52:41.473Z",
+ "exams": [
+  {
+   "id": "4hij7o2ry1qed6691fc6",
+   "date": "2026-09-25",
+   "kind": "Receita veterinária (sem exame laboratorial)",
+   "lab": "Clínica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma receita, não um laudo de exame",
+    "Paciente: Odin, canino, American Bully, macho, 11 meses e 2 dias",
+    "Prescrição: Gardenal 50 mg (humano), via oral, 1 e 1/4 de comprimido a cada 12 horas durante 3 meses"
+   ],
+   "params": {}
+  },
+  {
+   "id": "5r7jccawo3bmmqtp43r4",
+   "date": "2026-10-05",
+   "kind": "Solicitação de raio X de tórax (receituário)",
+   "lab": "Animalis Pet",
+   "labInterpretation": "",
+   "other": [
+    "Raio X de tórax solicitado, posições VD, LLE e LLD",
+    "Pet com secreção ocular, sem secreção nasal",
+    "Positivo para cinomose, em tratamento e respondendo bem",
+    "Leve ruído no lado esquerdo à ausculta"
+   ],
+   "params": {}
+  },
+  {
+   "id": "6pzs0ikyyemju3nhoj70",
+   "date": "2026-10-24",
+   "kind": "Hemograma completo com pesquisa de hemoparasitos",
+   "lab": "Clínica Veterinária Tododoy (HVBR Serviços Veterinários)",
+   "labInterpretation": "Anemia normocítica normocrômica sem resposta medular adequada. Leucocitose com neutrofilia absoluta com desvio à esquerda regenerativo moderado. Linfopenia absoluta.",
+   "other": [
+    "Metamielócitos 4% (848/µL)",
+    "Basófilos 0%",
+    "Neutrófilos com granulações tóxicas (+)",
+    "HCM 24,67 pg",
+    "Não foram observados hemoparasitos na amostra enviada",
+    "Plasma límpido",
+    "Paciente: American Bully, macho, 0 anos e 11 meses"
+   ],
+   "params": {
+    "bands": 2544,
+    "chcm": 32.17,
+    "eos": 212,
+    "hb": 7.4,
+    "ht": 23,
+    "lymph": 848,
+    "mono": 424,
+    "plt": 430,
+    "pt": 5.4,
+    "rbc": 3,
+    "retic": 45,
+    "seg": 16324,
+    "vcm": 76.67,
+    "wbc": 21200
+   }
+  },
+  {
+   "id": "6vqgltkf560vnu2bvadl",
+   "date": "2026-10-28",
+   "kind": "Receita veterinária (peso)",
+   "lab": "Vetreabilite Centro de Reabilitacao e Neurologia Vet",
+   "labInterpretation": "",
+   "other": [
+    "Documento é receita, não exame laboratorial",
+    "Prescrição de fórmula manipulada de suporte metabólico e neuromuscular: L-carnitina 250 mg, tiamina 10 mg, riboflavina 2 mg, piridoxina 2 mg, cianocobalamina 250 mcg por sachê",
+    "Posologia: 1 sachê VO a cada 24 h (SID) misturado a pequena quantidade de alimento, por 30 dias (30 sachês)",
+    "Receita emitida em 2026-11-05; peso registrado em 28/10/2026",
+    "Uso adjuvante nutricional, sujeito a reavaliação clínica"
+   ],
+   "params": {}
+  },
+  {
+   "id": "8mzgk0rqnphsl036cv8k",
+   "date": "2026-10-27",
+   "kind": "Receita de controle especial (não é exame laboratorial)",
+   "lab": "Clinica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma prescrição veterinária, sem resultados de exames laboratoriais",
+    "Prescrição: Mantidan (cloridrato de amantadina) 100 mg, 30 comprimidos, 1 comprimido 1x ao dia por 30 dias",
+    "Animal: Odin, canino, American Bully, macho, 1 ano e 4 dias"
+   ],
+   "params": {}
+  },
+  {
+   "id": "acyqxxzjqhmt4g93h1hz",
+   "date": "2026-10-15",
+   "kind": "Receita veterinária (não é exame laboratorial)",
+   "lab": "Clínica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma receita, sem resultados de exames laboratoriais",
+    "Prescrição: Cetuneorim 5000 injetável, quantidade (HUM) CX não preenchida",
+    "Paciente: Odin, canino, American Bully, macho, 11 meses e 22 dias",
+    "Orientação: retornar a cada 6 meses para nova consulta"
+   ],
+   "params": {}
+  },
+  {
+   "id": "cxfk6hny6616mgkndjml",
+   "date": "2026-10-16",
+   "kind": "Receita veterinária (consulta)",
+   "lab": "Clínica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Paciente: Odin, canino, American Bully, macho, 11 meses e 23 dias",
+    "Prescrição de uso oftálmico: Ciprovet colírio, 1 gota em cada olho a cada 12 horas durante 10 dias",
+    "Retorno a cada 6 meses para nova consulta"
+   ],
+   "params": {}
+  },
+  {
+   "id": "e20260915",
+   "date": "2026-09-15",
+   "kind": "PCR cinomose (sangue)",
+   "lab": "HVBR / Animalis",
+   "labInterpretation": "",
+   "other": [
+    "Cinomose DETECTADO no sangue, Ct 18,72 (quanto menor o Ct, mais vírus; o do Cappuccino foi 10,33)"
+   ],
+   "params": {}
+  },
+  {
+   "id": "e20260922",
+   "date": "2026-09-22",
+   "kind": "Hemograma + bioquímico",
+   "lab": "HVBR / Tododoy",
+   "labInterpretation": "Anemia normocítica normocrômica sem resposta medular adequada; desvio à esquerda regenerativo; linfopenia absoluta",
+   "other": [
+    "Neutrófilos com granulações tóxicas",
+    "Hemoparasitas não observados"
+   ],
+   "params": {
+    "alp": 77.7,
+    "alt": 42,
+    "ast": 80.9,
+    "bands": 728,
+    "chcm": 33.24,
+    "creat": 1.5,
+    "eos": 637,
+    "hb": 12.3,
+    "ht": 37,
+    "k": 4.6,
+    "lymph": 364,
+    "mono": 273,
+    "na": 140.2,
+    "plt": 284,
+    "pt": 6.4,
+    "rbc": 4.9,
+    "retic": 73.5,
+    "seg": 7098,
+    "urea": 55.9,
+    "vcm": 75.51,
+    "wbc": 9100
+   }
+  },
+  {
+   "id": "e20261008",
+   "date": "2026-10-08",
+   "kind": "Raio-x de tórax",
+   "lab": "RJ Vet Diagnóstico",
+   "labInterpretation": "",
+   "other": [
+    "Bronquite, com risco de evoluir para pneumonia"
+   ],
+   "params": {}
+  },
+  {
+   "id": "e20261016",
+   "date": "2026-10-16",
+   "kind": "Hemograma + bioquímico",
+   "lab": "HVBR / Tododoy",
+   "labInterpretation": "Anemia normocítica normocrômica sem resposta medular adequada; leucocitose com neutrofilia e desvio à esquerda regenerativo moderado; linfopenia",
+   "other": [
+    "Metamielócitos 516/µL",
+    "Neutrófilos com granulações tóxicas",
+    "Hemoparasitas não observados no esfregaço"
+   ],
+   "params": {
+    "alp": 792.7,
+    "alt": 330.1,
+    "bands": 2322,
+    "chcm": 30.97,
+    "creat": 1.2,
+    "eos": 258,
+    "hb": 9.6,
+    "ht": 31,
+    "lymph": 258,
+    "mono": 516,
+    "plt": 442,
+    "pt": 7,
+    "rbc": 4.1,
+    "retic": 41,
+    "seg": 21930,
+    "urea": 40.9,
+    "vcm": 75.61,
+    "wbc": 25800
+   }
+  },
+  {
+   "id": "e20261017",
+   "date": "2026-10-17",
+   "kind": "PCR quantitativo cinomose (sangue)",
+   "lab": "HVBR (apoio)",
+   "labInterpretation": "",
+   "other": [
+    "Cinomose (CDV) DETECTADO no sangue: 362,19 cópias/µL"
+   ],
+   "params": {
+    "cdv": 362.19
+   }
+  },
+  {
+   "id": "e20261019",
+   "date": "2026-10-19",
+   "kind": "Hemograma + bioquímico",
+   "lab": "HVBR / Tododoy",
+   "labInterpretation": "Anemia sem resposta medular adequada; leucocitose com desvio à esquerda moderado; eosinofilia, linfopenia, monocitose; hiperproteinemia",
+   "other": [
+    "Metamielócitos 1.371/µL",
+    "Neutrófilos hipersegmentados",
+    "Hemoparasitas não observados"
+   ],
+   "params": {
+    "alp": 591.3,
+    "alt": 185.2,
+    "ast": 71.5,
+    "bands": 5027,
+    "chcm": 32,
+    "creat": 1,
+    "eos": 2285,
+    "hb": 9.6,
+    "ht": 30,
+    "k": 5.2,
+    "lymph": 457,
+    "mono": 1371,
+    "na": 162.2,
+    "plt": 452,
+    "pt": 7.2,
+    "rbc": 3.9,
+    "retic": 46.8,
+    "seg": 35189,
+    "urea": 58.2,
+    "vcm": 76.92,
+    "wbc": 45700
+   }
+  },
+  {
+   "id": "e20261022",
+   "date": "2026-10-22",
+   "kind": "Hemograma + bioquímico",
+   "lab": "HVBR / Tododoy",
+   "labInterpretation": "Anemia sem resposta medular adequada; leucocitose com desvio à esquerda moderado; monocitose",
+   "other": [
+    "Metamielócitos 3.556/µL",
+    "Hemoparasitas não observados"
+   ],
+   "params": {
+    "alp": 529.9,
+    "alt": 115.5,
+    "bands": 8128,
+    "chcm": 33.87,
+    "creat": 1.3,
+    "eos": 1016,
+    "hb": 10.5,
+    "ht": 31,
+    "lymph": 1016,
+    "mono": 1524,
+    "plt": 420,
+    "pt": 6.8,
+    "rbc": 4.2,
+    "retic": 33.6,
+    "seg": 35560,
+    "urea": 51.8,
+    "vcm": 73.81,
+    "wbc": 50800
+   }
+  },
+  {
+   "id": "e20261028",
+   "date": "2026-10-28",
+   "kind": "Líquor + painel PCR",
+   "lab": "Advance Imagem Veterinária",
+   "labInterpretation": "",
+   "other": [
+    "PCR cinomose no líquor DETECTADO (Ct 32,23)",
+    "PCR líquor NÃO detectado: Babesia, Ehrlichia, Toxoplasma, Neospora, Cryptococcus, Histoplasma, Blastomyces, Coccidioides",
+    "Citologia: 75% neutrófilos, 13% monocitoides, 12% linfócitos",
+    "Contaminação leve com sangue (316 hemácias/µL)"
+   ],
+   "params": {
+    "csf_glic": 69,
+    "csf_prot": 64.88,
+    "csf_wbc": 15
+   }
+  },
+  {
+   "id": "e20261031",
+   "date": "2026-10-31",
+   "kind": "Hemograma",
+   "lab": "AlphaLabs (coleta em casa)",
+   "labInterpretation": "Anemia normocítica normocrômica arregenerativa; neutrofilia e linfopenia absolutas",
+   "other": [
+    "Anemia NÃO regenerativa (reticulócitos baixos)",
+    "Hemoparasitas não observados",
+    "Fibrina na amostra (+)"
+   ],
+   "params": {
+    "bands": 0,
+    "chcm": 32,
+    "eos": 146,
+    "hb": 8,
+    "ht": 25,
+    "lymph": 876,
+    "mono": 584,
+    "plt": 324,
+    "pt": 7.4,
+    "rbc": 3.6,
+    "retic": 14.4,
+    "seg": 12994,
+    "vcm": 69.4,
+    "wbc": 14600
+   }
+  },
+  {
+   "id": "e20261102us",
+   "date": "2026-11-02",
+   "kind": "Ultrassonografia abdominal",
+   "lab": "Saúde Animal (Nova Iguaçu)",
+   "labInterpretation": "",
+   "other": [
+    "Bexiga muito distendida (sugere bexigoma / bexiga neurogênica)",
+    "Baço aumentado (esplenomegalia)",
+    "Fígado aumentado (hepatomegalia), ecotextura normal",
+    "Estômago e intestinos com gases, paredes de espessura normal, sem alteração visível",
+    "Rins, próstata e testículos normais"
+   ],
+   "params": {}
+  },
+  {
+   "id": "e20261108",
+   "date": "2026-11-08",
+   "kind": "Hemograma",
+   "lab": "Rio Vet (IDEXX ProCyte)",
+   "labInterpretation": "",
+   "other": [
+    "Anemia com reticulocitose: provável anemia regenerativa",
+    "CHCM alto: equipamento sugere considerar hemólise, avaliar esferócitos e aglutinação"
+   ],
+   "params": {
+    "chcm": 39.5,
+    "eos": 280,
+    "hb": 4.8,
+    "ht": 12.2,
+    "lymph": 3120,
+    "mono": 1550,
+    "plt": 425,
+    "rbc": 1.53,
+    "retic": 200.6,
+    "seg": 21280,
+    "vcm": 79.8,
+    "wbc": 26230
+   }
+  },
+  {
+   "id": "e20261108us",
+   "date": "2026-11-08",
+   "kind": "Ultrassom abdominal",
+   "lab": "Rio Vet",
+   "labInterpretation": "",
+   "other": [
+    "Cistite acentuada; bexiga inflamada",
+    "Colite",
+    "Baço aumentado; congestão no fígado"
+   ],
+   "params": {}
+  },
+  {
+   "id": "e20261109",
+   "date": "2026-11-09",
+   "kind": "Bioquímico",
+   "lab": "Especilab",
+   "labInterpretation": "",
+   "other": [
+    "Bilirrubina total normal (0,10 mg/dL; direta 0,04, indireta 0,06)",
+    "Ureia alta com creatinina baixa-normal"
+   ],
+   "params": {
+    "alp": 387.93,
+    "alt": 76.84,
+    "bili": 0.1,
+    "creat": 0.5,
+    "na": 145,
+    "phos": 4.62,
+    "urea": 110.22
+   }
+  },
+  {
+   "id": "e20261110",
+   "date": "2026-11-10",
+   "kind": "Hemograma (pós-transfusão)",
+   "lab": "Especilab",
+   "labInterpretation": "Anemia normocítica normocrômica; leucocitose com neutrofilia; eosinopenia",
+   "other": [
+    "Eritroblastos 6%",
+    "Anisocitose discreta e policromasia",
+    "Presença de fibrina na amostra (plaquetas podem estar subestimadas)"
+   ],
+   "params": {
+    "bands": 0,
+    "chcm": 35.07,
+    "eos": 0,
+    "hb": 9.89,
+    "ht": 28.2,
+    "lymph": 1272,
+    "mono": 636,
+    "plt": 270,
+    "rbc": 3.77,
+    "seg": 29892,
+    "vcm": 74.8,
+    "wbc": 31800
+   }
+  },
+  {
+   "id": "e20261112",
+   "date": "2026-11-12",
+   "kind": "Hemograma",
+   "lab": "Especilab",
+   "labInterpretation": "Anemia normocítica normocrômica; neutrofilia; eosinopenia; trombocitopenia",
+   "other": [
+    "Plaquetas baixas (148 mil), com fibrina na amostra (pode subestimar a contagem)",
+    "Anisocitose moderada e policromasia"
+   ],
+   "params": {
+    "bands": 0,
+    "chcm": 34.12,
+    "eos": 0,
+    "hb": 9.93,
+    "ht": 29.1,
+    "lymph": 2771,
+    "mono": 163,
+    "plt": 148,
+    "rbc": 4,
+    "seg": 13366,
+    "vcm": 72.75,
+    "wbc": 16300
+   }
+  },
+  {
+   "id": "e20261114",
+   "date": "2026-11-14",
+   "kind": "Hemograma",
+   "lab": "Especilab",
+   "labInterpretation": "Anemia normocítica normocrômica; eosinopenia, linfopenia, neutrofilia; trombocitose",
+   "other": [
+    "Anisocitose discreta e policromasia",
+    "Trombocitose"
+   ],
+   "params": {
+    "bands": 0,
+    "chcm": 32,
+    "eos": 0,
+    "hb": 9.64,
+    "ht": 29.8,
+    "lymph": 936,
+    "mono": 468,
+    "plt": 692,
+    "rbc": 4,
+    "seg": 14196,
+    "vcm": 75,
+    "wbc": 15600
+   }
+  },
+  {
+   "id": "eq4inr9xpdeo1dmzuivp",
+   "date": "2026-09-26",
+   "kind": "Certificado de diagnóstico canino (teste rápido 4Dx Plus)",
+   "lab": "LinaVet / IDEXX Laboratories",
+   "labInterpretation": "Todos os itens do 4Dx Plus (Anaplasma, Borrelia, Dirofilaria, Erlichia) negativos. Veterinária: a veterinária",
+   "other": [
+    "Data informada no documento é a de nascimento (23/10/25); o documento não traz data de coleta",
+    "4Dx Plus: Anaplasma sp. negativo",
+    "4Dx Plus: Borrelia sp. negativo",
+    "4Dx Plus: Dirofilaria sp. negativo",
+    "4Dx Plus: Erlichia sp. negativo",
+    "Giardia, Parvovirose, cPL e Leishmania: campos riscados, sem resultado marcado"
+   ],
+   "params": {}
+  },
+  {
+   "id": "hxxhn6c8yqi3cps7jrlk",
+   "date": "2026-09-22",
+   "kind": "Receita veterinária (sem exame laboratorial)",
+   "lab": "Roxo Por Patas",
+   "labInterpretation": "",
+   "other": [
+    "Sem resultados laboratoriais no documento",
+    "Prescrição: tobramicina colírio, aplicar nos olhos, 2x ao dia, durante 10 dias",
+    "Data aproximada: o documento estava lido como 2025"
+   ],
+   "params": {}
+  },
+  {
+   "id": "ibe26nqafv7cxm4qbjbw",
+   "date": "2026-09-25",
+   "kind": "Receita de controle especial (sem exame laboratorial)",
+   "lab": "Clínica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma receita veterinária, não um laudo de exame",
+    "Prescrição: Diempax 10 mg (humano), administrar 1 e 1/4 comprimido em caso de pós-convulsão ou quando passar muito tempo sozinho",
+    "Animal: Odin, canino, American Bully, macho, 11 meses e 2 dias"
+   ],
+   "params": {}
+  },
+  {
+   "id": "idhf2zcq7baupyoc3rao",
+   "date": "2026-11-08",
+   "kind": "Receituário veterinário (sem resultados laboratoriais)",
+   "lab": "Rio Vet Veterinária",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma receita, não um laudo de exame; peso do paciente não preenchido",
+    "Organoneuro Cerebral (uso humano): 2 drágeas via oral a cada 24 h por 30 dias",
+    "Aditil (uso humano): 30 gotas via oral a cada 24 h por 30 dias",
+    "Uso tópico: Hyabak 0,15% ou Lacrifilm, 1 gota em ambos os olhos a cada 12 h por 10 dias",
+    "Tobramicina colírio (uso humano): 1 gota em ambos os olhos a cada 12 h por 10 dias"
+   ],
+   "params": {}
+  },
+  {
+   "id": "jsh2uigr3mmarb931ql6",
+   "date": "2026-10-28",
+   "kind": "Receita veterinária (pesagem)",
+   "lab": "Vetreabilite Centro de Reabilitacao e Neurologia Vet",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma receita, não um exame laboratorial; peso registrado em 28/10/2026",
+    "Receita emitida em 05/11/2026 pela neurologista",
+    "Prescrição: creatina monohidratada 1 g (1/3 do scoop de 3 g) SID por 30 dias; Sarcopen Pet 1 sachê SID por 30 dias; Ômega 3 1000 1 cápsula ao dia, uso contínuo"
+   ],
+   "params": {}
+  },
+  {
+   "id": "ktdgbttuab1pdvpzdei0",
+   "date": "2026-09-22",
+   "kind": "Receita veterinária (consulta)",
+   "lab": "Clínica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Receita impressa em 25/09/2026; peso registrado em 22/09/2026",
+    "Cão macho, American Bully, 11 meses",
+    "4DX: resultado de 25/09 anotado à mão como negativo",
+    "Recomendado repetir check-up 1x por semana",
+    "Recomendado PCR quantitativa para cinomose para acompanhamento",
+    "Prescrito: Hemolitan Gold (anemia), Promun Defense Dog (imunidade), Pró-Rim, antiviral manipulado (ribavirina, DMSO, vitamina C, vitamina E, famotidina), Trissulfin (antibiótico)"
+   ],
+   "params": {}
+  },
+  {
+   "id": "m2w14cvnx3ej9izwky6r",
+   "date": "2026-10-24",
+   "kind": "Eletrólitos (sódio e potássio)",
+   "lab": "Clínica Veterinária Tododoy (HVBR Serviços Veterinários)",
+   "labInterpretation": "A interpretação dos exames deve ser feita pelo médico veterinário responsável, mediante a sintomatologia clínica do animal.",
+   "other": [
+    "Sódio referência: 143 a 150 mmol/L",
+    "Potássio referência: 4,1 a 5,4 mmol/L",
+    "Método enzimático, amostra soro",
+    "Resultados anteriores (23/09/2026): sódio 140,2 mmol/L; potássio 4,6 mmol/L",
+    "Laudo ressalta que a coleta deve ser feita antes de fluidoterapia com cristaloides e que hemólise acentuada pode alterar os valores"
+   ],
+   "params": {
+    "k": 4.4,
+    "na": 147.2
+   }
+  },
+  {
+   "id": "m4dlwq46cfh68ukxfyes",
+   "date": "2026-10-08",
+   "kind": "Receita veterinária (não é exame laboratorial)",
+   "lab": "Roxo Por Patas",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma receita manuscrita, sem resultados de exames",
+    "Uso oral (manuscrito parcialmente ilegível)",
+    "Item 4: medicamento manuscrito ilegível; dar 5,4 mL a cada 24 horas durante 15 dias"
+   ],
+   "params": {}
+  },
+  {
+   "id": "main0nmpat01zyb03nbk",
+   "date": "2026-10-13",
+   "kind": "Radiografia de tórax (laterolateral e ventrodorsal)",
+   "lab": "Clínica Veterinária Tododoy 24h",
+   "labInterpretation": "Achados radiográficos compatíveis com efusão pleural (drenável). Indica-se toracocentese com auxílio de ultrassom e análise do líquido para elucidação diagnóstica, além de exame ultrassonográfico torácico. Opacificação pulmonar pode ser secundária ao colabamento pulmonar/esforço respiratório, não descartando broncopatia. Correlacionar aos demais dados clínicos.",
+   "other": [
+    "Maior homogeneidade da cavidade torácica, compatível com acúmulo evidente de líquido livre, com retração de lobos pulmonares",
+    "Arcos costais e cúpula diafragmática preservados",
+    "Padrão pulmonar broncointersticial difuso",
+    "Demais estruturas torácicas não avaliáveis devido à efusão pleural",
+    "Silhueta hepática dentro dos limites do gradil costal",
+    "Exame realizado sem sedação"
+   ],
+   "params": {}
+  },
+  {
+   "id": "nijn6ayxqxbt740xhobo",
+   "date": "2026-10-26",
+   "kind": "Receita de controle especial (sem exame laboratorial)",
+   "lab": "Clínica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Documento é receita magistral, não laudo de exames",
+    "Prescrição para sequelas pós-traumáticas: ginkgo biloba 10 mg/kg/dose, pentoxifilina 5 mg/kg/dose, vitamina B12 200 mcg/animal/dose, vitamina E 10 mg/kg/dose",
+    "Posologia: 1 biscoito a cada 24 horas por 30 dias"
+   ],
+   "params": {}
+  },
+  {
+   "id": "omgrztjdmv3rvebyo394",
+   "date": "2026-10-27",
+   "kind": "Solicitação de exame: coleta, análise e painel neurológico do LCR",
+   "lab": "Clinica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Documento é apenas a solicitação de exame, sem resultados",
+    "Exame solicitado: coleta, análise e painel neurológico do líquor (LCR)",
+    "Solicitado pela neurologista (Neurologia Veterinária e Reabilitação)"
+   ],
+   "params": {}
+  },
+  {
+   "id": "osdtrtmy5n3b151uf3dn",
+   "date": "2026-10-24",
+   "kind": "Bioquímico: ureia, creatinina, ALT, AST",
+   "lab": "Clínica Veterinária Tododoy (HVBR Serviços Veterinários)",
+   "labInterpretation": "A interpretação dos exames deve ser realizada pelo médico veterinário responsável, mediante a sintomatologia clínica do animal.",
+   "other": [
+    "Ureia ref. 15-45 mg/dL",
+    "Creatinina ref. 0,50-1,50 mg/dL",
+    "ALT ref. 17-95 U/L",
+    "AST ref. 18-56 U/L (acima da referência)",
+    "Resultados anteriores 23/09/2026: ureia 55.9 mg/dL, creatinina 1.5 mg/dL, ALT 42.0 U/L, AST 80.9 U/L",
+    "Estadiamento IRIS DRC (creatinina): <1,4 Estágio 1 não azotêmico; 1,4-2,0 Estágio 2; 2,1-5,0 Estágio 3; >5,0 Estágio 4"
+   ],
+   "params": {
+    "alt": 74,
+    "ast": 72.1,
+    "creat": 0.8,
+    "urea": 25.6
+   }
+  },
+  {
+   "id": "p043f6hifrgl84h9et2q",
+   "date": "2026-10-26",
+   "kind": "Receita veterinária (peso)",
+   "lab": "Clínica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Não é laudo laboratorial: documento é receita com prescrições (Gardenal, Imunes snacks, Hemolitan Gold, Dipirona, Celesporin, Mantidan, Vetaglos, Prednisolona, Ciprovet colírio, Systane/Hyabak, Lufal)",
+    "Cão Odin, American Bully, macho, 1 ano"
+   ],
+   "params": {}
+  },
+  {
+   "id": "sewerbu9ckfuqlvt3gng",
+   "date": "2026-11-08",
+   "kind": "Receituário de controle especial (prescrição, sem exame laboratorial)",
+   "lab": "Rio Vet Veterinária",
+   "labInterpretation": "",
+   "other": [
+    "Prescrição: tobramicina colírio 3 ml, 1 gota em ambos os olhos a cada 12 horas por 15 dias (uso tópico)",
+    "Documento sem resultados laboratoriais",
+    "Paciente: Odin, canino, Pit Bull, macho, nascimento 23/10/2025"
+   ],
+   "params": {}
+  },
+  {
+   "id": "u8rjsjs92a7oefvmdrtp",
+   "date": "2026-10-20",
+   "kind": "Pesquisa de anticorpos IgM para Babesia (ELISA, soro)",
+   "lab": "Clínica Veterinária Tododoy (laboratório de apoio HVBR - Serviços Veterinários)",
+   "labInterpretation": "Resultado indeterminado: DO dentro do intervalo de 10% de variação em relação ao cut-off (zona cinza). Pode ocorrer no início da soroconversão, reações inespecíficas ou falência do sistema imunológico. Resultados não reagentes para IgM podem ocorrer em animais infectados que ainda não soroconverteram ou em quadros crônicos de babesiose. A apresentação clínica das hemoparasitoses caninas pode ser muito similar, sendo imprescindível o diagnóstico diferencial.",
+   "other": [
+    "Resultado: INDETERMINADO",
+    "Cut-off: 0,612",
+    "Valor da DO: 0,567",
+    "Valor de referência: Não reagente",
+    "Método: ELISA; material: soro",
+    "Detecta IgM contra Babesia canis vogeli e Babesia canis canis; sem reação contra B. canis rossi e B. gibsoni"
+   ],
+   "params": {}
+  },
+  {
+   "id": "u8wa1rzl2qrhg1lul2l0",
+   "date": "2026-10-28",
+   "kind": "Solicitação de exames (receita), sem resultados",
+   "lab": "Vetreabilite Centro de Reabilitacao e Neurologia Vet",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma solicitação de exames laboratoriais, sem resultados",
+    "Exames solicitados: hemograma completo, ureia, creatinina, proteínas totais e frações, FA, GGT, ALT, reticulócitos, glicose, bilirrubina total, direta e indireta",
+    "Receita emitida em 05/11/2026; peso registrado em 28/10/2026"
+   ],
+   "params": {}
+  },
+  {
+   "id": "va07cr3pjeynkhsj6vkf",
+   "date": "2026-10-26",
+   "kind": "Receita de controle especial (manipulação magistral)",
+   "lab": "Clínica Veterinária Tododoy",
+   "labInterpretation": "",
+   "other": [
+    "Documento é uma receita veterinária, não um laudo de exame laboratorial",
+    "Paciente: Odin, canino, American Bully, macho, 1 ano e 3 dias",
+    "Prescrição magistral: ribavirina 30 mg/kg/dose, DMSO 20 mg/kg/dose, vitamina C 500 mg/animal/dose, vitamina E 10 mg/kg/dose, famotidina 1 mg/kg/dose",
+    "Suspensão q.s.p. 15 doses, via oral, 1 dose a cada 24 horas por 15 dias"
+   ],
+   "params": {}
+  },
+  {
+   "id": "w1e4p3m4k8f3k8des2dj",
+   "date": "2026-10-17",
+   "kind": "Ultrassonografia abdominal",
+   "lab": "Ultrassonografia Veterinária",
+   "labInterpretation": "Lama biliar na vesícula biliar e cisto prostático (0,45 cm); demais órgãos avaliados sem alterações sonográficas.",
+   "other": [
+    "Vesícula biliar repleta por conteúdo anecoico, com moderada quantidade de conteúdo ecodenso (lama biliar); parede ecogênica, regular",
+    "Próstata em topografia habitual, parênquima heterogêneo, com imagem arredondada, anecoica, com reforço acústico posterior, medindo 0,45 cm: cisto prostático",
+    "Rins: 3,40 x 6,02 cm (esquerdo) e 3,56 x 5,74 cm (direito), sem alterações",
+    "Bexiga, fígado, baço, pâncreas, adrenais e testículos sem alterações sonográficas",
+    "TGI com moderada quantidade de conteúdo (alimentar, gás e fezes), peristaltismo preservado",
+    "Cão não castrado"
+   ],
+   "params": {}
+  },
+  {
+   "id": "w20260922",
+   "date": "2026-09-22",
+   "kind": "Pesagem",
+   "lab": "Tododoy",
+   "labInterpretation": "",
+   "other": [],
+   "params": {
+    "peso": 27
+   }
+  },
+  {
+   "id": "w20261028",
+   "date": "2026-10-28",
+   "kind": "Pesagem",
+   "lab": "Vetreabilite (neuro)",
+   "labInterpretation": "",
+   "other": [],
+   "params": {
+    "peso": 24.75
+   }
+  },
+  {
+   "id": "w20261104",
+   "date": "2026-11-04",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "labInterpretation": "",
+   "other": [
+    "Peso informado como 23–24 kg"
+   ],
+   "params": {
+    "peso": 23.5
+   }
+  },
+  {
+   "id": "w20261107",
+   "date": "2026-11-07",
+   "kind": "Temperatura",
+   "lab": "Em casa",
+   "labInterpretation": "",
+   "other": [],
+   "params": {
+    "temp": 38.8
+   }
+  },
+  {
+   "id": "w20261108",
+   "date": "2026-11-08",
+   "kind": "Pesagem",
+   "lab": "Rio Vet",
+   "labInterpretation": "",
+   "other": [
+    "Desidratado na entrada; fez fluidoterapia"
+   ],
+   "params": {
+    "peso": 21
+   }
+  },
+  {
+   "id": "w20261111",
+   "date": "2026-11-11",
+   "kind": "Pesagem",
+   "lab": "Rio Vet",
+   "labInterpretation": "",
+   "other": [],
+   "params": {
+    "peso": 20
+   }
+  },
+  {
+   "id": "w20261113",
+   "date": "2026-11-13",
+   "kind": "Pesagem",
+   "lab": "Rio Vet",
+   "labInterpretation": "",
+   "other": [],
+   "params": {
+    "peso": 19
+   }
+  },
+  {
+   "id": "w20261114",
+   "date": "2026-11-14",
+   "kind": "Temperatura",
+   "lab": "Rio Vet",
+   "labInterpretation": "",
+   "other": [],
+   "params": {
+    "temp": 38.4
+   }
+  },
+  {
+   "id": "zyc0e7w2ia304ufwgscw",
+   "date": "2026-10-06",
+   "kind": "Fenobarbital sérico",
+   "lab": "Alpha Labs - Análises clínicas veterinárias",
+   "labInterpretation": "Fenobarbital 21,2 mcg/mL, dentro da faixa de referência (15,0 a 45,0). Resultado repetido e confirmado.",
+   "other": [
+    "Fenobarbital sérico: 21,2 mcg/mL (referência 15,0 a 45,0), método quimioluminescência Immulite",
+    "Anotação manuscrita no laudo: 30 (círculo, abaixo da referência)",
+    "Soro com hemólise moderada",
+    "Resultado repetido e confirmado",
+    "Resultado liberado em 07/10/2026"
+   ],
+   "params": {}
+  }
+ ],
+ "events": [
+  {
+   "id": "v01",
+   "date": "2026-09-09",
+   "mark": false,
+   "short": "",
+   "text": "Tosse (no mesmo dia em que o irmão Cappuccino, com cinomose confirmada desde 07/09, piorava). Olho com secreção nos dias seguintes; em 20/09 névoa no olho."
+  },
+  {
+   "id": "v02",
+   "date": "2026-09-20",
+   "mark": false,
+   "short": "",
+   "text": "Cappuccino, irmão do Odin, faleceu de cinomose."
+  },
+  {
+   "id": "v03",
+   "date": "2026-09-20",
+   "mark": true,
+   "short": "Convulsões",
+   "text": "Levado à clínica: raio-x com pulmões comprometidos, furosemida, Trissulfin e soro; teve a PRIMEIRA convulsão lá. Em casa, pela primeira vez não conseguiu ficar em pé. Mais convulsões em 21/09 (03:40 e 21:00) e 22/09 (01:10, 02:20, 05:51, 08:59, ~09:50), todas com menos de 1 min; internado na Tododoy em 22/09."
+  },
+  {
+   "id": "v04",
+   "date": "2026-10-13",
+   "mark": true,
+   "short": "Internação",
+   "text": "Piorou (ronco, mucosa muito branca, urinando no colo, mole) e internou na Tododoy até 28/10. Receita de 13/10: doxiciclina, prednisolona 20 mg (½ a cada 12h por 5 dias) e omeprazol. Antibióticos na internação: ceftriaxona (~15 dias) e doxiciclina; colírios Ciprovet e Tobrex."
+  },
+  {
+   "id": "v05",
+   "date": "2026-10-28",
+   "mark": true,
+   "short": "Alta",
+   "text": "Alta a pedido da família, para continuar o cuidado em casa. Coleta de líquor no mesmo dia."
+  },
+  {
+   "id": "v06",
+   "date": "2026-11-09",
+   "mark": true,
+   "short": "Transfusão",
+   "text": "Transfusão de sangue."
+  },
+  {
+   "id": "v07",
+   "date": "2026-11-15",
+   "mark": false,
+   "short": "",
+   "text": "Internado no Rio Vet Center: mudança de decúbito lateral a cada 4h, sonda nasogástrica por causa da mioclonia, sonda urinária (dificuldade de esvaziar a bexiga). Equipe testando alimentação por seringa (Recovery); engoliu bem a água oferecida pela tutora."
+  },
+  {
+   "id": "v08",
+   "date": "2026-11-08",
+   "mark": true,
+   "short": "Fezes pretas",
+   "text": "Fezes pretas no carro, a caminho da internação atual, e mais um episódio no hospital; depois não repetiu. Nenhum vômito. (data aproximada)"
+  },
+  {
+   "id": "v09",
+   "date": "2026-11-02",
+   "mark": false,
+   "short": "",
+   "text": "Abdômen bem inchado, com veias aparentes; motivo do pedido de ultrassom."
+  },
+  {
+   "id": "v10",
+   "date": "2026-11-03",
+   "mark": false,
+   "short": "",
+   "text": "Em casa: comendo iogurte natural zero lactose com quiabo, com ajuda de colher, lambendo e engolindo."
+  },
+  {
+   "id": "v11",
+   "date": "2026-11-13",
+   "mark": false,
+   "short": "",
+   "text": "Mancha nova no olho esquerdo. Olho direito com névoa (parece não enxergar bem dele; fica incomodado quando esse olho fica pra cima). Grande perda de massa muscular; mioclonia na cabeça parece repuxar os olhos pra trás."
+  },
+  {
+   "id": "v12",
+   "date": "2026-09-25",
+   "mark": false,
+   "short": "",
+   "text": "Alta com receita: Hemolitan Gold, Promun Defense, Pró-Rim, antiviral manipulado (ribavirina 610 mg + DMSO + vit. C + vit. E + famotidina, 1x/dia por 15 dias), Trissulfin e Gardenal a cada 12h. Peso 27 kg em 22/09. Vet da Animalis recomendou neurologista e dosagem de fenobarbital."
+  },
+  {
+   "id": "v13",
+   "date": "2026-10-09",
+   "mark": false,
+   "short": "",
+   "text": "Bronquite no raio-x. Iniciado Silmox CL (amoxicilina + clavulanato) 300 mg a cada 12h. Depois teve reação alérgica a ele. Também vitamina A, colírio/pomada e Engystol (aplicações)."
+  },
+  {
+   "id": "v14",
+   "date": "2026-10-14",
+   "mark": false,
+   "short": "",
+   "text": "Febre (também em 16/10, com glicose baixa; 24/10 na internação; 30/10 de madrugada em casa)."
+  },
+  {
+   "id": "v15",
+   "date": "2026-10-18",
+   "mark": true,
+   "short": "Convulsão",
+   "text": "Convulsão de madrugada na internação (e de novo em 19/10)."
+  },
+  {
+   "id": "v16",
+   "date": "2026-11-04",
+   "mark": false,
+   "short": "",
+   "text": "Em casa, 23–24 kg. Anemia piorando apesar do Hemolitan desde o início; vet da Animalis sugeriu spirulina e vitamina C e avaliar a medula."
+  },
+  {
+   "id": "v17",
+   "date": "2026-11-07",
+   "mark": false,
+   "short": "",
+   "text": "À noite: Hemolitan tinha acabado e faltou luz (sem ar-condicionado). Esquentou, mucosa branca, letárgico, boca travando. Emergência na Saúde Animal, estabilizou e voltou pra casa (temp. 38,8 °C)."
+  },
+  {
+   "id": "v18",
+   "date": "2026-11-08",
+   "mark": true,
+   "short": "Rio Vet",
+   "text": "Pálido e letárgico de novo: internado na Rio Vet. Desidratado (fluidoterapia), bexiga cheia (sonda urinária), Ht 12,2%. Recebeu ferro enquanto esperava a bolsa de sangue."
+  },
+  {
+   "id": "v19",
+   "date": "2026-11-10",
+   "mark": false,
+   "short": "",
+   "text": "Febre e hipoglicemia na internação, corrigidas. Fezes pastosas, cor marrom."
+  },
+  {
+   "id": "v20",
+   "date": "2026-11-11",
+   "mark": false,
+   "short": "",
+   "text": "Antibiótico trocado para ceftriaxona. Sonda nasogástrica por causa da mioclonia. Diarreia marrom sem sangue. Urina escura (normalizou em 12/11)."
+  },
+  {
+   "id": "v21",
+   "date": "2026-11-13",
+   "mark": false,
+   "short": "",
+   "text": "Espasmos menores. Ferro injetável e Eritrós (suplemento para anemia). Bebia ~2 L de água/dia em casa."
+  },
+  {
+   "id": "v22",
+   "date": "2026-11-14",
+   "mark": false,
+   "short": "",
+   "text": "Neuro: tetraparesia com reflexos espinhais e consciência preservados, sem novas convulsões, estabilizando. Reavaliação e neurorreabilitação após a alta."
+  },
+  {
+   "id": "v23",
+   "date": "2026-11-15",
+   "mark": false,
+   "short": "",
+   "text": "Rio Vet oferece alta quando a família quiser; antes testam se ele urina sem sonda. Já usam colírio lubrificante e antibiótico (muita secreção ocular). Eritrós continua em casa."
+  },
+  {
+   "id": "v24",
+   "date": "2026-11-04",
+   "mark": false,
+   "short": "",
+   "text": "Sem movimento nas quatro patas; mexe o pescoço às vezes; engole e responde a estímulos. Consulta com a neuro a neurologista."
+  }
+ ],
+ "analyses": [
+  {
+   "id": "28q9vkvk81wxor1jtku0",
+   "text": "## O que mudou - **Cinomose:** o vírus segue detectado no sangue (PCR em 15/09 e em 17/10) e também no líquor (28/10). O líquor mostra inflamação no sistema nervoso (mais células e proteína que o normal), compatível com a doença neurológica.\n- **Anemia:** o hematócrito (% de glóbulos vermelhos) caiu de 37% (22/09) para 23% (24/10) e 12,2% (08/11), quando precisou de transfusão. Em 31/10 a anemia era \"não regenerativa\" (medula sem reagir). Em 08/11 já havia reação da medula, e o laudo sugeriu avaliar hemólise (destruição dos glóbulos vermelhos). Após a transfusão ficou em torno de 28–30%, estável.\n- **Infecção/inflamação:** os leucócitos chegaram a ~50 mil em outubro e agora estão em ~15 mil, bem melhor.\n- **Plaquetas:** 148 mil em 12/11 e 692 mil em 14/11. Fibrina na amostra pode distorcer a contagem, então vale acompanhar.\n- **Peso:** de 27 kg para 19 kg, com perda importante de massa muscular. ## Tendência geral - Os números do sangue estão **mais estáveis desde a transfusão**.\n- O quadro neurológico é o ponto mais pesado: tetraparesia (fraqueza nas quatro patas), mioclonia e bexiga com dificuldade de esvaziar. A neuro descreveu estabilização, sem novas convulsões.\n- A perda de peso continua e preocupa. ## Perguntas pra levar à vet - Qual a causa da anemia: hemólise, medula ou sangramento? As fezes pretas de 08/11 precisam ser investigadas.\n- Dá pra fazer Coombs e avaliar a medula?\n- A ureia estava alta (110 em 09/11) com creatinina baixa. Isso é desidratação ou sangramento digestivo?\n- Quando repetir hemograma e plaquetas?\n- Como será a nutrição, já que ele perdeu muito peso?\n- Qual o plano pra bexiga e o cuidado em casa se ele sair da sonda?\n- Qual o plano de neurorreabilitação? **Atenção:** se ele ficar pálido, muito letárgico, tiver fezes pretas de novo, febre ou convulsão, avise a equipe logo.",
+   "createdAt": 1794763631920
+  },
+  {
+   "id": "5kfl03w8ji0jf52e8j6c",
+   "text": "## O que mudou - **Anemia piorou muito até 08/11**: hematócrito (proporção de glóbulos vermelhos) foi de 37% (22/09) para 23% (24/10) e **12,2% (08/11)**. Com reticulócitos altos (200 mil), o corpo está tentando repor sangue: anemia \"regenerativa\", que pode ser perda ou destruição de células. O aparelho levantou a possibilidade de hemólise (destruição). Depois da transfusão (09/11), subiu para ~28–30% e se manteve em 14/11.\n- **Fezes pretas** (08/11) podem indicar sangramento digestivo, então vale a equipe avaliar essa possibilidade.\n- **Cinomose ativa**: PCR no sangue detectado (17/10) e também no líquor (28/10). O líquor mostra mais células e proteína que o normal, sinal de inflamação no sistema nervoso.\n- **Fígado**: ALT e fosfatase alcalina dispararam em 16/10 e depois caíram. Em 09/11, a fosfatase seguia alta.\n- **Ureia alta (110) com creatinina baixa** em 09/11: pode ter relação com sangramento digestivo, perda de massa muscular ou alimentação, mas é a equipe que interpreta.\n- **Leucócitos** muito altos (até 50 mil em 22/10), caindo para 15,6 mil em 14/11.\n- **Plaquetas** subiram para 692 mil (14/11).\n- **Ultrassom 02/11**: bexiga muito cheia (compatível com bexiga neurogênica), baço e fígado aumentados. ## Tendência geral - Infecção e inflamação parecem estar diminuindo (leucócitos, fígado), mas a **anemia exigiu transfusão** e a parte neurológica segue pesada.\n- Os dados desta semana ainda não mostram a causa da anemia. ## Perguntas pra levar à vet - Qual a causa da anemia? Estão investigando hemólise, sangramento digestivo ou doença do baço?\n- O hematócrito está sendo monitorado depois da transfusão? Com que frequência?\n- As fezes pretas ainda preocupam?\n- A ureia alta e a fosfatase alcalina ainda alta precisam de acompanhamento?\n- O aumento das plaquetas importa?\n- A sonda nasogástrica e a sonda urinária têm prazo previsto?\n- Há plano para os olhos (mancha nova, névoa)? Se notar gengivas bem pálidas, fraqueza súbita ou novas fezes pretas, avise a equipe na hora.",
+   "createdAt": 1794759958306
+  },
+  {
+   "id": "8yyym5rdxzprb2vm40vs",
+   "text": "## O que mudou - **Cinomose confirmada no sangue e no líquor** (PCR detectado em 15/09, 17/10 e 28/10). O líquor com proteína e células altas indica que o vírus está no sistema nervoso, o que combina com convulsões e mioclonia (tremores/repuxões).\n- **Babesia (parasita do sangue): indeterminado** no IgM, e o PCR do líquor não detectou. Pesquisas de hemoparasitas no esfregaço deram negativas. Não confirma nem descarta de vez.\n- **Ultrassom (02/11):** bexiga muito cheia, compatível com bexiga neurogênica (nervo que controla a bexiga não funciona direito), o que explica a sonda urinária. Baço e fígado aumentados.\n- **Hemograma de 08/11: anemia forte** (hematócrito 12%), com reticulócitos altos (medula tentando repor). O equipamento sugeriu investigar hemólise (destruição das hemácias). Depois da transfusão subiu para ~28–30% e **se manteve em 14/11**, bom sinal.\n- **Pós-transfusão:** leucócitos caíram de 31.800 para 15.600 e as plaquetas subiram (trombocitose, comum em recuperação/inflamação).\n- **Ureia alta (110) com creatinina baixa** em 09/11, o que não indica problema renal claro. Fígado (ALT) normalizou. ## Tendência geral - Infecção inflamatória intensa em 22/10 (leucócitos 50 mil), **melhorando** até 14/11.\n- Anemia é o ponto que oscilou: caiu em 24/10 e 08/11, e estabilizou após transfusão. A causa ainda não está clara.\n- O quadro neurológico (mioclonia, perda de massa muscular, bexiga) segue como principal desafio. ## Perguntas pra levar à vet - **A causa da anemia foi investigada?** Teste de Coombs, esferócitos, aglutinação? Pode voltar?\n- Com que frequência repetir hemograma nos próximos dias?\n- Fezes pretas podem indicar sangramento digestivo? Isso foi avaliado?\n- Por que a ureia está tão alta com creatinina baixa?\n- Vale repetir o PCR de cinomose para acompanhar?\n- A mancha no olho esquerdo e a névoa no direito precisam de avaliação oftalmológica?\n- Qual o plano para sonda, alimentação e fisioterapia? Se o Odin ficar pálido, mais fraco ou tiver novas fezes pretas, avise a equipe logo.",
+   "createdAt": 1794759596688
+  },
+  {
+   "id": "94lujf7hlko87ax819cc",
+   "text": "## O que mudou\nOs exames novos (16–17/10) mostram piora em relação a 22/09:\n- **Anemia (poucos glóbulos vermelhos):** hematócrito caiu de 37% para 31%, hemoglobina de 12,3 para 9,6. Os reticulócitos (glóbulos vermelhos jovens) estão baixos pra anemia, ou seja, a medula não está compensando bem.\n- **Infecção/inflamação forte:** leucócitos foram de 9.100 para 25.800, com muitos neutrófilos imaturos (bastonetes, metamielócitos) e granulações tóxicas. Isso indica um organismo reagindo a algo intenso. Os linfócitos continuam muito baixos (258), coerente com cinomose.\n- **Fígado:** ALT 42 → 330 e fosfatase alcalina 78 → 793, bem acima da referência. Pode ter relação com os medicamentos usados (como corticoide e antibióticos) ou com a doença, mas só a vet pode dizer.\n- **Rins:** ureia e creatinina normais.\n- **PCR da cinomose (17/10):** 362 cópias/µL. Não dá pra comparar com o Ct de 18,72 de setembro (métodos diferentes), mas confirma vírus ainda circulando.\n- **Ultrassom:** lama biliar e um cisto pequeno na próstata. O resto sem alterações. ## Tendência geral\n- Os exames seguintes mostram que a anemia continuou e chegou a hematócrito 12% em 08/11, exigindo transfusão. **Isso é grave; mantenha contato próximo com a equipe do Rio Vet.**\n- O fígado melhorou depois do pico (ALT 330 → 74 em 24/10), mas o peso caiu de 27 para 19 kg.\n- A cinomose neurológica (vírus no líquor) segue como pano de fundo. ## Perguntas pra levar à vet\n- A anemia é por destruição de glóbulos vermelhos (hemólise) ou falta de produção? Já investigaram com teste de Coombs ou esfregaço?\n- O que explica as fezes pretas? Pode haver sangramento digestivo?\n- O aumento do fígado e do baço tem relação com a anemia?\n- Qual o plano pra perda de peso e de massa muscular?\n- Como acompanhar o PCR da cinomose daqui pra frente?\n- A alergia à amoxicilina com clavulanato está bem registrada no prontuário atual?",
+   "createdAt": 1794760388193
+  },
+  {
+   "id": "a01",
+   "text": "## O que mudou\n- O bioquímico de **09/11** traz uma pista nova: **ureia alta (110) com creatinina baixa-normal (0,5)** e **bilirrubina normal (0,10)**.\n- Ureia alta com creatinina normal não é problema de rim. Costuma vir de **sangramento no estômago ou intestino** (o sangue digerido vira ureia), desidratação ou dieta muito proteica.\n- Bilirrubina normal pesa **contra uma destruição grande de hemácias** naquele momento. Hemólise forte costuma subir a bilirrubina.\n- Fígado seguiu melhorando: ALT 330 → 77 (quase normal) e fosfatase 793 → 388. ## Tendência geral\n- **Infecção bacteriana controlada**: leucócitos de 50.800 (22/10) para 15.600 (14/11), sem bastonetes.\n- **Anemia**: estava leve e sem resposta da medula em outubro, despencou para Ht 12% em 08/11 com medula reagindo forte, e ficou estável em ~30% depois da transfusão.\n- Juntando ureia alta + bilirrubina normal + anemia regenerativa, uma **perda de sangue** (por exemplo, úlcera no trato digestivo, que pode acontecer com corticoide em dose alta) entra como hipótese forte ao lado da hemólise. ## Perguntas pra levar à vet\n- Ele teve **fezes escuras ou pretas** (sinal de sangue digerido) ou vômito com sangue antes de 08/11?\n- A causa da queda brusca do hematócrito foi perda de sangue ou hemólise? Fizeram teste de aglutinação/Coombs?\n- Ele está com **protetor gástrico**?\n- Fizeram PCR de hemoparasitas no **sangue** (incluindo Mycoplasma)?\n- Quando repetem reticulócitos e bioquímico? Vale repetir o PCR quantitativo de cinomose no sangue pra comparar com o de 17/10.",
+   "createdAt": 1794756700000
+  },
+  {
+   "id": "a02",
+   "text": "## O que mudou\n- **Fezes pretas** perto de 08/11 (dois episódios, depois parou). Fezes pretas costumam ser **sangue digerido**, ou seja, sangramento no estômago ou no começo do intestino.\n- Isso fecha com o resto: **ureia alta (110) com creatinina normal** em 09/11, **bilirrubina normal**, e anemia que despencou para Ht 12% com a medula reagindo forte.\n- Ultrassom de 02/11: estômago e intestinos sem alteração visível na parede (úlceras pequenas muitas vezes não aparecem no ultrassom), **baço e fígado aumentados** e **bexiga muito cheia**. ## Tendência geral\n- A hipótese mais forte para a queda brusca do hematócrito passa a ser **sangramento digestivo**. Corticoide em dose alta (dexametasona) é uma causa conhecida de úlcera, e doença grave também favorece.\n- Bom sinal: as fezes pretas **pararam** e o hematócrito ficou **estável** depois da transfusão, o que combina com o sangramento ter cessado.\n- Fígado aumentado com enzimas caindo combina com efeito do corticoide passando. Baço aumentado pode ser reação à infecção ou o baço ajudando a produzir sangue.\n- Bexiga cheia confirma a bexiga neurogênica da cinomose, por isso a sonda.\n- Infecção bacteriana controlada (leucócitos 15.600 em 14/11, sem bastonetes). ## Perguntas pra levar à vet\n- A equipe considera o **sangramento digestivo** como causa da anemia? Ele está com **protetor gástrico**?\n- Ele ainda toma **dexametasona** ou outro corticoide? Se sim, como fica o risco de nova úlcera?\n- O que observar em casa: **cor das fezes** (preta = avisar logo), gengiva pálida, cansaço.\n- Quando repetem hemograma, reticulócitos e ureia pra confirmar que não voltou a sangrar?\n- O baço aumentado precisa de ultrassom de controle?",
+   "createdAt": 1794757000000
+  },
+  {
+   "id": "a03",
+   "text": "## O que mudou\n- Dois exames que faltavam mudam a leitura da anemia:\n- **22/09: hematócrito 37% (normal)**, fosfatase alcalina normal (78) e peso de **27 kg**.\n- **31/10: hematócrito 25%** e reticulócitos **baixos** (14 mil): anemia sem resposta da medula.\n- **08/11: hematócrito 12%** e reticulócitos **muito altos** (200 mil). ## Tendência geral\n- A anemia surgiu **depois de 22/09** e piorou devagar até 31/10, com a medula parada. Isso combina com a infecção e a inflamação da cinomose, e possivelmente com remédios.\n- A **ribavirina** (antiviral manipulado, de 25/09 por 15 dias) tem como efeito colateral conhecido em cães e gatos causar **anemia**. Vale perguntar à vet se ela pode ter contribuído.\n- Entre 31/10 e 08/11 houve uma **queda brusca** (25 → 12) com a medula reagindo forte. Isso combina com **perda aguda de sangue**, e houve fezes pretas em 08 e 09/11.\n- A **fosfatase alcalina** era normal em 22/09 e foi para 793 em 16/10, logo após o início da **prednisolona** (13/10). Isso reforça que foi efeito do corticoide.\n- **Peso: 27 kg (22/09) → 19 kg (13/11)**, cerca de 30% a menos.\n- Hoje o hematócrito está estável em ~30% e a infecção está controlada. ## Perguntas pra levar à vet\n- A ribavirina pode ter contribuído para a anemia de outubro?\n- A queda de 31/10 para 08/11 foi sangramento digestivo? Ele está com protetor gástrico?\n- Qual a meta de calorias por dia, e como vamos recuperar o peso?\n- Quando repetir reticulócitos para confirmar que a medula segue respondendo?",
+   "createdAt": 1794761500000
+  },
+  {
+   "id": "ecnxa2zta18x22q7nkjw",
+   "text": "## O que mudou - **Líquor (28/10):** confirma que o vírus da cinomose chegou ao sistema nervoso. O líquor também mostra células e proteína acima do normal, o que indica inflamação. Os outros agentes pesquisados (Babesia, Ehrlichia, Toxoplasma etc.) não foram detectados.\n- **Anemia (08/11):** Ht 12,2% (era ~23–31% em outubro). O corpo estava tentando compensar (reticulócitos altos = \"anemia regenerativa\"). O CHCM alto levanta a possibilidade de **hemólise** (destruição dos glóbulos vermelhos), que a equipe precisa investigar. As fezes pretas e o baço aumentado também entram nessa conta.\n- **Pós-transfusão (10–14/11):** Ht subiu e ficou estável (~28–30%). Isso é bom, mas parte do ganho é do sangue transfundido.\n- **Plaquetas:** caíram para 148 mil em 12/11 e foram a 692 mil em 14/11. A amostra tinha fibrina, então a leitura pode oscilar.\n- **Ureia 110 com creatinina 0,5 (09/11):** ureia alta isolada pode vir de desidratação ou sangramento digestivo. Os rins parecem preservados.\n- **Ultrassons (02 e 08/11):** bexiga muito cheia, cistite, colite, baço e fígado aumentados. Compatível com a bexiga neurológica.\n- **Peso:** 27 kg → 19 kg. Perda grande. ## Tendência geral - Anemia **estabilizou após a transfusão**, mas a causa ainda não está clara.\n- A cinomose neurológica parece estável (sem novas convulsões), mas ele segue fraco, com mioclonia e sequelas.\n- Perda de peso e de massa muscular continua. ## Perguntas pra levar à vet - Qual a causa da anemia? Foi feito Coombs ou esfregaço para ver hemólise?\n- Como investigar as fezes pretas (sangramento digestivo)?\n- O que explica a queda e a subida das plaquetas?\n- Como será o plano pra bexiga sem sonda e pra prevenir infecção urinária?\n- Qual o plano nutricional pra frear a perda de peso?\n- Quando repetir o hemograma depois da alta? **Se ele ficar pálido, letárgico, com fezes pretas ou convulsão, avise a equipe na hora.**",
+   "createdAt": 1794760655192
+  },
+  {
+   "id": "i1i1cx8gvt5w9et7rjjd",
+   "text": "## O que mudou Os itens novos são o hemograma de 16/10 e as receitas (peso e prescrições). Não são resultados novos de gravidade, mas dão contexto: - **Hemograma de 16/10** é o primeiro da série: anemia leve (hematócrito 31%), leucócitos altos com muitos neutrófilos jovens (bastonetes e metamielócitos, o chamado \"desvio à esquerda\") e granulações tóxicas, sinais de inflamação/infecção intensa. Linfócitos bem baixos, comum em cinomose e com corticoide. ALT e fosfatase alcalina altas (fígado, e a dexametasona também pode elevar a fosfatase).\n- **Peso: 27 kg (16/10) para 24,75 kg (26/10)**: perda de cerca de 2,2 kg em 10 dias, coerente com a perda de massa muscular que você descreveu.\n- **Receitas de 26 e 27/10** (ribavirina, ginkgo, pentoxifilina, amantadina etc.): mostram o tratamento de suporte/neurológico planejado para a cinomose. Não são exames. ## Tendência geral - Anemia leve em outubro, **piora forte em 08/11** (hematócrito 12%, regenerativa, ou seja, a medula está reagindo), transfusão e recuperação para cerca de 28–30%, estável em 14/11.\n- Leucócitos subiram até ~50 mil em 22/10, e caíram para 15,6 mil em 14/11: melhora da inflamação.\n- ALT e fosfatase caíram ao longo do tempo.\n- Plaquetas altas em 14/11 (trombocitose): pode ser reação à anemia/inflamação, vale acompanhar.\n- Cinomose confirmada no sangue e no líquor. O quadro neurológico (mioclonia, rigidez) é o ponto mais pesado.\n- Ureia alta em 09/11 com creatinina baixa: pode ter relação com sangramento digestivo (fezes pretas), corticoide ou perda muscular. ## Perguntas pra levar à vet - A causa da anemia de 08/11 foi sangramento digestivo ou destruição de hemácias? Foi investigado?\n- O hematócrito segue estável sem nova queda? Quando repetir?\n- A ureia alta já foi reavaliada?\n- A trombocitose preocupa?\n- Como está o plano para a mioclonia e a alimentação por sonda?\n- As prescrições de outubro ainda valem na internação atual? Se notar fezes pretas de novo, gengivas pálidas ou piora súbita, avise a equipe na hora.",
+   "createdAt": 1794759272193
+  },
+  {
+   "id": "xyuowyvqajfycud0zk27",
+   "text": "## O que mudou\n- **Cinomose confirmada** no sangue (17/10) e no líquor (28/10). O líquor mostrou inflamação (mais células e proteína que o normal), compatível com o sistema nervoso afetado, o que combina com convulsões, mioclonia e rigidez.\n- **Infecção/inflamação forte** no início: leucócitos subiram de ~26 mil para ~50 mil (16 a 22/10), com neutrófilos jovens (bastonetes e metamielócitos). Depois caiu para ~15 mil em 14/11, o que é uma melhora clara.\n- **Fígado** (ALT e fosfatase) caiu bastante desde outubro, mas a ultrassom mostrou fígado e baço aumentados.\n- **Anemia grave em 08/11** (hematócrito 12%), com reticulócitos altos (a medula tentou repor sangue, \"regenerativa\"). Isso, somado às fezes pretas, pede investigação de perda de sangue ou destruição das hemácias. Após a transfusão, ficou ~28–30% e estável em 14/11, ainda abaixo do normal.\n- **Ureia alta (110) com creatinina baixa** em 09/11, que pode ter relação com sangramento digestivo, desidratação ou perda de massa muscular. Vale confirmar se foi repetida.\n- **Plaquetas** subiram em 14/11 (trombocitose), comum em recuperação de anemia/inflamação. ## Tendência geral\n- Sinais de infecção e fígado **melhorando**; sangue **estabilizou** depois da transfusão.\n- A parte **neurológica e o quadro clínico** (mioclonia, perda de muscular, bexiga que não esvazia, olhos) continuam sendo o ponto mais delicado, e exames de sangue não mostram isso.\n- Se aparecerem fezes pretas de novo, gengivas pálidas ou fraqueza súbita, avise a equipe na hora. ## Perguntas pra levar à vet\n- Qual foi a causa da anemia: sangramento, hemólise ou outra? Fizeram teste de Coombs ou pesquisa de parasitas?\n- O hematócrito será repetido? Com que frequência?\n- A ureia alta foi reavaliada? E o estômago, pelas fezes pretas?\n- Como estão a ureia e a creatinina após a hidratação e a sonda?\n- O que fazer para os olhos (mancha nova, névoa)? Dá pra ter avaliação oftalmológica?\n- Qual o plano para a mioclonia e a bexiga? E qual o prognóstico neurológico?",
+   "createdAt": 1794758756358
+  }
+ ],
+ "meds": [
+  {
+   "id": "0v5llg0vglvnd4qo2bsq",
+   "allergy": false,
+   "clinic": "Vetreabilite (neuro)",
+   "composition": "cloridrato de amantadina 100 mg",
+   "dose": "1 comprimido VO 1x ao dia por 30 dias",
+   "end": "2026-11-26",
+   "endEstimated": true,
+   "name": "Mantidan 100 mg",
+   "notes": "indicado pela neuro; a receita de controle especial saiu pela Tododoy em 27/10",
+   "purpose": "neurológico / dor",
+   "start": "2026-10-27"
+  },
+  {
+   "id": "3ukkpfalfdfz5w71ha4l",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "components": [
+    {
+     "dose": "810 mg/dose",
+     "name": "Ribavirina"
+    },
+    {
+     "dose": "270 mg/dose",
+     "name": "DMSO"
+    },
+    {
+     "dose": "500 mg/dose",
+     "name": "Vitamina C"
+    },
+    {
+     "dose": "270 mg/dose",
+     "name": "Vitamina E"
+    },
+    {
+     "dose": "27 mg/dose",
+     "name": "Famotidina"
+    }
+   ],
+   "dose": "suspensão VO, 1 dose a cada 24h por 15 dias",
+   "end": "2026-10-10",
+   "endEstimated": true,
+   "name": "Antiviral manipulado (1º ciclo)",
+   "notes": "doses calculadas pra 27 kg; ribavirina pode causar anemia: perguntar à vet",
+   "purpose": "antiviral",
+   "start": "2026-09-25"
+  },
+  {
+   "id": "4xy0bjkzri1aky03f6ea",
+   "allergy": true,
+   "clinic": "Animalis",
+   "composition": "amoxicilina + clavulanato de potássio",
+   "dose": "1 comprimido VO a cada 12h por 7 dias, sempre depois de comer",
+   "end": "2026-10-16",
+   "endEstimated": true,
+   "name": "Silmox CL 300 mg",
+   "notes": "teve reação alérgica",
+   "purpose": "antibiótico (bronquite)",
+   "start": "2026-10-09"
+  },
+  {
+   "id": "5y05g81cn2bzatkjpe4t",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "dose": "3 mL VO (a seringa toda) a cada 24h por 3 dias; depois 3 mL 1x por semana por 1 mês",
+   "end": "2026-10-28",
+   "endEstimated": true,
+   "name": "Promun Defense Dog",
+   "notes": "",
+   "purpose": "imunidade",
+   "start": "2026-09-25"
+  },
+  {
+   "id": "64qysagx4g3zpn89a670",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "cefalexina 600 mg",
+   "dose": "1 e 1/4 comprimido (750 mg) VO a cada 12h por 15 dias",
+   "end": "2026-11-11",
+   "endEstimated": false,
+   "name": "Celesporin 600 mg",
+   "notes": "receita de alta da Tododoy; previsto até 13/11, mas foi trocado por ceftriaxona na Rio Vet em 11/11",
+   "purpose": "antibiótico",
+   "start": "2026-10-29"
+  },
+  {
+   "id": "6gutuc3glo13tt9icemv",
+   "allergy": false,
+   "clinic": "Vetreabilite (neuro)",
+   "components": [
+    {
+     "dose": "10 mg/kg/dose",
+     "name": "Ginkgo biloba"
+    },
+    {
+     "dose": "5 mg/kg/dose",
+     "name": "Pentoxifilina"
+    },
+    {
+     "dose": "200 mcg/dose",
+     "name": "Vitamina B12"
+    },
+    {
+     "dose": "10 mg/kg/dose",
+     "name": "Vitamina E"
+    }
+   ],
+   "dose": "1 biscoito a cada 24h por 30 dias",
+   "end": "2026-11-25",
+   "endEstimated": true,
+   "name": "Biscoito neuro manipulado",
+   "notes": "indicado pela neuro; a receita magistral saiu pela Tododoy em 26/10",
+   "purpose": "suporte neurológico",
+   "start": "2026-10-26"
+  },
+  {
+   "id": "78fwenijjd7jwbo2uafk",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "doxiciclina 100 mg",
+   "dose": "1/2 comprimido VO a cada 12h por 10 dias",
+   "end": "2026-10-23",
+   "endEstimated": true,
+   "name": "Doxiciclina 100 mg",
+   "notes": "também usada na internação da Tododoy",
+   "purpose": "antibiótico",
+   "start": "2026-10-13"
+  },
+  {
+   "id": "79r9bep3ddtnuqz988jj",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "ciprofloxacino (colírio)",
+   "dose": "1 gota em cada olho a cada 12h por 10 dias",
+   "end": "2026-10-26",
+   "endEstimated": true,
+   "name": "Ciprovet colírio",
+   "notes": "",
+   "purpose": "olhos (antibiótico)",
+   "start": "2026-10-16"
+  },
+  {
+   "id": "7dezsyjn0k3lset3d9yf",
+   "allergy": false,
+   "clinic": "Rio Vet",
+   "dose": "na internação",
+   "end": "2026-11-15",
+   "endEstimated": false,
+   "name": "Ferro injetável",
+   "notes": "Rio Vet",
+   "purpose": "anemia",
+   "start": "2026-11-08"
+  },
+  {
+   "id": "7uf2f7srqcmr4umks5s5",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "suplemento vitamínico e mineral com ferro",
+   "dose": "25/09: 3 comprimidos VO a cada 24h por 15 dias; a partir de 29/10: 3 comprimidos a cada 12h (9h e 21h) por 10 dias",
+   "end": "2026-11-06",
+   "endEstimated": false,
+   "name": "Hemolitan Gold",
+   "notes": "",
+   "purpose": "anemia",
+   "start": "2026-09-25"
+  },
+  {
+   "id": "8ieuxw1bwi2rghrm1285",
+   "allergy": false,
+   "clinic": "Animalis",
+   "composition": "spirulina (Nutrisana)",
+   "dose": "2 comprimidos (ou 8 g em pó) VO a cada 24h, uso contínuo",
+   "end": null,
+   "endEstimated": false,
+   "name": "Spirulina",
+   "notes": "orientação da Animalis",
+   "purpose": "anemia (potencializar o Hemolitan)",
+   "start": "2026-11-04"
+  },
+  {
+   "id": "9yrs0iz5nrbp1mpofmky",
+   "allergy": false,
+   "clinic": "Animalis",
+   "composition": "vitamina A, líquida",
+   "dose": "conforme receita",
+   "end": null,
+   "endEstimated": false,
+   "name": "Vitamina A líquida",
+   "notes": "fim não registrado",
+   "purpose": "suporte",
+   "start": "2026-10-09"
+  },
+  {
+   "id": "antiviral2",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "components": [
+    {
+     "dose": "30 mg/kg/dose",
+     "name": "Ribavirina"
+    },
+    {
+     "dose": "20 mg/kg/dose",
+     "name": "DMSO"
+    },
+    {
+     "dose": "500 mg/dose",
+     "name": "Vitamina C"
+    },
+    {
+     "dose": "10 mg/kg/dose",
+     "name": "Vitamina E"
+    },
+    {
+     "dose": "1 mg/kg/dose",
+     "name": "Famotidina"
+    }
+   ],
+   "dose": "suspensão, 1 dose a cada 24h por 15 dias",
+   "end": "2026-11-10",
+   "endEstimated": true,
+   "name": "Antiviral manipulado (2º ciclo)",
+   "notes": "receita da Tododoy de 26/10; ribavirina pode causar anemia: perguntar à vet",
+   "purpose": "antiviral",
+   "start": "2026-10-26"
+  },
+  {
+   "id": "axvcf4i02lcaskls9qf8",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "vitaminas B1, B6 e B12",
+   "dose": "injetável",
+   "end": "2026-10-28",
+   "endEstimated": true,
+   "name": "Citoneurin 5000",
+   "notes": "fim exato não registrado; marcado na alta da Tododoy (28/10)",
+   "purpose": "vitaminas do complexo B (neurológico)",
+   "start": "2026-10-15"
+  },
+  {
+   "id": "bkqynjd32t53e35km2bu",
+   "allergy": false,
+   "clinic": "Vetreabilite (neuro)",
+   "composition": "óleo de peixe (EPA + DHA), cápsula de 1000 mg",
+   "dose": "1 cápsula VO 1x ao dia, uso contínuo",
+   "end": null,
+   "endEstimated": false,
+   "name": "Ômega 3 1000",
+   "notes": "receita da neuro",
+   "purpose": "suporte",
+   "start": "2026-11-05"
+  },
+  {
+   "id": "cipro20261029",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "ciprofloxacino (colírio)",
+   "dose": "1 gota a cada 24h (10h) por 5 dias, depois do colírio lubrificante (esperar 5 a 10 min entre um e outro)",
+   "end": "2026-11-02",
+   "endEstimated": false,
+   "name": "Ciprovet colírio",
+   "notes": "receita de alta; 2º período",
+   "purpose": "olhos (antibiótico)",
+   "start": "2026-10-29"
+  },
+  {
+   "id": "dyjnrsp1u8um23ccm3qc",
+   "allergy": false,
+   "composition": "furosemida (diurético)",
+   "dose": "dose única na clínica",
+   "end": "2026-09-20",
+   "endEstimated": false,
+   "name": "Furosemida injetável",
+   "notes": "",
+   "purpose": "pulmão / líquido",
+   "start": "2026-09-20"
+  },
+  {
+   "id": "ekw76x8vayk2xf62g8vu",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "prednisolona 20 mg",
+   "dose": "1/2 comprimido VO a cada 12h por 5 dias",
+   "end": "2026-10-18",
+   "endEstimated": true,
+   "name": "Prednisolona 20 mg",
+   "notes": "aparece de novo na receita de alta de 26/10",
+   "purpose": "corticoide (anti-inflamatório)",
+   "start": "2026-10-13"
+  },
+  {
+   "id": "f15ukthwf42i3x7es1i9",
+   "allergy": false,
+   "clinic": "Rio Vet",
+   "composition": "tobramicina (colírio)",
+   "dose": "1 gota em ambos os olhos a cada 12h por 15 dias",
+   "end": "2026-11-23",
+   "endEstimated": true,
+   "name": "Tobramicina colírio",
+   "notes": "Rio Vet",
+   "purpose": "olhos (antibiótico)",
+   "start": "2026-11-08"
+  },
+  {
+   "id": "f3m7ry49y98zd0kwae8z",
+   "allergy": false,
+   "clinic": "Vetreabilite (neuro)",
+   "components": [
+    {
+     "dose": "250 mg",
+     "name": "L-carnitina"
+    },
+    {
+     "dose": "10 mg",
+     "name": "Tiamina (B1)"
+    },
+    {
+     "dose": "2 mg",
+     "name": "Riboflavina (B2)"
+    },
+    {
+     "dose": "2 mg",
+     "name": "Piridoxina (B6)"
+    },
+    {
+     "dose": "250 mcg",
+     "name": "Cianocobalamina (B12)"
+    }
+   ],
+   "dose": "1 sachê a cada 24h por 30 dias",
+   "end": "2026-12-05",
+   "endEstimated": true,
+   "name": "Sachê L-carnitina + vitaminas B (manipulado)",
+   "notes": "receita da neuro",
+   "purpose": "suporte metabólico e neuromuscular",
+   "start": "2026-11-05"
+  },
+  {
+   "id": "fzlzy2akpue0cbdgdq9n",
+   "allergy": false,
+   "clinic": "Animalis",
+   "composition": "vitamina C (Vetnil)",
+   "dose": "2 mL VO 1x ao dia, uso contínuo",
+   "end": null,
+   "endEstimated": false,
+   "name": "Vitavet C (vitamina C)",
+   "notes": "orientação da Animalis",
+   "purpose": "anemia",
+   "start": "2026-11-04"
+  },
+  {
+   "id": "gd1n844g7r9nrfr9oha1",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "dipirona sódica 500 mg",
+   "dose": "1 e 1/4 comprimido (625 mg) VO a cada 8h por 7 dias",
+   "end": "2026-11-05",
+   "endEstimated": true,
+   "name": "Dipirona 500 mg",
+   "notes": "receita de alta da Tododoy",
+   "purpose": "dor / febre",
+   "start": "2026-10-29"
+  },
+  {
+   "id": "h6dgrp2mup3pk7bhs0i3",
+   "allergy": false,
+   "clinic": "Vetreabilite (neuro)",
+   "composition": "creatina monohidratada",
+   "dose": "1/3 do scoop de 3 g (1 g) VO a cada 24h por 30 dias",
+   "end": "2026-12-05",
+   "endEstimated": true,
+   "name": "Creatina 1 g",
+   "notes": "receita da neuro",
+   "purpose": "massa muscular",
+   "start": "2026-11-05"
+  },
+  {
+   "id": "i1qlykv1zquh92s329dc",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "fenobarbital 100 mg por comprimido",
+   "dose": "3/4 de comprimido de 100 mg (75 mg) VO a cada 12h (9h e 21h)",
+   "end": null,
+   "endEstimated": false,
+   "name": "Gardenal 100 mg",
+   "notes": "Dose atual desde 29/10 (receita de alta da Tododoy, alternativa ao Convless 4 mL a cada 12h). Antes: 22/09, Gardenal gotas 40 mg/mL, 1,5 mL após crise; depois 1 e 1/4 cp de 50 mg (62,5 mg) a cada 12h (receita de 25/09). Dosagem no sangue em 06/10: 21,2 (dentro da faixa).",
+   "purpose": "convulsões",
+   "start": "2026-09-20"
+  },
+  {
+   "id": "imunes20261029",
+   "allergy": false,
+   "clinic": "Animalis",
+   "composition": "suplemento para imunidade (snack)",
+   "dose": "3 snacks VO a cada 24h (21h)",
+   "end": "2026-11-08",
+   "endEstimated": false,
+   "name": "Imunes Snacks",
+   "notes": "indicado pela Animalis; tomou de 13/10 até a internação na Rio Vet (08/11). A receita de alta da Tododoy (26/10) tinha mandado continuar por mais 10 dias.",
+   "purpose": "imunidade",
+   "start": "2026-10-13"
+  },
+  {
+   "id": "jkqu4ofsjaxmsjmhm0hn",
+   "allergy": false,
+   "clinic": "Vetreabilite (neuro)",
+   "dose": "1 sachê a cada 24h por 30 dias",
+   "end": "2026-12-05",
+   "endEstimated": true,
+   "name": "Sarcopen Pet",
+   "notes": "receita da neuro",
+   "purpose": "massa muscular",
+   "start": "2026-11-05"
+  },
+  {
+   "id": "kyjmunymtoah7gjbtiak",
+   "allergy": false,
+   "clinic": "Rio Vet",
+   "dose": "2 drágeas a cada 24h por 30 dias",
+   "end": "2026-12-08",
+   "endEstimated": true,
+   "name": "Organoneuro Cerebral",
+   "notes": "Rio Vet",
+   "purpose": "suporte neurológico",
+   "start": "2026-11-08"
+  },
+  {
+   "id": "luftal20261029",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "simeticona",
+   "dose": "1,7 mL VO a cada 8h (9h, 17h e 21h)",
+   "end": "2026-10-31",
+   "endEstimated": true,
+   "name": "Luftal",
+   "notes": "receita de alta; fim estimado pelas marcações na receita",
+   "purpose": "gases",
+   "start": "2026-10-29"
+  },
+  {
+   "id": "macrocard20261013",
+   "allergy": false,
+   "clinic": "Animalis",
+   "composition": "betaglucanas (beta-1,3/1,6-glucanas) purificadas de levedura",
+   "dose": "3 sticks VO 1x ao dia",
+   "end": null,
+   "endEstimated": false,
+   "name": "Macrogard Pet Sticks (Avert)",
+   "notes": "indicado pela Animalis; toma desde 13/10 e continua na internação da Rio Vet.",
+   "purpose": "suporte ao sistema imunológico",
+   "start": "2026-10-13"
+  },
+  {
+   "id": "n25f9l3sywu2lxnl2qyc",
+   "allergy": false,
+   "clinic": "Rio Vet",
+   "composition": "ceftriaxona sódica",
+   "dose": "injetável, na internação",
+   "end": null,
+   "endEstimated": false,
+   "name": "Ceftriaxona",
+   "notes": "Rio Vet",
+   "purpose": "antibiótico",
+   "start": "2026-11-11"
+  },
+  {
+   "id": "of411f30erz9od0puehs",
+   "allergy": false,
+   "clinic": "Animalis",
+   "composition": "medicamento homeopático",
+   "dose": "2 mL injetável; agora 3 dias seguidos e depois a cada 2 dias",
+   "end": null,
+   "endEstimated": false,
+   "name": "Engystol",
+   "notes": "aplicado pela Animalis; levado para a Rio Vet",
+   "purpose": "imunidade (homeopático)",
+   "start": "2026-10-10"
+  },
+  {
+   "id": "p0i6228h05k74lrugk45",
+   "allergy": false,
+   "clinic": "Rio Vet",
+   "composition": "hialuronato de sódio 0,15% (lubrificante)",
+   "dose": "1 gota em ambos os olhos a cada 12h por 10 dias",
+   "end": "2026-11-18",
+   "endEstimated": true,
+   "name": "Hyabak 0,15% ou Lacrifilm",
+   "notes": "Rio Vet",
+   "purpose": "olhos (lubrificante)",
+   "start": "2026-11-08"
+  },
+  {
+   "id": "pbzrlxa01w4765cnaduj",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "omeprazol 20 mg",
+   "dose": "1/2 comprimido VO a cada 24h por 10 dias",
+   "end": "2026-10-23",
+   "endEstimated": true,
+   "name": "Omeprazol 20 mg",
+   "notes": "",
+   "purpose": "protetor gástrico",
+   "start": "2026-10-13"
+  },
+  {
+   "id": "pred20261030",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "prednisolona 20 mg",
+   "dose": "1 comprimido VO por dia por 10 dias",
+   "end": "2026-11-08",
+   "endEstimated": false,
+   "name": "Prednisolona 20 mg",
+   "notes": "receita de alta; 2º período",
+   "purpose": "corticoide (anti-inflamatório)",
+   "start": "2026-10-30"
+  },
+  {
+   "id": "qemqhelh6fjm9q6x4mxq",
+   "allergy": false,
+   "clinic": "Rio Vet",
+   "dose": "conforme a internação; continua em casa",
+   "end": null,
+   "endEstimated": false,
+   "name": "Eritrós",
+   "notes": "Rio Vet",
+   "purpose": "anemia (suplemento de ferro)",
+   "start": "2026-11-13"
+  },
+  {
+   "id": "rdr0b2duqyj48wqcbdan",
+   "allergy": false,
+   "clinic": "Rio Vet",
+   "composition": "vitaminas A e D",
+   "dose": "30 gotas a cada 24h por 30 dias",
+   "end": "2026-12-08",
+   "endEstimated": true,
+   "name": "Aditil",
+   "notes": "Rio Vet",
+   "purpose": "vitaminas",
+   "start": "2026-11-08"
+  },
+  {
+   "id": "systane20261029",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "lubrificante ocular",
+   "dose": "1 gota em cada olho a cada 8h (9h, 17h e 21h), uso contínuo",
+   "end": "2026-11-08",
+   "endEstimated": true,
+   "name": "Systane ou Hyabak (colírio lubrificante)",
+   "notes": "receita de alta; na Rio Vet seguiu com Hyabak/Lacrifilm",
+   "purpose": "olhos (lubrificante)",
+   "start": "2026-10-29"
+  },
+  {
+   "id": "tfuiw5d0sguvnlduj77a",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "dose": "3 borrifadas VO a cada 8h por 30 dias",
+   "end": "2026-10-25",
+   "endEstimated": true,
+   "name": "Pró-Rim",
+   "notes": "",
+   "purpose": "rins",
+   "start": "2026-09-25"
+  },
+  {
+   "id": "ts393exjvp0wp4m8aper",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "ceftriaxona sódica",
+   "dose": "injetável, na internação da Tododoy (~15 dias)",
+   "end": "2026-10-28",
+   "endEstimated": false,
+   "name": "Ceftriaxona",
+   "notes": "",
+   "purpose": "antibiótico",
+   "start": "2026-10-13"
+  },
+  {
+   "id": "vetaglos20261029",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "sulfadiazina de prata 10 mg/g",
+   "dose": "camada fina sobre as lesões 2x ao dia (9h e 17h), depois de limpar com soro fisiológico e gaze, até cicatrizar",
+   "end": null,
+   "endEstimated": false,
+   "name": "Vetaglos (pomada)",
+   "notes": "receita de alta",
+   "purpose": "lesões na pele (dorso e saco escrotal)",
+   "start": "2026-10-29"
+  },
+  {
+   "id": "yffecbcmwlv0629k34op",
+   "allergy": false,
+   "clinic": "Tododoy",
+   "composition": "sulfadiazina + trimetoprima",
+   "dose": "1 e 1/2 comprimido VO a cada 24h por 7 dias, 30 min depois de comer (antes, 1 dose injetável em 20/09)",
+   "end": "2026-10-02",
+   "endEstimated": true,
+   "name": "Trissulfin SID 1.600 mg",
+   "notes": "",
+   "purpose": "antibiótico",
+   "start": "2026-09-20"
+  }
+ ],
+ "prevent": [
+  {
+   "id": "4rd35gif58imdthg2gm3",
+   "date": "2026-01-23",
+   "group": "C8",
+   "kind": "Vacina",
+   "next": "2026-02-13",
+   "notes": "a veterinária",
+   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)"
+  },
+  {
+   "id": "gprsa5slugq8vsdtv0b8",
+   "date": "2026-02-20",
+   "group": "Bordetella (Recombitek Oral)",
+   "kind": "Vacina",
+   "next": "2027-02-20",
+   "notes": "a veterinária",
+   "product": "Bordetella (Recombitek Oral)"
+  },
+  {
+   "id": "ijkpueg0xcnz9jso3u02",
+   "date": "2026-01-23",
+   "group": "Raiva (Rabisin)",
+   "kind": "Vacina",
+   "next": "2027-01-23",
+   "notes": "a veterinária",
+   "product": "Raiva (Rabisin)"
+  },
+  {
+   "id": "jdvrkui11prxupduhyre",
+   "date": "2025-12-14",
+   "group": "C8",
+   "kind": "Vacina",
+   "next": "2026-01-02",
+   "notes": "",
+   "product": "V10 (Viratec 10 CVL)"
+  },
+  {
+   "id": "kiwy9na9qgn3sgse5zgy",
+   "date": "2026-06-23",
+   "group": "ProHeart SR-12",
+   "kind": "Prevenção de dirofilariose",
+   "next": "2027-06-23",
+   "notes": "",
+   "product": "ProHeart SR-12"
+  },
+  {
+   "id": "kzufqb98alzd5j66mgl3",
+   "date": "2026-02-20",
+   "group": "C8",
+   "kind": "Vacina",
+   "next": "2027-02-20",
+   "notes": "a veterinária",
+   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)"
+  },
+  {
+   "id": "plan-bravecto365",
+   "date": null,
+   "kind": "Antipulgas/carrapatos",
+   "next": null,
+   "notes": "Uma injeção protege por 1 ano contra pulgas e carrapatos; liberado a partir de 6 meses de idade. Ver com a vet depois da alta, quando a anemia e o quadro estiverem estáveis.",
+   "planned": true,
+   "product": "Bravecto 365 (injetável)"
+  },
+  {
+   "id": "plan-leish",
+   "date": null,
+   "kind": "Vacina",
+   "next": null,
+   "notes": "Não essencial: depende do risco da região. Precisa de exame negativo antes; protocolo inicial de 3 doses e reforço anual. Só depois da recuperação.",
+   "planned": true,
+   "product": "Leishmaniose"
+  },
+  {
+   "id": "u3vne2c1ep1ozrsphhyd",
+   "date": "2026-01-02",
+   "group": "C8",
+   "kind": "Vacina",
+   "next": "2026-01-23",
+   "notes": "",
+   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)"
+  },
+  {
+   "id": "verm20251107",
+   "date": "2025-11-07",
+   "kind": "Vermífugo",
+   "next": "2025-11-22",
+   "notes": "1,2 mL",
+   "product": "Drontal Puppy"
+  },
+  {
+   "id": "verm20251122",
+   "date": "2025-11-22",
+   "kind": "Vermífugo",
+   "next": "2025-12-22",
+   "notes": "2,5 mL",
+   "product": "Drontal Puppy"
+  },
+  {
+   "id": "verm20251222",
+   "date": "2025-12-22",
+   "kind": "Vermífugo",
+   "next": "2026-01-06",
+   "notes": "3,8 mL",
+   "product": "Drontal Puppy"
+  },
+  {
+   "id": "verm20260106",
+   "date": "2026-01-06",
+   "kind": "Vermífugo",
+   "next": "2026-02-06",
+   "notes": "6,7 mL",
+   "product": "Drontal Puppy"
+  },
+  {
+   "id": "verm20260206",
+   "date": "2026-02-06",
+   "kind": "Vermífugo",
+   "next": "2026-11-20",
+   "notes": "12,5 mL. Último dado. O protocolo do canil previa doses em 21/02, 21/03, 05/04, 05/05 e 20/05/26, mas a vet da Animalis Pet achou exagero e mandou suspender. Próxima pelo cartão: a cada 6 meses (20/11/26 e 05/12/26), confirmar com a vet.",
+   "product": "Drontal Puppy"
+  }
+ ],
+ "photos": [
+  {
+   "id": "mmnnby19vwofhva15fzj",
+   "assetId": "7031b0f06f7dc53d9466e03f69357fde",
+   "caption": "Deitadinho com o macaquinho de pelúcia, na época em que a barriga estava inchada",
+   "createdAt": 1794762111326,
+   "date": "2026-11-03",
+   "video": false
+  }
+ ]
+}

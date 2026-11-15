@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>window.ODIN_STATIC = "data/odin.json";</script>
+<meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Odin - Cockpit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: prontuário evolutivo — resumo no topo, entrada de exames, avaliação, gráficos por grupo, tabela evolutiva, linha do tempo */
+:root {
+  --bg: #f2f5f4;
+  --surface: #ffffff;
+  --ink: #16242b;
+  --muted: #5a6a70;
+  --line: #dbe2e0;
+  --accent: #2b6c7d;
+  --accent-soft: #e1eef1;
+  --band: rgba(47,125,79,0.10);
+  --ok: #2f7d4f;
+  --warn: #a8661a;
+  --bad: #b83a2e;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1619; --surface: #152024; --ink: #e2eaeb; --muted: #94a5a9; --line: #253439;
+    --accent: #66b6c8; --accent-soft: #1b3036; --band: rgba(92,184,129,0.12);
+    --ok: #5cb881; --warn: #e0a24e; --bad: #ec7b6f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1619; --surface: #152024; --ink: #e2eaeb; --muted: #94a5a9; --line: #253439;
+  --accent: #66b6c8; --accent-soft: #1b3036; --band: rgba(92,184,129,0.12);
+  --ok: #5cb881; --warn: #e0a24e; --bad: #ec7b6f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 24px 20px 64px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.wrap > *, .grid2 > *, .charts > *, .tiles > * { min-width: 0; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: 30px; font-weight: 700; }
+h2 { font-size: 19px; font-weight: 700; }
+h3 { font-size: 14px; font-weight: 600; font-family: var(--font-body); }
+.sub { color: var(--muted); margin: 4px 0 0; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.between { justify-content: space-between; }
+header { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: end; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; border-left: 4px solid var(--line); position: relative; }
+.tile .lbl { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.tile .tip { top: 36px; }
+.tile:has(.info:hover) .tip, .tile:has(.info:focus-visible) .tip { display: block; }
+.tile.lo, .tile.hi { border-left-color: var(--warn); }
+.tile.ok { border-left-color: var(--ok); }
+.tile .lbl { color: var(--muted); font-size: 13px; }
+.tile .val { font-family: var(--font-mono); font-size: 26px; font-weight: 500; }
+.tile .val small { font-size: 13px; color: var(--muted); margin-left: 4px; }
+.tile .meta { font-size: 12.5px; color: var(--muted); }
+.tile .reft { font-size: 12px; color: var(--muted); font-family: var(--font-mono); }
+.delta { font-weight: 600; }
+.delta.good { color: var(--ok); }
+.delta.bad { color: var(--warn); }
+.pill { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 1px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); }
+.pill.lo, .pill.hi { background: color-mix(in srgb, var(--warn) 16%, transparent); color: var(--warn); }
+.pill.ok { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+.drop { border: 2px dashed var(--line); border-radius: 12px; padding: 22px; text-align: center; background: var(--bg); transition: border-color .15s, background .15s; cursor: pointer; }
+.drop.over { border-color: var(--accent); background: var(--accent-soft); }
+.drop strong { font-family: var(--font-display); font-size: 17px; }
+.grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+@media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
+textarea, input[type=text], input[type=date], input[type=number] {
+  font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%;
+}
+textarea { min-height: 84px; resize: vertical; }
+button { font: inherit; font-weight: 600; border-radius: 8px; padding: 8px 14px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+button.ghost { background: transparent; color: var(--accent); }
+button.danger { border-color: var(--bad); color: var(--bad); background: transparent; }
+button.tiny { padding: 2px 8px; font-size: 12px; font-weight: 500; }
+button:disabled { opacity: .5; cursor: progress; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status { font-size: 13.5px; color: var(--muted); display: grid; gap: 4px; margin-top: 10px; text-align: left; }
+.status .err { color: var(--bad); }
+.status .done { color: var(--ok); }
+.analysis { font-size: 15px; max-width: 75ch; }
+.analysis h4 { font-family: var(--font-display); font-size: 16px; margin: 14px 0 4px; }
+.analysis p { margin: 6px 0; }
+.analysis ul { margin: 4px 0; padding-left: 20px; }
+.section-title { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 -6px; }
+.section-title span { color: var(--muted); font-size: 13px; }
+.charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 8px; position: relative; }
+.chart h3 { display: flex; align-items: center; gap: 6px; }
+.info { width: 20px; height: 20px; padding: 0; border-radius: 50%; font-size: 12px; font-weight: 600; line-height: 1; border: 1px solid var(--line); background: var(--bg); color: var(--muted); cursor: help; }
+.info:hover, .info[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+.tip { position: absolute; left: 10px; right: 10px; top: 40px; z-index: 5; background: var(--ink); color: var(--surface); font-size: 13px; line-height: 1.45; padding: 10px 12px; border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,.25); display: none; }
+.chart:has(.info:hover) .tip, .chart:has(.info:focus-visible) .tip, .tip.open { display: block; }
+.legend-note { font-size: 12.5px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; }
+.legend-note i { display: inline-block; width: 22px; vertical-align: middle; margin-right: 6px; border-top: 2px solid var(--accent); }
+.legend-note i.dash { border-top-style: dashed; }
+.legend-note i.band { height: 10px; border: 0; background: var(--band); }
+.legend-note i.ev { width: 0; height: 12px; border-top: 0; border-left: 1px dashed var(--muted); }
+.chart .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.chart .last { font-family: var(--font-mono); font-size: 13px; }
+.chart .ref { font-size: 12px; color: var(--muted); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 13.5px; width: max-content; min-width: 100%; }
+th, td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+thead th { font-weight: 600; vertical-align: bottom; }
+thead th .lab { display: block; font-weight: 400; color: var(--muted); font-size: 11.5px; }
+td.grp { font-family: var(--font-display); font-weight: 700; color: var(--accent); padding-top: 12px; }
+td.lo, td.hi { color: var(--warn); font-weight: 600; }
+td .arr { font-size: 11px; margin-left: 2px; }
+.refcol { color: var(--muted); font-size: 12px; }
+.timeline { display: grid; gap: 0; }
+.tl { display: grid; grid-template-columns: 92px 1fr auto; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.tl .d { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.tl.mark .d { color: var(--accent); font-weight: 500; }
+.tl .k { font-size: 11.5px; color: var(--muted); }
+.review { border: 2px solid var(--accent); }
+.review .exam { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; display: grid; gap: 10px; }
+.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px 14px; }
+.prow { display: grid; grid-template-columns: 1fr 96px 24px; gap: 6px; align-items: center; font-size: 13.5px; }
+.prow input { padding: 4px 6px; font-family: var(--font-mono); }
+.prow button { padding: 0; width: 24px; height: 24px; }
+.muted { color: var(--muted); }
+.note { font-size: 12.5px; color: var(--muted); max-width: 80ch; }
+.hidden { display: none !important; }
+label.chk { display: flex; gap: 6px; align-items: center; font-size: 13.5px; color: var(--muted); }
+/* tabs */
+.tabs { position: sticky; top: 0; z-index: 20; display: flex; gap: 6px; overflow-x: auto; padding: 8px 0; background: var(--bg); border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: 0 0 auto; background: transparent; color: var(--muted); border: 1px solid transparent; font-weight: 600; padding: 8px 14px; border-radius: 99px; }
+.tab:hover { color: var(--ink); background: var(--surface); }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+.panel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; min-width: 0; }
+.panel > * { min-width: 0; }
+.panel[hidden] { display: none; }
+.formgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; align-items: end; }
+.formgrid label { display: grid; gap: 3px; font-size: 12.5px; color: var(--muted); }
+select { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; }
+.list { display: grid; gap: 0; }
+.item { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.item .t { font-weight: 600; }
+.item .s { font-size: 13px; color: var(--muted); }
+.item .acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: end; }
+.pill.cl { font-weight: 600; font-size: 10.5px; padding: 0 7px; background: color-mix(in srgb, var(--clc) 18%, transparent); color: var(--clc); border: 1px solid color-mix(in srgb, var(--clc) 40%, transparent); vertical-align: 1px; margin-left: 4px; }
+.pill.bad { background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); }
+.gantt { display: grid; gap: 4px; font-size: 12.5px; }
+.grow { display: grid; grid-template-columns: minmax(130px, 290px) 1fr; gap: 10px; align-items: center; }
+.grow .gl { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.grow .gl1 { display: flex; align-items: center; min-width: 0; }
+.grow .gl1 .gn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.grow .gl1 .pill.cl, .grow .gl1 .mtag { flex: none; }
+.grow .gl .gc { display: block; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.grow .gl .mtag { display: inline-block; font-size: 10px; font-weight: 600; padding: 0 5px; margin-right: 5px; border-radius: 3px; border: 1px solid var(--accent); color: var(--accent); vertical-align: 1px; }
+.bar.mix { background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.45) 0 3px, transparent 3px 7px); }
+.gsep { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 6px; }
+.glegend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); margin: 0 0 12px; }
+.glegend span { display: inline-flex; align-items: center; gap: 6px; }
+.glegend i { display: inline-block; width: 22px; height: 10px; border-radius: 3px; position: relative; top: 0; }
+.track { position: relative; height: 16px; background: var(--bg); border-radius: 4px; }
+.bar { position: absolute; top: 2px; height: 12px; border-radius: 3px; background: var(--muted); opacity: .55; min-width: 4px; }
+.bar.on { background: var(--accent); opacity: 1; }
+.bar.alg { background: var(--bad); opacity: .9; }
+.gaxis { position: relative; height: 18px; font-size: 11px; color: var(--muted); }
+.gaxis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.today { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--accent); }
+.photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.ph { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: grid; }
+.ph img, .ph video { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; cursor: zoom-in; background: var(--bg); }
+.ph .cap { padding: 8px 10px; font-size: 13px; display: grid; gap: 2px; }
+.ph .cap .d { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.monthh { font-family: var(--font-display); font-weight: 700; margin: 6px 0 -4px; }
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.85); display: grid; place-items: center; z-index: 50; padding: 20px; cursor: zoom-out; }
+.lightbox img, .lightbox video { max-width: 100%; max-height: 100%; border-radius: 8px; }
+.tl .thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; display: block; margin-top: 4px; }
+@media (max-width: 560px) { .grow { grid-template-columns: 110px 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 420px) { .tl { grid-template-columns: 70px 1fr auto; } h1 { font-size: 25px; } }
+.item .msel { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--accent); flex: none; align-self: start; }
+.item:has(> .msel) { grid-template-columns: auto minmax(0,1fr) auto; gap: 0 12px; }
+.comp { margin: 4px 0 2px; padding-left: 18px; font-size: 13px; color: var(--muted); }
+.comp li { margin: 1px 0; }
+body.ro .wr { display: none !important; }
+.pubcard { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Odin - Cockpit</h1>
+      <p class="sub">American Bully, macho, nascido em 23/10/2025 · acompanhamento de cinomose e anemia</p>
+    </div>
+    <span id="conn" class="pill">Carregando dados…</span>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Seções">
+    <button class="tab" role="tab" data-tab="painel">Painel</button>
+    <button class="tab" role="tab" data-tab="exames">Exames</button>
+    <button class="tab" role="tab" data-tab="remedios">Medicamentos</button>
+    <button class="tab" role="tab" data-tab="vacinas">Vacinas e vermífugos</button>
+    <button class="tab" role="tab" data-tab="fotos">Fotos</button>
+    <button class="tab" role="tab" data-tab="linha">Linha do tempo</button>
+  </nav>
+
+  <div class="panel" id="p-painel" role="tabpanel">
+  <section class="tiles" id="tiles" aria-label="Últimos valores"></section>
+  <section class="card hidden wr" id="seedCard" style="border-color: var(--accent)">
+    <div class="row between"><div><h2>Carregar o histórico levantado</h2>
+    <p class="note" style="margin:4px 0 0">33 medicamentos das receitas e conversas, a carteirinha de vacinas e a primeira foto. É só uma vez.</p></div>
+    <button id="seedBtn">Carregar</button></div>
+  </section>
+
+  <section class="grid2 wr">
+    <div class="card">
+      <h2>Registrar</h2>
+      <p class="note" style="margin:4px 0 0">Manda o que tiver: exame, receita, carteirinha, foto dele, ou fala/escreve o que aconteceu. O sistema separa cada coisa no lugar certo e você confere antes de salvar.</p>
+      <div id="drop" class="drop" tabindex="0" role="button" aria-label="Escolher ou soltar arquivos" style="margin-top:12px">
+        <strong>Solte arquivos ou fotos aqui</strong><br>
+        <span class="muted">ou clique pra escolher. PDF, foto ou texto; vários de uma vez.</span>
+        <input id="file" type="file" multiple accept=".pdf,image/*,.txt,.csv,.md" class="hidden">
+      </div>
+      <div style="margin-top:12px">
+        <textarea id="paste" placeholder="Escreva ou fale. Ex.: hoje ele comeu sozinho, pesou 19,5 kg e a vet trocou o colírio pra Hyabak 3x ao dia"></textarea>
+        <div class="row between" style="margin-top:8px">
+          <button id="micBtn" class="ghost hidden" aria-pressed="false">🎤 Falar</button>
+          <span id="micState" class="muted" style="font-size:12px"></span>
+          <button id="pasteBtn">Registrar</button>
+        </div>
+      </div>
+      <div id="status" class="status" aria-live="polite"></div>
+    </div>
+    <div class="card">
+      <h2>Acontecimento rápido</h2>
+      <p class="note" style="margin:4px 0 10px">Se preferir lançar direto, sem a leitura automática.</p>
+      <div style="display:grid; gap:8px">
+        <input id="evDate" type="date" aria-label="Data do acontecimento">
+        <input id="evText" type="text" placeholder="Ex.: tirou a sonda urinária" aria-label="Descrição">
+        <div class="row between">
+          <label class="chk"><input id="evMark" type="checkbox"> Marcar nos gráficos</label>
+          <button id="evBtn">Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="row between"><h2>Em uso agora</h2><button class="ghost tiny" data-go="remedios">ver todos os medicamentos</button></div>
+    <div id="activeMeds" class="list" style="margin-top:6px"></div>
+  </section>
+
+  <section id="review" class="card review hidden wr" aria-label="Conferir valores lidos">
+    <div class="row between">
+      <h2>Confere antes de salvar</h2>
+      <div class="row"><button id="discardBtn" class="ghost">Descartar</button><button id="saveBtn">Salvar no histórico</button></div>
+    </div>
+    <p class="note">Esses valores foram lidos automaticamente. Corrija o que estiver errado e apague o que não fizer sentido.</p>
+    <div id="reviewBody"></div>
+    <div id="reviewExtra"></div>
+  </section>
+
+  <section class="card">
+    <div class="row between">
+      <h2>Avaliação do quadro</h2>
+      <button id="reBtn" class="ghost wr">Reavaliar com tudo</button>
+    </div>
+    <div id="analysis" class="analysis"><p class="muted">Carregando…</p></div>
+    <p class="note" id="anMeta"></p>
+  </section>
+    <section class="card wr pubcard" id="pubCard">
+      <div><h2>Publicar no site</h2><p class="note" style="margin:4px 0 0">Gera o arquivo com tudo (exames, remédios, vacinas, fotos) pra atualizar o site público. Os dados pessoais são removidos na hora de publicar.</p></div>
+      <button id="pubBtn" class="ghost">Exportar para o site</button>
+    </section>
+  </div>
+
+  <div class="panel" id="p-exames" role="tabpanel" hidden>
+  <div class="legend-note" aria-label="Legenda dos gráficos"><span><i></i>exames próximos</span><span><i class="dash"></i>mais de 6 dias sem exame (não mostra o que aconteceu no meio)</span><span><i class="band"></i>faixa de referência</span><span><i class="ev"></i>acontecimento marcado</span><span>Toque no <b>?</b> pra ver o que cada exame avalia</span><span>Nos cards do topo: <b style="color:var(--ok)">▲▼ verde</b> = indo pra faixa normal, <b style="color:var(--warn)">▲▼ laranja</b> = se afastando</span></div>
+  <div id="chartSections"></div>
+
+  <section class="card">
+    <div class="row between"><h2>Tabela evolutiva</h2><span class="note">Faixas de referência variam entre laboratórios; as daqui são aproximadas.</span></div>
+    <div class="tablewrap" style="margin-top:10px"><table id="evo"></table></div>
+  </section>
+
+  </div>
+
+  <div class="panel" id="p-remedios" role="tabpanel" hidden>
+    <section class="card">
+      <h2>Linha do tempo dos medicamentos</h2>
+      <div class="glegend">
+        <span><i class="bar on" style="position:static"></i>em uso</span>
+        <span><i class="bar" style="position:static"></i>já terminou</span>
+        <span><i class="bar alg" style="position:static"></i>reação/alergia</span>
+        <span><i class="bar on mix" style="position:static"></i>fórmula manipulada (vários ativos juntos)</span>
+      </div>
+      <p class="note" style="margin:0 0 12px">Em cima, o que já terminou (na ordem em que acabou); embaixo, o que está em uso. Quando o mesmo remédio foi usado mais de uma vez, os períodos ficam na mesma linha. Datas de fim estimadas vêm da duração na receita.</p>
+      <div id="medGantt" class="gantt"></div>
+    </section>
+    <section class="card wr">
+      <h2>Adicionar medicamento</h2>
+      <div class="formgrid" style="margin-top:10px">
+        <label for="mName">Nome<input id="mName" type="text" placeholder="Ex.: Gardenal 50 mg"></label>
+        <label for="mPurpose">Para quê<input id="mPurpose" type="text" placeholder="Ex.: convulsões"></label>
+        <label for="mDose">Posologia (dose, frequência, duração)<input id="mDose" type="text" placeholder="Ex.: 1 e 1/4 cp a cada 12h"></label>
+        <label for="mStart">Início<input id="mStart" type="date"></label>
+        <label for="mEnd">Fim (vazio = em uso)<input id="mEnd" type="date"></label>
+        <label for="mClinic">Clínica / quem receitou<input id="mClinic" type="text" list="clinicList" placeholder="Ex.: Rio Vet"><datalist id="clinicList"></datalist></label>
+        <label for="mCompo">Composição (princípio ativo)<input id="mCompo" type="text" placeholder="Ex.: fenobarbital 100 mg"></label>
+        <label for="mComp">Componentes, se for manipulado<input id="mComp" type="text" placeholder="Ex.: ginkgo 40 mg, pentoxifilina 100 mg"></label>
+        <label for="mNotes">Observação<input id="mNotes" type="text" placeholder="Ex.: receita da Rio Vet"></label>
+        <label class="chk" for="mAlg"><input id="mAlg" type="checkbox"> Teve reação/alergia</label>
+        <button id="mBtn">Adicionar</button>
+      </div>
+    </section>
+    <section class="card hidden wr" id="mergeBar" style="border-color: var(--accent)">
+      <h2>Juntar em uma fórmula manipulada</h2>
+      <p class="note" style="margin:4px 0 10px" id="mergeInfo"></p>
+      <div class="formgrid">
+        <label for="mgName">Nome da fórmula<input id="mgName" type="text" placeholder="Ex.: Fórmula neuro (manipulada)"></label>
+        <label for="mgDose">Dose e frequência<input id="mgDose" type="text" placeholder="Ex.: 1 sachê a cada 24h"></label>
+        <button id="mgBtn">Juntar</button>
+        <button id="mgCancel" class="ghost">Cancelar</button>
+      </div>
+    </section>
+    <section class="card"><h2>Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list"></div></section>
+    <section class="card"><h2>Já usou</h2><div id="medPast" class="list"></div></section>
+  </div>
+
+  <div class="panel" id="p-vacinas" role="tabpanel" hidden>
+    <section class="card wr">
+      <h2>Registrar vacina, vermífugo ou prevenção</h2>
+      <div class="formgrid" style="margin-top:10px">
+        <label for="vKind">Tipo<select id="vKind"><option>Vacina</option><option>Vermífugo</option><option>Antipulgas/carrapatos</option><option>Prevenção de dirofilariose</option><option>Outro</option></select></label>
+        <label for="vProd">Produto<input id="vProd" type="text" placeholder="Ex.: Recombitek C8"></label>
+        <label for="vDate">Data<input id="vDate" type="date"></label>
+        <label for="vNext">Próxima dose<input id="vNext" type="date"></label>
+        <label for="vNotes">Observação<input id="vNotes" type="text" placeholder="Ex.: Dra. Mariana Pitanga"></label>
+        <label class="chk" for="vPlan"><input id="vPlan" type="checkbox"> Ainda não tomou (planejar)</label>
+        <button id="vBtn">Registrar</button>
+      </div>
+    </section>
+    <section class="card"><div class="row between"><h2>Próximas doses</h2></div><div id="vNextList" class="list" style="margin-top:6px"></div></section>
+    <section class="card"><h2>Para conversar com a vet</h2><p class="note" style="margin:4px 0 8px">Vacinas e prevenções que ele ainda não tomou. Nada aqui é aplicado sem a vet liberar, ainda mais enquanto ele se recupera.</p><div id="vPlanList" class="list"></div></section>
+    <section class="card"><h2>Histórico</h2><div id="vList" class="list" style="margin-top:6px"></div></section>
+  </div>
+
+  <div class="panel" id="p-fotos" role="tabpanel" hidden>
+    <section class="card wr" id="photoUp">
+      <h2>Adicionar fotos ou vídeos</h2>
+      <div class="formgrid" style="margin-top:10px">
+        <label for="fDate">Data<input id="fDate" type="date"></label>
+        <label for="fCap" style="grid-column: span 2">Legenda<input id="fCap" type="text" placeholder="Ex.: comendo iogurte com ajuda"></label>
+        <button id="fBtn">Escolher arquivos</button>
+        <input id="fFile" type="file" accept="image/*,video/mp4,video/webm" multiple class="hidden">
+      </div>
+      <p class="note" id="fStatus" style="margin-top:8px"></p>
+    </section>
+    <div id="photoGrid" style="display:grid; gap:14px"></div>
+  </div>
+
+  <div class="panel" id="p-linha" role="tabpanel" hidden>
+  <section class="card">
+    <h2>Linha do tempo</h2>
+    <div class="row" style="margin-top:8px" id="tlFilters"></div>
+    <div id="timeline" class="timeline" style="margin-top:8px"></div>
+  </section>
+  </div>
+
+  <p class="note">Esta página organiza os exames e ajuda a entender a evolução. Quem interpreta e decide o tratamento é a equipe veterinária.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const PARAMS = [
+  {k:'peso', l:'Peso', u:'kg', g:'clin', lo:null, hi:null, d:'Peso corporal. Perda rápida de peso indica que ele está gastando mais energia do que recebe, ou perdendo massa muscular.'},
+  {k:'temp', l:'Temperatura', u:'°C', g:'clin', lo:37.5, hi:39.2, d:'Temperatura retal. Acima de ~39,2 °C costuma ser febre.'},
+  {k:'ht', l:'Hematócrito', u:'%', g:'red', lo:37, hi:55, d:'Porcentagem do sangue ocupada pelas hemácias. É o principal número pra acompanhar anemia: abaixo da faixa = anemia.'},
+  {k:'hb', l:'Hemoglobina', u:'g/dL', g:'red', lo:12, hi:18, d:'Proteína das hemácias que carrega oxigênio. Costuma andar junto com o hematócrito.'},
+  {k:'rbc', l:'Hemácias', u:'milhões/µL', g:'red', lo:5.5, hi:8.5, d:'Quantidade de hemácias (glóbulos vermelhos) no sangue.'},
+  {k:'retic', l:'Reticulócitos', u:'mil/µL', g:'red', lo:null, hi:110, nojudge:true, d:'Hemácias jovens, recém-saídas da medula. Alto junto com anemia = a medula está reagindo e repondo sangue. Normal com anemia = a medula não está respondendo.'},
+  {k:'vcm', l:'VCM', u:'fL', g:'red', lo:60, hi:77, d:'Tamanho médio das hemácias. Hemácias jovens são maiores, então pode subir quando a medula está produzindo muito.'},
+  {k:'chcm', l:'CHCM', u:'g/dL', g:'red', lo:31, hi:36, d:'Concentração de hemoglobina dentro das hemácias. Muito alto pode ser artefato da amostra ou sinal de hemácias se rompendo (hemólise).'},
+  {k:'wbc', l:'Leucócitos', u:'/µL', g:'white', lo:6000, hi:17000, d:'Total de glóbulos brancos, as células de defesa. Alto costuma indicar infecção, inflamação ou efeito de corticoide.'},
+  {k:'seg', l:'Neutrófilos segmentados', u:'/µL', g:'white', lo:3000, hi:11500, d:'Neutrófilos maduros, a primeira linha de defesa contra bactérias. Sobem com infecção, inflamação e corticoide.'},
+  {k:'bands', l:'Bastonetes', u:'/µL', g:'white', lo:null, hi:300, d:'Neutrófilos imaturos. Quando aparecem em quantidade, o corpo está mandando reforço às pressas: sinal de infecção ou inflamação ativa e intensa. O ideal é zero.'},
+  {k:'lymph', l:'Linfócitos', u:'/µL', g:'white', lo:1000, hi:4800, d:'Células de defesa ligadas à imunidade específica e aos anticorpos. A cinomose e o corticoide derrubam esse valor.'},
+  {k:'mono', l:'Monócitos', u:'/µL', g:'white', lo:150, hi:1350, d:'Células de defesa que limpam restos e combatem infecções mais arrastadas. Sobem em inflamação prolongada.'},
+  {k:'eos', l:'Eosinófilos', u:'/µL', g:'white', lo:100, hi:1250, d:'Células ligadas a alergia e parasitas. Ficam baixas com estresse e com corticoide.'},
+  {k:'plt', l:'Plaquetas', u:'mil/µL', g:'plt', lo:200, hi:500, d:'Fragmentos que fazem a coagulação. Baixas = risco de sangramento. Altas costumam ser reação a inflamação ou fase de recuperação.'},
+  {k:'pt', l:'Proteínas totais', u:'g/dL', g:'plt', lo:5.5, hi:8.0, d:'Proteínas do sangue (albumina + globulinas). Sobe com desidratação ou inflamação; cai com perda de sangue ou desnutrição.'},
+  {k:'alt', l:'ALT (TGP)', u:'U/L', g:'chem', lo:17, hi:95, d:'Enzima de dentro das células do fígado. Sobe quando essas células sofrem lesão.'},
+  {k:'alp', l:'Fosfatase alcalina', u:'U/L', g:'chem', lo:20, hi:156, d:'Enzima do fígado e das vias biliares. Em cães, corticoide sobe muito esse valor. Em cães jovens é um pouco mais alta pelo crescimento dos ossos.'},
+  {k:'ast', l:'AST (TGO)', u:'U/L', g:'chem', lo:18, hi:56, d:'Enzima do fígado e dos músculos. Sobe com lesão em algum desses tecidos.'},
+  {k:'alb', l:'Albumina', u:'g/dL', g:'chem', lo:2.6, hi:4.0, d:'Principal proteína do sangue, feita pelo fígado. Cai com perda de sangue, desnutrição ou doença de fígado, rim ou intestino.'},
+  {k:'bili', l:'Bilirrubina total', u:'mg/dL', g:'chem', lo:null, hi:0.5, d:'Pigmento que vem da quebra das hemácias. Sobe com hemólise ou com problema no fígado e vias biliares.'},
+  {k:'urea', l:'Ureia', u:'mg/dL', g:'chem', lo:15, hi:65, d:'Resíduo das proteínas, eliminado pelo rim. Sobe com problema renal, desidratação, dieta muito proteica ou sangramento no estômago/intestino (sangue digerido). Compare com a creatinina: ureia alta com creatinina normal geralmente não é rim.'},
+  {k:'creat', l:'Creatinina', u:'mg/dL', g:'chem', lo:0.5, hi:1.5, d:'Resíduo dos músculos, eliminado pelo rim. É o marcador simples mais usado de função renal. Pode ficar baixa quando há pouca massa muscular.'},
+  {k:'glic', l:'Glicose', u:'mg/dL', g:'chem', lo:70, hi:110, d:'Açúcar no sangue.'},
+  {k:'phos', l:'Fósforo', u:'mg/dL', g:'chem', lo:2.6, hi:6.2, d:'Mineral regulado pelo rim e pelos ossos. Em cães jovens é naturalmente um pouco mais alto.'},
+  {k:'na', l:'Sódio', u:'mmol/L', g:'chem', lo:143, hi:150, d:'Sódio. Alto costuma indicar desidratação ou perda de água. Também muda com soro na veia.'},
+  {k:'k', l:'Potássio', u:'mmol/L', g:'chem', lo:4.1, hi:5.4, d:'Potássio. Importante pro coração e os músculos; muda com função renal, vômito, diarreia e soro.'},
+  {k:'cdv', l:'Cinomose PCR (sangue)', u:'cópias/µL', g:'virus', lo:null, hi:null, d:'Quantidade de material genético do vírus da cinomose na amostra. Serve pra acompanhar a carga viral ao longo do tempo. Só compare com outra medida do mesmo tipo de amostra.'},
+  {k:'csf_wbc', l:'Líquor: leucócitos', u:'/µL', g:'csf', lo:null, hi:5, d:'Células de defesa no líquor (o líquido que envolve cérebro e medula). Alto = inflamação no sistema nervoso.'},
+  {k:'csf_prot', l:'Líquor: proteína', u:'mg/dL', g:'csf', lo:null, hi:30, d:'Proteína no líquor. Alta indica inflamação ou lesão no sistema nervoso.'},
+  {k:'csf_glic', l:'Líquor: glicose', u:'mg/dL', g:'csf', lo:53, hi:104, d:'Açúcar no líquor. Muito baixo pode indicar infecção bacteriana no sistema nervoso.'},
+];
+const GROUPS = [
+  {g:'clin', t:'Clínico', d:'peso e temperatura'},
+  {g:'red', t:'Série vermelha', d:'anemia e resposta da medula'},
+  {g:'white', t:'Série branca', d:'infecção e inflamação'},
+  {g:'plt', t:'Plaquetas e proteínas', d:''},
+  {g:'chem', t:'Bioquímica', d:'fígado, rim, eletrólitos'},
+  {g:'virus', t:'Carga viral', d:'compare só com o mesmo tipo de amostra'},
+  {g:'csf', t:'Líquor', d:''},
+];
+const P = Object.fromEntries(PARAMS.map(p => [p.k, p]));
+const KEY_ORDER = PARAMS.map(p => p.k);
+
+let db = null, sample = null;
+let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [];
+let assets = null;
+const TABS = ['painel','exames','remedios','vacinas','fotos','linha'];
+let activeTab = 'painel';
+const todayIso = () => new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0,10);
+let pending = [], pendingEvents = [], pendingPrev = [], pendingPhotos = [];
+let charts = [];
+let canWrite = true;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = v => v == null || isNaN(v) ? '' : Number(v).toLocaleString('pt-BR', {maximumFractionDigits: Math.abs(v) >= 100 ? 0 : 2});
+const dm = iso => iso ? iso.slice(8,10) + '/' + iso.slice(5,7) : '';
+const dmy = iso => iso ? dm(iso) + '/' + iso.slice(0,4) : '';
+const dayNum = iso => Date.UTC(+iso.slice(0,4), +iso.slice(5,7)-1, +iso.slice(8,10)) / 864e5;
+const dayIso = n => new Date(n * 864e5).toISOString().slice(0,10);
+const statusOf = (k, v) => { const p = P[k]; if (!p || v == null) return ''; if (p.lo != null && v < p.lo) return 'lo'; if (p.hi != null && v > p.hi) return 'hi'; return (p.lo != null || p.hi != null) ? 'ok' : ''; };
+const statusTxt = s => ({lo:'abaixo', hi:'acima', ok:'na faixa'}[s] || '');
+const refTxt = p => p.lo != null && p.hi != null ? `${fmt(p.lo)}–${fmt(p.hi)}` : p.hi != null ? `até ${fmt(p.hi)}` : p.lo != null ? `≥ ${fmt(p.lo)}` : 'sem referência';
+const sortedExams = () => [...exams].sort((a,b) => a.date === b.date ? (a.createdAt||0)-(b.createdAt||0) : a.date < b.date ? -1 : 1);
+const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+function series(k) {
+  // one point per date (latest upload wins), so duplicated uploads don't zigzag
+  const byDate = new Map();
+  for (const e of sortedExams()) if (e.params && typeof e.params[k] === 'number') byDate.set(e.date, {x: dayNum(e.date), y: e.params[k], date: e.date, lab: e.lab});
+  return [...byDate.values()].sort((a, b) => a.x - b.x);
+}
+const hasParams = e => e.params && Object.values(e.params).some(v => typeof v === 'number');
+function examsByDate() {
+  const m = new Map();
+  for (const e of sortedExams()) {
+    if (!hasParams(e)) continue;
+    const g = m.get(e.date) || {date: e.date, labs: new Set(), ids: [], params: {}};
+    if (e.lab) g.labs.add(e.lab.split(/[(\/]/)[0].trim());
+    g.ids.push(e.id); Object.assign(g.params, e.params);
+    m.set(e.date, g);
+  }
+  return [...m.values()];
+}
+
+/* ---------- Status messages ---------- */
+function say(msg, cls='') { const d = document.createElement('div'); d.className = cls; d.textContent = msg; $('status').prepend(d); return d; }
+
+/* ---------- Tiles ---------- */
+function renderTiles() {
+  const keys = ['ht','wbc','plt','peso'];
+  $('tiles').innerHTML = keys.map(k => {
+    const s = series(k); const p = P[k];
+    const info = `<button class="info" type="button" aria-label="O que ${esc(p.l)} avalia" aria-expanded="false">?</button>`;
+    const tipBox = `<div class="tip" role="tooltip">${esc(p.d || '')}</div>`;
+    if (!s.length) return `<div class="tile"><div class="lbl">${esc(p.l)} ${info}</div>${tipBox}<div class="val">–</div><div class="meta">sem dados ainda</div></div>`;
+    const last = s[s.length-1], prev = s[s.length-2];
+    const st = statusOf(k, last.y);
+    let delta = '';
+    if (prev) {
+      const d = last.y - prev.y;
+      const dist = v => (p.lo != null && v < p.lo) ? p.lo - v : (p.hi != null && v > p.hi) ? v - p.hi : 0;
+      const dl = dist(last.y), dp = dist(prev.y);
+      let cls = '', why = 'variação desde o exame anterior';
+      if (!p.nojudge && d !== 0) {
+        if (dl < dp) { cls = 'good'; why = dl === 0 ? 'voltou pra faixa de referência' : 'se aproximando da faixa de referência'; }
+        else if (dl > dp) { cls = 'bad'; why = 'se afastando da faixa de referência'; }
+        else { why = 'continua dentro da faixa'; }
+      }
+      if (p.lo == null && p.hi == null) why = 'variação desde a medida anterior';
+      if (p.nojudge) why = 'sem cor: subir pode ser bom (medula respondendo à anemia) ou não, depende do contexto';
+      delta = `<span class="delta ${cls}" title="${why}">${d > 0 ? '▲' : d < 0 ? '▼' : '='} ${fmt(Math.abs(d))}</span> vs ${dm(prev.date)}`;
+    }
+    return `<div class="tile ${st}"><div class="lbl">${esc(p.l)} ${info} <span class="pill ${st}">${statusTxt(st)}</span></div>${tipBox}
+      <div class="val">${fmt(last.y)}<small>${esc(p.u)}</small></div>
+      ${(p.lo != null || p.hi != null) ? `<div class="reft">ref. ${refTxt(p)} ${esc(p.u)}</div>` : '<div class="reft">&nbsp;</div>'}
+      <div class="meta">em ${dm(last.date)}${delta ? ' · ' + delta : ''}</div></div>`;
+  }).join('');
+}
+
+/* ---------- Charts ---------- */
+const bandPlugin = {
+  id: 'refband',
+  beforeDatasetsDraw(c, _a, o) {
+    if (!o || (o.lo == null && o.hi == null)) return;
+    const y = c.scales.y, ar = c.chartArea, ctx = c.ctx;
+    const clamp = v => Math.max(ar.top, Math.min(ar.bottom, v));
+    const top = clamp(o.hi != null ? y.getPixelForValue(o.hi) : ar.top);
+    const bot = clamp(o.lo != null ? y.getPixelForValue(o.lo) : ar.bottom);
+    ctx.save(); ctx.fillStyle = o.color; ctx.fillRect(ar.left, top, ar.right - ar.left, bot - top); ctx.restore();
+  }
+};
+const eventPlugin = {
+  id: 'evlines',
+  afterDatasetsDraw(c, _a, o) {
+    if (!o || !o.events) return;
+    const x = c.scales.x, ar = c.chartArea, ctx = c.ctx;
+    ctx.save(); ctx.strokeStyle = o.color; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+    ctx.fillStyle = o.color; ctx.font = '10px "IBM Plex Sans", sans-serif'; ctx.textAlign = 'left';
+    const placed = [];
+    for (const e of [...o.events].sort((a, b) => a.x - b.x)) {
+      const px = x.getPixelForValue(e.x);
+      if (px < ar.left || px > ar.right) continue;
+      ctx.beginPath(); ctx.moveTo(px, ar.top); ctx.lineTo(px, ar.bottom); ctx.stroke();
+      if (!e.short) continue;
+      const w = ctx.measureText(e.short).width;
+      const lx = Math.min(px + 3, ar.right - w - 2);
+      let row = 0;
+      while (placed.some(p => p.row === row && lx < p.end + 4)) row++;
+      placed.push({ row, end: lx + w });
+      ctx.fillText(e.short, lx, ar.top + 9 + row * 11);
+    }
+    ctx.restore();
+  }
+};
+if (window.Chart) Chart.register(bandPlugin, eventPlugin);
+
+function renderCharts() {
+  charts.forEach(c => c.destroy()); charts = [];
+  const host = $('chartSections'); host.innerHTML = '';
+  if (activeTab !== 'exames') return;
+  if (!window.Chart) { host.innerHTML = '<p class="note">Os gráficos não carregaram. Recarregue a página.</p>'; return; }
+  const all = sortedExams().filter(hasParams);
+  if (!all.length) return;
+  const xs = all.map(e => dayNum(e.date));
+  const xMin = Math.min(...xs) - 2, xMax = Math.max(...xs) + 2;
+  const step = Math.max(1, Math.round((xMax - xMin) / 6));
+  const accent = css('--accent'), muted = css('--muted'), line = css('--line'), band = css('--band'), ink = css('--ink'), surface = css('--surface');
+  const marks = events.filter(e => e.mark && e.date).map(e => ({x: dayNum(e.date), short: e.short || ''}));
+
+  for (const G of GROUPS) {
+    const keys = PARAMS.filter(p => p.g === G.g && series(p.k).length).map(p => p.k);
+    if (!keys.length) continue;
+    const sec = document.createElement('section');
+    sec.style.display = 'grid'; sec.style.gap = '12px';
+    sec.innerHTML = `<div class="section-title"><h2>${esc(G.t)}</h2><span>${esc(G.d)}</span></div><div class="charts"></div>`;
+    host.appendChild(sec);
+    const grid = sec.querySelector('.charts');
+    for (const k of keys) {
+      const p = P[k], s = series(k), last = s[s.length-1], st = statusOf(k, last.y);
+      const card = document.createElement('div'); card.className = 'chart';
+      card.innerHTML = `<div class="head"><h3>${esc(p.l)} <button class="info" type="button" aria-label="O que ${esc(p.l)} avalia" aria-expanded="false">?</button></h3><span class="last">${fmt(last.y)} ${esc(p.u)} <span class="pill ${st}">${statusTxt(st)}</span></span></div>
+        <div class="ref">${(p.lo != null || p.hi != null) ? `referência ${refTxt(p)} ${esc(p.u)}` : 'sem faixa de referência'}</div><div class="tip" role="tooltip">${esc(p.d || '')}</div><div style="position:relative;height:150px"><canvas aria-label="Gráfico de ${esc(p.l)}"></canvas></div>`;
+      grid.appendChild(card);
+      const vals = s.map(d => d.y).concat([p.lo, p.hi].filter(v => v != null));
+      const lo = Math.min(...vals), hi = Math.max(...vals), pad = (hi - lo) * 0.12 || Math.abs(hi) * 0.2 || 1;
+      const ch = new Chart(card.querySelector('canvas'), {
+        type: 'line',
+        data: { datasets: [{
+          data: s, parsing: false, borderColor: accent, backgroundColor: accent, borderWidth: 2, tension: 0.25,
+          pointRadius: s.map((_, i) => i === s.length - 1 ? 4.5 : 3), pointBackgroundColor: s.map((_, i) => i === s.length - 1 ? accent : surface),
+          pointBorderColor: accent, pointBorderWidth: 2, spanGaps: true,
+          segment: { borderDash: c => (c.p1.parsed.x - c.p0.parsed.x) > 6 ? [5, 4] : undefined },
+        }]},
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          layout: { padding: { top: 4, right: 6 } },
+          scales: {
+            x: { type: 'linear', min: xMin, max: xMax, grid: { color: line, drawTicks: false }, border: { display: false },
+                 ticks: { stepSize: step, color: muted, font: { size: 10.5 }, callback: v => dm(dayIso(Math.round(v))), maxRotation: 0 } },
+            y: { suggestedMin: lo >= 0 ? Math.max(0, lo - pad) : lo - pad, suggestedMax: hi + pad, grid: { color: line, drawTicks: false }, border: { display: false },
+                 ticks: { color: muted, font: { size: 10.5 }, maxTicksLimit: 5, callback: v => fmt(v) } },
+          },
+          plugins: {
+            legend: { display: false },
+            refband: { lo: p.lo, hi: p.hi, color: band },
+            evlines: { events: marks, color: muted },
+            tooltip: { backgroundColor: ink, titleColor: surface, bodyColor: surface, displayColors: false,
+              callbacks: { title: it => dmy(it[0].raw.date) + (it[0].raw.lab ? ' · ' + it[0].raw.lab : ''), label: it => `${fmt(it.raw.y)} ${p.u}` } },
+          },
+        },
+      });
+      charts.push(ch);
+    }
+  }
+}
+
+const toggleTip = ev => {
+  const b = ev.target.closest('.info'); if (!b) return;
+  const box = b.closest('.chart, .tile'); const tip = box.querySelector('.tip');
+  const open = !tip.classList.contains('open');
+  document.querySelectorAll('.tip.open').forEach(t => { t.classList.remove('open'); const i = t.parentElement.querySelector('.info'); if (i) i.setAttribute('aria-expanded', 'false'); });
+  if (open) { tip.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
+};
+$('chartSections').addEventListener('click', toggleTip);
+$('tiles').addEventListener('click', toggleTip);
+document.addEventListener('click', ev => { if (!ev.target.closest('.chart, .tile')) document.querySelectorAll('.tip.open').forEach(t => t.classList.remove('open')); });
+
+/* ---------- Evolution table ---------- */
+function renderTable() {
+  const all = examsByDate();
+  const t = $('evo');
+  if (!all.length) { t.innerHTML = '<tr><td class="muted">Nenhum exame ainda.</td></tr>'; return; }
+  let h = '<thead><tr><th>Parâmetro</th>' + all.map(e => `<th><span class="num">${dm(e.date)}</span><span class="lab">${esc([...e.labs].join(', ').slice(0,22))}</span>
+    ${canWrite ? `<button class="tiny danger" data-del="${esc(e.ids.join(','))}" aria-label="Excluir exames de ${dm(e.date)}">excluir</button>` : ''}</th>`).join('') + '<th class="refcol">Ref.</th></tr></thead><tbody>';
+  for (const G of GROUPS) {
+    const keys = PARAMS.filter(p => p.g === G.g && all.some(e => e.params && typeof e.params[p.k] === 'number')).map(p => p.k);
+    if (!keys.length) continue;
+    h += `<tr><td class="grp" colspan="${all.length + 2}">${esc(G.t)}</td></tr>`;
+    for (const k of keys) {
+      const p = P[k];
+      h += `<tr><td title="${esc(p.d || '')}">${esc(p.l)} <span class="muted" style="font-size:11.5px">${esc(p.u)}</span></td>` + all.map(e => {
+        const v = e.params?.[k]; if (typeof v !== 'number') return '<td></td>';
+        const st = statusOf(k, v);
+        return `<td class="num ${st === 'ok' ? '' : st}">${fmt(v)}${st === 'lo' ? '<span class="arr">▼</span>' : st === 'hi' ? '<span class="arr">▲</span>' : ''}</td>`;
+      }).join('') + `<td class="refcol num">${refTxt(p)}</td></tr>`;
+    }
+  }
+  t.innerHTML = h + '</tbody>';
+}
+$('evo').addEventListener('click', async ev => {
+  const b = ev.target.closest('button[data-del]'); if (!b) return;
+  if (b.dataset.armed !== '1') { b.dataset.armed = '1'; b.textContent = 'confirmar?'; setTimeout(() => { b.dataset.armed = ''; b.textContent = 'excluir'; }, 4000); return; }
+  b.disabled = true;
+  try { for (const id of b.dataset.del.split(',')) await db.collection('exams').doc(id).delete(); } catch (e) { say('Não consegui excluir: ' + (e.message || e.code), 'err'); }
+});
+
+/* ---------- Timeline ---------- */
+let tlFilter = 'Tudo';
+function renderTimeline() {
+  const items = [
+    ...events.map(e => ({date: e.date, text: e.text, kind: 'Acontecimento', mark: e.mark, id: e.id, ev: true})),
+    ...exams.map(e => ({date: e.date, text: `${e.kind || 'Exame'}${e.lab ? ' · ' + e.lab : ''}${(e.other && e.other.length) ? ': ' + e.other.join('; ') : ''}`, kind: /receit|solicita/i.test(e.kind || '') ? 'Receita' : 'Exame'})),
+    ...meds.flatMap(m => [
+      m.start ? {date: m.start, text: `Começou ${m.name}${m.purpose ? ' (' + m.purpose + ')' : ''}${m.dose ? ' · ' + m.dose : ''}`, kind: 'Medicamento'} : null,
+      m.end && m.end <= todayIso() ? {date: m.end, text: `Terminou ${m.name}${m.allergy ? ' · teve reação' : ''}`, kind: 'Medicamento'} : null,
+    ].filter(Boolean)),
+    ...prevent.filter(v => !v.planned && v.date).map(v => ({date: v.date, text: `${v.kind}: ${v.product}${v.notes ? ' · ' + v.notes : ''}`, kind: 'Vacina/vermífugo'})),
+    ...photos.map(p => ({date: p.date, text: p.caption || 'Foto', kind: 'Foto', assetId: p.assetId, video: p.video})),
+  ].filter(i => i.date).sort((a,b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+  const kinds = ['Tudo', 'Acontecimento', 'Exame', 'Medicamento', 'Receita', 'Vacina/vermífugo', 'Foto'];
+  $('tlFilters').innerHTML = kinds.map(k => `<button class="tiny ${k === tlFilter ? '' : 'ghost'}" data-f="${k}">${k}</button>`).join('');
+  const shown = items.filter(i => tlFilter === 'Tudo' || i.kind === tlFilter);
+  $('timeline').innerHTML = shown.map(i => `<div class="tl ${i.mark ? 'mark' : ''}"><div class="d">${dmy(i.date)}</div>
+    <div><div class="k">${i.kind}${i.mark ? ' · marcado nos gráficos' : ''}</div>${esc(i.text)}
+    ${i.assetId && !i.video ? `<img class="thumb" src="${esc(photoSrc(i.assetId))}" alt="${esc(i.text)}" loading="lazy">` : ''}</div>
+    <div>${i.ev && canWrite ? `<button class="tiny ghost" data-evdel="${esc(i.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div></div>`).join('') || '<p class="muted">Nada registrado ainda.</p>';
+}
+$('tlFilters').addEventListener('click', ev => { const b = ev.target.closest('button[data-f]'); if (!b) return; tlFilter = b.dataset.f; renderTimeline(); });
+$('timeline').addEventListener('click', async ev => {
+  const b = ev.target.closest('button[data-evdel]'); if (!b) return;
+  if (b.dataset.armed !== '1') { b.dataset.armed = '1'; b.textContent = 'confirmar?'; setTimeout(() => { b.dataset.armed = ''; b.textContent = 'excluir'; }, 4000); return; }
+  b.disabled = true;
+  try { await db.collection('events').doc(b.dataset.evdel).delete(); } catch (e) { say('Não consegui excluir: ' + (e.message || e.code), 'err'); }
+});
+
+/* ---------- Analysis ---------- */
+function md(text) {
+  const lines = esc(text).split('\n'); let out = '', inList = false;
+  const inline = s => s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  for (const raw of lines) {
+    const l = raw.trim();
+    if (/^[-*•] /.test(l)) { if (!inList) { out += '<ul>'; inList = true; } out += '<li>' + inline(l.replace(/^[-*•] /, '')) + '</li>'; continue; }
+    if (inList) { out += '</ul>'; inList = false; }
+    if (/^#{1,4} /.test(l)) out += '<h4>' + inline(l.replace(/^#{1,4} /, '')) + '</h4>';
+    else if (l) out += '<p>' + inline(l) + '</p>';
+  }
+  return out + (inList ? '</ul>' : '');
+}
+function renderAnalysis() {
+  const a = [...analyses].sort((x,y) => (y.createdAt||0) - (x.createdAt||0))[0];
+  if (!a) { $('analysis').innerHTML = '<p class="muted">Ainda não tem avaliação. Adicione um exame ou clique em “Reavaliar com tudo”.</p>'; $('anMeta').textContent = ''; return; }
+  $('analysis').innerHTML = md(a.text);
+  $('anMeta').textContent = `Avaliação gerada em ${new Date(a.createdAt).toLocaleString('pt-BR', {dateStyle:'short', timeStyle:'short'})}. É uma leitura de apoio, não substitui a veterinária.`;
+}
+
+function historyText(highlightDates = []) {
+  const ex = sortedExams().map(e => {
+    const ps = KEY_ORDER.filter(k => typeof e.params?.[k] === 'number').map(k => `${P[k].l}=${e.params[k]} ${P[k].u}`).join('; ');
+    return `- ${e.date} | ${e.lab || '?'} | ${e.kind || 'exame'}${highlightDates.includes(e.date) ? ' [NOVO]' : ''}: ${ps}${e.other?.length ? ' | Achados: ' + e.other.join('; ') : ''}`;
+  }).join('\n');
+  const ev = [...events].sort((a,b) => a.date < b.date ? -1 : 1).map(e => `- ${e.date}: ${e.text}`).join('\n');
+  const refs = PARAMS.map(p => `${p.l}: ${refTxt(p)} ${p.u}`).join('; ');
+  return `ACONTECIMENTOS:\n${ev || '(nenhum)'}\n\nEXAMES (ordem cronológica):\n${ex}\n\nReferências aproximadas (variam por laboratório): ${refs}`;
+}
+
+async function runAnalysis(newDates = []) {
+  if (!sample) { say('A avaliação automática não está disponível nesta visualização.', 'err'); return; }
+  const btn = $('reBtn'); btn.disabled = true; const st = say('Gerando avaliação do quadro…');
+  $('analysis').innerHTML = '<p class="muted">Pensando…</p>';
+  const prompt = `Você ajuda a tutora de um cão (Odin, American Bully, macho, nascido 23/10/2025) a entender a evolução dos exames dele. A tutora não é veterinária, fala português do Brasil informal e prefere comunicação direta, sem enrolação.
+
+${historyText(newDates)}
+
+${newDates.length ? `Os exames marcados [NOVO] acabaram de ser adicionados. Foque no que eles mudam em relação ao histórico.` : 'Faça uma avaliação geral da evolução até agora.'}
+
+Escreva no máximo ~250 palavras, nesta estrutura (use exatamente esses títulos com "## "):
+## O que mudou
+## Tendência geral
+## Perguntas pra levar à vet
+Use listas com "- " e **negrito** só no essencial. Compare tendências, não números exatos entre laboratórios diferentes. Explique termos técnicos rapidinho. Não dê diagnóstico fechado, não sugira remédios nem doses. Se algo parecer urgente (ex.: queda forte do hematócrito), diga pra falar com a equipe logo.`;
+  try {
+    const r = await sample(prompt, { modelTier: 'default', onText: ({text}) => { $('analysis').innerHTML = md(text); } });
+    const text = (r && r.text) || '';
+    if (text.trim()) {
+      try { await db.collection('analyses').add({ text, createdAt: Date.now(), basedOn: newDates }); }
+      catch (e) { say('A avaliação apareceu, mas não consegui salvar: ' + (e.message || e.code), 'err'); }
+    }
+    st.textContent = 'Avaliação atualizada.'; st.className = 'done';
+  } catch (e) {
+    st.className = 'err';
+    st.textContent = e.code === 'rate_limited' ? 'Muitas chamadas seguidas. Espera um pouco e tenta de novo.' : e.code === 'not_granted' ? 'A avaliação automática não foi liberada nesta visualização.' : 'Não consegui gerar a avaliação: ' + (e.message || e.code);
+    renderAnalysis();
+  } finally { btn.disabled = false; }
+}
+$('reBtn').addEventListener('click', () => runAnalysis([]));
+
+/* ---------- File reading ---------- */
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('falha ao carregar ' + src)); document.head.appendChild(s); }); }
+let pdfReady = null;
+function ensurePdf() {
+  if (!pdfReady) pdfReady = (async () => {
+    const base = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+    await loadScript(base + 'pdf.min.js');
+    await loadScript(base + 'pdf.worker.min.js');
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = base + 'pdf.worker.min.js';
+    return window.pdfjsLib;
+  })();
+  return pdfReady;
+}
+async function readPdf(file) {
+  const lib = await ensurePdf();
+  const doc = await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+  let text = '';
+  for (let i = 1; i <= doc.numPages; i++) {
+    const page = await doc.getPage(i); const c = await page.getTextContent();
+    let lastY = null, line = '';
+    for (const it of c.items) { const y = it.transform[5]; if (lastY !== null && Math.abs(y - lastY) > 2) { text += line + '\n'; line = ''; } line += it.str + ' '; lastY = y; }
+    text += line + '\n\n';
+  }
+  const images = [];
+  if (text.replace(/\s/g, '').length < 150) {
+    for (let i = 1; i <= Math.min(doc.numPages, 4); i++) {
+      const page = await doc.getPage(i); const vp = page.getViewport({ scale: 1.6 });
+      const cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height;
+      await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+      images.push(await new Promise(r => cv.toBlob(r, 'image/png')));
+    }
+  }
+  return { text, images };
+}
+async function shrinkImage(file) {
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, 1800 / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * scale); cv.height = Math.round(bmp.height * scale);
+    cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+    return await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
+  } catch { return file; }
+}
+
+function extractPrompt(name, text, hasImages) {
+  const keys = PARAMS.map(p => `${p.k}: ${p.l} (${p.u})`).join('\n');
+  return `Você organiza o histórico de saúde de um cão chamado Odin (American Bully, nascido em 23/10/2025). Hoje é ${todayIso()}.
+Primeiro classifique o que recebeu e coloque cada informação no lugar certo:
+- Laudo de exame (sangue, bioquímico, PCR, imagem, líquor etc.) → "exams" com params.
+- Receita, pedido de exame ou receituário → "exams" sem params, com os remédios em "meds".
+- Carteirinha ou registro de vacina, vermífugo, antipulgas ou prevenção → "prevent".
+- Foto do próprio cachorro (não é documento) → "photo" com uma legenda curta e descritiva em português.
+- Relato escrito ou falado (sintomas, o que ele comeu, procedimento, alta, visita etc.) → "events", um item por acontecimento, em frases curtas na 3ª pessoa. Peso ou temperatura citados no relato também entram em "exams" (kind "Pesagem" ou "Temperatura", params peso ou temp). Remédio novo citado no relato entra em "meds" de um item de "exams" sem params (kind "Relato").
+Responda SOMENTE com JSON válido, sem texto antes ou depois, neste formato (deixe vazio o que não se aplica):
+{"events":[{"date":"AAAA-MM-DD","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
+
+Use somente estas chaves em params, na unidade indicada:
+${keys}
+
+Regras:
+- Leucócitos e células brancas em células/µL, valores ABSOLUTOS (K/µL ou x10³/µL: multiplique por 1000). Se só houver %, calcule a partir dos leucócitos totais.
+- Se só houver "NEU" total (sem separar bastonetes), coloque em seg.
+- Plaquetas em mil/µL (425 K/µL → 425; 442.000/mm³ → 442).
+- Reticulócitos absolutos em mil/µL (200,6 K/µL → 200.6; 41.000 → 41).
+- Hemácias em milhões/µL. CHCM em g/dL (% equivale).
+- PCR quantitativo de cinomose em sangue → cdv (cópias/µL). Resultados qualitativos (detectado/não detectado, Ct) e citologia vão em "other".
+- Data = data de coleta, entrada ou atendimento, nunca a de impressão. Sem ano, use 2026.
+- Um item por data de coleta.
+- Receitas, pedidos de exame e receituários NÃO são exames: não coloque nada em params (nem o peso impresso na receita, que costuma ser de uma pesagem antiga). Liste cada medicamento prescrito em "meds" (start = data da receita; days = duração, se houver). Fórmula manipulada (vários ativos no mesmo sachê, biscoito, cápsula ou frasco) é UM item só: name = nome da fórmula e "components":[{"name":"ativo","dose":"concentração"}]. Em exames de laboratório, deixe "meds" vazio.
+- Em relatos, "hoje" é ${todayIso()}, "ontem" é o dia anterior; sem data, use hoje.
+- Confira o ano: os documentos são de 2026 (vacinas e vermífugos podem ser de 2025). Data de nascimento do cão (23/10/2025) não é data de exame.
+- Não invente nada. Omita o que não estiver no documento. Use ponto como separador decimal no JSON.
+- Em "other", inclua observações relevantes do laudo (ex.: fibrina na amostra, policromasia, hemoparasitas não observados, metamielócitos).
+
+Arquivo: ${name}
+${hasImages ? 'O documento está nas imagens anexadas.' : ''}
+${text ? 'Conteúdo:\n' + text.slice(0, 60000) : ''}`;
+}
+function parseJsonLoose(s) {
+  if (typeof s !== 'string') return s;
+  const m = s.match(/\{[\s\S]*\}/); if (!m) throw new Error('resposta sem JSON');
+  return JSON.parse(m[0]);
+}
+function cleanExam(e, name) {
+  const params = {};
+  for (const [k, v] of Object.entries(e.params || {})) {
+    if (!P[k]) continue;
+    const n = typeof v === 'number' ? v : parseFloat(String(v).replace(/\./g, '').replace(',', '.'));
+    if (isFinite(n)) params[k] = n;
+  }
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(e.date || '') ? e.date : new Date().toISOString().slice(0,10);
+  const medsIn = Array.isArray(e.meds) ? e.meds.filter(m => m && m.name).slice(0, 30).map(m => ({ name: String(m.name).slice(0, 80), purpose: String(m.purpose || '').slice(0, 80),
+    dose: String(m.dose || '').slice(0, 200), composition: String(m.composition || '').slice(0, 120), start: /^\d{4}-\d{2}-\d{2}$/.test(m.start || '') ? m.start : date, days: Number.isFinite(+m.days) && +m.days > 0 ? Math.round(+m.days) : null,
+    components: Array.isArray(m.components) ? m.components.filter(c => c && c.name).slice(0, 20).map(c => ({ name: String(c.name).slice(0, 80), dose: String(c.dose || '').slice(0, 60) })) : [], add: true })) : [];
+  return { meds: medsIn, date, lab: String(e.lab || '').slice(0, 80), kind: String(e.kind || 'Exame').slice(0, 80), params,
+    other: Array.isArray(e.other) ? e.other.map(String).slice(0, 20) : [], labInterpretation: String(e.lab_interpretation || '').slice(0, 1500), source: name };
+}
+
+async function extract(name, text, images) {
+  const prompt = extractPrompt(name, text, images.length > 0);
+  const opts = { modelTier: 'default', cache: false };
+  if (images.length) opts.images = images;
+  let val;
+  try {
+    if (typeof sample.json === 'function') val = await sample.json(prompt, opts);
+    else val = parseJsonLoose((await sample(prompt, opts)).text);
+  } catch (e) {
+    if (['not_granted','rate_limited'].includes(e.code)) throw e;
+    val = parseJsonLoose((await sample(prompt, opts)).text);
+  }
+  val = parseJsonLoose(val);
+  const isoOk = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '');
+  return {
+    exams: (val.exams || []).map(e => cleanExam(e, name)).filter(e => Object.keys(e.params).length || e.other.length || e.meds.length),
+    events: (Array.isArray(val.events) ? val.events : []).filter(x => x && x.text).slice(0, 20).map(x => ({ date: isoOk(x.date) ? x.date : todayIso(), text: String(x.text).slice(0, 300), mark: false, add: true, source: name })),
+    prevent: (Array.isArray(val.prevent) ? val.prevent : []).filter(x => x && x.product && isoOk(x.date)).slice(0, 30).map(x => ({ kind: String(x.kind || 'Outro').slice(0, 40), product: String(x.product).slice(0, 100), date: x.date, next: isoOk(x.next) ? x.next : null, notes: String(x.notes || '').slice(0, 200), add: true })),
+    photo: val.photo && typeof val.photo === 'object' ? { caption: String(val.photo.caption || '').slice(0, 200), date: isoOk(val.photo.date) ? val.photo.date : null } : null
+  };
+}
+
+async function handleInputs(list) {
+  if (!sample) { say('A leitura automática não está disponível aqui. Abra a página pelo claude.ai, logada.', 'err'); return; }
+  let imgOk = false;
+  try { const lim = await sample.limits(); imgOk = !!(lim && lim.images); } catch {}
+  for (const item of list) {
+    const st = say(`Lendo ${item.name}…`);
+    try {
+      let text = '', images = [];
+      if (item.text != null) text = item.text;
+      else if (item.file.type === 'application/pdf' || /\.pdf$/i.test(item.name)) ({ text, images } = await readPdf(item.file));
+      else if (item.file.type.startsWith('image/')) images = [await shrinkImage(item.file)];
+      else text = await item.file.text();
+      if (images.length && !imgOk) { if (!text.trim()) throw new Error('não consigo ler imagens aqui; cole o texto do exame'); images = []; }
+      const r = await extract(item.name, text, images);
+      pending.push(...r.exams);
+      pendingEvents.push(...r.events);
+      pendingPrev.push(...r.prevent);
+      const isImg = item.file && item.file.type.startsWith('image/');
+      if (r.photo && isImg && assets) {
+        const lm = item.file.lastModified ? new Date(item.file.lastModified - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10) : todayIso();
+        pendingPhotos.push({ file: item.file, url: URL.createObjectURL(item.file), caption: r.photo.caption, date: r.photo.date || lm, add: true });
+      }
+      const parts = [];
+      if (r.exams.length) parts.push(`${r.exams.length} exame/receita`);
+      if (r.events.length) parts.push(`${r.events.length} acontecimento(s)`);
+      if (r.prevent.length) parts.push(`${r.prevent.length} vacina/vermífugo`);
+      if (r.photo && isImg) parts.push('1 foto dele');
+      if (!parts.length) { st.textContent = `${item.name}: não achei nada pra registrar.`; st.className = 'err'; continue; }
+      st.textContent = `${item.name}: ${parts.join(', ')}. Confere abaixo.`; st.className = 'done';
+      renderReview();
+    } catch (e) {
+      st.className = 'err';
+      st.textContent = `${item.name}: ` + (e.code === 'rate_limited' ? 'muitas chamadas seguidas, tenta de novo em instantes.' : e.code === 'not_granted' ? 'a leitura automática não foi liberada.' : (e.message || 'não consegui ler o arquivo.'));
+    }
+  }
+}
+
+/* ---------- Review ---------- */
+function renderReview() {
+  const box = $('review');
+  const any = pending.length || pendingEvents.length || pendingPrev.length || pendingPhotos.length;
+  if (!any) { box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  renderReviewExtra();
+  $('reviewBody').innerHTML = pending.map((e, i) => {
+    const dup = exams.some(x => x.date === e.date && JSON.stringify(x.params) === JSON.stringify(e.params));
+    return `<div class="exam" data-i="${i}">
+      <div class="row" style="align-items:end">
+        <label style="flex:0 0 160px"><span class="muted" style="font-size:12px">Data da coleta</span><input type="date" data-f="date" value="${esc(e.date)}"></label>
+        <label style="flex:1 1 180px"><span class="muted" style="font-size:12px">Laboratório</span><input type="text" data-f="lab" value="${esc(e.lab)}"></label>
+        <label style="flex:1 1 180px"><span class="muted" style="font-size:12px">Tipo</span><input type="text" data-f="kind" value="${esc(e.kind)}"></label>
+        <button class="ghost tiny" data-rm="${i}">remover este</button>
+      </div>
+      ${dup ? '<div class="pill hi">Parece igual a um exame que já está no histórico</div>' : ''}
+      <div class="muted" style="font-size:12px">de ${esc(e.source)}</div>
+      <div class="pgrid">${Object.entries(e.params).sort((a,b) => KEY_ORDER.indexOf(a[0]) - KEY_ORDER.indexOf(b[0])).map(([k, v]) =>
+        `<div class="prow"><span>${esc(P[k].l)} <span class="muted" style="font-size:11px">${esc(P[k].u)}</span></span>
+         <input type="number" step="any" data-p="${k}" value="${v}" aria-label="${esc(P[k].l)}"><button class="ghost" data-pdel="${k}" aria-label="Remover ${esc(P[k].l)}">×</button></div>`).join('') || '<span class="muted">Sem valores numéricos.</span>'}</div>
+      <label><span class="muted" style="font-size:12px">Achados (um por linha)</span><textarea data-f="other">${esc(e.other.join('\n'))}</textarea></label>
+      ${e.meds.length ? `<div><div class="muted" style="font-size:12px">Medicamentos encontrados (marcados vão para a aba Medicamentos)</div>` + e.meds.map((m, j) =>
+        `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-med="${j}" ${m.add ? 'checked' : ''}> ${esc(m.name)}${m.dose ? ' · ' + esc(m.dose) : ''}${m.days ? ' · ' + m.days + ' dias' : ''} <span class="muted">(início ${dm(m.start)})</span></label>`).join('') + '</div>' : ''}
+    </div>`;
+  }).join('');
+}
+function renderReviewExtra() {
+  let h = '';
+  if (pendingEvents.length) h += `<div class="exam"><div class="muted" style="font-size:12px">Acontecimentos (vão pra linha do tempo)</div>` + pendingEvents.map((x, i) =>
+    `<div class="row" style="align-items:center; flex-wrap:nowrap"><input type="checkbox" data-xe="${i}" ${x.add ? 'checked' : ''} aria-label="Salvar este acontecimento">
+      <input type="date" data-xed="${i}" value="${esc(x.date)}" style="flex:0 0 150px"><input type="text" data-xet="${i}" value="${esc(x.text)}" style="flex:1 1 auto; min-width:0"></div>`).join('') + '</div>';
+  if (pendingPrev.length) h += `<div class="exam"><div class="muted" style="font-size:12px">Vacinas, vermífugos e prevenção</div>` + pendingPrev.map((x, i) => {
+    const dup = prevent.some(v => v.date === x.date && (v.product || '').toLowerCase() === x.product.toLowerCase());
+    return `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-xp="${i}" ${x.add && !dup ? 'checked' : ''}> ${esc(x.kind)}: ${esc(x.product)} · ${dmy(x.date)}${x.next ? ' · próxima ' + dmy(x.next) : ''}${x.notes ? ' · ' + esc(x.notes) : ''}${dup ? ' <span class="pill hi">já registrado</span>' : ''}</label>`;
+  }).join('') + '</div>';
+  if (pendingPhotos.length) h += `<div class="exam"><div class="muted" style="font-size:12px">Fotos dele (vão pra aba Fotos)</div><div class="row">` + pendingPhotos.map((x, i) =>
+    `<div style="display:grid; gap:6px; width:180px"><img src="${x.url}" alt="" style="width:180px; height:135px; object-fit:cover; border-radius:8px">
+      <label class="chk"><input type="checkbox" data-xf="${i}" ${x.add ? 'checked' : ''}> salvar</label>
+      <input type="date" data-xfd="${i}" value="${esc(x.date)}"><input type="text" data-xfc="${i}" value="${esc(x.caption)}" aria-label="Legenda"></div>`).join('') + '</div></div>';
+  $('reviewExtra').innerHTML = h;
+}
+$('reviewExtra').addEventListener('input', ev => {
+  const t = ev.target, d = t.dataset;
+  if (d.xe != null) pendingEvents[+d.xe].add = t.checked;
+  if (d.xed != null) pendingEvents[+d.xed].date = t.value;
+  if (d.xet != null) pendingEvents[+d.xet].text = t.value;
+  if (d.xp != null) pendingPrev[+d.xp].add = t.checked;
+  if (d.xf != null) pendingPhotos[+d.xf].add = t.checked;
+  if (d.xfd != null) pendingPhotos[+d.xfd].date = t.value;
+  if (d.xfc != null) pendingPhotos[+d.xfc].caption = t.value;
+});
+$('reviewBody').addEventListener('input', ev => {
+  const ex = ev.target.closest('.exam'); if (!ex) return; const e = pending[+ex.dataset.i];
+  if (ev.target.dataset.med != null) { e.meds[+ev.target.dataset.med].add = ev.target.checked; return; }
+  const f = ev.target.dataset.f, p = ev.target.dataset.p;
+  if (f === 'other') e.other = ev.target.value.split('\n').map(s => s.trim()).filter(Boolean);
+  else if (f) e[f] = ev.target.value;
+  else if (p) { const n = parseFloat(ev.target.value); if (isFinite(n)) e.params[p] = n; }
+});
+$('reviewBody').addEventListener('click', ev => {
+  const rm = ev.target.closest('button[data-rm]'); const pd = ev.target.closest('button[data-pdel]');
+  if (rm) { pending.splice(+rm.dataset.rm, 1); renderReview(); }
+  if (pd) { const ex = pd.closest('.exam'); delete pending[+ex.dataset.i].params[pd.dataset.pdel]; renderReview(); }
+});
+$('discardBtn').addEventListener('click', () => { pending = []; pendingEvents = []; pendingPrev = []; pendingPhotos.forEach(p => URL.revokeObjectURL(p.url)); pendingPhotos = []; renderReview(); });
+$('saveBtn').addEventListener('click', async () => {
+  const btn = $('saveBtn'); btn.disabled = true;
+  const dates = [];
+  try {
+    let skipped = 0;
+    for (const e of pending) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(e.date)) throw new Error('tem exame sem data válida');
+      const same = exams.some(x => x.date === e.date && Object.keys(e.params).length && Object.entries(e.params).every(([k, v]) => x.params && x.params[k] === v));
+      for (const m of (e.meds || []).filter(m => m.add)) {
+        if (meds.some(x => (x.name || '').toLowerCase() === m.name.toLowerCase() && x.start === m.start)) continue;
+        await db.collection('meds').add({ name: m.name, purpose: m.purpose, dose: m.dose, start: m.start, end: m.days ? dayIso(dayNum(m.start) + m.days) : null,
+          endEstimated: !!m.days, notes: 'da receita: ' + (e.lab || e.source || ''), allergy: false, clinic: shortClinic(e.lab), composition: m.composition || '', components: m.components || [], createdAt: Date.now() });
+      }
+      const { meds: _m, ...rest } = e;
+      if (same) { skipped++; continue; }
+      if (!Object.keys(e.params).length && !e.other.length) continue;
+      await db.collection('exams').add({ ...rest, createdAt: Date.now() });
+      dates.push(e.date);
+    }
+    let nEv = 0, nPv = 0, nPh = 0;
+    for (const x of pendingEvents.filter(x => x.add && x.text.trim() && /^\d{4}-\d{2}-\d{2}$/.test(x.date))) {
+      await db.collection('events').add({ date: x.date, text: x.text.trim(), mark: false, short: '', createdAt: Date.now() }); nEv++; dates.push(x.date);
+    }
+    for (const x of pendingPrev.filter(x => x.add)) {
+      if (prevent.some(v => v.date === x.date && (v.product || '').toLowerCase() === x.product.toLowerCase())) continue;
+      await db.collection('prevent').add({ kind: x.kind, product: x.product, date: x.date, next: x.next, notes: x.notes, createdAt: Date.now() }); nPv++;
+    }
+    for (const x of pendingPhotos.filter(x => x.add)) {
+      const blob = await shrinkImage(x.file);
+      const up = await assets.upload(blob);
+      await db.collection('photos').add({ assetId: up.id, date: x.date, caption: x.caption, video: false, createdAt: Date.now() }); nPh++;
+    }
+    const nEx = dates.length - nEv;
+    pendingPhotos.forEach(p => URL.revokeObjectURL(p.url));
+    pending = []; pendingEvents = []; pendingPrev = []; pendingPhotos = []; renderReview();
+    const done = [nEx && `${nEx} exame(s)`, nEv && `${nEv} acontecimento(s)`, nPv && `${nPv} vacina/vermífugo`, nPh && `${nPh} foto(s)`].filter(Boolean);
+    say(`Salvo: ${done.join(', ') || 'nada novo'}${skipped ? ` (${skipped} exame repetido ignorado)` : ''}.${dates.length ? ' Atualizando a avaliação…' : ''}`, 'done');
+    if (dates.length) runAnalysis(dates);
+  } catch (e) {
+    say('Não consegui salvar: ' + (e.code === 'invalid_argument' ? 'você não tem permissão de edição nesta página.' : (e.message || e.code)), 'err');
+  } finally { btn.disabled = false; }
+});
+
+/* ---------- Inputs ---------- */
+const drop = $('drop'), fileIn = $('file');
+drop.addEventListener('click', () => fileIn.click());
+drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileIn.click(); } });
+['dragenter','dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave','drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => { const fs = [...(e.dataTransfer?.files || [])]; if (fs.length) handleInputs(fs.map(f => ({ name: f.name, file: f }))); });
+fileIn.addEventListener('change', () => { const fs = [...fileIn.files]; fileIn.value = ''; if (fs.length) handleInputs(fs.map(f => ({ name: f.name, file: f }))); });
+$('pasteBtn').addEventListener('click', async () => { if (dict && micOn) { try { await dict.stop(); } catch {} } const t = $('paste').value.trim(); if (!t) return; handleInputs([{ name: 'relato', text: t }]); $('paste').value = ''; });
+
+/* ---------- Voice (dictation) ---------- */
+let dict = null, micOn = false, micBase = '';
+function setupDictation(d) {
+  dict = d; if (!d || !canWrite) return;
+  $('micBtn').classList.remove('hidden');
+  d.onPartial(({ text }) => { $('paste').value = (micBase + ' ' + text).trim(); });
+  d.onFinal(({ text }) => { micBase = (micBase + ' ' + text).trim(); $('paste').value = micBase; });
+  d.onState(({ state }) => {
+    micOn = state === 'listening';
+    $('micBtn').textContent = micOn ? '■ Parar' : '🎤 Falar';
+    $('micBtn').setAttribute('aria-pressed', micOn ? 'true' : 'false');
+    $('micState').textContent = micOn ? 'ouvindo…' : '';
+  });
+}
+$('micBtn').addEventListener('click', () => {
+  if (!dict) return;
+  if (micOn) { dict.stop().catch(() => {}); return; }
+  micBase = $('paste').value.trim();
+  dict.start().catch(e => { $('micState').textContent = e && e.code === 'not_granted' ? 'microfone não liberado; dá pra digitar' : 'não consegui ouvir agora, tenta de novo'; });
+});
+$('evDate').value = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0,10);
+$('evBtn').addEventListener('click', async () => {
+  const date = $('evDate').value, text = $('evText').value.trim();
+  if (!date || !text) { say('Preencha a data e o que aconteceu.', 'err'); return; }
+  $('evBtn').disabled = true;
+  try { await db.collection('events').add({ date, text, mark: $('evMark').checked, short: $('evMark').checked ? text.slice(0, 14) : '', createdAt: Date.now() }); $('evText').value = ''; $('evMark').checked = false; }
+  catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); }
+  finally { $('evBtn').disabled = false; }
+});
+
+function shortClinic(lab) {
+  const t = String(lab || '').replace(/\(.*?\)/g, '').replace(/cl[ií]nica veterin[aá]ria|veterin[aá]ria|centro de reabilita[cç][aã]o.*|hospital veterin[aá]rio|24h/gi, '').replace(/\s+/g, ' ').trim();
+  const known = meds.map(m => m.clinic).filter(Boolean).find(c => t.toLowerCase().includes(c.toLowerCase()));
+  return known || t.slice(0, 30);
+}
+
+/* ---------- Two-click delete helper ---------- */
+function armed(b, label) {
+  if (b.dataset.armed === '1') return true;
+  b.dataset.armed = '1'; const t = b.textContent; b.textContent = 'confirmar?';
+  setTimeout(() => { b.dataset.armed = ''; b.textContent = label || t; }, 4000);
+  return false;
+}
+
+/* ---------- Medications ---------- */
+const isActive = m => !m.end || m.end > todayIso();
+const CL_COLORS = ['#9b8de0', '#e0a458', '#e07ac0', '#5ec8c0', '#a0a0a0', '#c8b45e'];
+function clinicPill(c) {
+  if (!c) return '';
+  // each clinic gets its own color: position in the alphabetical list of clinics in use
+  const FIXED = { 'animalis': '#5cc98a', 'tododoy': '#e5675f', 'vetreabilite (neuro)': '#5b9cf0', 'rio vet': '#e8c547' };
+  if (FIXED[c.toLowerCase()]) return `<span class="pill cl" style="--clc:${FIXED[c.toLowerCase()]}">${esc(c)}</span>`;
+  const all = [...new Set(meds.map(m => m.clinic).filter(Boolean).map(x => x.toLowerCase()).filter(x => !FIXED[x]))].sort();
+  const i = Math.max(0, all.indexOf(c.toLowerCase()));
+  return `<span class="pill cl" style="--clc:${CL_COLORS[i % CL_COLORS.length]}">${esc(c)}</span>`;
+}
+function medLine(m) {
+  const period = `${m.start ? dm(m.start) : '?'} → ${m.end ? dm(m.end) + (m.endEstimated ? ' (estimado)' : '') : 'em uso'}`;
+  const comp = Array.isArray(m.components) && m.components.length;
+  return `<div class="item">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}<div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''}</div>
+    ${m.composition ? `<div class="s"><b>Composição:</b> ${esc(m.composition)}</div>` : ''}
+    ${m.dose ? `<div class="s"><b>Posologia:</b> ${esc(m.dose)}</div>` : ''}
+    ${m.purpose ? `<div class="s"><b>Para quê:</b> ${esc(m.purpose)}</div>` : ''}
+    ${comp ? `<ul class="comp">${m.components.map(c => `<li>${esc(c.name)}${c.dose ? ' <span class="muted">· ' + esc(c.dose) + '</span>' : ''}</li>`).join('')}</ul>` : ''}
+    <div class="s num">${period}${m.notes ? ' · ' + esc(m.notes) : ''}</div></div>
+    <div class="acts">${canWrite ? `${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button>` : ''}</div></div>`;
+}
+const mergeSel = new Set();
+function updateMergeBar() {
+  for (const id of [...mergeSel]) if (!meds.some(m => m.id === id)) mergeSel.delete(id);
+  const sel = meds.filter(m => mergeSel.has(m.id));
+  $('mergeBar').classList.toggle('hidden', sel.length < 2);
+  if (sel.length >= 2) $('mergeInfo').textContent = `${sel.length} selecionados: ${sel.map(m => m.name).join(', ')}. Vira um item só, com eles listados como componentes.`;
+}
+function renderMeds() {
+  updateMergeBar();
+  $('clinicList').innerHTML = [...new Set(meds.map(m => m.clinic).filter(Boolean))].map(c => `<option value="${esc(c)}">`).join('');
+  const sorted = [...meds].sort((a,b) => (a.start || '') < (b.start || '') ? 1 : -1);
+  const act = sorted.filter(isActive), past = sorted.filter(m => !isActive(m));
+  $('medActive').innerHTML = act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>';
+  $('medPast').innerHTML = past.map(medLine).join('') || '<p class="muted">Nada registrado.</p>';
+  $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
+    : '<p class="muted">Nenhum medicamento em uso registrado.</p>';
+  // gantt
+  const withStart = [...meds].filter(m => m.start).sort((a,b) => a.start < b.start ? -1 : 1);
+  if (!withStart.length) { $('medGantt').innerHTML = '<p class="muted">Sem medicamentos com data de início.</p>'; return; }
+  const t0 = dayNum(withStart[0].start), t1 = Math.max(dayNum(todayIso()), ...withStart.map(m => m.end ? dayNum(m.end) : 0)) + 1;
+  const pct = d => ((d - t0) / (t1 - t0) * 100).toFixed(2);
+  let ticks = '';
+  const d0 = new Date(t0 * 864e5);
+  for (let d = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth(), 1); d / 864e5 <= t1; ) {
+    const dd = new Date(d), n = d / 864e5;
+    for (const day of [1, 15]) { const x = Date.UTC(dd.getUTCFullYear(), dd.getUTCMonth(), day) / 864e5; if (x >= t0 && x <= t1) ticks += `<span style="left:${pct(x)}%">${dm(dayIso(x))}</span>`; }
+    d = Date.UTC(dd.getUTCFullYear(), dd.getUTCMonth() + 1, 1);
+  }
+  const tday = pct(dayNum(todayIso()));
+  const keyOf = m => (m.name || '').replace(/\s*\(\s*\d+\s*[ºo°]?\s*ciclo\s*\)/i, '').trim().toLowerCase();
+  const nameOf = m => (m.name || '').replace(/\s*\(\s*\d+\s*[ºo°]?\s*ciclo\s*\)/i, '').trim();
+  const rows = [];
+  for (const m of withStart) { const k = keyOf(m); let row = rows.find(x => x.k === k); if (!row) rows.push(row = { k, name: nameOf(m), items: [] }); row.items.push(m); }
+  for (const row of rows) { row.active = row.items.some(isActive); row.first = row.items[0].start; row.last = row.items.map(m => m.end || '9999').sort().slice(-1)[0]; }
+  rows.sort((x, y) => (x.active - y.active) || (x.active ? (x.first < y.first ? -1 : 1) : (x.last < y.last ? -1 : x.last > y.last ? 1 : (x.first < y.first ? -1 : 1))));
+  const firstActive = rows.findIndex(r => r.active);
+  $('medGantt').innerHTML = `<div class="grow"><div></div><div class="gaxis">${ticks}</div></div>` + rows.map((row, i) => {
+    const comps = row.items.find(m => Array.isArray(m.components) && m.components.length)?.components || [];
+    const clinics = [...new Set(row.items.map(m => m.clinic).filter(Boolean))];
+    const label = `<span class="gl1">${comps.length ? '<span class="mtag">manipulado</span>' : ''}<span class="gn">${esc(row.name)}</span>${clinics.map(clinicPill).join('')}</span>${comps.length ? `<span class="gc">${comps.map(c => esc(c.name)).join(' + ')}</span>` : ''}`;
+    const tip = row.name + (clinics.length ? ' (' + clinics.join(', ') + ')' : '') + (comps.length ? ' — ' + comps.map(c => c.name + (c.dose ? ' ' + c.dose : '')).join(', ') : '');
+    const bars = row.items.map(m => {
+      const a = dayNum(m.start), b = m.end ? dayNum(m.end) : dayNum(todayIso()) + 1;
+      const cls = (m.allergy ? 'alg' : isActive(m) ? 'on' : '') + (comps.length ? ' mix' : '');
+      return `<div class="bar ${cls}" style="left:${pct(a)}%; width:${Math.max(0.6, pct(b) - pct(a))}%" title="${esc(m.name)}: ${dm(m.start)} → ${m.end ? dm(m.end) : 'em uso'}"></div>`;
+    }).join('');
+    return (i === firstActive && i > 0 ? '<div class="gsep">em uso agora</div>' : '') + `<div class="grow"><div class="gl" title="${esc(tip)}">${label}</div><div class="track${comps.length ? ' tall' : ''}"><div class="today" style="left:${tday}%"></div>${bars}</div></div>`;
+  }).join('');
+}
+$('mStart').value = todayIso();
+$('mBtn').addEventListener('click', async () => {
+  const name = $('mName').value.trim(); if (!name) { say('Coloque o nome do medicamento.', 'err'); go('painel'); return; }
+  $('mBtn').disabled = true;
+  try {
+    await db.collection('meds').add({ name, purpose: $('mPurpose').value.trim(), dose: $('mDose').value.trim(), start: $('mStart').value || null, end: $('mEnd').value || null,
+      notes: $('mNotes').value.trim(), allergy: $('mAlg').checked, clinic: $('mClinic').value.trim(), composition: $('mCompo').value.trim(), components: $('mComp').value.split(/[,;+]/).map(x => x.trim()).filter(Boolean).map(name => ({ name })), createdAt: Date.now() });
+    ['mName','mPurpose','mDose','mEnd','mNotes','mComp','mClinic','mCompo'].forEach(id => $(id).value = ''); $('mAlg').checked = false;
+  } catch (e) { alertErr(e); } finally { $('mBtn').disabled = false; }
+});
+document.addEventListener('click', async ev => {
+  const e1 = ev.target.closest('button[data-mend]'), d1 = ev.target.closest('button[data-mdel]');
+  if (e1) { e1.disabled = true; try { await db.collection('meds').doc(e1.dataset.mend).update({ end: todayIso(), endEstimated: false }); } catch (e) { alertErr(e); } }
+  if (d1 && armed(d1, 'excluir')) { d1.disabled = true; try { await db.collection('meds').doc(d1.dataset.mdel).delete(); } catch (e) { alertErr(e); } }
+});
+
+document.addEventListener('change', ev => {
+  const c = ev.target.closest('input[data-msel]'); if (!c) return;
+  c.checked ? mergeSel.add(c.dataset.msel) : mergeSel.delete(c.dataset.msel);
+  document.querySelectorAll(`input[data-msel="${c.dataset.msel}"]`).forEach(x => x.checked = c.checked);
+  updateMergeBar();
+});
+$('mgCancel').addEventListener('click', () => { mergeSel.clear(); renderMeds(); });
+$('mgBtn').addEventListener('click', async () => {
+  const sel = meds.filter(m => mergeSel.has(m.id)); if (sel.length < 2) return;
+  const name = $('mgName').value.trim() || 'Fórmula manipulada';
+  const starts = sel.map(m => m.start).filter(Boolean).sort(), ends = sel.map(m => m.end);
+  const components = sel.flatMap(m => Array.isArray(m.components) && m.components.length ? m.components : [{ name: m.name, dose: m.dose || '' }]);
+  const uniq = a => [...new Set(a.filter(Boolean))];
+  const doc = { name, purpose: uniq(sel.map(m => m.purpose)).join(' / '), dose: $('mgDose').value.trim() || (uniq(sel.map(m => m.dose)).length === 1 ? sel[0].dose : ''),
+    start: starts[0] || null, end: ends.some(e => !e) ? null : ends.sort().slice(-1)[0], endEstimated: sel.some(m => m.endEstimated),
+    allergy: sel.some(m => m.allergy), clinic: uniq(sel.map(m => m.clinic)).join(' / '), notes: uniq(sel.map(m => m.notes)).join(' · '), components, createdAt: Date.now() };
+  $('mgBtn').disabled = true;
+  try {
+    await db.collection('meds').add(doc);
+    for (const m of sel) await db.collection('meds').doc(m.id).delete();
+    mergeSel.clear(); $('mgName').value = ''; $('mgDose').value = '';
+  } catch (e) { alertErr(e); } finally { $('mgBtn').disabled = false; }
+});
+
+/* ---------- Vaccines & prevention ---------- */
+function renderPrev() {
+  const planned = prevent.filter(v => v.planned).sort((a,b) => (a.next || '9999') < (b.next || '9999') ? -1 : 1);
+  const done = prevent.filter(v => !v.planned && v.date);
+  const sorted = [...done].sort((a,b) => a.date < b.date ? 1 : -1);
+  const today = todayIso(), in30 = dayIso(dayNum(today) + 30);
+  // latest record per kind+product decides next dose
+  const latest = new Map();
+  for (const v of [...done].sort((a,b) => a.date < b.date ? -1 : 1)) latest.set((v.kind + '|' + (v.group || v.product)).toLowerCase(), v);
+  const nexts = [...latest.values()].filter(v => v.next).sort((a,b) => a.next < b.next ? -1 : 1);
+  $('vNextList').innerHTML = nexts.map(v => {
+    const st = v.next < today ? ['bad','atrasada'] : v.next <= in30 ? ['hi','em breve'] : ['ok','em dia'];
+    return `<div class="item"><div><div class="t">${esc(v.kind)}: ${esc(v.product)}</div><div class="s num">última em ${dmy(v.date)} · próxima em ${dmy(v.next)}</div></div><span class="pill ${st[0]}">${st[1]}</span></div>`;
+  }).join('') + (prevent.some(v => v.kind === 'Vermífugo') ? '' : '<div class="item"><div><div class="t">Vermífugo</div><div class="s">Nenhum registro ainda. Registre o último que ele tomou.</div></div><span class="pill">sem registro</span></div>');
+  $('vPlanList').innerHTML = planned.map(v => `<div class="item"><div><div class="t">${esc(v.kind)}: ${esc(v.product)}</div>
+    <div class="s num">${v.next ? 'sugestão: a partir de ' + dmy(v.next) : 'data a combinar com a vet'}</div>${v.notes ? `<div class="s">${esc(v.notes)}</div>` : ''}</div>
+    <div class="acts"><span class="pill">a decidir</span>${canWrite ? `<button class="tiny ghost" data-vdone="${esc(v.id)}">tomou hoje</button><button class="tiny danger" data-vdel="${esc(v.id)}">excluir</button>` : ''}</div></div>`).join('') || '<p class="muted">Nada planejado.</p>';
+  $('vList').innerHTML = sorted.map(v => `<div class="item"><div><div class="t">${esc(v.kind)}: ${esc(v.product)}</div>
+    <div class="s num">${dmy(v.date)}${v.next ? ' · próxima ' + dmy(v.next) : ''}${v.notes ? ' · ' + esc(v.notes) : ''}</div></div>
+    <div class="acts">${canWrite ? `<button class="tiny danger" data-vdel="${esc(v.id)}">excluir</button>` : ''}</div></div>`).join('') || '<p class="muted">Nada registrado.</p>';
+}
+$('vDate').value = todayIso();
+$('vBtn').addEventListener('click', async () => {
+  const product = $('vProd').value.trim(); if (!product) { say('Coloque o nome do produto.', 'err'); return; }
+  $('vBtn').disabled = true;
+  const plan = $('vPlan').checked;
+  try { await db.collection('prevent').add({ kind: $('vKind').value, product, planned: plan, date: plan ? null : ($('vDate').value || todayIso()), next: $('vNext').value || null, notes: $('vNotes').value.trim(), createdAt: Date.now() });
+    ['vProd','vNext','vNotes'].forEach(id => $(id).value = ''); $('vPlan').checked = false; }
+  catch (e) { alertErr(e); } finally { $('vBtn').disabled = false; }
+});
+document.addEventListener('click', async ev => {
+  const d = ev.target.closest('button[data-vdone]');
+  if (d) { d.disabled = true; try { await db.collection('prevent').doc(d.dataset.vdone).update({ planned: false, date: todayIso(), next: null }); } catch (e) { alertErr(e); } return; }
+  const b = ev.target.closest('button[data-vdel]'); if (!b || !armed(b, 'excluir')) return;
+  b.disabled = true; try { await db.collection('prevent').doc(b.dataset.vdel).delete(); } catch (e) { alertErr(e); }
+});
+
+/* ---------- Photos ---------- */
+const monthName = iso => new Date(iso + 'T12:00:00').toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+function renderPhotos() {
+  const sorted = [...photos].sort((a,b) => a.date === b.date ? (b.createdAt||0) - (a.createdAt||0) : a.date < b.date ? 1 : -1);
+  if (!sorted.length) { $('photoGrid').innerHTML = '<p class="muted">Nenhuma foto ainda.</p>'; return; }
+  const groups = new Map();
+  for (const p of sorted) { const k = p.date.slice(0,7); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(p); }
+  $('photoGrid').innerHTML = [...groups.entries()].map(([k, list]) => `<div class="monthh">${esc(monthName(k + '-15'))}</div><div class="photos">` + list.map(p => {
+    const src = photoSrc(p.assetId);
+    const media = p.video ? `<video src="${src}" preload="metadata" muted data-open="${esc(p.assetId)}" data-video="1"></video>` : `<img src="${src}" alt="${esc(p.caption || 'Foto do Odin')}" loading="lazy" data-open="${esc(p.assetId)}">`;
+    return `<figure class="ph" style="margin:0">${media}<figcaption class="cap"><span class="d">${dmy(p.date)}</span>${esc(p.caption || '')}
+      ${canWrite && assets ? `<button class="tiny danger" data-pdel="${esc(p.id)}" style="justify-self:start">excluir</button>` : ''}</figcaption></figure>`;
+  }).join('') + '</div>').join('');
+}
+$('photoGrid').addEventListener('click', async ev => {
+  const o = ev.target.closest('[data-open]');
+  if (o) { const lb = document.createElement('div'); lb.className = 'lightbox'; const src = photoSrc(o.dataset.open);
+    lb.innerHTML = o.dataset.video ? `<video src="${src}" controls autoplay></video>` : `<img src="${src}" alt="">`;
+    lb.addEventListener('click', e => { if (e.target === lb || e.target.tagName === 'IMG') lb.remove(); }); document.body.appendChild(lb); return; }
+  const b = ev.target.closest('button[data-pdel]'); if (!b || !armed(b, 'excluir')) return;
+  const p = photos.find(x => x.id === b.dataset.pdel); b.disabled = true;
+  try { await db.collection('photos').doc(p.id).delete(); if (assets && p.assetId) await assets.delete(p.assetId).catch(() => {}); } catch (e) { alertErr(e); }
+});
+$('fDate').value = todayIso();
+$('fBtn').addEventListener('click', () => $('fFile').click());
+$('fFile').addEventListener('change', async () => {
+  const files = [...$('fFile').files]; $('fFile').value = ''; if (!files.length) return;
+  if (!assets) { $('fStatus').textContent = 'O envio de fotos só funciona pra quem pode editar a página, abrindo pelo claude.ai.'; return; }
+  let ok = 0;
+  for (const f of files) {
+    $('fStatus').textContent = `Enviando ${f.name}…`;
+    try {
+      const isVideo = f.type.startsWith('video/');
+      const blob = isVideo ? f : await shrinkImage(f);
+      const res = await assets.upload(blob, isVideo ? undefined : { type: 'image/jpeg' });
+      await db.collection('photos').add({ assetId: res.id, date: $('fDate').value || todayIso(), caption: $('fCap').value.trim(), video: isVideo, createdAt: Date.now() });
+      ok++;
+    } catch (e) { $('fStatus').textContent = `${f.name}: ` + (e.code === 'too_large' ? 'arquivo grande demais (máx. 20 MB).' : e.code === 'quota_or_state' ? 'o espaço de armazenamento acabou.' : (e.message || e.code)); return; }
+  }
+  $('fStatus').textContent = `${ok} arquivo(s) enviado(s).`; $('fCap').value = '';
+});
+function alertErr(e) { say('Não consegui salvar: ' + (e.code === 'invalid_argument' ? 'você não tem permissão de edição nesta página.' : (e.message || e.code)), 'err'); }
+
+/* ---------- One-time seed ---------- */
+const SEED = {"meds": [{"name": "Gardenal (fenobarbital)", "purpose": "convulsões", "dose": "começou 1 gota 12/12h; depois 1 e 1/4 cp de 50 mg a cada 12h", "start": "2026-09-20", "end": null, "endEstimated": false, "allergy": false, "notes": "dosagem no sangue em 06/10: 21,2 (normal)"}, {"name": "Furosemida injetável", "purpose": "pulmão / líquido", "dose": "dose única na clínica", "start": "2026-09-20", "end": "2026-09-20", "endEstimated": false, "allergy": false, "notes": ""}, {"name": "Trissulfin", "purpose": "antibiótico", "dose": "injetável em 20/09; depois 1 e 1/2 cp a cada 24h por 7 dias", "start": "2026-09-20", "end": "2026-10-02", "endEstimated": true, "allergy": false, "notes": ""}, {"name": "Diempax (diazepam) 10 mg", "purpose": "em caso de crise", "dose": "1 e 1/4 cp após convulsão, se precisar", "start": "2026-09-25", "end": null, "endEstimated": false, "allergy": false, "notes": "uso só se necessário"}, {"name": "Hemolitan Gold", "purpose": "anemia", "dose": "3 cp a cada 24h", "start": "2026-09-25", "end": null, "endEstimated": false, "allergy": false, "notes": "acabou por volta de 07/11"}, {"name": "Promun Defense Dog", "purpose": "imunidade", "dose": "3 mL por 3 dias, depois 1x por semana por 1 mês", "start": "2026-09-25", "end": "2026-10-28", "endEstimated": true, "allergy": false, "notes": ""}, {"name": "Pró-Rim", "purpose": "rins", "dose": "3 borrifadas a cada 8h por 30 dias", "start": "2026-09-25", "end": "2026-10-25", "endEstimated": true, "allergy": false, "notes": ""}, {"name": "Antiviral manipulado (ribavirina + DMSO + vit. C + vit. E + famotidina)", "purpose": "antiviral", "dose": "1 dose a cada 24h por 15 dias", "start": "2026-09-25", "end": "2026-10-10", "endEstimated": true, "allergy": false, "notes": "ribavirina pode causar anemia: perguntar à vet"}, {"name": "Silmox CL 300 mg (amoxicilina + clavulanato)", "purpose": "antibiótico (bronquite)", "dose": "1 cp a cada 12h por 7 dias", "start": "2026-10-09", "end": "2026-10-16", "endEstimated": true, "allergy": true, "notes": "teve reação alérgica"}, {"name": "Vitamina A líquida", "purpose": "suporte", "dose": "conforme receita", "start": "2026-10-09", "end": null, "endEstimated": false, "allergy": false, "notes": "fim não registrado"}, {"name": "Engystol", "purpose": "imunidade (homeopático)", "dose": "2 mL injetável; agora 3 dias seguidos e depois a cada 2 dias", "start": "2026-10-10", "end": null, "endEstimated": false, "allergy": false, "notes": "aplicado pela Animalis; levado para a Rio Vet"}, {"name": "Doxiciclina 100 mg", "purpose": "antibiótico", "dose": "1/2 cp a cada 12h por 10 dias", "start": "2026-10-13", "end": "2026-10-23", "endEstimated": true, "allergy": false, "notes": "também usada na internação da Tododoy"}, {"name": "Prednisolona 20 mg", "purpose": "corticoide (anti-inflamatório)", "dose": "1/2 cp a cada 12h por 5 dias", "start": "2026-10-13", "end": "2026-10-18", "endEstimated": true, "allergy": false, "notes": "aparece de novo na receita de alta de 26/10"}, {"name": "Omeprazol 20 mg", "purpose": "protetor gástrico", "dose": "1/2 cp a cada 24h por 10 dias", "start": "2026-10-13", "end": "2026-10-23", "endEstimated": true, "allergy": false, "notes": ""}, {"name": "Ceftriaxona", "purpose": "antibiótico", "dose": "injetável, na internação da Tododoy (~15 dias)", "start": "2026-10-13", "end": "2026-10-28", "endEstimated": false, "allergy": false, "notes": ""}, {"name": "Citoneurin (cetuneurim) 5000", "purpose": "vitaminas do complexo B (neurológico)", "dose": "injetável", "start": "2026-10-15", "end": null, "endEstimated": false, "allergy": false, "notes": "fim não registrado"}, {"name": "Ciprovet colírio", "purpose": "olhos (antibiótico)", "dose": "1 gota em cada olho a cada 12h por 10 dias", "start": "2026-10-16", "end": "2026-10-26", "endEstimated": true, "allergy": false, "notes": ""}, {"name": "Fórmula ginkgo + pentoxifilina + vit. B12 + vit. E", "purpose": "suporte neurológico", "dose": "1 biscoito a cada 24h por 30 dias", "start": "2026-10-26", "end": "2026-11-25", "endEstimated": true, "allergy": false, "notes": "receita da Tododoy"}, {"name": "Mantidan (amantadina) 100 mg", "purpose": "neurológico / dor", "dose": "1 cp 1x ao dia por 30 dias", "start": "2026-10-27", "end": "2026-11-26", "endEstimated": true, "allergy": false, "notes": ""}, {"name": "Celesporin (cefalexina)", "purpose": "antibiótico", "dose": "conforme receita de alta", "start": "2026-10-28", "end": "2026-11-11", "endEstimated": false, "allergy": false, "notes": "trocado por ceftriaxona na Rio Vet"}, {"name": "Dipirona", "purpose": "dor / febre", "dose": "conforme receita de alta", "start": "2026-10-28", "end": null, "endEstimated": false, "allergy": false, "notes": "receita de alta da Tododoy"}, {"name": "Creatina 1 g", "purpose": "massa muscular", "dose": "1/3 do scoop a cada 24h por 30 dias", "start": "2026-11-05", "end": "2026-12-05", "endEstimated": true, "allergy": false, "notes": "receita da neuro"}, {"name": "Sarcopen Pet", "purpose": "massa muscular", "dose": "1 sachê a cada 24h por 30 dias", "start": "2026-11-05", "end": "2026-12-05", "endEstimated": true, "allergy": false, "notes": "receita da neuro"}, {"name": "Ômega 3 1000", "purpose": "suporte", "dose": "1 cápsula ao dia, contínuo", "start": "2026-11-05", "end": null, "endEstimated": false, "allergy": false, "notes": "receita da neuro"}, {"name": "Fórmula L-carnitina + vitaminas B", "purpose": "suporte metabólico e neuromuscular", "dose": "1 sachê a cada 24h por 30 dias", "start": "2026-11-05", "end": "2026-12-05", "endEstimated": true, "allergy": false, "notes": "receita da neuro"}, {"name": "Spirulina", "purpose": "anemia (potencializar o Hemolitan)", "dose": "8 g em pó (ou 2 cp) a cada 24h, contínuo", "start": "2026-11-04", "end": null, "endEstimated": false, "allergy": false, "notes": "orientação da Animalis"}, {"name": "Vitavet C (vitamina C)", "purpose": "anemia", "dose": "2 mL ao dia, contínuo", "start": "2026-11-04", "end": null, "endEstimated": false, "allergy": false, "notes": "orientação da Animalis"}, {"name": "Ferro injetável", "purpose": "anemia", "dose": "na internação", "start": "2026-11-08", "end": null, "endEstimated": false, "allergy": false, "notes": "Rio Vet"}, {"name": "Eritrós", "purpose": "anemia (suplemento de ferro)", "dose": "conforme a internação; continua em casa", "start": "2026-11-13", "end": null, "endEstimated": false, "allergy": false, "notes": "Rio Vet"}, {"name": "Organoneuro Cerebral", "purpose": "suporte neurológico", "dose": "2 drágeas a cada 24h por 30 dias", "start": "2026-11-08", "end": "2026-12-08", "endEstimated": true, "allergy": false, "notes": "Rio Vet"}, {"name": "Aditil", "purpose": "vitaminas", "dose": "30 gotas a cada 24h por 30 dias", "start": "2026-11-08", "end": "2026-12-08", "endEstimated": true, "allergy": false, "notes": "Rio Vet"}, {"name": "Hyabak 0,15% ou Lacrifilm", "purpose": "olhos (lubrificante)", "dose": "1 gota em ambos os olhos a cada 12h por 10 dias", "start": "2026-11-08", "end": "2026-11-18", "endEstimated": true, "allergy": false, "notes": "Rio Vet"}, {"name": "Tobramicina colírio", "purpose": "olhos (antibiótico)", "dose": "1 gota em ambos os olhos a cada 12h por 15 dias", "start": "2026-11-08", "end": "2026-11-23", "endEstimated": true, "allergy": false, "notes": "Rio Vet"}, {"name": "Ceftriaxona", "purpose": "antibiótico", "dose": "injetável, na internação", "start": "2026-11-11", "end": null, "endEstimated": false, "allergy": false, "notes": "Rio Vet"}], "prevent": [{"kind": "Vacina", "product": "V10 (Viratec 10 CVL)", "date": "2025-12-14", "next": "2026-01-02", "notes": "", "group": "C8"}, {"kind": "Vacina", "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)", "date": "2026-01-02", "next": "2026-01-23", "notes": "", "group": "C8"}, {"kind": "Vacina", "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)", "date": "2026-01-23", "next": "2026-02-13", "notes": "Dra. Mariana Pitanga", "group": "C8"}, {"kind": "Vacina", "product": "Raiva (Rabisin)", "date": "2026-01-23", "next": "2027-01-23", "notes": "Dra. Mariana Pitanga", "group": "Raiva (Rabisin)"}, {"kind": "Vacina", "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)", "date": "2026-02-20", "next": "2027-02-20", "notes": "Dra. Mariana Pitanga", "group": "C8"}, {"kind": "Vacina", "product": "Bordetella (Recombitek Oral)", "date": "2026-02-20", "next": "2027-02-20", "notes": "Dra. Mariana Pitanga", "group": "Bordetella (Recombitek Oral)"}, {"kind": "Prevenção de dirofilariose", "product": "ProHeart SR-12", "date": "2026-06-23", "next": "2027-06-23", "notes": "", "group": "ProHeart SR-12"}], "photos": [{"assetId": "7031b0f06f7dc53d9466e03f69357fde", "date": "2026-11-03", "caption": "Deitadinho com o macaquinho de pelúcia, na época em que a barriga estava inchada", "video": false}]};
+function checkSeed() { const empty = !meds.length && !prevent.length; $('seedCard').classList.toggle('hidden', !(empty && canWrite && db && seedReady)); }
+let seedReady = false;
+$('seedBtn').addEventListener('click', async () => {
+  const b = $('seedBtn'); b.disabled = true; b.textContent = 'Carregando…';
+  try {
+    for (const m of SEED.meds) await db.collection('meds').add({ ...m, createdAt: Date.now() });
+    for (const v of SEED.prevent) await db.collection('prevent').add({ ...v, createdAt: Date.now() });
+    for (const p of SEED.photos) if (!photos.some(x => x.assetId === p.assetId)) await db.collection('photos').add({ ...p, createdAt: Date.now() });
+    $('seedCard').classList.add('hidden');
+  } catch (e) { alertErr(e); b.disabled = false; b.textContent = 'Tentar de novo'; }
+});
+
+/* ---------- Tabs ---------- */
+function go(tab, push = true) {
+  if (!TABS.includes(tab)) tab = 'painel';
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
+  TABS.forEach(t => { $('p-' + t).hidden = t !== tab; });
+  if (push && location.hash !== '#' + tab) { try { history.replaceState(null, '', '#' + tab); } catch {} }
+  scheduleRender();
+}
+document.querySelector('.tabs').addEventListener('click', ev => { const b = ev.target.closest('.tab'); if (b) go(b.dataset.tab); });
+document.addEventListener('click', ev => { const b = ev.target.closest('[data-go]'); if (b) go(b.dataset.go); });
+window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
+
+/* ---------- Render all ---------- */
+function renderAll() { checkSeed(); renderTiles(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); }
+let rt = null; const scheduleRender = () => { clearTimeout(rt); rt = setTimeout(renderAll, 60); };
+new MutationObserver(scheduleRender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', scheduleRender); } catch {}
+
+/* ---------- Static (published site) & export ---------- */
+const STATIC = window.ODIN_STATIC || null;
+function photoSrc(id) { return STATIC ? 'data/photos/' + encodeURIComponent(id) + '.jpg' : '/_blob/' + encodeURIComponent(id); }
+async function blobToDataUrl(b) { return await new Promise((ok, no) => { const fr = new FileReader(); fr.onload = () => ok(fr.result); fr.onerror = no; fr.readAsDataURL(b); }); }
+async function exportForSite() {
+  const btn = $('pubBtn'); btn.disabled = true; const st = say('Preparando o arquivo do site…');
+  try {
+    const dl = await window.claude.use('downloads');
+    if (!dl) throw new Error('download indisponível aqui');
+    const ph = [];
+    for (const p of photos) {
+      let dataUrl = null;
+      if (!p.video) { try { const res = await fetch('/_blob/' + encodeURIComponent(p.assetId)); dataUrl = await blobToDataUrl(await shrinkImage(await res.blob())); } catch {} }
+      ph.push({ ...p, dataUrl });
+    }
+    const out = { exportedAt: new Date().toISOString(), exams, events, analyses, meds, prevent, photos: ph };
+    const name = 'odin-export-' + todayIso() + '.json';
+    await dl.save({ filename: name, data: new Blob([JSON.stringify(out)], { type: 'application/json' }) });
+    st.textContent = `Arquivo ${name} salvo. Rode "npm run publicar" no repositório (ou me peça).`; st.className = 'done';
+  } catch (e) { st.textContent = 'Não consegui exportar: ' + (e.code === 'declined' ? 'download cancelado.' : (e.message || e.code)); st.className = 'err'; }
+  finally { btn.disabled = false; }
+}
+$('pubBtn').addEventListener('click', exportForSite);
+
+/* ---------- Boot ---------- */
+(async () => {
+  go(location.hash.slice(1) || 'painel', false);
+  renderAll();
+  if (STATIC) {
+    canWrite = false; document.body.classList.add('ro');
+    try {
+      const d = await (await fetch(STATIC, { cache: 'no-store' })).json();
+      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; photos = d.photos || [];
+      const when = d.exportedAt ? new Date(d.exportedAt).toLocaleDateString('pt-BR') : '';
+      $('conn').textContent = `atualizado em ${when}`;
+      renderAll();
+    } catch (e) { $('conn').textContent = 'Não consegui carregar os dados'; }
+    return;
+  }
+  const use = window.claude && window.claude.use ? window.claude.use.bind(window.claude) : null;
+  if (!use) { $('conn').textContent = 'Abra pelo claude.ai pra ver os dados'; return; }
+  const [d, s, u, a] = await Promise.all([use('db'), use('sample'), use('user'), use('assets')]);
+  db = d; sample = s; assets = a;
+  if (!assets) $('photoUp').classList.add('hidden');
+  if (u) { try { const w = await u.can('data.write'); if (w === false) canWrite = false; } catch {} }
+  if (canWrite) use('dictation').then(setupDictation).catch(() => {});
+  if (!canWrite) { document.querySelectorAll('#pubCard, #paste, #drop, #pasteBtn, #evBtn, #saveBtn, #mBtn, #vBtn, #photoUp').forEach(el => el.classList.add('hidden')); }
+  if (!db) { $('conn').textContent = 'Entre no claude.ai pra ver os dados'; return; }
+  const timer = setTimeout(() => { $('conn').textContent = 'Não consegui carregar os dados ainda'; }, 10000);
+  const sub = (col, assign) => db.collection(col).onSnapshot(snap => {
+    assign(snap.docs.map(x => ({ id: x.id, ...x.data() })));
+    if (!snap.metadata.fromCache) { if (col === 'meds') seedReady = true; clearTimeout(timer); $('conn').textContent = `${exams.length} exames · ${events.length} acontecimentos`; }
+    scheduleRender();
+  }, e => { clearTimeout(timer); $('conn').textContent = 'Erro ao carregar: ' + (e.message || e.code); });
+  sub('exams', v => exams = v);
+  sub('events', v => events = v);
+  sub('analyses', v => analyses = v);
+  sub('meds', v => meds = v);
+  sub('prevent', v => prevent = v);
+  sub('photos', v => photos = v);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "odin-cockpit",
+  "private": true,
+  "type": "module",
+  "description": "Cockpit de acompanhamento de saúde do Odin, publicado no GitHub Pages",
+  "scripts": {
+    "publicar": "node scripts/publicar.mjs",
+    "ver": "npx --yes serve docs -l 4173"
+  }
+}
