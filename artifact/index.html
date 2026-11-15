@@ -196,6 +196,9 @@ body.ro .wr { display: none !important; }
 .pubtxt a { color: var(--accent); }
 .pubsteps { margin: 0 0 10px; padding-left: 20px; font-size: 14px; line-height: 1.7; }
 .pubsteps code, #pubCard .note code { font-size: 12.5px; background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; white-space: nowrap; }
+.att { border-left: 3px solid var(--line); padding-left: 10px; }
+.att.bad { border-left-color: var(--bad); }
+.att.hi { border-left-color: var(--warn); }
 </style>
 </head>
 <body>
@@ -219,12 +222,33 @@ body.ro .wr { display: none !important; }
 
   <div class="panel" id="p-painel" role="tabpanel">
   <section class="tiles" id="tiles" aria-label="Últimos valores"></section>
+  <section class="grid2">
+    <div class="card">
+      <h2>Pontos de atenção</h2>
+      <div id="attention" class="list" style="margin-top:6px"></div>
+    </div>
+    <div class="card">
+      <div class="row between"><h2>Últimos acontecimentos</h2><button class="ghost tiny" data-go="linha">ver linha do tempo</button></div>
+      <div id="recent" class="list" style="margin-top:6px"></div>
+    </div>
+  </section>
   <section class="card hidden wr" id="seedCard" style="border-color: var(--accent)">
     <div class="row between"><div><h2>Carregar o histórico levantado</h2>
     <p class="note" style="margin:4px 0 0">33 medicamentos das receitas e conversas, a carteirinha de vacinas e a primeira foto. É só uma vez.</p></div>
     <button id="seedBtn">Carregar</button></div>
   </section>
 
+
+
+
+  <section class="card">
+    <div class="row between">
+      <h2>Avaliação do quadro</h2>
+      <button id="reBtn" class="ghost wr">Reavaliar com tudo</button>
+    </div>
+    <div id="analysis" class="analysis"><p class="muted">Carregando…</p></div>
+    <p class="note" id="anMeta"></p>
+  </section>
   <section class="grid2 wr">
     <div class="card">
       <h2>Registrar</h2>
@@ -257,12 +281,6 @@ body.ro .wr { display: none !important; }
       </div>
     </div>
   </section>
-
-  <section class="card">
-    <div class="row between"><h2>Em uso agora</h2><button class="ghost tiny" data-go="remedios">ver todos os medicamentos</button></div>
-    <div id="activeMeds" class="list" style="margin-top:6px"></div>
-  </section>
-
   <section id="review" class="card review hidden wr" aria-label="Conferir valores lidos">
     <div class="row between">
       <h2>Confere antes de salvar</h2>
@@ -271,15 +289,6 @@ body.ro .wr { display: none !important; }
     <p class="note">Esses valores foram lidos automaticamente. Corrija o que estiver errado e apague o que não fizer sentido.</p>
     <div id="reviewBody"></div>
     <div id="reviewExtra"></div>
-  </section>
-
-  <section class="card">
-    <div class="row between">
-      <h2>Avaliação do quadro</h2>
-      <button id="reBtn" class="ghost wr">Reavaliar com tudo</button>
-    </div>
-    <div id="analysis" class="analysis"><p class="muted">Carregando…</p></div>
-    <p class="note" id="anMeta"></p>
   </section>
     <section class="card wr" id="pubCard">
       <div class="pubhead"><h2>Publicar no site</h2><button id="pubBtn" class="ghost">Exportar para o site</button></div>
@@ -1053,6 +1062,59 @@ function shortClinic(lab) {
   return known || t.slice(0, 30);
 }
 
+/* ---------- Painel: pontos de atenção ---------- */
+function ago(iso) { const n = dayNum(todayIso()) - dayNum(iso); return n <= 0 ? 'hoje' : n === 1 ? 'ontem' : `há ${n} dias`; }
+function renderAttention() {
+  const items = [];
+  const add = (lvl, t, s) => items.push({ lvl, t, s });
+  const today = todayIso(), in7 = dayIso(dayNum(today) + 7), in30 = dayIso(dayNum(today) + 30);
+  // alergias
+  const alg = meds.filter(m => m.allergy);
+  if (alg.length) add('bad', 'Alergia registrada', alg.map(m => m.name + (m.composition ? ` (${m.composition})` : '')).join(' · ') + '. Avise qualquer clínica nova.');
+  // anemia
+  const ht = series('ht');
+  if (ht.length) {
+    const l = ht[ht.length - 1], lo = P.ht.lo;
+    const last3 = ht.slice(-3).map(x => x.y), span = Math.max(...last3) - Math.min(...last3);
+    if (l.y < lo) add(l.y < 20 ? 'bad' : 'hi', `Anemia: hematócrito ${fmt(l.y)}%`, `Abaixo da referência (${lo}%). ${ht.length >= 3 && span <= 3 ? 'Estável nos últimos 3 exames.' : 'Oscilando nos últimos exames.'} Último em ${dm(l.date)} (${ago(l.date)}).`);
+  }
+  // peso
+  const pw = series('peso');
+  if (pw.length >= 2) {
+    const l = pw[pw.length - 1], mx = pw.reduce((a, b) => b.y > a.y ? b : a);
+    const loss = (mx.y - l.y) / mx.y * 100;
+    if (loss >= 5) add(loss >= 15 ? 'bad' : 'hi', `Peso: ${fmt(l.y)} kg`, `Perdeu ${fmt(mx.y - l.y)} kg (${Math.round(loss)}%) desde ${dm(mx.date)}. Última pesagem ${ago(l.date)}.`);
+  }
+  // outros fora da faixa no último hemograma/bioquímico
+  for (const k of ['plt', 'wbc', 'urea', 'alp', 'alt']) {
+    const s = series(k); if (!s.length) continue;
+    const l = s[s.length - 1], st = statusOf(k, l.y);
+    if ((st === 'lo' || st === 'hi') && dayNum(today) - dayNum(l.date) <= 14) add('hi', `${P[k].l}: ${fmt(l.y)} ${P[k].u}`, `${st === 'hi' ? 'Acima' : 'Abaixo'} da referência (${refTxt(P[k])}). Medido em ${dm(l.date)} (${ago(l.date)}).`);
+  }
+  // convulsões
+  const conv = events.filter(e => /convuls/i.test(e.text || '') && !/(sem|nenhuma|n[aã]o teve)\s+(novas?\s+)?convuls/i.test(e.text || '')).sort((a, b) => a.date < b.date ? 1 : -1)[0];
+  if (conv) add('', 'Convulsões', `Último registro de convulsão em ${dm(conv.date)} (${ago(conv.date)}).`);
+  // exames: há quanto tempo
+  const lastBlood = [...exams].filter(e => e.params && (e.params.ht != null || e.params.wbc != null)).sort((a, b) => a.date < b.date ? 1 : -1)[0];
+  if (lastBlood && dayNum(today) - dayNum(lastBlood.date) > 7) add('hi', 'Hemograma atrasado?', `O último foi em ${dm(lastBlood.date)} (${ago(lastBlood.date)}). Vale perguntar quando repetir.`);
+  // remédios acabando / em uso
+  const act = meds.filter(isActive);
+  const ending = act.filter(m => m.end && m.end <= in7).sort((a, b) => a.end < b.end ? -1 : 1);
+  if (ending.length) add('', 'Remédios que terminam nesta semana', ending.map(m => `${m.name} (${dm(m.end)})`).join(' · '));
+  // vacinas/vermífugo
+  const latest = new Map();
+  for (const v of prevent.filter(v => !v.planned && v.date).sort((a, b) => a.date < b.date ? -1 : 1)) latest.set((v.kind + '|' + (v.group || v.product)).toLowerCase(), v);
+  for (const v of latest.values()) if (v.next && v.next <= in30) add(v.next < today ? 'bad' : 'hi', `${v.kind}: ${v.product}`, `${v.next < today ? 'Atrasado desde' : 'Próxima dose em'} ${dmy(v.next)}. Confirmar com a vet antes, pelo quadro atual.`);
+  const order = { bad: 0, hi: 1, '': 2 };
+  items.sort((a, b) => order[a.lvl] - order[b.lvl]);
+  $('attention').innerHTML = (items.map(i => `<div class="item att ${i.lvl}"><div><div class="t">${esc(i.t)}</div><div class="s">${esc(i.s)}</div></div></div>`).join('') || '<p class="muted">Nada fora do esperado agora.</p>')
+    + `<div class="item"><div class="s">${act.length} remédio(s) em uso</div><button class="ghost tiny" data-go="remedios">ver medicamentos</button></div>`;
+}
+function renderRecent() {
+  const ev = [...events].sort((a, b) => a.date === b.date ? (b.createdAt || 0) - (a.createdAt || 0) : a.date < b.date ? 1 : -1).slice(0, 5);
+  $('recent').innerHTML = ev.map(e => `<div class="item"><div><div class="s num">${dm(e.date)} · ${ago(e.date)}</div><div class="t" style="font-weight:400">${esc(e.text)}</div></div></div>`).join('') || '<p class="muted">Nada registrado ainda.</p>';
+}
+
 /* ---------- Two-click delete helper ---------- */
 function armed(b, label) {
   if (b.dataset.armed === '1') return true;
@@ -1098,7 +1160,7 @@ function renderMeds() {
   const act = sorted.filter(isActive), past = sorted.filter(m => !isActive(m));
   $('medActive').innerHTML = act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>';
   $('medPast').innerHTML = past.map(medLine).join('') || '<p class="muted">Nada registrado.</p>';
-  $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
+  if ($('activeMeds')) $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
     : '<p class="muted">Nenhum medicamento em uso registrado.</p>';
   // gantt
   const withStart = [...meds].filter(m => m.start).sort((a,b) => a.start < b.start ? -1 : 1);
@@ -1281,7 +1343,7 @@ document.addEventListener('click', ev => { const b = ev.target.closest('[data-go
 window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
 /* ---------- Render all ---------- */
-function renderAll() { checkSeed(); renderTiles(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); }
+function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderRecent(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); }
 let rt = null; const scheduleRender = () => { clearTimeout(rt); rt = setTimeout(renderAll, 60); };
 new MutationObserver(scheduleRender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', scheduleRender); } catch {}

@@ -57,7 +57,7 @@ function clean(str) {
   for (const [re, to] of pairs) s = s.replace(re, to);
   s = s.replace(/(?<!\p{L})(pela|pelo|da|do|na|no|à|para a|com a) a (veterin|neurolog|tutora|respons)/giu, (m, p, w) => `${p} ${w}`);
   s = s.replace(/\(\s*[,;]?\s*\)/g, '');                                // parênteses que ficaram vazios
-  return s.replace(/\s{2,}/g, ' ').replace(/\s+([,.;:)])/g, '$1').trim();
+  return s.replace(/[ \t]{2,}/g, ' ').replace(/[ \t]+([,.;:)])/g, '$1').trim();
 }
 function walk(v) {
   if (typeof v === 'string') return clean(v);
