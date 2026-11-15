@@ -123,10 +123,30 @@ td.lo, td.hi { color: var(--warn); font-weight: 600; }
 td .arr { font-size: 11px; margin-left: 2px; }
 .refcol { color: var(--muted); font-size: 12px; }
 .timeline { display: grid; gap: 0; }
-.tl { display: grid; grid-template-columns: 92px 1fr auto; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.tl { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 10px 0 10px 10px; border-bottom: 1px solid var(--line); align-items: start; border-left: 3px solid transparent; }
+.tl.instay { border-left-color: var(--clc); background: color-mix(in srgb, var(--clc) 5%, transparent); }
+.tl .where { font-family: var(--font-body, inherit); font-size: 11px; color: var(--clc); margin-top: 2px; }
+.tlb { display: grid; gap: 6px; min-width: 0; }
+.tli { line-height: 1.45; }
+.updated { margin: 0 0 10px; font-size: 13px; color: var(--muted); }
+.updated:empty { display: none; }
+.tli .hh { font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-right: 6px; }
+.tli .k { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-right: 4px; }
+.tli.mk { font-weight: 600; }
+.tli .sub, .tlb > .sub { font-size: 12.5px; margin-top: 2px; }
+.pill.mkp { background: var(--accent); color: var(--bg); font-weight: 600; }
+.warnt { color: var(--warn); }
+#tlFilters .tiny:not(.ghost) .muted { color: inherit; opacity: .75; }
+.tlpics { display: flex; flex-wrap: wrap; gap: 6px; }
+.tlp { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; cursor: zoom-in; display: block; }
+.tlp.vid { display: grid; place-items: center; background: var(--accent-soft); border: 0; color: var(--ink); font-size: 18px; }
+.monthh.tlm { margin: 18px 0 4px; }
+.monthh::first-letter { text-transform: uppercase; }
+.stayband { margin: 8px 0 0; padding: 7px 10px; border-radius: 8px; font-size: 13.5px; background: color-mix(in srgb, var(--clc) 16%, transparent); border-left: 3px solid var(--clc); }
+.lbcap { position: fixed; left: 0; right: 0; bottom: 16px; text-align: center; color: #fff; font-size: 14px; padding: 0 20px; text-shadow: 0 1px 3px #000; }
 .tl .d { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
 .tl.mark .d { color: var(--accent); font-weight: 500; }
-.tl .k { font-size: 11.5px; color: var(--muted); }
+@media (max-width: 600px) { .tl { grid-template-columns: 1fr; gap: 4px; } .tl .d { display: flex; gap: 8px; align-items: baseline; } .tl .where { margin: 0; } }
 .review { border: 2px solid var(--accent); }
 .review .exam { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; display: grid; gap: 10px; }
 .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px 14px; }
@@ -192,7 +212,7 @@ select { font: inherit; color: var(--ink); background: var(--bg); border: 1px so
   .grow .gl .gc { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-@media (max-width: 420px) { .tl { grid-template-columns: 70px 1fr auto; } h1 { font-size: 25px; } }
+@media (max-width: 420px) { h1 { font-size: 25px; } }
 .item .msel { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--accent); flex: none; align-self: start; }
 .item:has(> .msel) { grid-template-columns: auto minmax(0,1fr) auto; gap: 0 12px; }
 .comp { margin: 4px 0 2px; padding-left: 18px; font-size: 13px; color: var(--muted); }
@@ -286,6 +306,7 @@ body.ro .wr { display: none !important; }
   </nav>
 
   <div class="panel" id="p-painel" role="tabpanel">
+  <p class="updated" id="updated"></p>
   <section class="tiles" id="tiles" aria-label="Últimos valores"></section>
   <section class="grid2">
     <div class="card">
@@ -337,7 +358,7 @@ body.ro .wr { display: none !important; }
       <h2>Acontecimento rápido</h2>
       <p class="note" style="margin:4px 0 10px">Se preferir lançar direto, sem a leitura automática.</p>
       <div style="display:grid; gap:8px">
-        <input id="evDate" type="date" aria-label="Data do acontecimento">
+        <div class="row" style="gap:8px"><input id="evDate" type="date" aria-label="Data do acontecimento" style="flex:1"><input id="evTime" type="time" aria-label="Hora (opcional)" style="width:110px"></div>
         <input id="evText" type="text" placeholder="Ex.: tirou a sonda urinária" aria-label="Descrição">
         <div class="row between">
           <label class="chk"><input id="evMark" type="checkbox"> Marcar nos gráficos</label>
@@ -359,7 +380,7 @@ body.ro .wr { display: none !important; }
       <div class="pubhead"><h2>Publicar no site</h2><button id="pubBtn" class="ghost">Exportar para o site</button></div>
       <p class="pubtxt">Atualiza o site público <a href="https://elizcarvalho.github.io/odin-cockpit/" target="_blank" rel="noopener">elizcarvalho.github.io/odin-cockpit</a> com tudo que está aqui (exames, remédios, vacinas e fotos). Os dados pessoais são removidos na hora de publicar.</p>
       <ol class="pubsteps">
-        <li>Clique em <b>Exportar para o site</b>. O arquivo <code>odin-export-AAAA-MM-DD.json</code> vai pra pasta Downloads.</li>
+        <li>Clique em <b>Exportar para o site</b>. O arquivo <code>odin-export-AAAA-MM-DD_HHhMM.json</code> vai pra pasta Downloads.</li>
         <li>No terminal, entre na pasta do repositório: <code>cd ~/Documents/GitHub/odin-cockpit</code></li>
         <li>Pra conferir antes (opcional): <code>npm run publicar</code> e depois <code>npm run ver</code>, que abre em localhost:4173.</li>
         <li>Pra publicar: <code>npm run publicar -- --push</code>. O site atualiza em 1 a 2 minutos.</li>
@@ -812,30 +833,97 @@ $('evo').addEventListener('click', async ev => {
 });
 
 /* ---------- Timeline ---------- */
-let tlFilter = 'Tudo';
-function renderTimeline() {
-  const items = [
-    ...events.map(e => ({date: e.date, text: e.text, kind: 'Acontecimento', mark: e.mark, id: e.id, ev: true})),
-    ...exams.map(e => ({date: e.date, text: `${e.kind || 'Exame'}${e.lab ? ' · ' + e.lab : ''}${(e.other && e.other.length) ? ': ' + e.other.join('; ') : ''}`, kind: /receit|solicita/i.test(e.kind || '') ? 'Receita' : 'Exame'})),
-    ...meds.flatMap(m => [
-      m.start ? {date: m.start, text: `Começou ${m.name}${m.purpose ? ' (' + m.purpose + ')' : ''}${m.dose ? ' · ' + m.dose : ''}`, kind: 'Medicamento'} : null,
-      m.end && m.end <= todayIso() ? {date: m.end, text: `Terminou ${m.name}${m.allergy ? ' · teve reação' : ''}`, kind: 'Medicamento'} : null,
-    ].filter(Boolean)),
-    ...prevent.filter(v => !v.planned && v.date).map(v => ({date: v.date, text: `${v.kind}: ${v.product}${v.notes ? ' · ' + v.notes : ''}`, kind: 'Vacina/vermífugo'})),
-    ...photos.map(p => ({date: p.date, text: p.caption || 'Foto', kind: 'Foto', assetId: p.assetId, video: p.video})),
-  ].filter(i => i.date).sort((a,b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
-  const kinds = ['Tudo', 'Acontecimento', 'Exame', 'Medicamento', 'Receita', 'Vacina/vermífugo', 'Foto'];
-  $('tlFilters').innerHTML = kinds.map(k => `<button class="tiny ${k === tlFilter ? '' : 'ghost'}" data-f="${k}">${k}</button>`).join('');
-  const shown = items.filter(i => tlFilter === 'Tudo' || i.kind === tlFilter);
-  $('timeline').innerHTML = shown.map(i => `<div class="tl ${i.mark ? 'mark' : ''}"><div class="d">${dmy(i.date)}</div>
-    <div><div class="k">${i.kind}${i.mark ? ' · marcado nos gráficos' : ''}</div>${esc(i.text)}
-    ${i.assetId && !i.video ? `<img class="thumb" src="${esc(photoSrc(i.assetId))}" alt="${esc(i.text)}" loading="lazy">` : ''}</div>
-    <div>${i.ev && canWrite ? `<button class="tiny ghost" data-evdel="${esc(i.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div></div>`).join('') || '<p class="muted">Nada registrado ainda.</p>';
+// where he was: hospital stays (shown as a colored band on the days inside)
+const STAYS = [
+  { from: '2026-09-22', to: '2026-09-25', clinic: 'Tododoy', label: '1ª internação' },
+  { from: '2026-10-13', to: '2026-10-28', clinic: 'Tododoy', label: '2ª internação' },
+  { from: '2026-11-08', to: null, clinic: 'Rio Vet', label: 'Internação' },
+];
+const CLINIC_FIXED = { 'animalis': '#5cc98a', 'tododoy': '#e5675f', 'vetreabilite (neuro)': '#5b9cf0', 'rio vet': '#e8c547' };
+const stayOf = iso => STAYS.find(s => iso >= s.from && (!s.to || iso <= s.to));
+const daysBetween = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 864e5);
+let tlFilter = 'Tudo', tlAsc = false, tlMarks = false;
+function tlItems() {
+  const out = [];
+  for (const e of events) out.push({ date: e.date, time: e.time, kind: 'Acontecimento', text: e.text, short: e.short, mark: e.mark, id: e.id, ev: true });
+  for (const e of exams) {
+    const rx = /receit|solicita/i.test(e.kind || '');
+    const flags = Object.entries(e.params || {}).filter(([k, v]) => typeof v === 'number' && ['lo', 'hi'].includes(statusOf(k, v)))
+      .map(([k, v]) => `${P[k].l} ${fmt(v)}${statusOf(k, v) === 'lo' ? '▼' : '▲'}`);
+    out.push({ date: e.date, time: e.time, kind: rx ? 'Receita' : 'Exame', text: `${e.kind || 'Exame'}${e.lab ? ' · ' + e.lab : ''}`,
+      sub: flags.length ? 'Fora da referência: ' + flags.slice(0, 5).join(', ') + (flags.length > 5 ? ` e mais ${flags.length - 5}` : '') : (e.other || []).join('; ') });
+  }
+  for (const m of meds) {
+    if (m.start) out.push({ date: m.start, kind: 'Medicamento', med: 'start', name: m.name, allergy: m.allergy });
+    if (m.end && m.end <= todayIso()) out.push({ date: m.end, kind: 'Medicamento', med: 'end', name: m.name, allergy: m.allergy });
+  }
+  for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', text: `${v.kind}: ${v.product}` });
+  for (const p of photos) if (p.date) out.push({ date: p.date, time: p.time, kind: 'Foto', text: p.caption || 'Foto', assetId: p.assetId, video: p.video, createdAt: p.createdAt || 0 });
+  return out.filter(i => i.date);
 }
-$('tlFilters').addEventListener('click', ev => { const b = ev.target.closest('button[data-f]'); if (!b) return; tlFilter = b.dataset.f; renderTimeline(); });
+function renderTimeline() {
+  const all = tlItems();
+  const kinds = ['Tudo', 'Acontecimento', 'Exame', 'Receita', 'Medicamento', 'Vacina/vermífugo', 'Foto'];
+  const count = k => k === 'Tudo' ? all.length : all.filter(i => i.kind === k).length;
+  $('tlFilters').innerHTML = kinds.filter(k => count(k)).map(k => `<button class="tiny ${k === tlFilter ? '' : 'ghost'}" data-f="${k}">${k} <span class="muted">${count(k)}</span></button>`).join('')
+    + `<span style="flex:1"></span><label class="chk"><input type="checkbox" id="tlMarks" ${tlMarks ? 'checked' : ''}> só os marcos</label>`
+    + `<button class="tiny ghost" id="tlOrder">${tlAsc ? 'Do começo ↓' : 'Mais recentes ↑'}</button>`;
+  let shown = all.filter(i => tlFilter === 'Tudo' || i.kind === tlFilter);
+  if (tlMarks) shown = shown.filter(i => i.mark);
+  // group: month -> day
+  const byDay = new Map();
+  for (const i of shown) { if (!byDay.has(i.date)) byDay.set(i.date, []); byDay.get(i.date).push(i); }
+  const days = [...byDay.keys()].sort((a, b) => tlAsc ? (a < b ? -1 : 1) : (a < b ? 1 : -1));
+  let html = '', month = '', staySeen = new Set();
+  for (const d of days) {
+    const m = d.slice(0, 7);
+    if (m !== month) { month = m; html += `<div class="monthh tlm">${esc(monthName(m + '-15'))}</div>`; }
+    const st = stayOf(d);
+    if (st && !staySeen.has(st.from)) {
+      staySeen.add(st.from);
+      const end = st.to || todayIso(), n = daysBetween(st.from, end);
+      html += `<div class="stayband" style="--clc:${CLINIC_FIXED[st.clinic.toLowerCase()] || 'var(--accent)'}">🏥 ${esc(st.label)} na <b>${esc(st.clinic)}</b> · ${dm(st.from)} → ${st.to ? dm(st.to) : 'hoje'} (${n} ${n === 1 ? 'dia' : 'dias'}${st.to ? '' : ', em andamento'})</div>`;
+    }
+    const list = byDay.get(d);
+    const marks = list.filter(i => i.mark);
+    const byTime = (a, b) => (a.time || '99') < (b.time || '99') ? -1 : (a.time || '99') > (b.time || '99') ? 1 : 0;
+    const evs = list.filter(i => i.kind === 'Acontecimento').sort((a, b) => (b.mark ? 1 : 0) - (a.mark ? 1 : 0) || byTime(a, b));
+    const others = list.filter(i => ['Exame', 'Receita', 'Vacina/vermífugo'].includes(i.kind));
+    const starts = list.filter(i => i.med === 'start'), ends = list.filter(i => i.med === 'end');
+    const pics = list.filter(i => i.kind === 'Foto').sort((a, b) => byTime(a, b) || a.createdAt - b.createdAt);
+    let body = '';
+    const hh = t => t ? `<span class="hh">${esc(t)}</span>` : '';
+    for (const e of evs) body += `<div class="tli ev ${e.mark ? 'mk' : ''}">${hh(e.time)}${e.mark && e.short ? `<span class="pill mkp">${esc(e.short)}</span> ` : ''}${esc(e.text)}
+      ${canWrite ? ` <button class="tiny ghost" data-evdel="${esc(e.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`;
+    const cut = t => t.length > 150 ? t.slice(0, 150).replace(/\s+\S*$/, '') + '…' : t;
+    for (const o of others) body += `<div class="tli">${hh(o.time)}<span class="k">${o.kind}</span> ${esc(o.text)}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}</div>`;
+    const medTxt = arr => arr.map(x => esc(x.name) + (x.allergy ? ' <span class="warnt">(teve reação)</span>' : '')).join(' · ');
+    if (starts.length) body += `<div class="tli"><span class="k">Começou</span> ${medTxt(starts)}</div>`;
+    if (ends.length) body += `<div class="tli"><span class="k">Terminou</span> ${medTxt(ends)}</div>`;
+    if (pics.length) body += `<div class="tlpics">` + pics.map(p => p.video
+      ? `<button class="tlp vid" data-open="${esc(p.assetId)}" data-video="1" title="${esc(p.text)}">▶</button>`
+      : `<img class="tlp" src="${esc(photoSrc(p.assetId))}" alt="${esc(p.text)}" title="${esc((p.time ? p.time + ' · ' : '') + p.text)}" loading="lazy" data-open="${esc(p.assetId)}" data-cap="${esc(p.text)}">`).join('') + `</div>`
+      + (pics.length === 1 || tlFilter === 'Foto' ? `<div class="muted sub">${pics.map(p => (p.time ? p.time + ' ' : '') + esc(p.text)).join(' · ')}</div>` : '');
+    html += `<div class="tl ${marks.length ? 'mark' : ''} ${st ? 'instay' : ''}" ${st ? `style="--clc:${CLINIC_FIXED[st.clinic.toLowerCase()] || 'var(--accent)'}"` : ''}>
+      <div class="d">${dmy(d)}${st ? `<div class="where">${esc(st.clinic)}</div>` : ''}</div><div class="tlb">${body}</div></div>`;
+  }
+  $('timeline').innerHTML = html || '<p class="muted">Nada registrado ainda.</p>';
+}
+function openLightbox(id, video, cap) {
+  const lb = document.createElement('div'); lb.className = 'lightbox'; const src = photoSrc(id);
+  lb.innerHTML = (video ? `<video src="${src}" controls autoplay></video>` : `<img src="${src}" alt="">`) + (cap ? `<div class="lbcap">${esc(cap)}</div>` : '');
+  lb.addEventListener('click', e => { if (e.target === lb || e.target.tagName === 'IMG') lb.remove(); });
+  const onKey = e => { if (e.key === 'Escape') { lb.remove(); document.removeEventListener('keydown', onKey); } };
+  document.addEventListener('keydown', onKey); document.body.appendChild(lb);
+}
+$('tlFilters').addEventListener('click', ev => {
+  const b = ev.target.closest('button[data-f]'); if (b) { tlFilter = b.dataset.f; renderTimeline(); return; }
+  if (ev.target.closest('#tlOrder')) { tlAsc = !tlAsc; renderTimeline(); }
+});
+$('tlFilters').addEventListener('change', ev => { if (ev.target.id === 'tlMarks') { tlMarks = ev.target.checked; renderTimeline(); } });
 $('timeline').addEventListener('click', async ev => {
-  const b = ev.target.closest('button[data-evdel]'); if (!b) return;
-  if (b.dataset.armed !== '1') { b.dataset.armed = '1'; b.textContent = 'confirmar?'; setTimeout(() => { b.dataset.armed = ''; b.textContent = 'excluir'; }, 4000); return; }
+  const o = ev.target.closest('[data-open]'); if (o) { openLightbox(o.dataset.open, !!o.dataset.video, o.dataset.cap || o.title); return; }
+  const b = ev.target.closest('button[data-evdel]'); if (!b || !armed(b, 'excluir')) return;
   b.disabled = true;
   try { await db.collection('events').doc(b.dataset.evdel).delete(); } catch (e) { say('Não consegui excluir: ' + (e.message || e.code), 'err'); }
 });
@@ -955,7 +1043,7 @@ Primeiro classifique o que recebeu e coloque cada informação no lugar certo:
 - Foto do próprio cachorro (não é documento) → "photo" com uma legenda curta e descritiva em português.
 - Relato escrito ou falado (sintomas, o que ele comeu, procedimento, alta, visita etc.) → "events", um item por acontecimento, em frases curtas na 3ª pessoa. Peso ou temperatura citados no relato também entram em "exams" (kind "Pesagem" ou "Temperatura", params peso ou temp). Remédio novo citado no relato entra em "meds" de um item de "exams" sem params (kind "Relato").
 Responda SOMENTE com JSON válido, sem texto antes ou depois, neste formato (deixe vazio o que não se aplica):
-{"events":[{"date":"AAAA-MM-DD","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
+{"events":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
 
 Use somente estas chaves em params, na unidade indicada:
 ${keys}
@@ -1145,7 +1233,7 @@ $('saveBtn').addEventListener('click', async () => {
     }
     let nEv = 0, nPv = 0, nPh = 0;
     for (const x of pendingEvents.filter(x => x.add && x.text.trim() && /^\d{4}-\d{2}-\d{2}$/.test(x.date))) {
-      await db.collection('events').add({ date: x.date, text: x.text.trim(), mark: false, short: '', createdAt: Date.now() }); nEv++; dates.push(x.date);
+      await db.collection('events').add({ date: x.date, time: /^\d{2}:\d{2}$/.test(x.time || '') ? x.time : null, text: x.text.trim(), mark: false, short: '', createdAt: Date.now() }); nEv++; dates.push(x.date);
     }
     for (const x of pendingPrev.filter(x => x.add)) {
       if (prevent.some(v => v.date === x.date && (v.product || '').toLowerCase() === x.product.toLowerCase())) continue;
@@ -1199,10 +1287,10 @@ $('micBtn').addEventListener('click', () => {
 });
 $('evDate').value = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0,10);
 $('evBtn').addEventListener('click', async () => {
-  const date = $('evDate').value, text = $('evText').value.trim();
+  const date = $('evDate').value, text = $('evText').value.trim(), time = $('evTime').value || null;
   if (!date || !text) { say('Preencha a data e o que aconteceu.', 'err'); return; }
   $('evBtn').disabled = true;
-  try { await db.collection('events').add({ date, text, mark: $('evMark').checked, short: $('evMark').checked ? text.slice(0, 14) : '', createdAt: Date.now() }); $('evText').value = ''; $('evMark').checked = false; }
+  try { await db.collection('events').add({ date, time, text, mark: $('evMark').checked, short: $('evMark').checked ? text.slice(0, 14) : '', createdAt: Date.now() }); $('evText').value = ''; $('evTime').value = ''; $('evMark').checked = false; }
   catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); }
   finally { $('evBtn').disabled = false; }
 });
@@ -1495,15 +1583,13 @@ function renderPhotos() {
   $('photoGrid').innerHTML = [...groups.entries()].map(([k, list]) => `<div class="monthh">${esc(monthName(k + '-15'))}</div><div class="photos">` + list.map(p => {
     const src = photoSrc(p.assetId);
     const media = p.video ? `<video src="${src}" preload="metadata" muted data-open="${esc(p.assetId)}" data-video="1"></video>` : `<img src="${src}" alt="${esc(p.caption || 'Foto do Odin')}" loading="lazy" data-open="${esc(p.assetId)}">`;
-    return `<figure class="ph" style="margin:0">${media}<figcaption class="cap"><span class="d">${dmy(p.date)}</span>${esc(p.caption || '')}
+    return `<figure class="ph" style="margin:0">${media}<figcaption class="cap"><span class="d">${dmy(p.date)}${p.time ? ' · ' + esc(p.time) : ''}</span>${esc(p.caption || '')}
       ${canWrite && assets ? `<button class="tiny danger" data-pdel="${esc(p.id)}" style="justify-self:start">excluir</button>` : ''}</figcaption></figure>`;
   }).join('') + '</div>').join('');
 }
 $('photoGrid').addEventListener('click', async ev => {
   const o = ev.target.closest('[data-open]');
-  if (o) { const lb = document.createElement('div'); lb.className = 'lightbox'; const src = photoSrc(o.dataset.open);
-    lb.innerHTML = o.dataset.video ? `<video src="${src}" controls autoplay></video>` : `<img src="${src}" alt="">`;
-    lb.addEventListener('click', e => { if (e.target === lb || e.target.tagName === 'IMG') lb.remove(); }); document.body.appendChild(lb); return; }
+  if (o) { openLightbox(o.dataset.open, !!o.dataset.video, o.closest('figure')?.querySelector('figcaption')?.innerText.replace(/excluir$/, '').trim()); return; }
   const b = ev.target.closest('button[data-pdel]'); if (!b || !armed(b, 'excluir')) return;
   const p = photos.find(x => x.id === b.dataset.pdel); b.disabled = true;
   try { await db.collection('photos').doc(p.id).delete(); if (assets && p.assetId) await assets.delete(p.assetId).catch(() => {}); } catch (e) { alertErr(e); }
@@ -1556,7 +1642,7 @@ document.addEventListener('click', ev => { const b = ev.target.closest('[data-go
 window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
 /* ---------- Render all ---------- */
-function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderRecent(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); }
+function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderRecent(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); renderUpdated(); }
 let rt = null; const scheduleRender = () => { clearTimeout(rt); rt = setTimeout(renderAll, 60); };
 new MutationObserver(scheduleRender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', scheduleRender); } catch {}
@@ -1577,14 +1663,40 @@ async function exportForSite() {
       if (!p.video) { try { const res = await fetch('/_blob/' + encodeURIComponent(p.assetId)); dataUrl = await blobToDataUrl(await shrinkImage(await res.blob())); } catch {} }
       ph.push({ ...p, dataUrl });
     }
-    const out = { exportedAt: new Date().toISOString(), exams, events, analyses, meds, prevent, photos: ph };
-    const name = 'odin-export-' + todayIso() + '.json';
+    const out = { exportedAt: new Date().toISOString(), updatedAt: lastUpdate || fallbackUpdate(), exams, events, analyses, meds, prevent, photos: ph };
+    const _n = new Date(), _hm = String(_n.getHours()).padStart(2, '0') + 'h' + String(_n.getMinutes()).padStart(2, '0');
+    const name = 'odin-export-' + todayIso() + '_' + _hm + '.json';
     await dl.save({ filename: name, data: new Blob([JSON.stringify(out)], { type: 'application/json' }) });
     st.textContent = `Arquivo ${name} salvo em Downloads. Agora siga os passos 2 a 4 acima (ou me peça pra publicar).`; st.className = 'done';
   } catch (e) { st.textContent = 'Não consegui exportar: ' + (e.code === 'declined' ? 'download cancelado.' : (e.message || e.code)); st.className = 'err'; }
   finally { btn.disabled = false; }
 }
 $('pubBtn').addEventListener('click', exportForSite);
+
+/* ---------- Última atualização ---------- */
+let lastUpdate = null, touchT = null, rawDb = null;
+function touch() { clearTimeout(touchT); touchT = setTimeout(() => { if (rawDb) rawDb.collection('meta').doc('status').set({ updatedAt: Date.now() }).catch(() => {}); }, 1200); }
+function wrapDb(d) {
+  rawDb = d;
+  const after = f => async (...a) => { const r = await f(...a); touch(); return r; };
+  return { collection(n) {
+    const c = d.collection(n);
+    return new Proxy(c, { get(t, k) {
+      if (k === 'add') return after(t.add.bind(t));
+      if (k === 'doc') return id => { const r = t.doc(id); return new Proxy(r, { get(rt, rk) { const v = rt[rk]; return ['set', 'update', 'delete'].includes(rk) ? after(v.bind(rt)) : typeof v === 'function' ? v.bind(rt) : v; } }); };
+      const v = t[k]; return typeof v === 'function' ? v.bind(t) : v;
+    } });
+  } };
+}
+function whenTxt(ms) {
+  if (!ms) return '';
+  const d = new Date(ms), t = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const iso = x => new Date(x - x.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+  const day = iso(d) === iso(new Date()) ? 'hoje' : d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  return `${day} às ${t}`;
+}
+function fallbackUpdate() { return Math.max(0, ...[...exams, ...events, ...meds, ...prevent, ...photos, ...analyses].map(x => typeof x.createdAt === 'number' && x.createdAt > 1e12 ? x.createdAt : 0)); }
+function renderUpdated() { const el = $('updated'); if (!el) return; const ms = lastUpdate || fallbackUpdate(); el.textContent = ms ? 'Última atualização: ' + whenTxt(ms) : ''; }
 
 /* ---------- Boot ---------- */
 (async () => {
@@ -1595,8 +1707,8 @@ $('pubBtn').addEventListener('click', exportForSite);
     try {
       const d = await (await fetch(STATIC, { cache: 'no-store' })).json();
       exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; photos = d.photos || [];
-      const when = d.exportedAt ? new Date(d.exportedAt).toLocaleDateString('pt-BR') : '';
-      $('conn').textContent = `atualizado em ${when}`;
+      lastUpdate = d.updatedAt || (d.exportedAt ? Date.parse(d.exportedAt) : null);
+      $('conn').textContent = `${exams.length} exames · ${events.length} acontecimentos`;
       renderAll();
     } catch (e) { $('conn').textContent = 'Não consegui carregar os dados'; }
     return;
@@ -1604,7 +1716,7 @@ $('pubBtn').addEventListener('click', exportForSite);
   const use = window.claude && window.claude.use ? window.claude.use.bind(window.claude) : null;
   if (!use) { $('conn').textContent = 'Abra pelo claude.ai pra ver os dados'; return; }
   const [d, s, u, a] = await Promise.all([use('db'), use('sample'), use('user'), use('assets')]);
-  db = d; sample = s; assets = a;
+  db = d ? wrapDb(d) : d; sample = s; assets = a;
   if (!assets) $('photoUp').classList.add('hidden');
   if (u) { try { const w = await u.can('data.write'); if (w === false) canWrite = false; } catch {} }
   if (canWrite) use('dictation').then(setupDictation).catch(() => {});
@@ -1622,6 +1734,7 @@ $('pubBtn').addEventListener('click', exportForSite);
   sub('meds', v => meds = v);
   sub('prevent', v => prevent = v);
   sub('photos', v => photos = v);
+  rawDb.collection('meta').onSnapshot(snap => { const m = snap.docs.find(x => x.id === 'status'); lastUpdate = m ? m.data().updatedAt : null; renderUpdated(); }, () => {});
 })();
 </script>
 </body>

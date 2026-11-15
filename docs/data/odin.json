@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-15T18:30:00.266Z",
+ "exportedAt": "2026-11-15T19:18:09.293Z",
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -862,7 +862,7 @@
    "date": "2026-09-20",
    "mark": false,
    "short": "",
-   "text": "Cappuccino, irmão do Odin, faleceu de cinomose."
+   "text": "Cappuccino (o Pingo), irmão do Odin, faleceu de cinomose."
   },
   {
    "id": "v03",
@@ -1017,6 +1017,27 @@
    "mark": false,
    "short": "",
    "text": "Sem movimento nas quatro patas; mexe o pescoço às vezes; engole e responde a estímulos. Consulta com a neuro a neurologista."
+  },
+  {
+   "id": "v25",
+   "date": "2026-09-24",
+   "mark": false,
+   "short": "",
+   "text": "Na internação, não deixava a auxiliar nem a veterinária encostarem nele; a clínica pediu pra tutora ir ajudar na coleta do exame."
+  },
+  {
+   "id": "v26",
+   "date": "2026-10-16",
+   "mark": false,
+   "short": "",
+   "text": "Na internação: comeu sozinho de madrugada e arrancou a sonda urinária. Não precisou de oxigênio. Descoberta a alergia a um antibiótico."
+  },
+  {
+   "id": "v27",
+   "date": "2026-10-30",
+   "mark": false,
+   "short": "",
+   "text": "Em casa, sem movimento nas patas: apoio improvisado embaixo das patinhas pra evitar edema."
   }
  ],
  "analyses": [
@@ -1064,6 +1085,16 @@
    "id": "i1i1cx8gvt5w9et7rjjd",
    "text": "## O que mudou\n\nOs itens novos são o hemograma de 16/10 e as receitas (peso e prescrições). Não são resultados novos de gravidade, mas dão contexto:\n\n- **Hemograma de 16/10** é o primeiro da série: anemia leve (hematócrito 31%), leucócitos altos com muitos neutrófilos jovens (bastonetes e metamielócitos, o chamado \"desvio à esquerda\") e granulações tóxicas, sinais de inflamação/infecção intensa. Linfócitos bem baixos, comum em cinomose e com corticoide. ALT e fosfatase alcalina altas (fígado, e a dexametasona também pode elevar a fosfatase).\n- **Peso: 27 kg (16/10) para 24,75 kg (26/10)**: perda de cerca de 2,2 kg em 10 dias, coerente com a perda de massa muscular que você descreveu.\n- **Receitas de 26 e 27/10** (ribavirina, ginkgo, pentoxifilina, amantadina etc.): mostram o tratamento de suporte/neurológico planejado para a cinomose. Não são exames.\n\n## Tendência geral\n\n- Anemia leve em outubro, **piora forte em 08/11** (hematócrito 12%, regenerativa, ou seja, a medula está reagindo), transfusão e recuperação para cerca de 28–30%, estável em 14/11.\n- Leucócitos subiram até ~50 mil em 22/10, e caíram para 15,6 mil em 14/11: melhora da inflamação.\n- ALT e fosfatase caíram ao longo do tempo.\n- Plaquetas altas em 14/11 (trombocitose): pode ser reação à anemia/inflamação, vale acompanhar.\n- Cinomose confirmada no sangue e no líquor. O quadro neurológico (mioclonia, rigidez) é o ponto mais pesado.\n- Ureia alta em 09/11 com creatinina baixa: pode ter relação com sangramento digestivo (fezes pretas), corticoide ou perda muscular.\n\n## Perguntas pra levar à vet\n\n- A causa da anemia de 08/11 foi sangramento digestivo ou destruição de hemácias? Foi investigado?\n- O hematócrito segue estável sem nova queda? Quando repetir?\n- A ureia alta já foi reavaliada?\n- A trombocitose preocupa?\n- Como está o plano para a mioclonia e a alimentação por sonda?\n- As prescrições de outubro ainda valem na internação atual?\n\nSe notar fezes pretas de novo, gengivas pálidas ou piora súbita, avise a equipe na hora.",
    "createdAt": 1794759272193
+  },
+  {
+   "id": "syei46pe1ocrgbvqyypq",
+   "text": "## O que mudou\n- **Cinomose:** o vírus ainda aparece no sangue (PCR) e no líquor (o líquido que envolve cérebro e medula). O líquor tem células e proteína acima do normal, o que indica inflamação no sistema nervoso. Isso bate com a mioclonia (espasmos) e a tetraparesia (fraqueza nas quatro patas).\n- **Anemia:** o hematócrito (% de glóbulos vermelhos) caiu de 37% para 12,2% em 08/11. Subiu para ~29% após a transfusão e se manteve estável em 12 e 14/11. Antes da queda, a anemia era \"não regenerativa\" (a medula não repunha células); em 08/11 já havia reticulocitose, ou seja, a medula reagindo.\n- **Infecção/inflamação:** os leucócitos chegaram a 50 mil em outubro e agora estão ~15 mil, quase normais.\n- **Plaquetas:** foram a 148 mil em 12/11 e a 692 mil em 14/11. Pode ser amostra com fibrina ou rebote, mas vale acompanhar.\n- **Peso:** de 27 kg para 19 kg, com grande perda de massa muscular.\n- **Ureia** estava alta (110) em 09/11, com creatinina normal. Pode ser desidratação ou sangramento digestivo (as fezes pretas).\n\n## Tendência geral\n- Anemia **estabilizada após a transfusão**, mas a causa ainda não está esclarecida.\n- Sinais gerais (infecção, febre, hemograma) **melhoraram**.\n- O quadro neurológico é o ponto mais grave: **sem melhora clara** e com perda de peso contínua.\n\n## Perguntas pra levar à vet\n- Por que o hematócrito caiu tanto? Pode ser hemólise (destruição dos glóbulos vermelhos), sangramento digestivo ou problema na medula? Que exames faltam?\n- A ureia alta e as fezes pretas indicam sangramento no estômago ou intestino?\n- Como o hematócrito será monitorado após a alta, e com que frequência?\n- A plaqueta alta é preocupante?\n- Como garantir nutrição e frear a perda de peso?\n- Qual o prognóstico neurológico e quando começa a neurorreabilitação?\n- Quais sinais de alerta exigem voltar na hora (palidez, fezes pretas, febre, urina travada)?\n\n**Se ele ficar pálido, letárgico ou com fezes pretas de novo, fale com a equipe logo.**",
+   "createdAt": 1794770211706
+  },
+  {
+   "id": "tiqcgr27805kp3ssofwa",
+   "text": "## O que mudou\n\n- **Cinomose:** o vírus segue detectado no sangue (PCR em 15/09 e 17/10) e também no líquor (28/10), ou seja, chegou ao sistema nervoso. O líquor mostrou mais células e proteína que o normal, o que indica inflamação. Isso combina com a mioclonia (tremores/espasmos) e a tetraparesia (fraqueza nas 4 patas).\n- **Anemia:** caiu de Ht 37% (22/09) para 25% (31/10), sem resposta da medula (**não regenerativa**). Em 08/11 foi a **12,2%**, agora com a medula reagindo, e CHCM alto, o que levanta suspeita de destruição de hemácias. Após a transfusão ficou estável em ~29–30% (10 a 14/11).\n- **Infecção/inflamação:** leucócitos muito altos em outubro (até ~50 mil) e já bem menores em novembro (~15 mil).\n- **Plaquetas:** baixaram em 12/11, mas subiram em 14/11 (692 mil). Fibrina na amostra atrapalha a leitura.\n- **Peso:** 27 kg → 19 kg. Perda grande de massa muscular.\n- **Ureia** alta em 09/11 com creatinina baixa: pode refletir desidratação ou sangramento digestivo (as fezes pretas).\n\n## Tendência geral\n\n- **Melhor:** hematócrito estabilizado, infecção bem menos agressiva, sem novas convulsões, neuro estável.\n- **Preocupante:** emagrecimento contínuo, problemas para urinar, olhos comprometidos e mioclonia persistente.\n- Ainda é um quadro grave e instável. A anemia estar estável depende de a causa estar controlada, e isso não está claro.\n\n## Perguntas pra levar à vet\n\n- Qual a causa da anemia? Dá para investigar hemólise (teste de Coombs) e sangramento digestivo?\n- Se o Ht cair de novo, qual o limite para voltar correndo? (Mucosa branca e letargia: procure a equipe na hora.)\n- Como vamos acompanhar a bexiga? Ele vai urinar sem sonda antes da alta?\n- Qual o plano de nutrição para frear a perda de peso?\n- Dá para repetir o PCR de cinomose para acompanhar o vírus?\n- Os olhos precisam de avaliação com oftalmologista?\n- Quais sinais em casa exigem emergência?",
+   "createdAt": 1794767694378
   },
   {
    "id": "xyuowyvqajfycud0zk27",
@@ -1776,11 +1807,567 @@
  ],
  "photos": [
   {
+   "id": "am-00",
+   "assetId": "9a0feb854ff51117717fab8b26509e43",
+   "caption": "Enroladinho na cama, entre as internações na Tododoy",
+   "createdAt": 1794769100000,
+   "date": "2026-10-07",
+   "time": "14:10",
+   "video": false
+  },
+  {
+   "id": "am-01",
+   "assetId": "305b550f335b50d7039cb438ff0fd973",
+   "caption": "Deitado com os brinquedos na internação da Tododoy",
+   "createdAt": 1794769100001,
+   "date": "2026-10-20",
+   "time": "20:30",
+   "video": false
+  },
+  {
+   "id": "am-02",
+   "assetId": "689c1f25f33f6d6ae0d324a0bcc9d604",
+   "caption": "Patinhas apoiadas e enfaixadas, pra evitar edema",
+   "createdAt": 1794769100002,
+   "date": "2026-10-30",
+   "time": "13:44",
+   "video": false
+  },
+  {
+   "id": "fotos-00",
+   "assetId": "8366a975a65599ad3b9bed9448bf514c",
+   "caption": "Agosto, antes de adoecer: forte e ativo em casa",
+   "createdAt": 1794768600000,
+   "date": "2026-08-03",
+   "video": false
+  },
+  {
+   "id": "fotos-01",
+   "assetId": "c0dd613d7f61133e37be5b7c92e73ed5",
+   "caption": "Sentado na caminha, ainda com toda a massa muscular",
+   "createdAt": 1794768600001,
+   "date": "2026-08-20",
+   "video": false
+  },
+  {
+   "id": "fotos-02",
+   "assetId": "f85a87ea54fbd4a94bdadf85833bd8f1",
+   "caption": "Começo de setembro, ainda saudável",
+   "createdAt": 1794768600002,
+   "date": "2026-09-01",
+   "video": false
+  },
+  {
+   "id": "fotos-03",
+   "assetId": "8aded8d01f7f0b53e9283d0adab74df1",
+   "caption": "Dormindo tranquilo, poucos dias antes da primeira tosse (09/09)",
+   "createdAt": 1794768600003,
+   "date": "2026-09-06",
+   "video": false
+  },
+  {
+   "id": "fotos-04",
+   "assetId": "b3f149778310ea548c29871ae463aeac",
+   "caption": "Dias antes das primeiras convulsões",
+   "createdAt": 1794768600004,
+   "date": "2026-09-16",
+   "video": false
+  },
+  {
+   "id": "fotos-06",
+   "assetId": "91ea9286c13116df22705d1b8b11a329",
+   "caption": "Em casa, no dia da alta",
+   "createdAt": 1794768600006,
+   "date": "2026-09-25",
+   "video": false
+  },
+  {
+   "id": "fotos-07",
+   "assetId": "55ecf5883a3f039dfe36bf7910a4ef25",
+   "caption": "Rosto abatido e olhos com secreção",
+   "createdAt": 1794768600007,
+   "date": "2026-09-28",
+   "video": false
+  },
+  {
+   "id": "fotos-08",
+   "assetId": "3191de3c479c8c3587dc043e42a64272",
+   "caption": "Descansando com o brinquedo azul",
+   "createdAt": 1794768600008,
+   "date": "2026-09-30",
+   "video": false
+  },
+  {
+   "id": "fotos-09",
+   "assetId": "fe68904cb29252c5e2e426bcb3388526",
+   "caption": "No sofá, começo de outubro",
+   "createdAt": 1794768600009,
+   "date": "2026-10-04",
+   "video": false
+  },
+  {
+   "id": "fotos-10",
+   "assetId": "493f5b60569a8713034ad9c739cdd0b9",
+   "caption": "Véspera da segunda internação na Tododoy (13/10)",
+   "createdAt": 1794768600010,
+   "date": "2026-10-12",
+   "video": false
+  },
+  {
+   "id": "fotos-11",
+   "assetId": "cba3320e367edab19d70033fe5ec8920",
+   "caption": "Na internação da Tododoy, com acesso na pata",
+   "createdAt": 1794768600011,
+   "date": "2026-10-20",
+   "video": false
+  },
+  {
+   "id": "fotos-12",
+   "assetId": "bb292d387c81041e44de150856ee3b36",
+   "caption": "Aniversário de 1 ano comemorado na internação da Tododoy",
+   "createdAt": 1794768600012,
+   "date": "2026-10-23",
+   "video": false
+  },
+  {
+   "id": "fotos-13",
+   "assetId": "079aa03a2fbbbb7c0fe53196a4dddfbd",
+   "caption": "Dia da alta da Tododoy",
+   "createdAt": 1794768600013,
+   "date": "2026-10-28",
+   "video": false
+  },
+  {
+   "id": "fotos-14",
+   "assetId": "69a040eb8ed66aed26dc4f21ec163381",
+   "caption": "Em casa, já bem mais magro",
+   "createdAt": 1794768600014,
+   "date": "2026-10-31",
+   "video": false
+  },
+  {
+   "id": "fotos-15",
+   "assetId": "020fb268caa0a1d39b559e143f87c0fd",
+   "caption": "Perda de massa muscular visível",
+   "createdAt": 1794768600015,
+   "date": "2026-11-01",
+   "video": false
+  },
+  {
+   "id": "fotos-16",
+   "assetId": "d5cd6663198bc90c891ef91e074c3677",
+   "caption": "Deitadinho na manta vermelha",
+   "createdAt": 1794768600016,
+   "date": "2026-11-04",
+   "video": false
+  },
+  {
+   "id": "fotos-17",
+   "assetId": "1ce205890aae8996756d2e869f22ff36",
+   "caption": "Comendo com ajuda da seringa, na noite antes de internar na Rio Vet",
+   "createdAt": 1794768600017,
+   "date": "2026-11-07",
+   "video": false
+  },
+  {
+   "id": "fotos-18",
+   "assetId": "1e9f1db7e568bf6b3f9e5bfb7ec3c075",
+   "caption": "Chegada à internação da Rio Vet",
+   "createdAt": 1794768600018,
+   "date": "2026-11-08",
+   "video": false
+  },
+  {
+   "id": "fotos-19",
+   "assetId": "4d7b5c1eb8248647ee52f96d490d3a7e",
+   "caption": "Primeira noite na Rio Vet",
+   "createdAt": 1794768600019,
+   "date": "2026-11-08",
+   "video": false
+  },
+  {
+   "id": "fotos-20",
+   "assetId": "4318eb10a43730067bac906905de4e6b",
+   "caption": "Dia da transfusão (imagem de um vídeo)",
+   "createdAt": 1794768600020,
+   "date": "2026-11-09",
+   "video": false
+  },
+  {
+   "id": "gih-00",
+   "assetId": "ece94a54744e86dec29c321281c2c358",
+   "caption": "Colinho e carinho em casa",
+   "createdAt": 1794768900000,
+   "date": "2026-10-03",
+   "time": "21:31",
+   "video": false
+  },
+  {
+   "id": "gih-02",
+   "assetId": "39b40834104f138d2fe7234b1d859c8d",
+   "caption": "Dormindo na cama, entre a primeira e a segunda internação na Tododoy",
+   "createdAt": 1794768900002,
+   "date": "2026-10-08",
+   "time": "20:06",
+   "video": false
+  },
+  {
+   "id": "gih-03",
+   "assetId": "f7f7f9963adc6859f2bc1facc89e6489",
+   "caption": "Segundo dia da internação na Tododoy",
+   "createdAt": 1794768900003,
+   "date": "2026-10-14",
+   "time": "17:19",
+   "video": false
+  },
+  {
+   "id": "gih-04",
+   "assetId": "4afe463254dacf5c0446850d35fbb911",
+   "caption": "Dormindo na internação da Tododoy",
+   "createdAt": 1794768900004,
+   "date": "2026-10-15",
+   "time": "22:29",
+   "video": false
+  },
+  {
+   "id": "gih-05",
+   "assetId": "2dd4266a57da3b6ed5b504240c67b2c8",
+   "caption": "Visita na internação da Tododoy, com a abelha de pelúcia",
+   "createdAt": 1794768900005,
+   "date": "2026-10-16",
+   "time": "13:36",
+   "video": false
+  },
+  {
+   "id": "gih-06",
+   "assetId": "91f93672bb188089472e30da0c691602",
+   "caption": "Sentadinho com os brinquedos na internação da Tododoy",
+   "createdAt": 1794768900006,
+   "date": "2026-10-16",
+   "time": "19:55",
+   "video": false
+  },
+  {
+   "id": "gih-07",
+   "assetId": "8e4f8c27ae91515d46e2bed9036f928a",
+   "caption": "Olhos inchados, ainda internado na Tododoy",
+   "createdAt": 1794768900007,
+   "date": "2026-10-17",
+   "time": "12:53",
+   "video": false
+  },
+  {
+   "id": "gih-08",
+   "assetId": "323fb8a3540a7a1adb6dac651470684e",
+   "caption": "De colar elizabetano na internação da Tododoy",
+   "createdAt": 1794768900008,
+   "date": "2026-10-22",
+   "time": "20:41",
+   "video": false
+  },
+  {
+   "id": "gih-11",
+   "assetId": "e1f8d1631ea308265e3c0b7af28c64c7",
+   "caption": "Monitorado pela câmera durante a noite",
+   "createdAt": 1794768900011,
+   "date": "2026-10-31",
+   "time": "22:03",
+   "video": false
+  },
+  {
+   "id": "gih-13",
+   "assetId": "f5ef52a084886aab2fbf03417a2169a7",
+   "caption": "Deitado no tapetinho, de peitoral",
+   "createdAt": 1794769000000,
+   "date": "2026-08-07",
+   "time": "22:13",
+   "video": false
+  },
+  {
+   "id": "gih-14",
+   "assetId": "1ef8dddcc2b59eed7752ca8f41679dd0",
+   "caption": "Descansando na caminha alta",
+   "createdAt": 1794769000001,
+   "date": "2026-08-08",
+   "time": "21:22",
+   "video": false
+  },
+  {
+   "id": "gih-15",
+   "assetId": "2cb8cb0fe144a8b904f4c3bce9603dfb",
+   "caption": "Em pé no corredor, forte e atento",
+   "createdAt": 1794769000002,
+   "date": "2026-08-10",
+   "time": "08:21",
+   "video": false
+  },
+  {
+   "id": "gih-16",
+   "assetId": "60347834c77ed565b267840f14a2e454",
+   "caption": "No passeio, cheio de energia",
+   "createdAt": 1794769000003,
+   "date": "2026-08-15",
+   "time": "09:13",
+   "video": false
+  },
+  {
+   "id": "gih-17",
+   "assetId": "7765d96f690c5b205b59e7514819fdff",
+   "caption": "Postura firme, peito largo",
+   "createdAt": 1794769000004,
+   "date": "2026-08-19",
+   "time": "17:46",
+   "video": false
+  },
+  {
+   "id": "gih-18",
+   "assetId": "462b0db1c373102085876b6449c5e193",
+   "caption": "Cochilando junto com o Luke, o irmão salsicha",
+   "createdAt": 1794769000005,
+   "date": "2026-08-20",
+   "time": "04:32",
+   "video": false
+  },
+  {
+   "id": "gih-19",
+   "assetId": "30b8ca2da48b7fdda46d6402de7351a5",
+   "caption": "Enroladinho na cama",
+   "createdAt": 1794769000006,
+   "date": "2026-08-24",
+   "time": "23:36",
+   "video": false
+  },
+  {
+   "id": "gih-20",
+   "assetId": "9b061dc9a5064dab79317280bffe91a7",
+   "caption": "Na caminha, começo de setembro",
+   "createdAt": 1794769000007,
+   "date": "2026-09-01",
+   "time": "20:25",
+   "video": false
+  },
+  {
+   "id": "gih-21",
+   "assetId": "fd3313f2b99e28e5ccf8b8da9d6bef08",
+   "caption": "Retrato do Odin em desenho",
+   "createdAt": 1794769000008,
+   "date": "2026-09-08",
+   "time": "01:29",
+   "video": false
+  },
+  {
+   "id": "gih-22",
+   "assetId": "491a60662bb961f3641762a5a783a7f0",
+   "caption": "Esticado na caminha, um dia antes da primeira tosse",
+   "createdAt": 1794769000009,
+   "date": "2026-09-08",
+   "time": "13:10",
+   "video": false
+  },
+  {
+   "id": "gih-23",
+   "assetId": "c2e9b46603b976035830994816a53b25",
+   "caption": "Quadro com o registro das 7 convulsões de 21 e 22/09",
+   "createdAt": 1794769000010,
+   "date": "2026-09-22",
+   "time": "11:14",
+   "video": false
+  },
+  {
+   "id": "gih-24",
+   "assetId": "efeab41ee3ffacfb7248d49d479c374f",
+   "caption": "Andando pela internação da Tododoy",
+   "createdAt": 1794769000011,
+   "date": "2026-09-23",
+   "time": "16:31",
+   "video": false
+  },
+  {
+   "id": "gih-25",
+   "assetId": "abf2490a6718df7ee7b99d98974782ff",
+   "caption": "De colar e mantinha xadrez na internação da Tododoy",
+   "createdAt": 1794769000012,
+   "date": "2026-09-23",
+   "time": "18:26",
+   "video": false
+  },
+  {
+   "id": "gih-26",
+   "assetId": "20488633dcc5d871db6593994b4b12a3",
+   "caption": "No colo, depois da alta",
+   "createdAt": 1794769000013,
+   "date": "2026-09-25",
+   "time": "23:39",
+   "video": false
+  },
+  {
+   "id": "gih-27",
+   "assetId": "911ef0312b3b91506025e77194faa965",
+   "caption": "No colo, de manhã",
+   "createdAt": 1794769000014,
+   "date": "2026-09-26",
+   "time": "09:02",
+   "video": false
+  },
+  {
+   "id": "gih-28",
+   "assetId": "f6fa1026edb4a70be21df765a71b9a78",
+   "caption": "Olho fechado e inchado, na internação da Tododoy",
+   "createdAt": 1794769000015,
+   "date": "2026-10-14",
+   "time": "11:08",
+   "video": false
+  },
+  {
+   "id": "gih-29",
+   "assetId": "7d333440e061c3fc98e1efee49bb8aeb",
+   "caption": "No soro, na internação da Tododoy",
+   "createdAt": 1794769000016,
+   "date": "2026-10-14",
+   "time": "12:22",
+   "video": false
+  },
+  {
    "id": "mmnnby19vwofhva15fzj",
    "assetId": "7031b0f06f7dc53d9466e03f69357fde",
    "caption": "Deitadinho com o macaquinho de pelúcia, na época em que a barriga estava inchada",
    "createdAt": 1794762111326,
    "date": "2026-11-03",
+   "video": false
+  },
+  {
+   "id": "wa-00",
+   "assetId": "395dfab16ecb16c7e634670695bf88e6",
+   "caption": "Manhã do dia da transfusão",
+   "createdAt": 1794768700000,
+   "date": "2026-11-09",
+   "time": "07:16",
+   "video": false
+  },
+  {
+   "id": "wa-01",
+   "assetId": "cc482510cace0eb141013db3d3ac8cfa",
+   "caption": "Chegou a bolsa de sangue pra transfusão",
+   "createdAt": 1794768700001,
+   "date": "2026-11-09",
+   "time": "16:30",
+   "video": false
+  },
+  {
+   "id": "wa-02",
+   "assetId": "023874ddac5a478e839701ed28fa1b14",
+   "caption": "Transfusão correndo, de madrugada",
+   "createdAt": 1794768700002,
+   "date": "2026-11-10",
+   "time": "00:33",
+   "video": false
+  },
+  {
+   "id": "wa-03",
+   "assetId": "941bac8acfc46b1664559ecfc3f3d2cc",
+   "caption": "Manhã seguinte à transfusão",
+   "createdAt": 1794768700003,
+   "date": "2026-11-10",
+   "time": "07:26",
+   "video": false
+  },
+  {
+   "id": "wa-04",
+   "assetId": "9df81f203fa0bf4dd7df9873534fcf8c",
+   "caption": "Fim do dia depois da transfusão",
+   "createdAt": 1794768700004,
+   "date": "2026-11-10",
+   "time": "19:32",
+   "video": false
+  },
+  {
+   "id": "wa-05",
+   "assetId": "37f7d0cfd2a2bf1ce10b27b88c367182",
+   "caption": "Amanhecer de 11/11",
+   "createdAt": 1794768700005,
+   "date": "2026-11-11",
+   "time": "06:29",
+   "video": false
+  },
+  {
+   "id": "wa-06",
+   "assetId": "ab1f6b0260102ace9ee242488d5a0ea6",
+   "caption": "Com a sonda nasogástrica, colocada por causa da mioclonia",
+   "createdAt": 1794768700006,
+   "date": "2026-11-11",
+   "time": "15:12",
+   "video": false
+  },
+  {
+   "id": "wa-07",
+   "assetId": "ae3405ad2ac5ba9b1caa15fb214a1f2f",
+   "caption": "Noite de 11/11, com acesso na pata",
+   "createdAt": 1794768700007,
+   "date": "2026-11-11",
+   "time": "20:18",
+   "video": false
+  },
+  {
+   "id": "wa-08",
+   "assetId": "df254b18cf0c6c851f711ef84f4b62b9",
+   "caption": "Bom dia de 12/11",
+   "createdAt": 1794768700008,
+   "date": "2026-11-12",
+   "time": "08:11",
+   "video": false
+  },
+  {
+   "id": "wa-09",
+   "assetId": "4a201200f2f6bc95b6bdc57a7cc447d7",
+   "caption": "Manhã de 13/11",
+   "createdAt": 1794768700009,
+   "date": "2026-11-13",
+   "time": "07:13",
+   "video": false
+  },
+  {
+   "id": "wa-10",
+   "assetId": "9245b913056cbfa8e6ec066e68d23d8b",
+   "caption": "Noite de 13/11, com espasmos menores",
+   "createdAt": 1794768700010,
+   "date": "2026-11-13",
+   "time": "20:00",
+   "video": false
+  },
+  {
+   "id": "wa-11",
+   "assetId": "0605780e784ba04e38020e4a2d13092f",
+   "caption": "Manhã de 14/11",
+   "createdAt": 1794768700011,
+   "date": "2026-11-14",
+   "time": "07:28",
+   "video": false
+  },
+  {
+   "id": "wa-12",
+   "assetId": "c0ce2100f9e43e1baedbe60c6c0ca118",
+   "caption": "Na visita de 14/11: deitado de lado, bem mais magrinho",
+   "createdAt": 1794768700012,
+   "date": "2026-11-14",
+   "time": "18:38",
+   "video": false
+  },
+  {
+   "id": "wa-13",
+   "assetId": "a4739e221bebb9e6f94073bc30136340",
+   "caption": "Fim da visita de 14/11",
+   "createdAt": 1794768700013,
+   "date": "2026-11-14",
+   "time": "19:45",
+   "video": false
+  },
+  {
+   "id": "wa-14",
+   "assetId": "d361a17f442290d180ce3542ce34e40a",
+   "caption": "Bom dia de hoje (15/11)",
+   "createdAt": 1794768700014,
+   "date": "2026-11-15",
+   "time": "07:34",
    "video": false
   }
  ]
