@@ -201,6 +201,19 @@ body.ro .wr { display: none !important; }
 .att { border-left: 3px solid var(--line); padding-left: 10px; }
 .att.bad { border-left-color: var(--bad); }
 .att.hi { border-left-color: var(--warn); }
+.extools { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding: 4px 0; }
+.extools .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 12.5px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--line); background: transparent; color: var(--ink); }
+.chip.on { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.chart[data-k] { cursor: zoom-in; transition: border-color .15s; }
+.chart[data-k]:hover, .chart[data-k]:focus-visible { border-color: var(--accent); outline: none; }
+.chart.single .one { font-size: 12px; color: var(--muted); padding: 10px 0 6px; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.72); display: grid; place-items: center; z-index: 60; padding: 18px; }
+.mbox { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; width: min(1000px, 100%); max-height: 100%; overflow: auto; padding: 18px 20px; }
+.mhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+.mdesc { font-size: 13.5px; color: var(--muted); margin: 0 0 10px; }
+.mtable td, .mtable th { padding: 6px 12px 6px 0; text-align: left; }
+#evo th:first-child, #evo td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 1; }
 </style>
 </head>
 <body>
@@ -306,7 +319,11 @@ body.ro .wr { display: none !important; }
   </div>
 
   <div class="panel" id="p-exames" role="tabpanel" hidden>
-  <div class="legend-note" aria-label="Legenda dos gráficos"><span><i></i>exames próximos</span><span><i class="dash"></i>mais de 6 dias sem exame (não mostra o que aconteceu no meio)</span><span><i class="band"></i>faixa de referência</span><span><i class="ev"></i>acontecimento marcado</span><span>Toque no <b>?</b> pra ver o que cada exame avalia</span><span>Nos cards do topo: <b style="color:var(--ok)">▲▼ verde</b> = indo pra faixa normal, <b style="color:var(--warn)">▲▼ laranja</b> = se afastando</span></div>
+  <div class="legend-note" aria-label="Legenda dos gráficos"><span><i></i>exames próximos</span><span><i class="dash"></i>mais de 6 dias sem exame (não mostra o que aconteceu no meio)</span><span><i class="band"></i>faixa de referência</span><span><i class="ev"></i>acontecimento marcado</span><span>Toque no <b>?</b> pra ver o que cada exame avalia; clique no gráfico pra ampliar</span><span>Nos cards do topo: <b style="color:var(--ok)">▲▼ verde</b> = indo pra faixa normal, <b style="color:var(--warn)">▲▼ laranja</b> = se afastando</span></div>
+  <div class="extools" role="toolbar" aria-label="Filtrar gráficos">
+    <div class="chips" id="exChips"></div>
+    <label class="chk"><input type="checkbox" id="exOut"> Só o que está fora da faixa</label>
+  </div>
   <div id="chartSections"></div>
 
   <section class="card">
@@ -549,7 +566,7 @@ const eventPlugin = {
       const px = x.getPixelForValue(e.x);
       if (px < ar.left || px > ar.right) continue;
       ctx.beginPath(); ctx.moveTo(px, ar.top); ctx.lineTo(px, ar.bottom); ctx.stroke();
-      if (!e.short) continue;
+      if (!e.short || o.labels === false) continue;
       const w = ctx.measureText(e.short).width;
       const lx = Math.min(px + 3, ar.right - w - 2);
       let row = 0;
@@ -560,8 +577,59 @@ const eventPlugin = {
     ctx.restore();
   }
 };
-if (window.Chart) Chart.register(bandPlugin, eventPlugin);
+const valuePlugin = {
+  id: 'vlabels',
+  afterDatasetsDraw(c, _a, o) {
+    if (!o || !o.on) return;
+    const ctx = c.ctx, meta = c.getDatasetMeta(0);
+    ctx.save(); ctx.fillStyle = o.color; ctx.font = '11px "IBM Plex Mono", monospace'; ctx.textAlign = 'center';
+    meta.data.forEach((pt, i) => { const v = c.data.datasets[0].data[i]; ctx.fillText(fmt(v.y), pt.x, pt.y - 9); });
+    ctx.restore();
+  }
+};
+if (window.Chart) Chart.register(bandPlugin, eventPlugin, valuePlugin);
 
+function makeChart(canvas, k, big, C) {
+  const { xMin, xMax, step, accent, muted, line, band, ink, surface, marks } = C;
+  const p = P[k], s = series(k);
+      const vals = s.map(d => d.y).concat([p.lo, p.hi].filter(v => v != null));
+      const lo = Math.min(...vals), hi = Math.max(...vals), pad = (hi - lo) * 0.12 || Math.abs(hi) * 0.2 || 1;
+      return new Chart(canvas, {
+        type: 'line',
+        data: { datasets: [{
+          data: s, parsing: false, borderColor: accent, backgroundColor: accent, borderWidth: 2, tension: 0.25,
+          pointRadius: s.map((_, i) => i === s.length - 1 ? (big ? 6 : 4.5) : (big ? 4 : 3)), pointBackgroundColor: s.map((_, i) => i === s.length - 1 ? accent : surface),
+          pointBorderColor: accent, pointBorderWidth: 2, spanGaps: true,
+          segment: { borderDash: c => (c.p1.parsed.x - c.p0.parsed.x) > 6 ? [5, 4] : undefined },
+        }]},
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          layout: { padding: { top: big ? 18 : 4, right: 6 } },
+          scales: {
+            x: { type: 'linear', min: xMin, max: xMax, grid: { color: line, drawTicks: false }, border: { display: false },
+                 ticks: { stepSize: step, color: muted, font: { size: big ? 12 : 10.5 }, callback: v => dm(dayIso(Math.round(v))), maxRotation: 0 } },
+            y: { suggestedMin: lo >= 0 ? Math.max(0, lo - pad) : lo - pad, suggestedMax: hi + pad, grid: { color: line, drawTicks: false }, border: { display: false },
+                 ticks: { color: muted, font: { size: 10.5 }, maxTicksLimit: 5, callback: v => fmt(v) } },
+          },
+          plugins: {
+            legend: { display: false },
+            refband: { lo: p.lo, hi: p.hi, color: band },
+            evlines: { events: marks, color: muted, labels: big },
+            vlabels: { on: big, color: ink },
+            tooltip: { backgroundColor: ink, titleColor: surface, bodyColor: surface, displayColors: false,
+              callbacks: { title: it => dmy(it[0].raw.date) + (it[0].raw.lab ? ' · ' + it[0].raw.lab : ''), label: it => `${fmt(it.raw.y)} ${p.u}` } },
+          },
+        },
+      });
+}
+let exGroup = 'all', exOnlyOut = false;
+function chartCtx() {
+  const all = sortedExams().filter(hasParams);
+  const xs = all.map(e => dayNum(e.date));
+  const xMin = Math.min(...xs) - 2, xMax = Math.max(...xs) + 2;
+  return { xMin, xMax, step: Math.max(1, Math.round((xMax - xMin) / 6)), accent: css('--accent'), muted: css('--muted'), line: css('--line'), band: css('--band'), ink: css('--ink'), surface: css('--surface'),
+    marks: events.filter(e => e.mark && e.date).map(e => ({x: dayNum(e.date), short: e.short || ''})) };
+}
 function renderCharts() {
   charts.forEach(c => c.destroy()); charts = [];
   const host = $('chartSections'); host.innerHTML = '';
@@ -569,15 +637,16 @@ function renderCharts() {
   if (!window.Chart) { host.innerHTML = '<p class="note">Os gráficos não carregaram. Recarregue a página.</p>'; return; }
   const all = sortedExams().filter(hasParams);
   if (!all.length) return;
-  const xs = all.map(e => dayNum(e.date));
-  const xMin = Math.min(...xs) - 2, xMax = Math.max(...xs) + 2;
-  const step = Math.max(1, Math.round((xMax - xMin) / 6));
-  const accent = css('--accent'), muted = css('--muted'), line = css('--line'), band = css('--band'), ink = css('--ink'), surface = css('--surface');
-  const marks = events.filter(e => e.mark && e.date).map(e => ({x: dayNum(e.date), short: e.short || ''}));
-
+  const ctxC = chartCtx();
+  $('exChips').innerHTML = [{g:'all', t:'Todos'}, ...GROUPS.filter(G => PARAMS.some(p => p.g === G.g && series(p.k).length))].map(G =>
+    `<button class="chip${exGroup === G.g ? ' on' : ''}" data-exg="${G.g}">${esc(G.t)}</button>`).join('');
+  let shown = 0;
   for (const G of GROUPS) {
-    const keys = PARAMS.filter(p => p.g === G.g && series(p.k).length).map(p => p.k);
+    if (exGroup !== 'all' && exGroup !== G.g) continue;
+    const keys = PARAMS.filter(p => p.g === G.g && series(p.k).length).map(p => p.k)
+      .filter(k => { if (!exOnlyOut) return true; const s = series(k); const st = statusOf(k, s[s.length-1].y); return st === 'lo' || st === 'hi'; });
     if (!keys.length) continue;
+    shown += keys.length;
     const sec = document.createElement('section');
     sec.style.display = 'grid'; sec.style.gap = '12px';
     sec.innerHTML = `<div class="section-title"><h2>${esc(G.t)}</h2><span>${esc(G.d)}</span></div><div class="charts"></div>`;
@@ -585,42 +654,65 @@ function renderCharts() {
     const grid = sec.querySelector('.charts');
     for (const k of keys) {
       const p = P[k], s = series(k), last = s[s.length-1], st = statusOf(k, last.y);
-      const card = document.createElement('div'); card.className = 'chart';
+      const card = document.createElement('div'); card.className = 'chart' + (s.length === 1 ? ' single' : ''); card.dataset.k = k;
+      card.tabIndex = 0; card.setAttribute('role', 'button'); card.setAttribute('aria-label', `Ampliar ${p.l}`);
       card.innerHTML = `<div class="head"><h3>${esc(p.l)} <button class="info" type="button" aria-label="O que ${esc(p.l)} avalia" aria-expanded="false">?</button></h3><span class="last">${fmt(last.y)} ${esc(p.u)} <span class="pill ${st}">${statusTxt(st)}</span></span></div>
-        <div class="ref">${(p.lo != null || p.hi != null) ? `referência ${refTxt(p)} ${esc(p.u)}` : 'sem faixa de referência'}</div><div class="tip" role="tooltip">${esc(p.d || '')}</div><div style="position:relative;height:150px"><canvas aria-label="Gráfico de ${esc(p.l)}"></canvas></div>`;
+        <div class="ref">${(p.lo != null || p.hi != null) ? `referência ${refTxt(p)} ${esc(p.u)}` : 'sem faixa de referência'}</div><div class="tip" role="tooltip">${esc(p.d || '')}</div>${s.length === 1
+          ? `<div class="one">medido só uma vez, em ${dmy(last.date)}${last.lab ? ' · ' + esc(last.lab) : ''}</div>`
+          : `<div style="position:relative;height:150px"><canvas aria-label="Gráfico de ${esc(p.l)}"></canvas></div>`}`;
       grid.appendChild(card);
-      const vals = s.map(d => d.y).concat([p.lo, p.hi].filter(v => v != null));
-      const lo = Math.min(...vals), hi = Math.max(...vals), pad = (hi - lo) * 0.12 || Math.abs(hi) * 0.2 || 1;
-      const ch = new Chart(card.querySelector('canvas'), {
-        type: 'line',
-        data: { datasets: [{
-          data: s, parsing: false, borderColor: accent, backgroundColor: accent, borderWidth: 2, tension: 0.25,
-          pointRadius: s.map((_, i) => i === s.length - 1 ? 4.5 : 3), pointBackgroundColor: s.map((_, i) => i === s.length - 1 ? accent : surface),
-          pointBorderColor: accent, pointBorderWidth: 2, spanGaps: true,
-          segment: { borderDash: c => (c.p1.parsed.x - c.p0.parsed.x) > 6 ? [5, 4] : undefined },
-        }]},
-        options: {
-          responsive: true, maintainAspectRatio: false, animation: false,
-          layout: { padding: { top: 4, right: 6 } },
-          scales: {
-            x: { type: 'linear', min: xMin, max: xMax, grid: { color: line, drawTicks: false }, border: { display: false },
-                 ticks: { stepSize: step, color: muted, font: { size: 10.5 }, callback: v => dm(dayIso(Math.round(v))), maxRotation: 0 } },
-            y: { suggestedMin: lo >= 0 ? Math.max(0, lo - pad) : lo - pad, suggestedMax: hi + pad, grid: { color: line, drawTicks: false }, border: { display: false },
-                 ticks: { color: muted, font: { size: 10.5 }, maxTicksLimit: 5, callback: v => fmt(v) } },
-          },
-          plugins: {
-            legend: { display: false },
-            refband: { lo: p.lo, hi: p.hi, color: band },
-            evlines: { events: marks, color: muted },
-            tooltip: { backgroundColor: ink, titleColor: surface, bodyColor: surface, displayColors: false,
-              callbacks: { title: it => dmy(it[0].raw.date) + (it[0].raw.lab ? ' · ' + it[0].raw.lab : ''), label: it => `${fmt(it.raw.y)} ${p.u}` } },
-          },
-        },
-      });
-      charts.push(ch);
+      if (s.length === 1) continue;
+      charts.push(makeChart(card.querySelector('canvas'), k, false, ctxC));
     }
   }
+  if (!shown) host.innerHTML = '<p class="muted">Nenhum parâmetro fora da faixa no último exame.</p>';
 }
+$('exChips').addEventListener('click', ev => { const b = ev.target.closest('[data-exg]'); if (!b) return; exGroup = b.dataset.exg; renderCharts(); });
+$('exOut').addEventListener('change', ev => { exOnlyOut = ev.target.checked; renderCharts(); });
+
+/* ---------- Expanded chart ---------- */
+let bigChart = null, bigKey = null;
+function visibleKeys() { return [...document.querySelectorAll('#chartSections .chart[data-k]')].map(c => c.dataset.k); }
+function openBig(k) {
+  closeBig(true); bigKey = k;
+  const p = P[k], s = series(k), last = s[s.length - 1], st = statusOf(k, last.y);
+  const rows = [...s].reverse().map((d, i, arr) => {
+    const prev = arr[i + 1], dd = prev ? d.y - prev.y : null, sti = statusOf(k, d.y);
+    return `<tr><td class="num">${dmy(d.date)}</td><td class="num ${sti === 'ok' ? '' : sti}">${fmt(d.y)} ${esc(p.u)}</td><td class="num muted">${dd == null ? '' : (dd > 0 ? '▲ ' : dd < 0 ? '▼ ' : '= ') + fmt(Math.abs(dd))}</td><td class="muted">${esc(d.lab || '')}</td></tr>`;
+  }).join('');
+  const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', p.l);
+  box.innerHTML = `<div class="mbox">
+    <div class="mhead"><div><h2>${esc(p.l)} <span class="pill ${st}">${statusTxt(st)}</span></h2>
+      <div class="note" style="margin-top:4px">${(p.lo != null || p.hi != null) ? `Referência ${refTxt(p)} ${esc(p.u)} · ` : ''}último: <b>${fmt(last.y)} ${esc(p.u)}</b> em ${dmy(last.date)}</div></div>
+      <div class="row"><button class="ghost tiny" data-mv="-1" aria-label="Parâmetro anterior">◀</button><button class="ghost tiny" data-mv="1" aria-label="Próximo parâmetro">▶</button><button class="ghost tiny" data-close aria-label="Fechar">✕</button></div></div>
+    ${p.d ? `<p class="mdesc">${esc(p.d)}</p>` : ''}
+    ${s.length > 1 ? `<div style="position:relative;height:min(52vh,420px)"><canvas aria-label="Gráfico ampliado de ${esc(p.l)}"></canvas></div>` : ''}
+    <div class="tablewrap" style="margin-top:12px"><table class="mtable"><thead><tr><th>Data</th><th>Valor</th><th>Variação</th><th>Laboratório</th></tr></thead><tbody>${rows}</tbody></table></div>
+  </div>`;
+  document.body.appendChild(box); document.body.style.overflow = 'hidden';
+  if (s.length > 1) bigChart = makeChart(box.querySelector('canvas'), k, true, chartCtx());
+  box.querySelector('[data-close]').focus();
+}
+function closeBig(keep) {
+  if (bigChart) { bigChart.destroy(); bigChart = null; }
+  document.querySelectorAll('.modal').forEach(m => m.remove());
+  if (!keep) { document.body.style.overflow = ''; bigKey = null; }
+}
+function moveBig(d) { const ks = visibleKeys(); const i = ks.indexOf(bigKey); if (i < 0) return; openBig(ks[(i + d + ks.length) % ks.length]); }
+$('chartSections').addEventListener('click', ev => {
+  if (ev.target.closest('.info, .tip')) return;
+  const c = ev.target.closest('.chart[data-k]'); if (c) openBig(c.dataset.k);
+});
+$('chartSections').addEventListener('keydown', ev => { const c = ev.target.closest('.chart[data-k]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openBig(c.dataset.k); } });
+document.addEventListener('click', ev => {
+  const m = ev.target.closest('.modal'); if (!m) return;
+  if (ev.target.closest('[data-close]') || ev.target === m) { closeBig(); return; }
+  const mv = ev.target.closest('[data-mv]'); if (mv) moveBig(+mv.dataset.mv);
+});
+document.addEventListener('keydown', ev => {
+  if (!document.querySelector('.modal')) return;
+  if (ev.key === 'Escape') closeBig(); else if (ev.key === 'ArrowRight') moveBig(1); else if (ev.key === 'ArrowLeft') moveBig(-1);
+});
 
 const toggleTip = ev => {
   const b = ev.target.closest('.info'); if (!b) return;
@@ -635,7 +727,7 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.chart, .tile
 
 /* ---------- Evolution table ---------- */
 function renderTable() {
-  const all = examsByDate();
+  const all = examsByDate().reverse();
   const t = $('evo');
   if (!all.length) { t.innerHTML = '<tr><td class="muted">Nenhum exame ainda.</td></tr>'; return; }
   let h = '<thead><tr><th>Parâmetro</th>' + all.map(e => `<th><span class="num">${dm(e.date)}</span><span class="lab">${esc([...e.labs].join(', ').slice(0,22))}</span>
