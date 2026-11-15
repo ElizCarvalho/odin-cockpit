@@ -76,7 +76,7 @@ header { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wr
 .drop strong { font-family: var(--font-display); font-size: 17px; }
 .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
 @media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
-textarea, input[type=text], input[type=date], input[type=number] {
+textarea, input[type=text], input[type=date], input[type=number], input[type=time] {
   font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%;
 }
 textarea { min-height: 84px; resize: vertical; }
@@ -137,6 +137,12 @@ td .arr { font-size: 11px; margin-left: 2px; }
 .pill.mkp { background: var(--accent); color: var(--bg); font-weight: 600; }
 .warnt { color: var(--warn); }
 #tlFilters .tiny:not(.ghost) .muted { color: inherit; opacity: .75; }
+.vform { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; align-items: end; margin-top: 10px; }
+.vform label { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); }
+.vform label.wide { grid-column: span 2; }
+.vform .vchk { display: flex; align-items: center; gap: 6px; padding-bottom: 10px; color: var(--ink); }
+.vform button { justify-self: start; }
+@media (max-width: 600px) { .vform label.wide { grid-column: 1 / -1; } }
 .tlpics { display: flex; flex-wrap: wrap; gap: 6px; }
 .tlp { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; cursor: zoom-in; display: block; }
 .tlp.vid { display: grid; place-items: center; background: var(--accent-soft); border: 0; color: var(--ink); font-size: 18px; }
@@ -768,7 +774,7 @@ function renderCharts() {
   }
   if (!shown) host.innerHTML = '<p class="muted">Nenhum parâmetro fora da faixa no último exame.</p>';
 }
-const ate = v => !!(v.food || v.food_ml || /comid|comeu|ração|racao|quiabo|iogurte|recovery/i.test(v.note || ''));
+const ate = v => !!(v.food || v.food_g || /comid|comeu|ração|racao|quiabo|iogurte|recovery/i.test(v.note || ''));
 function renderHomeTemp(host) {
   const accent = css('--accent'), muted = css('--muted'), line = css('--line'), band = css('--band'), ink = css('--ink'), surface = css('--surface'), warn = css('--warn'), ok = css('--ok');
   // temperature: home board + clinic/exam readings, one source of truth
@@ -778,23 +784,27 @@ function renderHomeTemp(host) {
   const pts = [...home, ...clinic].sort((a, b) => a.x - b.x);
   const byDay = new Map(); for (const p of pts) { if (!byDay.has(p.v.date)) byDay.set(p.v.date, []); byDay.get(p.v.date).push(p); }
   const days = [...new Set(vitals.map(v => v.date).filter(Boolean))].sort();
-  const intake = d => { const l = vitals.filter(v => v.date === d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_ml || 0), 0), meals: l.filter(ate).length }; };
+  const intake = d => { const l = vitals.filter(v => v.date === d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_g || 0), 0), meals: l.filter(ate).length }; };
   const rows = [...new Set([...byDay.keys(), ...days])].sort().reverse().map(d => { const l = byDay.get(d) || [], ys = l.map(p => p.y), I = intake(d);
     const mx = ys.length ? Math.max(...ys) : null, mn = ys.length ? Math.min(...ys) : null, hot = ys.filter(y => y > 39.2).length;
     return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.water || ''}</td><td class="num">${I.food || ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
   const sec = document.createElement('section'); sec.style.display = 'grid'; sec.style.gap = '12px';
   sec.innerHTML = `<div class="section-title"><h2>Temperatura</h2><span>${home.length} medições em casa (quadro branco)${clinic.length ? ` + ${clinic.length} na clínica/exame` : ''}</span></div>
     <div class="card"><div style="position:relative;height:240px"><canvas id="tempCv" aria-label="Gráfico de temperatura"></canvas></div>
-    <p class="note" style="margin-top:6px">Faixa verde: 37,5 a 39,2 °C · ● em casa · ■ clínica/exame · laranja = acima de 39,2. Com dois termômetros, vale o maior valor. Passe o dedo/mouse nos pontos pra ver hora e anotações.</p></div>
+    <p class="note" style="margin-top:6px">Faixa verde: 37,5 a 39,2 °C · ● em casa · ■ clínica/exame · laranja = acima de 39,2. Com dois termômetros, vale o maior valor. Passe o dedo/mouse nos pontos pra ver hora e anotações.</p>
+    ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar temperatura</summary><div class="vform">
+      <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
+      <label>Temperatura (°C)<input type="number" step="0.1" min="35" max="43" data-v="temp" placeholder="39,2"></label><label>2º termômetro (opcional)<input type="number" step="0.1" min="35" max="43" data-v="temp2"></label>
+      <label class="wide">Anotação<input type="text" data-v="note" placeholder="dipirona, sem ar-condicionado, no chão…"></label><button data-vsave="temp">Salvar</button></div></details>` : ''}</div>
     <div class="section-title"><h2>Água e comida</h2><span>o que foi anotado por dia</span></div>
     <div class="card"><div style="position:relative;height:200px"><canvas id="intakeCv" aria-label="Gráfico de água e comida por dia"></canvas></div>
-    <p class="note" style="margin-top:6px">Barras: mL de água/líquido e de comida pastosa anotados no dia. O número em cima é quantas vezes ele comeu (inclui refeições sem quantidade anotada). Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
-    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água mL</th><th>Comida mL</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
-    ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar medição</summary><div class="row" style="margin-top:8px;gap:8px;align-items:end">
-      <label>Data<input type="date" id="vDate" value="${todayIso()}"></label><label>Hora<input type="time" id="vTime"></label>
-      <label>Temp. °C<input type="number" step="0.1" id="vTemp" style="width:90px"></label><label>Água mL<input type="number" id="vWater" style="width:90px"></label>
-      <label>Comida mL<input type="number" id="vFood" style="width:90px"></label><label class="chk"><input type="checkbox" id="vAte"> comeu</label>
-      <label style="flex:1 1 180px">Anotação<input type="text" id="vNote" placeholder="xixi, fezes, dipirona…"></label><button id="vSave">Salvar</button></div></details>` : ''}</div>`;
+    <p class="note" style="margin-top:6px">Barras: água/líquido em mL (escala da esquerda) e comida em gramas (escala da direita) anotados no dia. O número em cima é quantas vezes ele comeu (inclui refeições sem quantidade anotada). Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
+    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água mL</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+    ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar água ou comida</summary><div class="vform">
+      <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
+      <label>Água/líquido (mL)<input type="number" min="0" data-v="water"></label><label>Comida (g)<input type="number" min="0" data-v="food"></label>
+      <label class="chk vchk"><input type="checkbox" data-v="ate"> comeu (sem medir)</label>
+      <label class="wide">Anotação<input type="text" data-v="note" placeholder="ração pastosa, iogurte, xixi, fezes…"></label><button data-vsave="intake">Salvar</button></div></details>` : ''}</div>`;
   host.appendChild(sec);
   if (pts.length) {
     const xMin = Math.floor(pts[0].x), xMax = Math.ceil(pts[pts.length - 1].x);
@@ -810,25 +820,27 @@ function renderHomeTemp(host) {
           evlines: { events: events.filter(e => e.mark && e.date).map(e => ({ x: dayNum(e.date), short: e.short || '' })), color: muted, labels: true },
           tooltip: { backgroundColor: ink, titleColor: surface, bodyColor: surface, displayColors: false,
             callbacks: { title: it => dmy(it[0].raw.v.date) + (it[0].raw.v.time ? ' · ' + it[0].raw.v.time + (it[0].raw.v.approx ? ' (aprox.)' : '') : '') + (it[0].raw.src === 'clinica' ? ' · clínica/exame' : ''),
-              label: it => { const v = it.raw.v; return `${fmt(v.temp)}${v.temp2 ? ' / ' + fmt(v.temp2) : ''} °C${v.water_ml ? ' · água ' + v.water_ml + ' mL' : ''}${v.food_ml ? ' · comida ' + v.food_ml + ' mL' : ''}${v.note ? ' · ' + v.note : ''}`; } } } } } }));
+              label: it => { const v = it.raw.v; return `${fmt(v.temp)}${v.temp2 ? ' / ' + fmt(v.temp2) : ''} °C${v.water_ml ? ' · água ' + v.water_ml + ' mL' : ''}${v.food_g ? ' · comida ' + v.food_g + ' g' : ''}${v.note ? ' · ' + v.note : ''}`; } } } } } }));
   }
   if (days.length) {
     const lab = days.map(d => dm(d)), I = days.map(intake);
     const mealsPlugin = { id: 'meals', afterDatasetsDraw(c) { const ctx = c.ctx; ctx.save(); ctx.fillStyle = ink; ctx.font = '11px "IBM Plex Mono", monospace'; ctx.textAlign = 'center';
       c.getDatasetMeta(0).data.forEach((b, i) => { const n = I[i].meals; if (!n) return; const top = Math.min(b.y, c.getDatasetMeta(1).data[i].y); ctx.fillText('🍽 ' + n, b.x + (c.getDatasetMeta(1).data[i].x - b.x) / 2, top - 6); }); ctx.restore(); } };
     charts.push(new Chart(sec.querySelector('#intakeCv'), { type: 'bar', plugins: [mealsPlugin],
-      data: { labels: lab, datasets: [{ label: 'Água/líquido (mL)', data: I.map(x => x.water || null), backgroundColor: accent }, { label: 'Comida (mL)', data: I.map(x => x.food || null), backgroundColor: ok }] },
+      data: { labels: lab, datasets: [{ label: 'Água/líquido (mL)', data: I.map(x => x.water || null), backgroundColor: accent }, { label: 'Comida (g)', yAxisID: 'y2', data: I.map(x => x.food || null), backgroundColor: ok }] },
       options: { responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 18 } },
-        scales: { x: { grid: { display: false }, ticks: { color: muted, font: { size: 10.5 } } }, y: { beginAtZero: true, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 } } } },
+        scales: { x: { grid: { display: false }, ticks: { color: muted, font: { size: 10.5 } } }, y: { beginAtZero: true, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' mL' } },
+          y2: { position: 'right', beginAtZero: true, grid: { display: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' g' } } },
         plugins: { legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { afterBody: it => I[it[0].dataIndex].meals ? `Comeu ${I[it[0].dataIndex].meals}x` : '' } } } } }));
   }
-  const btn = sec.querySelector('#vSave');
-  if (btn) btn.addEventListener('click', async () => {
-    const g = id => sec.querySelector('#' + id).value, n = id => num(g(id));
-    const doc = { date: g('vDate'), time: g('vTime') || null, temp: n('vTemp'), water_ml: n('vWater'), food_ml: n('vFood'), food: sec.querySelector('#vAte').checked || !!n('vFood'), note: g('vNote').trim(), source: 'cockpit', createdAt: Date.now() };
-    if (!doc.date || !(doc.temp || doc.water_ml || doc.food_ml || doc.food || doc.note)) { say('Preencha a data e pelo menos uma medição.', 'err'); return; }
-    btn.disabled = true; try { await db.collection('vitals').add(doc); say('Medição salva.', 'done'); } catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); btn.disabled = false; }
-  });
+  sec.querySelectorAll('[data-vsave]').forEach(btn => btn.addEventListener('click', async () => {
+    const f = btn.closest('.vform'), g = k => f.querySelector(`[data-v="${k}"]`), val = k => g(k) ? g(k).value : '', n = k => num(val(k));
+    const doc = { date: val('date'), time: val('time') || null, note: val('note').trim(), source: 'cockpit', createdAt: Date.now() };
+    if (btn.dataset.vsave === 'temp') { doc.temp = n('temp'); if (n('temp2')) doc.temp2 = n('temp2'); if (!doc.temp) { say('Preencha a temperatura.', 'err'); return; } }
+    else { doc.water_ml = n('water'); doc.food_g = n('food'); doc.food = g('ate').checked || !!doc.food_g; if (!doc.water_ml && !doc.food) { say('Preencha a água, a comida ou marque que ele comeu.', 'err'); return; } }
+    if (!doc.date) { say('Preencha a data.', 'err'); return; }
+    btn.disabled = true; try { await db.collection('vitals').add(doc); say('Anotado.', 'done'); } catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); btn.disabled = false; }
+  }));
 }
 $('exChips').addEventListener('click', ev => { const b = ev.target.closest('[data-exg]'); if (!b) return; exGroup = b.dataset.exg; renderCharts(); });
 $('exOut').addEventListener('change', ev => { exOnlyOut = ev.target.checked; renderCharts(); });
@@ -952,7 +964,7 @@ function tlItems() {
     const mx = ts.reduce((a, b) => b.t > a.t ? b : a, ts[0] || { t: null }), mn = ts.reduce((a, b) => b.t < a.t ? b : a, ts[0] || { t: null });
     const fever = ts.filter(x => x.t > 39.2).length;
     out.push({ date: d, kind: 'Temperatura', text: ts.length ? `${ts.length} ${ts.length === 1 ? 'medição' : 'medições'} em casa · máx ${fmt(mx.t)} °C${mx.h ? ' (' + mx.h + ')' : ''} · mín ${fmt(mn.t)} °C${fever ? ` · ${fever} acima de 39,2` : ''}` : 'Anotações de casa',
-      sub: [water && `água/líquido ${water} mL`, list.reduce((a, v) => a + (v.food_ml || 0), 0) && `comida ${list.reduce((a, v) => a + (v.food_ml || 0), 0)} mL`, list.filter(ate).length && `comeu ${list.filter(ate).length}x`].filter(Boolean).join(' · ') });
+      sub: [water && `água/líquido ${water} mL`, list.reduce((a, v) => a + (v.food_g || 0), 0) && `comida ${list.reduce((a, v) => a + (v.food_g || 0), 0)} g`, list.filter(ate).length && `comeu ${list.filter(ate).length}x`].filter(Boolean).join(' · ') });
   }
   for (const p of photos) if (p.date) out.push({ date: p.date, time: p.time, kind: 'Foto', text: p.caption || 'Foto', assetId: p.assetId, video: p.video, createdAt: p.createdAt || 0 });
   return out.filter(i => i.date);
@@ -1137,10 +1149,10 @@ Primeiro classifique o que recebeu e coloque cada informação no lugar certo:
 - Receita, pedido de exame ou receituário → "exams" sem params, com os remédios em "meds".
 - Carteirinha ou registro de vacina, vermífugo, antipulgas ou prevenção → "prevent".
 - Foto do próprio cachorro (não é documento) → "photo" com uma legenda curta e descritiva em português.
-- Medições de casa com hora (temperatura, água ou comida que ele ingeriu, inclusive fotos de quadro/anotação com várias linhas) → "vitals", um item por horário; não duplique essas medições em "exams" nem em "events".
+- Medições de casa com hora (temperatura, água em mL ou comida em gramas que ele ingeriu, inclusive fotos de quadro/anotação com várias linhas) → "vitals", um item por horário; não duplique essas medições em "exams" nem em "events".
 - Relato escrito ou falado (sintomas, o que ele comeu, procedimento, alta, visita etc.) → "events", um item por acontecimento, em frases curtas na 3ª pessoa. Peso ou temperatura citados no relato também entram em "exams" (kind "Pesagem" ou "Temperatura", params peso ou temp). Remédio novo citado no relato entra em "meds" de um item de "exams" sem params (kind "Relato").
 Responda SOMENTE com JSON válido, sem texto antes ou depois, neste formato (deixe vazio o que não se aplica):
-{"vitals":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","temp":numero_ou_null,"water_ml":numero_ou_null,"food_ml":numero_ou_null,"food":true_se_comeu_sem_quantidade,"note":"xixi, fezes, remédio etc."}],"events":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
+{"vitals":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","temp":numero_ou_null,"water_ml":numero_ou_null,"food_g":gramas_ou_null,"food":true_se_comeu_sem_quantidade,"note":"xixi, fezes, remédio etc."}],"events":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
 
 Use somente estas chaves em params, na unidade indicada:
 ${keys}
@@ -1201,7 +1213,7 @@ async function extract(name, text, images) {
   const isoOk = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '');
   return {
     exams: (val.exams || []).map(e => cleanExam(e, name)).filter(e => Object.keys(e.params).length || e.other.length || e.meds.length),
-    vitals: (Array.isArray(val.vitals) ? val.vitals : []).filter(x => x && isoOk(x.date) && (num(x.temp) || num(x.water_ml) || num(x.food_ml) || x.food)).slice(0, 80).map(x => ({ date: x.date, time: /^\d{2}:\d{2}$/.test(x.time || '') ? x.time : null, temp: num(x.temp), water_ml: num(x.water_ml), food_ml: num(x.food_ml), food: !!x.food || !!num(x.food_ml), note: String(x.note || '').slice(0, 120), add: true })),
+    vitals: (Array.isArray(val.vitals) ? val.vitals : []).filter(x => x && isoOk(x.date) && (num(x.temp) || num(x.water_ml) || num(x.food_g) || x.food)).slice(0, 80).map(x => ({ date: x.date, time: /^\d{2}:\d{2}$/.test(x.time || '') ? x.time : null, temp: num(x.temp), water_ml: num(x.water_ml), food_g: num(x.food_g), food: !!x.food || !!num(x.food_g), note: String(x.note || '').slice(0, 120), add: true })),
     events: (Array.isArray(val.events) ? val.events : []).filter(x => x && x.text).slice(0, 20).map(x => ({ date: isoOk(x.date) ? x.date : todayIso(), time: x.time || null, text: String(x.text).slice(0, 300), mark: false, add: true, source: name })),
     prevent: (Array.isArray(val.prevent) ? val.prevent : []).filter(x => x && x.product && isoOk(x.date)).slice(0, 30).map(x => ({ kind: String(x.kind || 'Outro').slice(0, 40), product: String(x.product).slice(0, 100), date: x.date, next: isoOk(x.next) ? x.next : null, notes: String(x.notes || '').slice(0, 200), add: true })),
     photo: val.photo && typeof val.photo === 'object' ? { caption: String(val.photo.caption || '').slice(0, 200), date: isoOk(val.photo.date) ? val.photo.date : null } : null
@@ -1278,7 +1290,7 @@ function renderReviewExtra() {
   let h = '';
   if (pendingVitals.length) h += `<div class="exam"><div class="muted" style="font-size:12px">Medições de casa (vão pros gráficos de temperatura e de água/comida)</div>` + pendingVitals.map((x, i) => {
     const dup = vitals.some(v => v.date === x.date && v.time === x.time && v.temp === x.temp);
-    return `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-xv="${i}" ${x.add && !dup ? 'checked' : ''}> ${dm(x.date)}${x.time ? ' ' + esc(x.time) : ''}${x.temp ? ' · ' + fmt(x.temp) + ' °C' : ''}${x.water_ml ? ' · água ' + x.water_ml + ' mL' : ''}${x.food_ml ? ' · comida ' + x.food_ml + ' mL' : x.food ? ' · comeu' : ''}${x.note ? ' · ' + esc(x.note) : ''}${dup ? ' <span class="pill hi">já registrado</span>' : ''}</label>`;
+    return `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-xv="${i}" ${x.add && !dup ? 'checked' : ''}> ${dm(x.date)}${x.time ? ' ' + esc(x.time) : ''}${x.temp ? ' · ' + fmt(x.temp) + ' °C' : ''}${x.water_ml ? ' · água ' + x.water_ml + ' mL' : ''}${x.food_g ? ' · comida ' + x.food_g + ' g' : x.food ? ' · comeu' : ''}${x.note ? ' · ' + esc(x.note) : ''}${dup ? ' <span class="pill hi">já registrado</span>' : ''}</label>`;
   }).join('') + '</div>';
   if (pendingEvents.length) h += `<div class="exam"><div class="muted" style="font-size:12px">Acontecimentos (vão pra linha do tempo)</div>` + pendingEvents.map((x, i) =>
     `<div class="row" style="align-items:center; flex-wrap:nowrap"><input type="checkbox" data-xe="${i}" ${x.add ? 'checked' : ''} aria-label="Salvar este acontecimento">
