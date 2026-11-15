@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-15T22:21:04.139Z",
- "updatedAt": 1794780129769,
+ "exportedAt": "2026-11-15T22:46:53.899Z",
+ "updatedAt": 1794782735888,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -481,13 +481,13 @@
   {
    "id": "ecvpuu9aa8mcsi350pue",
    "date": "2026-11-15",
-   "time": "19:01",
    "kind": "Pesagem",
    "lab": "Rio Vet",
+   "other": [],
    "params": {
     "peso": 18.6
    },
-   "other": []
+   "time": "19:01"
   },
   {
    "id": "eq4inr9xpdeo1dmzuivp",
@@ -1052,6 +1052,46 @@
    "mark": false,
    "short": "",
    "text": "Em casa, sem movimento nas patas: apoio improvisado embaixo das patinhas pra evitar edema."
+  },
+  {
+   "id": "v28",
+   "date": "2026-11-15",
+   "mark": false,
+   "short": "",
+   "text": "Boletim da noite (Rio Vet): sem intercorrências; temperatura, pressão e glicemia normais. Alimentação pela sonda a cada 4h, fluidoterapia e medicação mantidas. Ainda com bastante espasmo, mas bem menos do que quando entrou.",
+   "time": "07:36"
+  },
+  {
+   "id": "v29",
+   "date": "2026-11-15",
+   "mark": false,
+   "short": "",
+   "text": "Fezes um pouco amolecidas no plantão anterior. Segue fazendo o antibiótico (ceftriaxona). A equipe acompanha o hematócrito; abaixo de 15% a indicação seria nova transfusão.",
+   "time": "11:41"
+  },
+  {
+   "id": "v30",
+   "date": "2026-11-15",
+   "mark": false,
+   "short": "",
+   "text": "A clínica não libera pra casa com sonda urinária; antes precisam ver se ele urina sozinho. Hemograma de controle marcado pra 16/11 de manhã.",
+   "time": "11:48"
+  },
+  {
+   "id": "v31",
+   "date": "2026-11-15",
+   "mark": false,
+   "short": "",
+   "text": "Tutora pediu pra avaliar incluir nos próximos exames a carga viral de cinomose (último quantitativo: 362) e a dosagem de fenobarbital no sangue.",
+   "time": "12:55"
+  },
+  {
+   "id": "v32",
+   "date": "2026-11-15",
+   "mark": false,
+   "short": "",
+   "text": "Boletim da tarde (Rio Vet): parâmetros clínicos normais, atento quando se aproximam e reclama em alguns momentos. Segue com fluidoterapia, mudança de decúbito e antibiótico. Dependendo do hemograma de 16/11, pode ter alta pra continuar o tratamento em casa.",
+   "time": "19:14"
   }
  ],
  "analyses": [
@@ -1094,6 +1134,11 @@
    "id": "ecnxa2zta18x22q7nkjw",
    "text": "## O que mudou\n\n- **Líquor (28/10):** confirma que o vírus da cinomose chegou ao sistema nervoso. O líquor também mostra células e proteína acima do normal, o que indica inflamação. Os outros agentes pesquisados (Babesia, Ehrlichia, Toxoplasma etc.) não foram detectados.\n- **Anemia (08/11):** Ht 12,2% (era ~23–31% em outubro). O corpo estava tentando compensar (reticulócitos altos = \"anemia regenerativa\"). O CHCM alto levanta a possibilidade de **hemólise** (destruição dos glóbulos vermelhos), que a equipe precisa investigar. As fezes pretas e o baço aumentado também entram nessa conta.\n- **Pós-transfusão (10–14/11):** Ht subiu e ficou estável (~28–30%). Isso é bom, mas parte do ganho é do sangue transfundido.\n- **Plaquetas:** caíram para 148 mil em 12/11 e foram a 692 mil em 14/11. A amostra tinha fibrina, então a leitura pode oscilar.\n- **Ureia 110 com creatinina 0,5 (09/11):** ureia alta isolada pode vir de desidratação ou sangramento digestivo. Os rins parecem preservados.\n- **Ultrassons (02 e 08/11):** bexiga muito cheia, cistite, colite, baço e fígado aumentados. Compatível com a bexiga neurológica.\n- **Peso:** 27 kg → 19 kg. Perda grande.\n\n## Tendência geral\n\n- Anemia **estabilizou após a transfusão**, mas a causa ainda não está clara.\n- A cinomose neurológica parece estável (sem novas convulsões), mas ele segue fraco, com mioclonia e sequelas.\n- Perda de peso e de massa muscular continua.\n\n## Perguntas pra levar à vet\n\n- Qual a causa da anemia? Foi feito Coombs ou esfregaço para ver hemólise?\n- Como investigar as fezes pretas (sangramento digestivo)?\n- O que explica a queda e a subida das plaquetas?\n- Como será o plano pra bexiga sem sonda e pra prevenir infecção urinária?\n- Qual o plano nutricional pra frear a perda de peso?\n- Quando repetir o hemograma depois da alta?\n\n**Se ele ficar pálido, letárgico, com fezes pretas ou convulsão, avise a equipe na hora.**",
    "createdAt": 1794760655192
+  },
+  {
+   "id": "f1bh0figpaardhux90jg",
+   "text": "## O que mudou\n\n- **Anemia:** o hematócrito (proporção de glóbulos vermelhos) caiu de 37% (22/09) para 25% (31/10) e chegou a **12,2% em 08/11**. Depois da transfusão ficou estável em ~28–30% (10, 12 e 14/11). Em 31/10 a anemia era \"não regenerativa\" (medula sem reagir). Em 08/11 já havia reação (reticulócitos altos), e o aparelho sugeriu considerar hemólise (destruição de hemácias).\n- **Infecção/inflamação:** os leucócitos subiram muito em outubro (até ~50 mil) e vieram caindo, ficando ~15 mil em 14/11, perto do normal.\n- **Plaquetas:** 148 mil em 12/11 e 692 mil em 14/11. A fibrina na amostra pode distorcer a contagem, então vale acompanhar.\n- **Cinomose:** ainda detectada no líquor (outubro), com proteína e células altas, o que combina com envolvimento neurológico.\n- **Peso:** 27 kg → 18,6 kg. É uma perda grande.\n- **Neurológico:** sem novas convulsões, mioclonia menor, mas ainda tetraparético.\n\n## Tendência geral\n\n- **Melhora:** o hematócrito parou de cair, a febre cedeu, os parâmetros clínicos estão normais e há menos espasmos.\n- **Preocupa:** perda de peso e de massa muscular, bexiga que não esvazia sozinha, olhos com secreção e névoa, e a anemia, que depende do hemograma de 16/11. **Se o hematócrito ficar abaixo de 15%, a equipe indica nova transfusão, então acompanhe esse resultado de perto com eles.**\n\n## Perguntas pra levar à vet\n\n- Qual a causa da anemia (hemólise, sangramento nas fezes pretas, medula, cinomose)? Dá pra investigar mais?\n- Vale pedir a carga viral de cinomose e o fenobarbital no sangue de novo? (O último, em 06/10, estava dentro da referência.)\n- Como será o manejo da bexiga e da alimentação em casa?\n- A ureia de 110 em 09/11 foi reavaliada?\n- Os olhos precisam de avaliação oftalmológica?\n- Como fica a neurorreabilitação e quando?",
+   "createdAt": 1794782734442
   },
   {
    "id": "i1i1cx8gvt5w9et7rjjd",
@@ -2761,10 +2806,10 @@
   {
    "id": "l1ploq6umb60p3ohay09",
    "assetId": "a730d65d4ede40c0d6fd23f92c47854b",
-   "date": "2026-11-15",
    "caption": "Odin deitado sobre manta branca em baia de internação, com sonda nasal fixada com esparadrapo no focinho e testa, olhando para o lado",
-   "video": false,
-   "createdAt": 1794780052850
+   "createdAt": 1794780052850,
+   "date": "2026-11-15",
+   "video": false
   },
   {
    "id": "mmnnby19vwofhva15fzj",
@@ -2907,6 +2952,15 @@
    "createdAt": 1794768700014,
    "date": "2026-11-15",
    "time": "07:34",
+   "video": false
+  },
+  {
+   "id": "wa-15",
+   "assetId": "420f08b7d8dfdbf3260d42b124d5240b",
+   "caption": "Boletim da noite de 15/11 na Rio Vet",
+   "createdAt": 1794782520000,
+   "date": "2026-11-15",
+   "time": "19:14",
    "video": false
   }
  ]
