@@ -19,7 +19,7 @@ scripts/publicar.mjs       export -> anonimiza -> docs/ -> commit/push
 
 ## Como atualizar o site
 
-1. No cockpit (artefato), no fim do **Painel**, clique em **Exportar para o site**. Isso baixa `odin-export-AAAA-MM-DD.json` pra pasta Downloads.
+1. No cockpit (artefato), no fim do **Painel**, clique em **Exportar para o site**. Isso baixa `odin-export-AAAA-MM-DD_HHhMM.json` (ex.: `odin-export-2026-11-15_16h20.json`) pra pasta Downloads.
 2. Aqui no repositório:
 
    ```bash

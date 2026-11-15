@@ -378,7 +378,7 @@ body.ro .wr { display: none !important; }
       <div class="pubhead"><h2>Publicar no site</h2><button id="pubBtn" class="ghost">Exportar para o site</button></div>
       <p class="pubtxt">Atualiza o site público <a href="https://elizcarvalho.github.io/odin-cockpit/" target="_blank" rel="noopener">elizcarvalho.github.io/odin-cockpit</a> com tudo que está aqui (exames, remédios, vacinas e fotos). Os dados pessoais são removidos na hora de publicar.</p>
       <ol class="pubsteps">
-        <li>Clique em <b>Exportar para o site</b>. O arquivo <code>odin-export-AAAA-MM-DD.json</code> vai pra pasta Downloads.</li>
+        <li>Clique em <b>Exportar para o site</b>. O arquivo <code>odin-export-AAAA-MM-DD_HHhMM.json</code> vai pra pasta Downloads.</li>
         <li>No terminal, entre na pasta do repositório: <code>cd ~/Documents/GitHub/odin-cockpit</code></li>
         <li>Pra conferir antes (opcional): <code>npm run publicar</code> e depois <code>npm run ver</code>, que abre em localhost:4173.</li>
         <li>Pra publicar: <code>npm run publicar -- --push</code>. O site atualiza em 1 a 2 minutos.</li>
@@ -1662,7 +1662,8 @@ async function exportForSite() {
       ph.push({ ...p, dataUrl });
     }
     const out = { exportedAt: new Date().toISOString(), updatedAt: lastUpdate || fallbackUpdate(), exams, events, analyses, meds, prevent, photos: ph };
-    const name = 'odin-export-' + todayIso() + '.json';
+    const _n = new Date(), _hm = String(_n.getHours()).padStart(2, '0') + 'h' + String(_n.getMinutes()).padStart(2, '0');
+    const name = 'odin-export-' + todayIso() + '_' + _hm + '.json';
     await dl.save({ filename: name, data: new Blob([JSON.stringify(out)], { type: 'application/json' }) });
     st.textContent = `Arquivo ${name} salvo em Downloads. Agora siga os passos 2 a 4 acima (ou me peça pra publicar).`; st.className = 'done';
   } catch (e) { st.textContent = 'Não consegui exportar: ' + (e.code === 'declined' ? 'download cancelado.' : (e.message || e.code)); st.className = 'err'; }
