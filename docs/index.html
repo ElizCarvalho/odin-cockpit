@@ -1027,7 +1027,7 @@ $('evo').addEventListener('click', async ev => {
 const STAYS = [
   { from: '2026-09-22', to: '2026-09-25', clinic: 'Tododoy', label: '1ª internação' },
   { from: '2026-10-13', to: '2026-10-28', clinic: 'Tododoy', label: '2ª internação' },
-  { from: '2026-11-08', to: null, clinic: 'Rio Vet', label: 'Internação' },
+  { from: '2026-11-08', to: '2026-11-16', clinic: 'Rio Vet', label: 'Internação' },
 ];
 const CLINIC_FIXED = { 'animalis': '#5cc98a', 'tododoy': '#e5675f', 'vetreabilite (neuro)': '#5b9cf0', 'rio vet': '#e8c547' };
 const stayOf = iso => STAYS.find(s => iso >= s.from && (!s.to || iso <= s.to));

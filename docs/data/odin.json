@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-15T22:46:53.899Z",
- "updatedAt": 1794782735888,
+ "exportedAt": "2026-11-16T22:34:27.182Z",
+ "updatedAt": 1794866460000,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -477,6 +477,35 @@
     "vcm": 75,
     "wbc": 15600
    }
+  },
+  {
+   "id": "e20261116",
+   "date": "2026-11-16",
+   "kind": "Hemograma",
+   "lab": "Especilab",
+   "other": [
+    "Anemia normocítica normocrômica com discreta anisocitose",
+    "Eosinopenia e linfopenia",
+    "Neutrofilia",
+    "Trombocitose",
+    "Agregados plaquetários",
+    "Coletados junto: PCR quantitativo de cinomose e dosagem de fenobarbital (em andamento)"
+   ],
+   "params": {
+    "bands": 0,
+    "chcm": 31.46,
+    "eos": 0,
+    "hb": 8.18,
+    "ht": 26,
+    "lymph": 852,
+    "mono": 994,
+    "plt": 512,
+    "rbc": 3.4,
+    "seg": 12354,
+    "vcm": 76.47,
+    "wbc": 14200
+   },
+   "time": "18:55"
   },
   {
    "id": "ecvpuu9aa8mcsi350pue",
@@ -1092,6 +1121,38 @@
    "short": "",
    "text": "Boletim da tarde (Rio Vet): parâmetros clínicos normais, atento quando se aproximam e reclama em alguns momentos. Segue com fluidoterapia, mudança de decúbito e antibiótico. Dependendo do hemograma de 16/11, pode ter alta pra continuar o tratamento em casa.",
    "time": "19:14"
+  },
+  {
+   "id": "v33",
+   "date": "2026-11-15",
+   "mark": false,
+   "short": "",
+   "text": "Autorizados pra coleta de 16/11, junto com o hemograma: PCR quantitativo de cinomose (resultado em cerca de 7 dias) e dosagem de fenobarbital no sangue (já passou dos 21 dias pedidos pela neuro).",
+   "time": "22:48"
+  },
+  {
+   "id": "v34",
+   "date": "2026-11-16",
+   "mark": false,
+   "short": "",
+   "text": "Boletim da noite (Rio Vet): sem intercorrências, mesmo quadro. Espasmos musculares continuam, mas bem menores do que na entrada. Bastante secreção nasal e ocular: limpeza e colírios. Sonda urinária com bastante urina, fluidoterapia, suplementos e medicações mantidos. Sangue coletado pros exames.",
+   "time": "07:05"
+  },
+  {
+   "id": "v35",
+   "date": "2026-11-16",
+   "mark": false,
+   "short": "",
+   "text": "Boletim do dia (Rio Vet): sem mudança no quadro, parâmetros normais e sem convulsão. Comendo bem e com apetite, pela boca (sem precisar da sonda); já acabaram as latas de Recovery. Fezes um pouco amolecidas e bem escuras.",
+   "time": "18:44"
+  },
+  {
+   "id": "v36",
+   "date": "2026-11-16",
+   "mark": true,
+   "short": "Alta Rio Vet",
+   "text": "Alta da Rio Vet pra continuar o tratamento em casa. Tiraram a sonda urinária na saída e sangrou um pouco. Gengiva rosada; a tutora fez o teste dos 2 segundos (tempo de preenchimento capilar).",
+   "time": "19:10"
   }
  ],
  "analyses": [
@@ -2961,6 +3022,24 @@
    "createdAt": 1794782520000,
    "date": "2026-11-15",
    "time": "19:14",
+   "video": false
+  },
+  {
+   "id": "wa-16",
+   "assetId": "046b52acd9d376782e24e92ce8d7ed9a",
+   "caption": "Bom dia de 16/11 na Rio Vet",
+   "createdAt": 1794866210000,
+   "date": "2026-11-16",
+   "time": "07:03",
+   "video": false
+  },
+  {
+   "id": "wa-17",
+   "assetId": "841d46edbd0af7549a8669a00b61c845",
+   "caption": "Fim do dia 16/11 na Rio Vet, na manta florida",
+   "createdAt": 1794866220000,
+   "date": "2026-11-16",
+   "time": "18:44",
    "video": false
   }
  ]
