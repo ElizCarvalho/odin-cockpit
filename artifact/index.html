@@ -200,6 +200,8 @@ select { font: inherit; color: var(--ink); background: var(--bg); border: 1px so
 .bar { position: absolute; top: 2px; height: 12px; border-radius: 3px; background: var(--muted); opacity: .55; min-width: 4px; }
 .bar.on { background: var(--accent); opacity: 1; }
 .bar.alg { background: var(--bad); opacity: .9; }
+.bar.pz { background: repeating-linear-gradient(135deg, var(--warn) 0 4px, transparent 4px 7px); border: 1px solid var(--warn); opacity: .9; }
+.gsep.pz { color: var(--warn); }
 .gaxis { position: relative; height: 18px; font-size: 11px; color: var(--muted); }
 .gaxis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
 .today { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--accent); }
@@ -467,6 +469,7 @@ body.ro .wr { display: none !important; }
       <h2>Linha do tempo dos medicamentos</h2>
       <div class="glegend">
         <span><i class="bar on" style="position:static"></i>em uso</span>
+        <span><i class="bar pz" style="position:static"></i>pausado</span>
         <span><i class="bar" style="position:static"></i>já terminou</span>
         <span><i class="bar alg" style="position:static"></i>reação/alergia</span>
         <span><i class="bar on mix" style="position:static"></i>fórmula manipulada (vários ativos juntos)</span>
@@ -1681,9 +1684,10 @@ function renderMeds() {
   const nameOf = m => (m.name || '').replace(/\s*\(\s*\d+\s*[ºo°]?\s*ciclo\s*\)/i, '').trim();
   const rows = [];
   for (const m of withStart) { const k = keyOf(m); let row = rows.find(x => x.k === k); if (!row) rows.push(row = { k, name: nameOf(m), items: [] }); row.items.push(m); }
-  for (const row of rows) { row.active = row.items.some(isActive); row.first = row.items[0].start; row.last = row.items.map(m => m.end || '9999').sort().slice(-1)[0]; }
+  // grupos: 0 já terminou · 1 pausado · 2 em uso agora
+  for (const row of rows) { row.active = row.items.some(inUse) ? 2 : row.items.some(isPaused) ? 1 : 0; row.first = row.items[0].start; row.last = row.items.map(m => m.end || '9999').sort().slice(-1)[0]; }
   rows.sort((x, y) => (x.active - y.active) || (x.active ? (x.first < y.first ? -1 : 1) : (x.last < y.last ? -1 : x.last > y.last ? 1 : (x.first < y.first ? -1 : 1))));
-  const firstActive = rows.findIndex(r => r.active);
+  const firstActive = rows.findIndex(r => r.active === 2), firstPaused = rows.findIndex(r => r.active === 1);
   $('medGantt').innerHTML = `<div class="grow"><div></div><div class="gaxis">${ticks}</div></div>` + rows.map((row, i) => {
     const comps = row.items.find(m => Array.isArray(m.components) && m.components.length)?.components || [];
     const clinics = [...new Set(row.items.map(m => m.clinic).filter(Boolean))];
@@ -1691,10 +1695,10 @@ function renderMeds() {
     const tip = row.name + (clinics.length ? ' (' + clinics.join(', ') + ')' : '') + (comps.length ? ' — ' + comps.map(c => c.name + (c.dose ? ' ' + c.dose : '')).join(', ') : '');
     const bars = row.items.filter(m => !winStart || !m.end || m.end >= winStart).map(m => {
       const a = Math.max(t0, dayNum(m.start)), b = m.end ? dayNum(m.end) : dayNum(todayIso()) + 1;
-      const cls = (m.allergy ? 'alg' : inUse(m) ? 'on' : '') + (comps.length ? ' mix' : '');
-      return `<div class="bar ${cls}" style="left:${pct(a)}%; width:${Math.max(0.6, pct(b) - pct(a))}%" title="${esc(m.name)}: ${dm(m.start)} → ${m.end ? dm(m.end) : 'em uso'}"></div>`;
+      const cls = (m.allergy ? 'alg' : inUse(m) ? 'on' : isPaused(m) ? 'pz' : '') + (comps.length ? ' mix' : '');
+      return `<div class="bar ${cls}" style="left:${pct(a)}%; width:${Math.max(0.6, pct(b) - pct(a))}%" title="${esc(m.name)}: ${dm(m.start)} → ${m.end ? dm(m.end) : isPaused(m) ? 'pausado' : 'em uso'}"></div>`;
     }).join('');
-    return (i === firstActive && i > 0 ? '<div class="gsep">em uso agora</div>' : '') + `<div class="grow" data-mk="${esc(row.k)}" role="button" tabindex="0" aria-label="Ver detalhes de ${esc(row.name)}"><div class="gl" title="${esc(tip)}">${label}</div><div class="track${comps.length ? ' tall' : ''}"><div class="today" style="left:${tday}%"></div>${bars}</div></div>`;
+    return (i === firstPaused && i > 0 ? '<div class="gsep pz">pausados</div>' : '') + (i === firstActive && i > 0 ? '<div class="gsep">em uso agora</div>' : '') + `<div class="grow" data-mk="${esc(row.k)}" role="button" tabindex="0" aria-label="Ver detalhes de ${esc(row.name)}"><div class="gl" title="${esc(tip)}">${label}</div><div class="track${comps.length ? ' tall' : ''}"><div class="today" style="left:${tday}%"></div>${bars}</div></div>`;
   }).join('');
 }
 $('mStart').value = todayIso();
