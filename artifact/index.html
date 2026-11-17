@@ -314,6 +314,15 @@ body.ro .wr { display: none !important; }
 .mitem[open] summary::before { content: '▾'; }
 .mitem { position: relative; padding-left: 14px; }
 .mname { font-weight: 600; font-size: 14px; }
+.mic { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 6px; flex: none; }
+.mic svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mic.med { background: var(--accent-soft); color: var(--accent); }
+.mic.sup { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); border-radius: 7px; }
+.mic.sm { width: 20px; height: 20px; margin-right: 5px; } .mic.sm svg { width: 13px; height: 13px; }
+.mkey { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); margin: 0 0 8px; align-items: center; }
+.mkey span { display: inline-flex; align-items: center; }
+.medit { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; font-size: 12.5px; color: var(--muted); align-items: center; }
+.medit select { width: auto; padding: 4px 8px; font-size: 12.5px; }
 .mcat { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
 .mper { font-size: 12.5px; color: var(--muted); white-space: nowrap; min-width: 112px; text-align: right; }
 .mbody { padding: 0 0 10px; display: grid; gap: 2px; }
@@ -1605,6 +1614,41 @@ const CATS = [
   ['Dor e inflamação', /(^|[^a-zà-ú])dor([^a-zà-ú]|$)|febre|cortic|inflam/],
   ['Suplementos', /massa|suplement|vitamin|[ôo]mega|creatin|carnitin|aditil/],
 ];
+const FORMS = {
+  comprimido: ['Comprimido', '<circle cx="12" cy="12" r="8"/><path d="M6.5 17.5l11-11"/>'],
+  capsula: ['Cápsula', '<rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="M9.5 9.5l5 5"/>'],
+  snack: ['Tablete / petisco', '<path d="M8.6 5.4a2.2 2.2 0 1 0-3.2 3.2l1 .1 9 9 .1 1a2.2 2.2 0 1 0 3.2-3.2 2.2 2.2 0 1 0-3.2-3.2l-1-.1-6-6-.1-1a2.2 2.2 0 1 0-3.2 3.2"/>'],
+  gotas: ['Gotas', '<path d="M12 3c3 4 6 7.2 6 10.5a6 6 0 0 1-12 0C6 10.2 9 7 12 3z"/>'],
+  sache: ['Sachê / pó', '<path d="M6 6l1.5-2 1.5 2 1.5-2 1.5 2 1.5-2 1.5 2 1.5-2L18 6v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z"/><path d="M9 12h6M9 15h4"/>'],
+  liquido: ['Líquido (mL)', '<path d="M9.5 3h5M10.5 3v4L7 11.5V20a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-8.5L13.5 7V3"/><path d="M7 14.5h10"/>'],
+  seringa: ['Seringa oral', '<path d="M15 3l6 6M18 6l-9 9-3-3 9-9M6 12l-2.5 2.5V18H7l2.5-2.5M10.5 9.5l1.5 1.5M12.5 7.5L14 9"/>'],
+  injetavel: ['Injetável / ampola', '<path d="M10 3h4v3l2 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-3z"/><path d="M8 13h8"/>'],
+  spray: ['Spray', '<rect x="6" y="10" width="9" height="11" rx="1.5"/><path d="M8.5 10V7h4v3M12.5 8H16M19 5.5v.01M21 8v.01M19 10.5v.01"/>'],
+  colirio: ['Colírio', '<path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.5"/>'],
+  pomada: ['Pomada', '<path d="M8.5 3h7l-1 4h-5z"/><path d="M9.5 7h5v11l-2.5 3-2.5-3z"/>']
+};
+const SUP_RE = /suplement|vitamin|[ôo]mega|creatin|carnitin|ad-?til|glicopan|ai-g|eritr|macrogard|imunes|promun|spirulina|vitavet|sarcopen|happy bones|hemolitan|organoneuro|pr[óo]-?rim|cetuneurin|citoneurin/;
+function kindOf(m) { if (m.kind === 'med' || m.kind === 'sup') return m.kind; return SUP_RE.test(`${m.name || ''} ${m.purpose || ''} ${m.composition || ''}`.toLowerCase()) ? 'sup' : 'med'; }
+function formOf(m) {
+  if (m.form && FORMS[m.form]) return m.form;
+  const n = `${m.name || ''}`.toLowerCase(), t = `${n} ${m.dose || ''}`.toLowerCase();
+  if (/col[ií]rio|hyabak|lacrifilm|systane|\bgota.*olho/.test(t)) return 'colirio';
+  if (/pomada|vetaglos|sulfadiaz|creme/.test(t)) return 'pomada';
+  if (/spray|borrifad|cinocontrol/.test(t)) return 'spray';
+  if (/injet|ampola|\bsc\b|\bim\b|\biv\b|engystol|ceftriax/.test(t)) return 'injetavel';
+  if (/seringa|promun/.test(t)) return 'seringa';
+  if (/c[áa]psula/.test(t)) return 'capsula';
+  if (/snack|tablete|stick|biscoito|imunes|macrogard|eritr|happy bones/.test(t)) return 'snack';
+  if (/sach[êe]|scoop|\bp[óo]\b|\d\s*g\b|creatin|spirulina/.test(t)) return 'sache';
+  if (/gotas?\b|ad-?til/.test(t)) return 'gotas';
+  if (/\bml\b|xarope|suspens|vitavet|luftal|simetic/.test(t)) return 'liquido';
+  return 'comprimido';
+}
+function medIcon(m, sm) {
+  const k = kindOf(m), f = formOf(m);
+  return `<span class="mic ${k}${sm ? ' sm' : ''}" title="${k === 'sup' ? 'Suplemento' : 'Medicamento'} · ${FORMS[f][0]}"><svg viewBox="0 0 24 24" aria-hidden="true">${FORMS[f][1]}</svg></span>`;
+}
+const MKEY = `<div class="mkey"><span><span class="mic med sm"><svg viewBox="0 0 24 24">${'<circle cx="12" cy="12" r="8"/>'}</svg></span>medicamento</span><span><span class="mic sup sm"><svg viewBox="0 0 24 24">${'<circle cx="12" cy="12" r="8"/>'}</svg></span>suplemento</span><span class="muted">o desenho mostra a forma (comprimido, gotas, sachê…)</span></div>`;
 function catOf(m) { const t = `${m.purpose || ''} ${m.name || ''} ${m.composition || ''}`.toLowerCase(); for (const [c, re] of CATS) if (re.test(t)) return c; return 'Outros'; }
 let medCat = 'Todos', medRange = 'all';
 const medVisible = m => medCat === 'Todos' || catOf(m) === medCat;
@@ -1616,6 +1660,8 @@ function medDetail(m) {
     ${m.purpose ? `<div class="s"><b>Para quê:</b> ${esc(m.purpose)}</div>` : ''}
     ${comp ? `<ul class="comp">${m.components.map(c => `<li>${esc(c.name)}${c.dose ? ' <span class="muted">· ' + esc(c.dose) + '</span>' : ''}</li>`).join('')}</ul>` : ''}
     ${m.notes ? `<div class="s"><b>Obs.:</b> ${esc(m.notes)}</div>` : ''}
+    ${canWrite && m.id ? `<div class="medit">Tipo <select data-mkind="${esc(m.id)}"><option value="med"${kindOf(m) === 'med' ? ' selected' : ''}>Medicamento</option><option value="sup"${kindOf(m) === 'sup' ? ' selected' : ''}>Suplemento</option></select>
+      Forma <select data-mform="${esc(m.id)}">${Object.entries(FORMS).map(([k, v]) => `<option value="${k}"${formOf(m) === k ? ' selected' : ''}>${v[0]}</option>`).join('')}</select></div>` : ''}
     ${isPaused(m) && m.pauseReason ? `<div class="s"><b>Pausado:</b> ${esc(m.pauseReason)}</div>` : ''}
     ${Array.isArray(m.pauses) && m.pauses.length ? `<div class="s"><b>Pausas anteriores:</b> ${m.pauses.map(p => `${dm(p.from)}–${dm(p.to)}${p.reason ? ' (' + esc(p.reason) + ')' : ''}`).join(' · ')}</div>` : ''}`;
 }
@@ -1624,7 +1670,7 @@ function medLine(m) {
   const comp = Array.isArray(m.components) && m.components.length;
   return `<div class="mrow">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}
     <details class="mitem"><summary>
-      <span class="mname">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${isPaused(m) ? `<span class="pill hi">pausado${m.pausedAt ? ' desde ' + dm(m.pausedAt) : ''}</span>` : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim e sem confirmação há mais de 30 dias">confirmar se continua</span>' : ''}</span>
+      <span class="mname">${medIcon(m)}${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${isPaused(m) ? `<span class="pill hi">pausado${m.pausedAt ? ' desde ' + dm(m.pausedAt) : ''}</span>` : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim e sem confirmação há mais de 30 dias">confirmar se continua</span>' : ''}</span>
       <span class="mcat">${esc(catOf(m))}</span><span class="mper num">${medPeriod(m)}</span></summary>
       <div class="mbody">${medDetail(m)}
         ${canWrite ? `<div class="acts" style="margin-top:6px">${staleOf(m) ? `<button class="tiny ghost" data-mok="${esc(m.id)}">ainda usa</button>` : ''}${inUse(m) ? `<button class="tiny ghost" data-mpause="${esc(m.id)}">pausar</button>` : ''}${isPaused(m) ? `<button class="tiny ghost" data-mresume="${esc(m.id)}">retomar</button>` : ''}${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button></div>` : ''}</div>
@@ -1660,9 +1706,9 @@ function renderMeds() {
   $('medPausedCard').classList.toggle('hidden', !paused.length); $('medPausedH').textContent = `Pausados (${paused.length})`;
   $('medPaused').innerHTML = paused.map(medLine).join('');
   $('medActiveH').textContent = `Em uso (${act.length})`; $('medPastH').textContent = `Já usou (${past.length})`;
-  $('medActive').innerHTML = (act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>') + (act.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
+  $('medActive').innerHTML = MKEY + (act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>') + (act.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
   $('medPast').innerHTML = (past.map(medLine).join('') || '<p class="muted">Nada registrado.</p>') + (past.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
-  if ($('activeMeds')) $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
+  if ($('activeMeds')) $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${medIcon(m, true)}${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
     : '<p class="muted">Nenhum medicamento em uso registrado.</p>';
   // gantt
   $('medRange').innerHTML = [['all','Tudo'],['60','60 dias'],['30','30 dias'],['14','14 dias']].map(([v, t]) => `<button class="chip${medRange === v ? ' on' : ''}" data-mrange="${v}">${t}</button>`).join('');
@@ -1691,7 +1737,7 @@ function renderMeds() {
   $('medGantt').innerHTML = `<div class="grow"><div></div><div class="gaxis">${ticks}</div></div>` + rows.map((row, i) => {
     const comps = row.items.find(m => Array.isArray(m.components) && m.components.length)?.components || [];
     const clinics = [...new Set(row.items.map(m => m.clinic).filter(Boolean))];
-    const label = `<span class="gl1">${comps.length ? '<span class="mtag">manipulado</span>' : ''}<span class="gn">${esc(row.name)}</span>${clinics.map(clinicPill).join('')}</span>${comps.length ? `<span class="gc">${comps.map(c => esc(c.name)).join(' + ')}</span>` : ''}`;
+    const label = `<span class="gl1">${comps.length ? '<span class="mtag">manipulado</span>' : ''}${medIcon(row.items[row.items.length - 1], true)}<span class="gn">${esc(row.name)}</span>${clinics.map(clinicPill).join('')}</span>${comps.length ? `<span class="gc">${comps.map(c => esc(c.name)).join(' + ')}</span>` : ''}`;
     const tip = row.name + (clinics.length ? ' (' + clinics.join(', ') + ')' : '') + (comps.length ? ' — ' + comps.map(c => c.name + (c.dose ? ' ' + c.dose : '')).join(', ') : '');
     const bars = row.items.filter(m => !winStart || !m.end || m.end >= winStart).map(m => {
       const a = Math.max(t0, dayNum(m.start)), b = m.end ? dayNum(m.end) : dayNum(todayIso()) + 1;
@@ -1731,7 +1777,10 @@ document.addEventListener('click', async ev => {
   if (d1 && armed(d1, 'excluir')) { d1.disabled = true; try { await db.collection('meds').doc(d1.dataset.mdel).delete(); } catch (e) { alertErr(e); } }
 });
 
-document.addEventListener('change', ev => {
+document.addEventListener('change', async ev => {
+  const mk = ev.target.closest('select[data-mkind]'), mf = ev.target.closest('select[data-mform]');
+  if (mk) { try { await db.collection('meds').doc(mk.dataset.mkind).update({ kind: mk.value }); } catch (e) { alertErr(e); } return; }
+  if (mf) { try { await db.collection('meds').doc(mf.dataset.mform).update({ form: mf.value }); } catch (e) { alertErr(e); } return; }
   const c = ev.target.closest('input[data-msel]'); if (!c) return;
   c.checked ? mergeSel.add(c.dataset.msel) : mergeSel.delete(c.dataset.msel);
   document.querySelectorAll(`input[data-msel="${c.dataset.msel}"]`).forEach(x => x.checked = c.checked);

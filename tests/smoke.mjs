@@ -72,6 +72,8 @@ try {
   {
     const { page, errs } = await open(390, 'admin@teste.com', '#remedios');
     page.on('dialog', d => d.accept('aguardando a neuro'));
+    const ic = await page.evaluate(() => [...document.querySelectorAll('#medActive .mrow')].map(r => !!r.querySelector('.mic svg')));
+    check(ic.length > 0 && ic.every(Boolean), 'Remédios · cada item tem ícone de forma e cor de tipo');
     await page.evaluate(() => document.querySelector('#medActive details').open = true);
     await page.click('#medActive [data-mpause]'); await page.waitForTimeout(800);
     const p1 = await page.evaluate(() => ({ m: __store.meds.m1, card: !document.getElementById('medPausedCard').classList.contains('hidden'), n: document.querySelectorAll('#medPaused .mrow').length }));
