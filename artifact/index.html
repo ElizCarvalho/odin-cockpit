@@ -1092,10 +1092,12 @@ function renderTimeline() {
     const pics = list.filter(i => i.kind === 'Foto').sort((a, b) => byTime(a, b) || a.createdAt - b.createdAt);
     let body = '';
     const hh = t => t ? `<span class="hh">${esc(t)}</span>` : '';
-    for (const e of evs) body += `<div class="tli ev ${e.mark ? 'mk' : ''}">${hh(e.time)}${e.mark && e.short ? `<span class="pill mkp">${esc(e.short)}</span> ` : ''}${esc(e.text)}
-      ${canWrite ? ` <button class="tiny ghost" data-evdel="${esc(e.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`;
     const cut = t => t.length > 150 ? t.slice(0, 150).replace(/\s+\S*$/, '') + '…' : t;
-    for (const o of others) body += `<div class="tli">${hh(o.time)}<span class="k">${o.kind}</span> ${esc(o.text)}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}</div>`;
+    // tudo do dia na ordem da hora; o que não tem hora fica no fim
+    for (const o of [...evs, ...others].sort(byTime)) body += o.kind === 'Acontecimento'
+      ? `<div class="tli ev ${o.mark ? 'mk' : ''}">${hh(o.time)}${o.mark && o.short ? `<span class="pill mkp">${esc(o.short)}</span> ` : ''}${esc(o.text)}
+      ${canWrite ? ` <button class="tiny ghost" data-evdel="${esc(o.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`
+      : `<div class="tli">${hh(o.time)}<span class="k">${o.kind}</span> ${esc(o.text)}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}</div>`;
     const medTxt = arr => arr.map(x => esc(x.name) + (x.allergy ? ' <span class="warnt">(teve reação)</span>' : '')).join(' · ');
     if (starts.length) body += `<div class="tli"><span class="k">Começou</span> ${medTxt(starts)}</div>`;
     if (ends.length) body += `<div class="tli"><span class="k">Terminou</span> ${medTxt(ends)}</div>`;
