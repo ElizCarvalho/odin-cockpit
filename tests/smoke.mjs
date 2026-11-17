@@ -91,6 +91,7 @@ try {
       check(esc === 0, `${width}px · calendário ${mode} sem nada solto por cima da tela`);
     }
     check(await page.locator('#calBody .hgrid .gev').count() > 0, `${width}px · calendário dia mostra o que aconteceu hoje na grade de horas`);
+    check(await page.evaluate(() => [...document.querySelectorAll('#calBody .gev')].every(g => g.scrollWidth <= g.clientWidth + 1)), `${width}px · texto da visão Dia não fica cortado`);
     await page.click('#calBody .gev[data-ci]'); await page.waitForTimeout(200);
     check(await page.locator('.modal .mbox').isVisible(), `${width}px · tocar num registro abre os detalhes`);
     await page.click('.modal [data-close]'); await page.waitForTimeout(150);
