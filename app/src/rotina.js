@@ -1,22 +1,25 @@
 /* Aba Rotina: horários, notificações push e resposta rápida que vira registro no cockpit. */
 (function () {
   const css = document.createElement('style');
-  css.textContent = `#p-rotina .rN{display:block}#p-rotina .vform > .row{grid-column:1/-1}#p-rotina .rN .vform{margin-top:4px}
+  css.textContent = `.tab[hidden]{display:none!important}#p-rotina .rN{display:block}#p-rotina .vform > .row{grid-column:1/-1}#p-rotina .rN .vform{margin-top:4px}
     #p-rotina input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
     #p-rotina .rFocus{box-shadow:0 0 0 2px var(--accent);border-radius:10px;padding:10px}
-    #p-rotina label.chk{display:flex;gap:6px;align-items:center;align-self:center}
+    #p-admin .aRow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}#p-admin .aMail{overflow-wrap:anywhere}#p-admin select{width:auto}#p-admin .vform > .row{grid-column:1/-1}#p-admin input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}#p-admin label.chk,#p-rotina label.chk{display:flex;gap:6px;align-items:center;align-self:center}
     #p-rotina details summary{cursor:pointer;font-weight:600;color:var(--accent)}`;
   document.head.appendChild(css);
   const KIND = {
     med: { e: '💊', t: 'Remédio' }, agua: { e: '💧', t: 'Água' }, comida: { e: '🍽', t: 'Comida' },
     decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' }, outro: { e: '🐶', t: 'Outro' }
   };
-  let scheds = [], notifs = [], logs = [], acl = [], fb = null, freeKind = null, impMsg = '';
+  let scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
   const focusId = new URLSearchParams(location.search).get('n');
   const hhmm = () => new Date().toTimeString().slice(0, 5);
   const daysAgo = n => new Date(Date.now() - n * 864e5 - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
   const me = () => (window.ODIN_USER && window.ODIN_USER.email) || '';
+  const role = () => (aclDoc.roles || {})[me()] || 'view';
+  const canEdit = () => role() === 'admin' || role() === 'edit';
+  const ROLE = { admin: 'Admin', edit: 'Edita', view: 'Só vê' };
 
   /* ---------- Ativar push neste aparelho ---------- */
   async function enablePush(btn) {
@@ -106,9 +109,10 @@
         <div class="item rN${n.id === focusId ? ' rFocus' : ''}" id="rn-${esc(n.id)}">
           <div class="row between"><b>${(KIND[n.kind] || KIND.outro).e} ${esc(n.label || (KIND[n.kind] || KIND.outro).t)}</b>
           <span class="muted">${n.date === today ? '' : dm(n.date) + ' '}${esc(n.time)}${n.renotified ? ' · avisado 2x' : ''}</span></div>
-          ${entryForm(n)}
+          ${canEdit() ? entryForm(n) : ''}
         </div>`).join('') || '<p class="muted">Quando chegar a hora de algo, aparece aqui pra você marcar.</p>'}</div>
-      <details data-k="free" style="margin-top:10px"><summary>Registrar fora de hora</summary>
+      ${canEdit() ? '' : '<p class="note" style="margin-top:8px">Você está com acesso só de visualização.</p>'}
+      <details data-k="free" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Registrar fora de hora</summary>
         <div class="row" style="margin-top:8px">${Object.entries(KIND).filter(([k]) => k !== 'outro').map(([k, v]) => `<button type="button" class="ghost tiny" data-free="${k}">${v.e} ${v.t}</button>`).join('')}</div>
         <div id="rFree">${freeKind ? entryForm({ kind: freeKind, label: KIND[freeKind].t }).replace('data-n=""', `data-n="" data-kind="${freeKind}"`) : ''}</div>
       </details>
@@ -124,9 +128,9 @@
       <div class="list" style="margin-top:6px">${scheds.sort((a, b) => (a.kind + a.label).localeCompare(b.kind + b.label)).map(s => `
         <div class="item row between">
           <span>${(KIND[s.kind] || KIND.outro).e} <b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${s.until ? ' · até ' + dm(s.until) : ''}</span></span>
-          <span class="row"><button class="ghost tiny" data-tog="${esc(s.id)}">${s.active ? 'Pausar' : 'Ativar'}</button><button class="tiny danger" data-del="${esc(s.id)}">Apagar</button></span>
+          <span class="row"${canEdit() ? '' : ' hidden'}><button class="ghost tiny" data-tog="${esc(s.id)}">${s.active ? 'Pausar' : 'Ativar'}</button><button class="tiny danger" data-del="${esc(s.id)}">Apagar</button></span>
         </div>`).join('') || '<p class="muted">Nenhum horário ainda.</p>'}</div>
-      <details data-k="new" style="margin-top:10px"><summary>Novo horário</summary>
+      <details data-k="new" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Novo horário</summary>
         <form id="rNew" class="vform">
           <label>Tipo<select name="kind">${Object.entries(KIND).map(([k, v]) => `<option value="${k}">${v.e} ${v.t}</option>`).join('')}</select></label>
           <label>Nome<input type="text" name="label" placeholder="ex.: Gardenal 1 comp." required></label>
@@ -147,12 +151,40 @@
       <button id="rPush" class="${isOn ? 'ghost' : ''}">${isOn ? 'Ativar de novo' : 'Ativar notificações'}</button>
       <p class="muted" id="rPushMsg" style="margin-top:6px"></p>
     </section>
+`;
+    host.querySelectorAll('details').forEach(d => { if (openK.has(d.dataset.k)) d.open = true; });
+    if (focusId) { const el = document.getElementById('rn-' + focusId); if (el && !render.scrolled) { render.scrolled = true; el.scrollIntoView({ block: 'center' }); } }
+  }
+  window.renderRotina = () => { render(); renderAdmin(); };
 
+  /* ---------- Admin ---------- */
+  function renderAdmin() {
+    const tab = document.querySelector('.tab[data-tab="admin"]');
+    const isAdmin = role() === 'admin';
+    if (tab) tab.hidden = !isAdmin;
+    const host = document.getElementById('p-admin');
+    if (!host || host.hidden || !fb) return;
+    if (!isAdmin) { host.innerHTML = '<section class="card"><p class="muted">Só quem é admin vê esta aba.</p></section>'; return; }
+    const ae = document.activeElement;
+    if (ae && host.contains(ae) && /INPUT|TEXTAREA/.test(ae.tagName)) { renderAdmin.dirty = true; return; }
+    const openK = new Set([...host.querySelectorAll('details[open]')].map(d => d.dataset.k));
+    const roleSel = (e, r) => `<select data-role="${esc(e)}"${e === me() ? ' disabled' : ''}>${Object.entries(ROLE).map(([k, v]) => `<option value="${k}"${k === r ? ' selected' : ''}>${v}</option>`).join('')}</select>`;
+    host.innerHTML = `
     <section class="card">
       <h2>Acesso</h2>
-      <p class="note" style="margin:4px 0 8px">Quem pode ver, registrar e receber lembretes (conta Google).</p>
-      <div class="list">${acl.map(e => `<div class="item row between"><span>${esc(e)}</span>${e !== me() ? `<button class="tiny danger" data-rmacl="${esc(e)}">Tirar</button>` : '<span class="muted">você</span>'}</div>`).join('')}</div>
-      <form id="rAcl" class="row" style="margin-top:8px"><input name="email" type="email" placeholder="email@gmail.com" required style="flex:1"><button type="submit">Adicionar</button></form>
+      <p class="note" style="margin:4px 0 8px"><b>Admin</b>: tudo, inclusive esta aba. <b>Edita</b>: vê, registra, responde lembretes e mexe nos horários. <b>Só vê</b>: vê tudo, não altera nada.<br>
+      <b>Lembretes</b>: se a pessoa recebe push (ela também precisa ativar no aparelho dela, na aba Rotina).</p>
+      <div class="list">${(aclDoc.emails || []).map(e => `<div class="item aRow">
+        <span class="aMail">${esc(e)}${e === me() ? ' <span class="muted">(você)</span>' : ''}</span>
+        <span class="row">${roleSel(e, (aclDoc.roles || {})[e] || 'view')}
+          <label class="chk"><input type="checkbox" data-notify="${esc(e)}"${(aclDoc.notify || {})[e] === false ? '' : ' checked'}> lembretes</label>
+          ${e !== me() ? `<button class="tiny danger" data-rmacl="${esc(e)}">Tirar</button>` : ''}</span></div>`).join('')}</div>
+      <form id="rAcl" class="vform" style="margin-top:8px">
+        <label>E-mail Google<input name="email" type="email" placeholder="email@gmail.com" required></label>
+        <label>Papel<select name="role"><option value="view">Só vê</option><option value="edit">Edita</option><option value="admin">Admin</option></select></label>
+        <label class="chk"><input type="checkbox" name="notify" checked> recebe lembretes</label>
+        <div class="row"><button type="submit">Adicionar</button></div>
+      </form>
     </section>
 
     <section class="card"${exams.length ? '' : ' style="border-color:var(--accent)"'}>
@@ -163,9 +195,14 @@
       </details>
     </section>`;
     host.querySelectorAll('details').forEach(d => { if (openK.has(d.dataset.k)) d.open = true; });
-    if (focusId) { const el = document.getElementById('rn-' + focusId); if (el && !render.scrolled) { render.scrolled = true; el.scrollIntoView({ block: 'center' }); } }
   }
-  window.renderRotina = render;
+  document.addEventListener('focusout', () => setTimeout(() => { if (renderAdmin.dirty) { renderAdmin.dirty = false; renderAdmin(); } }, 300));
+  const aclRef = () => fb.fs.collection('acl').doc('users');
+  document.addEventListener('change', async ev => {
+    const t = ev.target;
+    if (t.matches('[data-role]')) await aclRef().update(new firebase.firestore.FieldPath('roles', t.dataset.role), t.value).catch(e => alert(e.message));
+    if (t.matches('[data-notify]')) await aclRef().update(new firebase.firestore.FieldPath('notify', t.dataset.notify), t.checked).catch(e => alert(e.message));
+  });
 
   /* ---------- Importar o export do cockpit antigo ---------- */
   async function importExport(file) {
@@ -225,7 +262,9 @@
     if (f.id === 'rAcl') {
       ev.preventDefault();
       const e = f.email.value.trim().toLowerCase();
-      if (e) await fb.fs.collection('acl').doc('users').update({ emails: firebase.firestore.FieldValue.arrayUnion(e) }).catch(x => say(f, x.message));
+      if (!e) return;
+      const roles = { ...(aclDoc.roles || {}), [e]: f.role.value }, notify = { ...(aclDoc.notify || {}), [e]: f.notify.checked };
+      await aclRef().update({ emails: firebase.firestore.FieldValue.arrayUnion(e), roles, notify }).then(() => f.reset()).catch(x => say(f, x.message));
     }
   });
   document.addEventListener('click', async ev => {
@@ -239,7 +278,8 @@
     }
     if (t.matches('[data-tog]')) { const s = scheds.find(x => x.id === t.dataset.tog); if (s) await fb.fs.collection('schedule').doc(s.id).update({ active: !s.active }); }
     if (t.matches('[data-del]')) { const s = scheds.find(x => x.id === t.dataset.del); if (s && confirm(`Apagar o horário "${s.label}"?`)) await fb.fs.collection('schedule').doc(s.id).delete(); }
-    if (t.matches('[data-rmacl]')) { if (confirm(`Tirar o acesso de ${t.dataset.rmacl}?`)) await fb.fs.collection('acl').doc('users').update({ emails: firebase.firestore.FieldValue.arrayRemove(t.dataset.rmacl) }); }
+    if (t.matches('[data-rmacl]')) { const e = t.dataset.rmacl; if (confirm(`Tirar o acesso de ${e}?`)) { const roles = { ...(aclDoc.roles || {}) }, notify = { ...(aclDoc.notify || {}) }; delete roles[e]; delete notify[e];
+      await aclRef().update({ emails: firebase.firestore.FieldValue.arrayRemove(e), roles, notify }); } }
     if (t.id === 'rPush') enablePush(t);
   });
 
@@ -250,7 +290,7 @@
     fb.fs.collection('schedule').onSnapshot(s => { scheds = s.docs.map(d => ({ id: d.id, ...d.data() })); rr(); });
     fb.fs.collection('notifs').where('date', '>=', daysAgo(2)).onSnapshot(s => { notifs = s.docs.map(d => ({ id: d.id, ...d.data() })); rr(); updateBadge(); });
     fb.fs.collection('rotina_log').where('date', '>=', daysAgo(1)).onSnapshot(s => { logs = s.docs.map(d => ({ id: d.id, ...d.data() })); rr(); });
-    fb.fs.collection('acl').doc('users').onSnapshot(s => { acl = (s.data() && s.data().emails) || []; rr(); });
+    fb.fs.collection('acl').doc('users').onSnapshot(s => { aclDoc = { emails: [], roles: {}, notify: {}, ...(s.data() || {}) }; rr(); });
     if (localStorage.getItem('odinPush') === '1' && Notification.permission === 'granted') {
       navigator.serviceWorker.register('/firebase-messaging-sw.js').then(reg =>
         firebase.messaging().getToken({ vapidKey: fb.vapidKey, serviceWorkerRegistration: reg })

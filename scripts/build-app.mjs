@@ -22,8 +22,10 @@ swap('<title>Odin - Cockpit</title>', `<title>Odin - Cockpit</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Odin">`);
 swap('<button class="tab" role="tab" data-tab="exames">', '<button class="tab" role="tab" data-tab="rotina">Rotina</button>\n    <button class="tab" role="tab" data-tab="exames">');
-swap('\n  <p class="note">Esta página organiza', '\n  <div class="panel" id="p-rotina" role="tabpanel" hidden></div>\n\n  <p class="note">Esta página organiza');
+swap('\n  <p class="note">Esta página organiza', '\n  <div class="panel" id="p-rotina" role="tabpanel" hidden></div>\n  <div class="panel" id="p-admin" role="tabpanel" hidden></div>\n\n  <p class="note">Esta página organiza');
 swap("const TABS = ['painel',", "const TABS = ['painel','rotina',");
+swap("'linha'];", "'linha','admin'];");
+swap('<button class="tab" role="tab" data-tab="linha">Linha do tempo</button>', '<button class="tab" role="tab" data-tab="linha">Linha do tempo</button>\n    <button class="tab" role="tab" data-tab="admin" hidden>Admin</button>');
 swap('renderPhotos(); renderUpdated(); }', 'renderPhotos(); renderUpdated(); if (window.renderRotina) renderRotina(); }');
 swap(": '/_blob/' + encodeURIComponent(id); }", ': blobUrl(id); }');
 swap("await fetch('/_blob/' + encodeURIComponent(p.assetId))", 'await fetch(await blobUrlAsync(p.assetId))');

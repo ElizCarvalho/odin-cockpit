@@ -1,13 +1,16 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    function acl() { return firestore.get(/databases/(default)/documents/acl/users).data; }
     function member() {
       return request.auth != null && request.auth.token.email_verified == true &&
-        request.auth.token.email.lower() in firestore.get(/databases/(default)/documents/acl/users).data.emails;
+        request.auth.token.email.lower() in acl().emails;
     }
+    function canEdit() { return member() && acl().get('roles', {}).get(request.auth.token.email.lower(), 'view') in ['admin', 'edit']; }
     match /blobs/{id} {
-      allow read, delete: if member();
-      allow create, update: if member() && request.resource.size < 60 * 1024 * 1024;
+      allow read: if member();
+      allow delete: if canEdit();
+      allow create, update: if canEdit() && request.resource.size < 60 * 1024 * 1024;
     }
   }
 }

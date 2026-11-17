@@ -44,10 +44,12 @@
     const ref = fs.collection('acl').doc('users');
     try {
       let snap = await ref.get();
-      if (!snap.exists) { await ref.set({ emails: [email], createdAt: Date.now() }); snap = await ref.get(); }
+      if (!snap.exists) { await ref.set({ emails: [email], roles: { [email]: 'admin' }, notify: { [email]: true }, createdAt: Date.now() }); snap = await ref.get(); }
       if (!(snap.data().emails || []).includes(email)) throw { code: 'permission-denied' };
+      if (!snap.data().roles) { await ref.update({ roles: { [email]: 'admin' }, notify: { [email]: true } }); snap = await ref.get(); }
+      const role = (snap.data().roles || {})[email] || 'view';
       gate.remove();
-      window.ODIN_USER = { email, name: u.displayName || email };
+      window.ODIN_USER = { email, name: u.displayName || email, role };
       readyResolve(u);
     } catch (e) {
       showGate(e.code === 'permission-denied'
@@ -129,7 +131,7 @@
       if (name === 'db') return fs;
       if (name === 'assets') return assets;
       if (name === 'sample') return sample;
-      if (name === 'user') return { can: async () => true };
+      if (name === 'user') return { can: async () => window.ODIN_USER.role !== 'view' };
       if (name === 'dictation') return dictation();
       if (name === 'downloads') return downloads;
       return null;

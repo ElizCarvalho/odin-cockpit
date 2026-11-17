@@ -42,8 +42,9 @@ export function isDue(s, date, hm) {
 }
 
 async function push(notifId, n, again) {
-  const toks = await db.collection('tokens').get();
-  const list = toks.docs.map(d => d.id);
+  const [toks, acl] = await Promise.all([db.collection('tokens').get(), db.collection('acl').doc('users').get()]);
+  const a = acl.data() || {}, emails = a.emails || [], notify = a.notify || {};
+  const list = toks.docs.filter(d => { const e = d.data().email; return emails.includes(e) && notify[e] !== false; }).map(d => d.id);
   if (!list.length) return 0;
   const k = KIND[n.kind] || KIND.outro;
   const res = await getMessaging().sendEachForMulticast({
@@ -88,16 +89,17 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
   }
 });
 
-async function isMember(email) {
+async function canEdit(email) {
   if (!email) return false;
   const acl = await db.collection('acl').doc('users').get();
-  return acl.exists && (acl.data().emails || []).includes(String(email).toLowerCase());
+  const e = String(email).toLowerCase(), d = acl.exists ? acl.data() : {};
+  return (d.emails || []).includes(e) && ['admin', 'edit'].includes((d.roles || {})[e]);
 }
 
 // Lê texto/imagens com a IA da Anthropic e devolve o texto da resposta (o app faz o parse do JSON).
 export const registrar = onCall({ timeoutSeconds: 120, memory: '512MiB' }, async req => {
   const t = req.auth && req.auth.token;
-  if (!t || !t.email_verified || !(await isMember(t.email))) throw new HttpsError('permission-denied', 'sem acesso');
+  if (!t || !t.email_verified || !(await canEdit(t.email))) throw new HttpsError('permission-denied', 'sem acesso');
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new HttpsError('failed-precondition', 'IA não configurada (falta ANTHROPIC_API_KEY)');
   const { prompt, images = [] } = req.data || {};
