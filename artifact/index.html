@@ -319,6 +319,22 @@ body.ro .wr { display: none !important; }
 .cday h3 { margin: 0 0 6px; font-size: 14px; } .cday h3 .muted { font-weight: 400; }
 .citem { display: grid; grid-template-columns: 46px 1fr; gap: 8px; padding: 4px 0 4px 8px; border-left: 3px solid var(--cc); margin: 4px 0; font-size: 13.5px; }
 .citem .h { font-family: var(--font-mono); font-size: 12px; color: var(--muted); } .citem .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.hgrid-wrap { max-height: 72vh; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+.hgrid { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: 12px; }
+.hgrid th, .hgrid td { border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); vertical-align: top; padding: 2px 3px; }
+.hgrid thead th { position: sticky; top: 0; z-index: 2; background: var(--surface); font-weight: 600; font-size: 12px; padding: 6px 3px; text-align: center; }
+.hgrid thead th.is-today { color: var(--accent); }
+.hgrid thead th.is-today .dn { background: var(--accent); color: var(--bg); border-radius: 99px; padding: 0 6px; }
+.hgrid .hl { width: 46px; text-align: right; color: var(--muted); font-family: var(--font-mono); font-size: 11px; border-left: 0; padding-right: 6px; background: var(--surface); position: sticky; left: 0; z-index: 1; }
+.hgrid tr.now .hl { color: var(--accent); font-weight: 600; }
+.hgrid tbody td { height: 26px; cursor: default; }
+.hgrid.week tbody td { cursor: pointer; }
+.hgrid tr.allday td, .hgrid tr.allday .hl { background: color-mix(in srgb, var(--line) 35%, transparent); }
+.gev { display: block; margin: 1px 0; padding: 2px 5px; border-radius: 4px; background: color-mix(in srgb, var(--cc) 20%, transparent); border-left: 3px solid var(--cc); line-height: 1.3; overflow-wrap: anywhere; }
+.gev .t { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); margin-right: 4px; }
+.gev.skip { opacity: .5; text-decoration: line-through; } .gev.fut { outline: 1px dashed var(--cc); }
+.hgrid.week .gev { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 560px) { .hgrid.week .gev { font-size: 0; padding: 0; height: 6px; border-left-width: 0; background: var(--cc); margin: 2px 0; } .hgrid.week thead th { font-size: 10.5px; } .hgrid .hl { width: 38px; } }
 .citem.skip { opacity: .55; } .citem.fut { background: color-mix(in srgb, var(--cc) 10%, transparent); border-radius: 0 6px 6px 0; }
 @media (max-width: 560px) { .calgrid .cd { min-height: 54px; } .calgrid .cev { display: none; } .calgrid .cdots { display: flex; } .calgrid .more { display: none; } }
 .chip .cnt { opacity: .7; font-size: 11px; margin-left: 2px; }
@@ -2034,6 +2050,26 @@ function calDayList(iso, items) {
   const rows = list.map(i => `<div class="citem${i.skip ? ' skip' : ''}${i.fut ? ' fut' : ''}" style="--cc:${CAL_COLOR[i.cat]}"><span class="h">${esc(i.time || '—')}</span><span><span class="k">${esc(i.cat)}${i.fut ? ' · agendado' : ''}</span> ${esc(i.text)}${i.assetId && !i.video ? `<br><img class="tlp" src="${esc(photoSrc(i.assetId))}" alt="" loading="lazy" data-open="${esc(i.assetId)}" data-cap="${esc(i.text)}">` : ''}${i.appt && canWrite ? ` <button class="tiny ghost" data-evdel="${esc(i.id)}">excluir</button>` : ''}</span></div>`).join('');
   return stay + rows || '<p class="muted" style="margin:4px 0">Nada registrado.</p>';
 }
+function calGrid(days, items, week) {
+  const t = todayIso(), nowH = new Date().getHours();
+  const per = d => items.filter(i => i.date === d);
+  const head = `<tr><th class="hl"></th>${days.map(d => `<th class="${d === t ? 'is-today' : ''}" ${week ? `data-cday="${d}" style="cursor:pointer"` : ''}>${wdShort[dowOf(d)]} <span class="dn">${+d.slice(8)}</span></th>`).join('')}</tr>`;
+  const chip = i => `<span class="gev${i.skip ? ' skip' : ''}${i.fut ? ' fut' : ''}" style="--cc:${CAL_COLOR[i.cat]}" title="${esc((i.time ? i.time + ' · ' : '') + i.cat + ': ' + i.text)}">${i.time ? `<span class="t">${esc(i.time)}</span>` : ''}${esc(i.text)}${i.appt && canWrite && !week ? ` <button class="tiny ghost" data-evdel="${esc(i.id)}">excluir</button>` : ''}</span>`;
+  const allday = days.map(d => { const st = stayOf(d), show = st && (!calSel.size || calSel.has('Internação'));
+    return `<td ${week ? `data-cday="${d}"` : ''}>${show ? `<span class="gev" style="--cc:${CAL_COLOR['Internação']}">${esc(st.label)} · ${esc(st.clinic)}</span>` : ''}${per(d).filter(i => !i.time).map(chip).join('')}</td>`; }).join('');
+  let body = `<tr class="allday"><th class="hl">dia</th>${allday}</tr>`;
+  for (let h = 0; h < 24; h++) {
+    const hh = String(h).padStart(2, '0');
+    body += `<tr class="${h === nowH && days.includes(t) ? 'now' : ''}" data-h="${h}"><th class="hl">${hh}:00</th>${days.map(d => `<td ${week ? `data-cday="${d}"` : ''}>${per(d).filter(i => i.time && i.time.slice(0, 2) === hh).sort((a, b) => a.time < b.time ? -1 : 1).map(chip).join('')}</td>`).join('')}</tr>`;
+  }
+  return `<div class="hgrid-wrap"><table class="hgrid${week ? ' week' : ''}"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+}
+function scrollGrid(days, items) {
+  const w = document.querySelector('#calBody .hgrid-wrap'); if (!w) return;
+  const hrs = items.filter(i => days.includes(i.date) && i.time).map(i => +i.time.slice(0, 2));
+  const h = days.includes(todayIso()) ? Math.max(0, new Date().getHours() - 2) : hrs.length ? Math.min(...hrs) : 7;
+  const row = w.querySelector(`tr[data-h="${Math.min(h, 23)}"]`); if (row) w.scrollTop = row.offsetTop - w.querySelector('thead').offsetHeight - 30;
+}
 function renderCalendar() {
   const host = $('cal'); if (!host || host.classList.contains('hidden')) return;
   const all = calItems(), items = calShown(all);
@@ -2042,11 +2078,11 @@ function renderCalendar() {
   const t = todayIso();
   if (calMode === 'dia') {
     $('calTitle').textContent = dayTitle(calDate) + (calDate === t ? ' · hoje' : '');
-    $('calBody').innerHTML = `<div class="cday">${calDayList(calDate, items)}</div>`;
+    $('calBody').innerHTML = calGrid([calDate], items, false); scrollGrid([calDate], items);
   } else if (calMode === 'sem') {
-    const start = dayNum(calDate) - 6, days = Array.from({ length: 7 }, (_, k) => dayIso(start + k));
+    const start = dayNum(calDate) - dowOf(calDate), days = Array.from({ length: 7 }, (_, k) => dayIso(start + k));
     $('calTitle').textContent = `${dm(days[0])} a ${dm(days[6])}`;
-    $('calBody').innerHTML = days.slice().reverse().map(d => `<div class="cday"><h3>${esc(dayTitle(d))}${d === t ? ' <span class="muted">· hoje</span>' : ''}</h3>${calDayList(d, items)}</div>`).join('');
+    $('calBody').innerHTML = calGrid(days, items, true); scrollGrid(days, items);
   } else {
     const first = calDate.slice(0, 8) + '01', f = dayNum(first), lead = dowOf(first), cells = [];
     for (let k = -lead; k < 42 - lead; k++) cells.push(dayIso(f + k));

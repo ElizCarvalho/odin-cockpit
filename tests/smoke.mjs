@@ -82,14 +82,18 @@ try {
       const esc = await page.evaluate(() => [...document.querySelectorAll('#calBody *')].filter(e => getComputedStyle(e).position === 'absolute' || getComputedStyle(e).position === 'fixed').length);
       check(esc === 0, `${width}px · calendário ${mode} sem nada solto por cima da tela`);
     }
-    check(await page.locator('#calBody .citem').count() > 0, `${width}px · calendário dia mostra o que aconteceu hoje`);
+    check(await page.locator('#calBody .hgrid .gev').count() > 0, `${width}px · calendário dia mostra o que aconteceu hoje na grade de horas`);
+    await page.click('[data-cmode=sem]'); await page.waitForTimeout(200);
+    check(await page.locator('#calBody .hgrid thead th[data-cday]').count() === 7, `${width}px · 7 dias em colunas com horas`);
+    await page.click('#calBody .hgrid thead th.is-today'); await page.waitForTimeout(200);
+    check(await page.evaluate(() => calMode) === 'dia', `${width}px · tocar no dia da semana abre o dia`);
     if (width === 390) {
       await page.click('#calAddBtn'); await page.fill('#calAdd [name=what]', 'neuro'); await page.fill('#calAdd [name=time]', '15:00');
       await page.click('#calAdd [type=submit]'); await page.waitForTimeout(800);
       const ap = await page.evaluate(() => Object.values(__store.events).filter(e => e.kind === 'consulta').map(e => e.text + '|' + e.remind));
       check(ap.length === 1 && ap[0] === 'Consulta: neuro|1440', 'Calendário · agendar consulta com lembrete');
       await page.click('[data-ccat="Consulta"]'); await page.waitForTimeout(200);
-      check(await page.evaluate(() => [...document.querySelectorAll('#calBody .citem')].every(x => /Consulta/.test(x.textContent))), 'Calendário · filtro por tipo');
+      check(await page.evaluate(() => [...document.querySelectorAll('#calBody .gev')].every(x => /Consulta/.test(x.title))), 'Calendário · filtro por tipo');
       await page.click('[data-cmode=mes]'); await page.waitForTimeout(200); await page.click('[data-cmode=sem]', { timeout: 2000 }); await page.click('[data-cmode=mes]', { timeout: 2000 }); await page.click('.calgrid .cd.is-today'); await page.waitForTimeout(200);
       check(await page.evaluate(() => calMode) === 'dia', 'Calendário · tocar no dia do mês abre o dia');
     }
