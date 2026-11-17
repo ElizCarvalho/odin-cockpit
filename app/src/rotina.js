@@ -154,7 +154,7 @@
         </div>`).join('') || '<p class="muted">Quando chegar a hora de algo, aparece aqui pra você marcar.</p>'}</div>
       ${canEdit() ? '' : '<p class="note" style="margin-top:8px">Você está com acesso só de visualização.</p>'}
       <details data-k="free" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Registrar fora de hora</summary>
-        <div class="row" style="margin-top:8px">${Object.entries(KIND).filter(([k]) => k !== 'outro').map(([k, v]) => `<button type="button" class="ghost tiny" data-free="${k}">${v.e} ${v.t}</button>`).join('')}</div>
+        <div class="row" style="margin-top:8px">${Object.entries(KIND).filter(([k]) => !['outro', 'compra'].includes(k)).map(([k, v]) => `<button type="button" class="ghost tiny" data-free="${k}">${v.e} ${v.t}</button>`).join('')}</div>
         <div id="rFree">${freeKind ? entryForm({ kind: freeKind, label: KIND[freeKind].t }).replace('data-n=""', `data-n="" data-kind="${freeKind}"`) : ''}</div>
       </details>
     </section>
@@ -173,7 +173,7 @@
         </div>`).join('') || '<p class="muted">Nenhum horário ainda.</p>'}</div>
       <details data-k="new" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Novo horário</summary>
         <form id="rNew" class="vform">
-          <label>Tipo<select name="kind">${Object.entries(KIND).map(([k, v]) => `<option value="${k}">${v.e} ${v.t}</option>`).join('')}</select></label>
+          <label>Tipo<select name="kind">${Object.entries(KIND).filter(([k]) => k !== 'compra').map(([k, v]) => `<option value="${k}">${v.e} ${v.t}</option>`).join('')}</select></label>
           <label>Nome<input type="text" name="label" placeholder="ex.: Gardenal 1 comp." required></label>
           <label>Remédio da lista<select name="medId"><option value="">—</option>${meds.filter(m => !m.end || m.end >= today).map(m => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join('')}</select></label>
           <label>Horários fixos<input type="text" name="times" placeholder="08:00, 20:00"></label>
