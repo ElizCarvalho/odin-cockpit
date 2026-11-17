@@ -1,10 +1,10 @@
 /* Aba Rotina: horários, notificações push e resposta rápida que vira registro no cockpit. */
 (function () {
   const css = document.createElement('style');
-  css.textContent = `.tab[hidden]{display:none!important}#p-rotina .rItems{grid-column:1/-1;display:grid;gap:6px}#p-rotina .rItems label.chk{align-items:center;gap:8px;font-size:14px;color:var(--ink)}#p-rotina .rItems input{width:20px;height:20px;accent-color:var(--accent)}#p-rotina .rN{display:block}#p-rotina .vform > .row{grid-column:1/-1}#p-rotina .rN .vform{margin-top:4px}
+  css.textContent = `.tab[hidden]{display:none!important}#p-rotina .rItems{grid-column:1/-1;display:grid;gap:6px}#p-rotina .rItems label.chk{align-items:center;gap:8px;font-size:14px;color:var(--ink)}#p-rotina .rItems input{width:20px;height:20px;accent-color:var(--accent)}#p-rotina .rToday{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}#p-rotina .rN{display:block}#p-rotina .vform > .row{grid-column:1/-1}#p-rotina .rN .vform{margin-top:4px}
     #p-rotina input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
     #p-rotina .rFocus{box-shadow:0 0 0 2px var(--accent);border-radius:10px;padding:10px}
-    #p-admin .aRow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}#p-admin .aMail{overflow-wrap:anywhere}#p-admin select{width:auto}#p-admin .vform > .row{grid-column:1/-1}#p-admin input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}#p-admin label.chk,#p-rotina label.chk{display:flex;gap:6px;align-items:center;align-self:center}
+    #p-admin .aFood{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}#p-admin .aFood .wide{grid-column:1/-1}#p-admin .aRow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}#p-admin .aMail{overflow-wrap:anywhere}#p-admin select{width:auto}#p-admin .vform > .row{grid-column:1/-1}#p-admin input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}#p-admin label.chk,#p-rotina label.chk{display:flex;gap:6px;align-items:center;align-self:center}
     #p-rotina details summary{cursor:pointer;font-weight:600;color:var(--accent)}`;
   document.head.appendChild(css);
   const KIND = {
@@ -77,12 +77,16 @@
       if (n.kind === 'agua') {
         const ml = parseFloat(form.querySelector('[name=v]').value.replace(',', '.'));
         if (!(ml > 0)) throw new Error('quantos mL?');
-        const coco = form.querySelector('[name=coco]')?.checked;
-        await db.collection('vitals').add({ ...base, water_ml: ml, note: [coco ? 'água de coco' : '', note].filter(Boolean).join(' · ') });
+        const d = foodById(form.querySelector('[name=fid]')?.value) || foodById('agua');
+        await db.collection('vitals').add({ ...base, water_ml: ml, drinkId: d ? d.id : 'agua', note: [d && d.id !== 'agua' ? d.name.toLowerCase() : '', note].filter(Boolean).join(' · ') });
       } else if (n.kind === 'comida') {
-        const g = parseFloat(form.querySelector('[name=v]').value.replace(',', '.'));
-        if (!(g > 0)) throw new Error('quantos gramas?');
-        await db.collection('vitals').add({ ...base, food_g: g, food: true, note });
+        const q = parseFloat(form.querySelector('[name=v]').value.replace(',', '.'));
+        if (!(q > 0)) throw new Error('quanto ele comeu?');
+        const f = foodById(form.querySelector('[name=fid]')?.value);
+        const doc = { ...base, food: true, note: [f ? f.name : '', note].filter(Boolean).join(' · ') };
+        if (f) doc.foodId = f.id;
+        if (f && f.unit === 'un') { doc.qty = q; doc.unit = 'un'; doc.food_g = q * (f.gUnit || 0); } else doc.food_g = q;
+        await db.collection('vitals').add(doc);
       } else if (n.kind === 'temp') {
         const c = parseFloat(form.querySelector('[name=v]').value.replace(',', '.'));
         if (!(c > 30 && c < 45)) throw new Error('temperatura em °C, ex.: 38,4');
@@ -112,8 +116,8 @@
     if (n.kind === 'consulta') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}</p><div class="row"><button type="submit">Ok</button></div></form>`;
     if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque na aba Medicamentos.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
     if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}" checked> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
-    else if (n.kind === 'agua') f = `<label>Água (mL)<input type="text" name="v" inputmode="decimal" required></label><label class="chk"><input type="checkbox" name="coco"> água de coco</label>`;
-    else if (n.kind === 'comida') f = `<label>Comida (g)<input type="text" name="v" inputmode="decimal" required></label>`;
+    else if (n.kind === 'agua') f = `<label>Bebida<select name="fid">${foodList().filter(x => x.kind === 'bebida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select></label><label>Quanto (mL)<input type="text" name="v" inputmode="decimal" required></label>`;
+    else if (n.kind === 'comida') f = `<label>Alimento<select name="fid">${foodList().filter(x => x.kind === 'comida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}${x.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}<option value="">outro</option></select></label><label>Quanto (g ou unidades)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'fezes') f = `<label>Consistência<select name="cons"><option>normal (firme)</option><option>pastosa</option><option>mole</option><option>líquida (diarreia)</option><option>ressecada / dura</option></select></label>
       <label>Cor<select name="cor"><option>marrom</option><option>marrom escura</option><option>preta</option><option>amarelada</option><option>esverdeada</option><option>com sangue</option><option>com muco</option></select></label>`;
@@ -144,7 +148,14 @@
     const ltxt = l => `${ic(l)}${esc(l.label || (KIND[l.kind] || KIND.outro).t)}${l.side ? ' · ' + esc(l.side) : ''}${l.status === 'skipped' ? ' <span class="pill lo">pulou</span>' : ''}`;
     const isOn = localStorage.getItem('odinPush') === '1';
 
+    const T = dayTotals(today), G = goalsNow();
+    const bar = (lbl, val, goal, unit, sub) => { const pct = goal ? Math.round(val / goal * 100) : null; const cls = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
+      return `<div class="tile ${cls}" style="padding:10px 12px"><div class="lbl">${lbl}${pct != null ? ` <span class="pill ${cls}">${pct}%</span>` : ''}</div><div class="val" style="font-size:22px">${fmt(Math.round(val))}<small>${unit}</small></div><div class="reft">${goal ? `meta ${fmt(goal)} ${unit}${G.set ? '' : ' (sugerida)'}` : 'sem meta'}</div>${sub ? `<div class="meta">${esc(sub)}</div>` : ''}${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`; };
     host.innerHTML = `
+    <section class="card">
+      <div class="row between"><h2>Hoje</h2><button type="button" class="ghost tiny" data-go="exames">ver por dia</button></div>
+      <div class="rToday">${bar('💧 Água', T.water, G.water, 'mL', `bebida ${Math.round(T.drink)} + comida ${Math.round(T.fwater)} mL`)}${bar('🔥 Calorias', T.kcal, G.kcal, 'kcal', T.unknown ? `${T.unknown} registro(s) sem alimento/quantidade` : '')}</div>
+    </section>
     <section class="card">
       <div class="row between"><h2>Agora</h2><span class="pill">${pend.length ? pend.length + ' pendente' + (pend.length > 1 ? 's' : '') : 'nada pendente'}</span></div>
       <div class="list" style="margin-top:8px">${pend.map(n => `
@@ -210,6 +221,7 @@
     const ae = document.activeElement;
     if (ae && host.contains(ae) && /INPUT|TEXTAREA/.test(ae.tagName)) { renderAdmin.dirty = true; return; }
     const openK = new Set([...host.querySelectorAll('details[open]')].map(d => d.dataset.k));
+    const G = goalsNow();
     const roleSel = (e, r) => `<select data-role="${esc(e)}"${e === me() ? ' disabled' : ''}>${Object.entries(ROLE).map(([k, v]) => `<option value="${k}"${k === r ? ' selected' : ''}>${v}</option>`).join('')}</select>`;
     host.innerHTML = `
     <section class="card">
@@ -227,6 +239,34 @@
         <label class="chk"><input type="checkbox" name="notify" checked> recebe lembretes</label>
         <div class="row"><button type="submit">Adicionar</button></div>
       </form>
+    </section>
+
+    <section class="card">
+      <h2>Metas de água e calorias</h2>
+      <p class="note" style="margin:4px 0 8px">Sugestão pelo peso ${G.kg ? `(${fmt(G.kg)} kg em ${dm(G.wDate)})` : ''}: água ${G.sugWater ? fmt(G.sugWater) + ' mL/dia (50 mL/kg, somando bebida e a água da comida)' : '—'} · calorias ${G.sugKcal ? fmt(G.sugKcal) + ' kcal/dia (1,6 × 70 × peso^0,75)' : '—'}. <b>Confirme os números com a veterinária</b>; como ele precisa ganhar peso, ela pode querer mais.</p>
+      <form id="aGoals" class="vform"><label>Meta de água (mL/dia)<input type="text" inputmode="numeric" name="water" value="${goals?.water_ml || ''}" placeholder="${G.sugWater || ''}"></label>
+        <label>Meta de calorias (kcal/dia)<input type="text" inputmode="numeric" name="kcal" value="${goals?.kcal || ''}" placeholder="${G.sugKcal || ''}"></label>
+        <div class="row"><button type="submit">Salvar metas</button>${goals ? '<button type="button" class="ghost" data-goalsclr>voltar pra sugestão</button>' : ''}</div></form>
+    </section>
+    <section class="card">
+      <details data-k="foods"><summary>Alimentos e bebidas (${foodList().length})</summary>
+        <p class="note" style="margin:6px 0 8px">kcal e % de água de cada um. Os marcados com * são estimados: confira no rótulo e corrija aqui. Pra quem é por unidade (biscoito, petisco), informe o peso de 1 unidade.</p>
+        ${foods.length ? '' : '<p class="muted">Usando a lista inicial. <button type="button" class="tiny" data-foodseed>salvar lista inicial pra poder editar</button></p>'}
+        <div class="aFoods">${foodList().map(f => `<form class="vform aFood" data-fid="${esc(f.id)}">
+          <label class="wide">Nome${f.est ? ' *' : ''}<input type="text" name="name" value="${esc(f.name)}"${foods.length ? '' : ' disabled'}></label>
+          <label>Tipo<select name="kind"${foods.length ? '' : ' disabled'}><option value="comida"${f.kind === 'comida' ? ' selected' : ''}>comida</option><option value="bebida"${f.kind === 'bebida' ? ' selected' : ''}>bebida</option></select></label>
+          <label>kcal por 100 ${f.unit === 'mL' ? 'mL' : 'g'}<input type="text" inputmode="decimal" name="kcal100" value="${f.kcal100 ?? ''}"${foods.length ? '' : ' disabled'}></label>
+          <label>% de água<input type="text" inputmode="decimal" name="water" value="${f.water != null ? Math.round(f.water * 100) : ''}"${foods.length ? '' : ' disabled'}></label>
+          <label>Medida<select name="unit"${foods.length ? '' : ' disabled'}><option value="g"${f.unit === 'g' ? ' selected' : ''}>gramas</option><option value="mL"${f.unit === 'mL' ? ' selected' : ''}>mL</option><option value="un"${f.unit === 'un' ? ' selected' : ''}>unidade</option></select></label>
+          <label>g por unidade<input type="text" inputmode="decimal" name="gUnit" value="${f.gUnit ?? ''}"${foods.length ? '' : ' disabled'}></label>
+          ${f.src ? `<p class="muted" style="grid-column:1/-1;margin:0;font-size:12px">fonte: ${esc(f.src)}</p>` : ''}
+          ${foods.length ? '<div class="row"><button type="submit" class="tiny">salvar</button></div>' : ''}</form>`).join('')}</div>
+        ${foods.length ? `<form class="vform aFood" data-fid="" style="margin-top:10px;border-top:1px dashed var(--line);padding-top:10px"><label class="wide">Novo alimento<input type="text" name="name" placeholder="ex.: frango cozido" required></label>
+          <label>Tipo<select name="kind"><option value="comida">comida</option><option value="bebida">bebida</option></select></label>
+          <label>kcal por 100 g/mL<input type="text" inputmode="decimal" name="kcal100"></label><label>% de água<input type="text" inputmode="decimal" name="water"></label>
+          <label>Medida<select name="unit"><option value="g">gramas</option><option value="mL">mL</option><option value="un">unidade</option></select></label><label>g por unidade<input type="text" inputmode="decimal" name="gUnit"></label>
+          <div class="row"><button type="submit" class="tiny">adicionar</button></div></form>` : ''}
+      </details>
     </section>
 
     <section class="card"${exams.length ? '' : ' style="border-color:var(--accent)"'}>
@@ -304,6 +344,20 @@
       await fb.fs.collection('schedule').add({ kind: d.kind, label: d.label.trim(), medId: d.medId || null, times, every, from: d.from || '00:00', to: d.to || '23:59',
         until: d.until || null, active: true, createdAt: Date.now(), by: me() });
     }
+    if (f.id === 'aGoals') {
+      ev.preventDefault();
+      const w = parseFloat((f.water.value || '').replace(',', '.')) || null, k = parseFloat((f.kcal.value || '').replace(',', '.')) || null;
+      await fb.fs.collection('meta').doc('goals').set({ water_ml: w, kcal: k, at: Date.now(), by: me() }).catch(x => say(f, x.message)); say(f, 'Metas salvas ✓'); return;
+    }
+    if (f.classList.contains('aFood')) {
+      ev.preventDefault();
+      const n = x => { const v = parseFloat(String(f[x].value || '').replace(',', '.')); return isFinite(v) ? v : null; };
+      const d = { name: f.name.value.trim(), kind: f.kind.value, unit: f.unit.value, kcal100: n('kcal100') ?? 0, water: n('water') != null ? n('water') / 100 : 0, gUnit: n('gUnit'), est: false, src: 'ajustado no app' };
+      if (!d.name) return;
+      const id = f.dataset.fid || d.name.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+      const prev = foods.find(x => x.id === id) || {};
+      await fb.fs.collection('foods').doc(id).set({ ...prev, ...d, match: prev.match || '' }).catch(x => say(f, x.message)); say(f, 'Salvo ✓'); return;
+    }
     if (f.id === 'rAcl') {
       ev.preventDefault();
       const e = f.email.value.trim().toLowerCase();
@@ -326,6 +380,8 @@
     if (t.matches('[data-rmacl]')) { const e = t.dataset.rmacl; if (arm(t)) { const roles = { ...(aclDoc.roles || {}) }, notify = { ...(aclDoc.notify || {}) }; delete roles[e]; delete notify[e];
       await aclRef().update({ emails: firebase.firestore.FieldValue.arrayRemove(e), roles, notify }); } }
     if (t.id === 'rPush') enablePush(t);
+    if (t.matches('[data-foodseed]')) { t.disabled = true; for (const x of FOOD_DEFAULTS) { const { id, ...d } = x; await fb.fs.collection('foods').doc(id).set(d); } }
+    if (t.matches('[data-goalsclr]')) await fb.fs.collection('meta').doc('goals').delete();
   });
 
   /* ---------- Dados ---------- */

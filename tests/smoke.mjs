@@ -67,6 +67,12 @@ try {
     }
     check(!(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden)), `${width}px · admin vê a aba Admin`);
     if (width === 390) check(await page.evaluate(() => /Comprar logo/.test(document.getElementById('p-painel').textContent)), 'Painel · avisa remédio que precisa comprar');
+    check(await page.evaluate(() => /Água hoje/.test(document.getElementById('tiles').textContent) && /Calorias hoje/.test(document.getElementById('tiles').textContent)), `${width}px · Painel mostra água e calorias de hoje`);
+    if (width === 1440) {
+      await page.evaluate(() => go('admin')); await page.waitForTimeout(300);
+      await page.fill('#aGoals [name=water]', '900'); await page.fill('#aGoals [name=kcal]', '1000'); await page.click('#aGoals [type=submit]'); await page.waitForTimeout(600);
+      check(await page.evaluate(() => JSON.stringify([__store.meta.goals.water_ml, __store.meta.goals.kcal])) === '[900,1000]', 'Admin · salva metas de água e calorias');
+    }
     check(errs.length === 0, `${width}px · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();
   }
@@ -75,27 +81,36 @@ try {
   for (const width of [390, 1440]) {
     const { page, errs } = await open(width, 'admin@teste.com', '#linha');
     await page.click('#tlView [data-view=cal]'); await page.waitForTimeout(300);
-    for (const mode of ['mes', 'sem', 'dia']) {
-      await page.click(`[data-cmode=${mode}]`); await page.waitForTimeout(250);
+    const modes = width === 390 ? ['dia'] : ['mes', 'sem', 'dia'];
+    if (width === 390) check(!(await page.locator('#calMode').isVisible()) && await page.evaluate(() => calMode) === 'dia', '390px · no celular o calendário fica só na visão Dia');
+    for (const mode of modes) {
+      if (width !== 390) { await page.click(`[data-cmode=${mode}]`); await page.waitForTimeout(250); }
       const ov = await overflow(page);
       check(ov <= 1, `${width}px · calendário ${mode} sem estourar a largura${ov > 1 ? ` (+${ov}px)` : ''}`);
       const esc = await page.evaluate(() => [...document.querySelectorAll('#calBody *')].filter(e => getComputedStyle(e).position === 'absolute' || getComputedStyle(e).position === 'fixed').length);
       check(esc === 0, `${width}px · calendário ${mode} sem nada solto por cima da tela`);
     }
     check(await page.locator('#calBody .hgrid .gev').count() > 0, `${width}px · calendário dia mostra o que aconteceu hoje na grade de horas`);
-    await page.click('[data-cmode=sem]'); await page.waitForTimeout(200);
-    check(await page.locator('#calBody .hgrid thead th[data-cday]').count() === 7, `${width}px · 7 dias em colunas com horas`);
-    await page.click('#calBody .hgrid thead th.is-today'); await page.waitForTimeout(200);
-    check(await page.evaluate(() => calMode) === 'dia', `${width}px · tocar no dia da semana abre o dia`);
+    await page.click('#calBody .gev[data-ci]'); await page.waitForTimeout(200);
+    check(await page.locator('.modal .mbox').isVisible(), `${width}px · tocar num registro abre os detalhes`);
+    await page.click('.modal [data-close]'); await page.waitForTimeout(150);
+    check(await page.locator('.modal').count() === 0, `${width}px · detalhes fecham no ✕`);
+    if (width === 1440) {
+      await page.click('[data-cmode=sem]'); await page.waitForTimeout(200);
+      check(await page.locator('#calBody .hgrid thead th[data-cday]').count() === 7, `${width}px · 7 dias em colunas com horas`);
+      await page.click('#calBody .hgrid thead th.is-today'); await page.waitForTimeout(200);
+      check(await page.evaluate(() => calMode) === 'dia', `${width}px · tocar no dia da semana abre o dia`);
+      await page.click('[data-cmode=mes]'); await page.waitForTimeout(200); await page.click('[data-cmode=sem]', { timeout: 2000 }); await page.click('[data-cmode=mes]', { timeout: 2000 }); await page.click('.calgrid .cd.is-today'); await page.waitForTimeout(200);
+      check(await page.evaluate(() => calMode) === 'dia', 'Calendário · tocar no dia do mês abre o dia');
+    }
     if (width === 390) {
       await page.click('#calAddBtn'); await page.fill('#calAdd [name=what]', 'neuro'); await page.fill('#calAdd [name=time]', '15:00');
       await page.click('#calAdd [type=submit]'); await page.waitForTimeout(800);
       const ap = await page.evaluate(() => Object.values(__store.events).filter(e => e.kind === 'consulta').map(e => e.text + '|' + e.remind));
       check(ap.length === 1 && ap[0] === 'Consulta: neuro|1440', 'Calendário · agendar consulta com lembrete');
       await page.click('[data-ccat="Consulta"]'); await page.waitForTimeout(200);
-      check(await page.evaluate(() => [...document.querySelectorAll('#calBody .gev')].every(x => /Consulta/.test(x.title))), 'Calendário · filtro por tipo');
-      await page.click('[data-cmode=mes]'); await page.waitForTimeout(200); await page.click('[data-cmode=sem]', { timeout: 2000 }); await page.click('[data-cmode=mes]', { timeout: 2000 }); await page.click('.calgrid .cd.is-today'); await page.waitForTimeout(200);
-      check(await page.evaluate(() => calMode) === 'dia', 'Calendário · tocar no dia do mês abre o dia');
+      const ft = await page.evaluate(() => [...document.querySelectorAll('#calBody .gev')].map(x => x.title));
+      check(ft.length > 0 && ft.every(t => /Consulta/.test(t)), 'Calendário · filtro por tipo');
     }
     check(errs.length === 0, `${width}px · calendário sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();
@@ -129,12 +144,20 @@ try {
   {
     const { page, errs } = await open(390, 'edita@teste.com', '#rotina');
     const n = `#rn-s2_${today}_1000`;
-    await page.fill(`${n} [name=v]`, '150'); await page.check(`${n} [name=coco]`);
+    await page.fill(`${n} [name=v]`, '150'); await page.selectOption(`${n} [name=fid]`, 'coco');
     await page.click(`${n} [type=submit]`); await page.waitForTimeout(800);
     await page.click(`#rn-s1_${today}_0900 [data-skip]`); await page.waitForTimeout(800);
     const st = await page.evaluate(() => ({ notifs: Object.values(__store.notifs).map(n => n.status), v: Object.values(__store.vitals).filter(v => v.source === 'rotina') }));
     check(st.v.length === 1 && st.v[0].water_ml === 150 && /coco/.test(st.v[0].note), 'Edita · resposta de água vira registro (150 mL, água de coco)');
     check(st.notifs.includes('done') && st.notifs.includes('skipped'), 'Edita · lembretes marcados como feito e pulado');
+    const hoje = await page.evaluate(() => Math.round(dayTotals(todayIso()).water));
+    check(hoje === 143, `Água · água de coco conta 95% como água (150 mL → ${hoje} mL)`);
+    await page.click('summary:has-text("Registrar fora de hora")'); await page.click('[data-free=comida]'); await page.waitForTimeout(300);
+    await page.selectOption('#rFree [name=fid]', 'biscrok'); await page.fill('#rFree [name=v]', '2'); await page.click('#rFree [type=submit]'); await page.waitForTimeout(800);
+    const bis = await page.evaluate(() => { const v = Object.values(__store.vitals).find(x => x.foodId === 'biscrok'); return v && { g: v.food_g, qty: v.qty, kcal: Math.round(nutri(v).kcal) }; });
+    check(bis && bis.qty === 2 && bis.g === 20 && bis.kcal === 68, 'Comida · por unidade vira gramas e calorias (2 Biscrok → 20 g, 68 kcal)');
+    check(await page.evaluate(() => /Calorias/.test(document.querySelector('#p-rotina .rToday').textContent)), 'Rotina · card Hoje com água e calorias');
+    await page.click('summary:has-text("Registrar fora de hora")');
     check(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden), 'Edita · não vê a aba Admin');
     check(await page.evaluate(() => !!document.querySelector('#p-rotina .mic svg')), 'Rotina · remédio aparece com o ícone de forma/tipo');
     const blk = `#rn-s3_${today}_0930`;

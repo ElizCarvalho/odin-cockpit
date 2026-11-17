@@ -319,6 +319,8 @@ body.ro .wr { display: none !important; }
 .cday h3 { margin: 0 0 6px; font-size: 14px; } .cday h3 .muted { font-weight: 400; }
 .citem { display: grid; grid-template-columns: 46px 1fr; gap: 8px; padding: 4px 0 4px 8px; border-left: 3px solid var(--cc); margin: 4px 0; font-size: 13.5px; }
 .citem .h { font-family: var(--font-mono); font-size: 12px; color: var(--muted); } .citem .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.gev[data-ci] { cursor: pointer; } .gev[data-ci]:hover { filter: brightness(1.15); }
+@media (max-width: 560px) { #calMode { display: none; } }
 .hgrid-wrap { max-height: 72vh; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
 .hgrid { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: 12px; }
 .hgrid th, .hgrid td { border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); vertical-align: top; padding: 2px 3px; }
@@ -337,6 +339,7 @@ body.ro .wr { display: none !important; }
 @media (max-width: 560px) { .hgrid.week .gev { font-size: 0; padding: 0; height: 6px; border-left-width: 0; background: var(--cc); margin: 2px 0; } .hgrid.week thead th { font-size: 10.5px; } .hgrid .hl { width: 38px; } }
 .citem.skip { opacity: .55; } .citem.fut { background: color-mix(in srgb, var(--cc) 10%, transparent); border-radius: 0 6px 6px 0; }
 @media (max-width: 560px) { .calgrid .cd { min-height: 54px; } .calgrid .cev { display: none; } .calgrid .cdots { display: flex; } .calgrid .more { display: none; } }
+.pbar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 6px; } .pbar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; } .tile.ok .pbar i { background: var(--ok); } .tile.lo .pbar i { background: var(--warn); }
 .chip .cnt { opacity: .7; font-size: 11px; margin-left: 2px; }
 .mrow { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 0 10px; border-bottom: 1px solid var(--line); }
 .mrow:not(:has(.msel)) { grid-template-columns: minmax(0,1fr); }
@@ -662,7 +665,7 @@ const P = Object.fromEntries(PARAMS.map(p => [p.k, p]));
 const KEY_ORDER = PARAMS.map(p => p.k);
 
 let db = null, sample = null;
-let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [], vitals = [];
+let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [], vitals = [], foods = [], goals = null;
 let assets = null;
 const TABS = ['painel','exames','remedios','vacinas','fotos','linha'];
 let activeTab = 'painel';
@@ -726,7 +729,7 @@ function tempTile() {
 }
 function renderTiles() {
   const keys = ['ht','wbc','plt','peso'];
-  $('tiles').innerHTML = tempTile() + keys.map(k => {
+  $('tiles').innerHTML = tempTile() + intakeTile('water') + intakeTile('kcal') + keys.map(k => {
 
     const s = series(k); const p = P[k];
     const info = `<button class="info" type="button" aria-label="O que ${esc(p.l)} avalia" aria-expanded="false">?</button>`;
@@ -906,6 +909,53 @@ function renderCharts() {
   }
   if (!shown) host.innerHTML = '<p class="muted">Nenhum parâmetro fora da faixa no último exame.</p>';
 }
+/* ---------- Água e calorias ---------- */
+// Lista inicial: kcal por 100 g (ou 100 mL) e fração de água. "est" = estimado; confira no rótulo e ajuste no Admin.
+const FOOD_DEFAULTS = [
+  { id: 'agua', name: 'Água', kind: 'bebida', unit: 'mL', kcal100: 0, water: 1, match: '', src: '' },
+  { id: 'coco', name: 'Água de coco natural', kind: 'bebida', unit: 'mL', kcal100: 19, water: 0.95, match: 'coco', src: 'TACO' },
+  { id: 'cha', name: 'Chá (sem açúcar)', kind: 'bebida', unit: 'mL', kcal100: 0, water: 1, match: 'ch[aá]', src: '' },
+  { id: 'racao', name: 'Ração seca Fórmula Natural Fresh Meat Sênior', kind: 'comida', unit: 'g', kcal100: 380, water: 0.09, match: 'ra[çc][ãa]o (s[óo]lida|seca)|f[óo]rmula natural|fresh meat', src: 'estimado pela linha Fresh Meat; confira no saco', est: true },
+  { id: 'petdelicia', name: 'Pet Delícia Hipercalórica (úmida)', kind: 'comida', unit: 'g', kcal100: 133, water: 0.72, match: 'pet del[íi]cia|hipercal|ra[çc][ãa]o [úu]mida', src: 'rótulo: 1.330 kcal/kg; água estimada', est: true },
+  { id: 'iogurte', name: 'Iogurte natural integral zero lactose', kind: 'comida', unit: 'g', kcal100: 73, water: 0.87, match: 'iogurte|iorgute', src: 'tabela Itambé; água estimada', est: true },
+  { id: 'quiabo', name: 'Quiabo cozido', kind: 'comida', unit: 'g', kcal100: 22, water: 0.92, match: 'quiabo', src: 'TACO; água estimada', est: true },
+  { id: 'iogquiabo', name: 'Iogurte batido com quiabo (peneirado)', kind: 'comida', unit: 'g', kcal100: 48, water: 0.89, match: '', src: 'média 50/50 iogurte + quiabo', est: true },
+  { id: 'pate', name: 'Patê caseiro (fígado, inhame, cenoura)', kind: 'comida', unit: 'g', kcal100: 130, water: 0.7, match: 'pat[êe]', src: 'estimado', est: true },
+  { id: 'biscrok', name: 'Biscrok Multi', kind: 'comida', unit: 'un', gUnit: 10, kcal100: 340, water: 0.1, match: 'biscrok|biscoito', src: 'estimado; pese 1 biscoito e veja kcal/kg no pacote', est: true },
+  { id: 'traqueia', name: 'Petisco de traqueia bovina', kind: 'comida', unit: 'un', gUnit: 30, kcal100: 350, water: 0.1, match: 'traqueia', src: 'estimado', est: true }
+];
+const foodList = () => foods.length ? foods : FOOD_DEFAULTS;
+const foodById = id => id && foodList().find(f => f.id === id);
+const matchFood = (txt, kind) => foodList().find(f => f.kind === kind && f.match && new RegExp(f.match, 'i').test(txt || ''));
+// água bebida, água que veio na comida e calorias de um registro
+function nutri(v) {
+  const r = { drink: 0, fwater: 0, kcal: 0, unknown: 0 };
+  if (v.water_ml) { const f = foodById(v.drinkId) || matchFood(v.note, 'bebida') || foodById('agua') || { kcal100: 0, water: 1 }; r.drink += v.water_ml * (f.water ?? 1); r.kcal += v.water_ml * (f.kcal100 || 0) / 100; }
+  if (v.food_g) { const f = foodById(v.foodId) || matchFood(v.note, 'comida'); if (f) { r.fwater += v.food_g * (f.water || 0); r.kcal += v.food_g * (f.kcal100 || 0) / 100; } else r.unknown++; }
+  else if (v.food && !v.water_ml && typeof v.temp !== 'number') r.unknown++;
+  return r;
+}
+function dayTotals(d) {
+  const t = { drink: 0, fwater: 0, water: 0, kcal: 0, unknown: 0 };
+  for (const v of vitals) if (v.date === d) { const n = nutri(v); t.drink += n.drink; t.fwater += n.fwater; t.kcal += n.kcal; t.unknown += n.unknown; }
+  t.water = t.drink + t.fwater; return t;
+}
+function latestWeight() { const w = [...exams].filter(e => typeof e.params?.peso === 'number').sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : (a.time || '') < (b.time || '') ? -1 : 1).pop(); return w ? { kg: w.params.peso, date: w.date } : null; }
+function goalsNow() {
+  const w = latestWeight(), kg = w ? w.kg : null;
+  const sug = kg ? { water: Math.round(kg * 50 / 10) * 10, kcal: Math.round(1.6 * 70 * Math.pow(kg, 0.75) / 10) * 10 } : { water: null, kcal: null };
+  return { water: goals?.water_ml || sug.water, kcal: goals?.kcal || sug.kcal, sugWater: sug.water, sugKcal: sug.kcal, set: !!(goals?.water_ml || goals?.kcal), kg, wDate: w?.date };
+}
+function intakeTile(kind) {
+  const t = dayTotals(todayIso()), g = goalsNow(), isW = kind === 'water';
+  const val = isW ? t.water : t.kcal, goal = isW ? g.water : g.kcal, pct = goal ? Math.round(val / goal * 100) : null;
+  const st = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
+  const sub = isW ? `bebida ${Math.round(t.drink)} + comida ${Math.round(t.fwater)} mL` : (t.unknown ? `${t.unknown} sem quantidade/alimento` : 'pelo que foi anotado');
+  return `<div class="tile ${st}" data-go="rotina" style="cursor:pointer" title="Ver e registrar na Rotina"><div class="lbl">${isW ? 'Água hoje' : 'Calorias hoje'}${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
+    <div class="val">${fmt(Math.round(val))}<small>${isW ? 'mL' : 'kcal'}</small></div>
+    <div class="reft">${goal ? `meta ${fmt(goal)} ${isW ? 'mL' : 'kcal'}${g.set ? '' : ' (sugerida)'}` : 'sem meta (falta o peso)'}</div><div class="meta">${esc(sub)}</div>
+    ${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`;
+}
 const ate = v => !!(v.food || v.food_g || /comid|comeu|ração|racao|quiabo|iogurte|recovery/i.test(v.note || ''));
 function renderHomeTemp(host) {
   const accent = css('--accent'), muted = css('--muted'), line = css('--line'), band = css('--band'), ink = css('--ink'), surface = css('--surface'), warn = css('--warn'), ok = css('--ok');
@@ -916,10 +966,10 @@ function renderHomeTemp(host) {
   const pts = [...home, ...clinic].sort((a, b) => a.x - b.x);
   const byDay = new Map(); for (const p of pts) { if (!byDay.has(p.v.date)) byDay.set(p.v.date, []); byDay.get(p.v.date).push(p); }
   const days = [...new Set(vitals.map(v => v.date).filter(Boolean))].sort();
-  const intake = d => { const l = vitals.filter(v => v.date === d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_g || 0), 0), meals: l.filter(ate).length }; };
+  const intake = d => { const l = vitals.filter(v => v.date === d), T = dayTotals(d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_g || 0), 0), meals: l.filter(ate).length, drink: Math.round(T.drink), fwater: Math.round(T.fwater), total: Math.round(T.water), kcal: Math.round(T.kcal) }; };
   const rows = [...new Set([...byDay.keys(), ...days])].sort().reverse().map(d => { const l = byDay.get(d) || [], ys = l.map(p => p.y), I = intake(d);
     const mx = ys.length ? Math.max(...ys) : null, mn = ys.length ? Math.min(...ys) : null, hot = ys.filter(y => y > 39.2).length;
-    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.water || ''}</td><td class="num">${I.food || ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
+    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.total || ''}</td><td class="num">${I.kcal || ''}</td><td class="num">${I.food || ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
   const sec = document.createElement('section'); sec.style.display = 'grid'; sec.style.gap = '12px';
   sec.innerHTML = `<div class="section-title"><h2>Temperatura</h2><span>${home.length} medições em casa (quadro branco)${clinic.length ? ` + ${clinic.length} na clínica/exame` : ''}</span></div>
     <div class="card"><div style="position:relative;height:240px"><canvas id="tempCv" aria-label="Gráfico de temperatura"></canvas></div>
@@ -928,13 +978,14 @@ function renderHomeTemp(host) {
       <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
       <label>Temperatura (°C)<input type="number" step="0.1" min="35" max="43" data-v="temp" placeholder="39,2"></label><label>2º termômetro (opcional)<input type="number" step="0.1" min="35" max="43" data-v="temp2"></label>
       <label class="wide">Anotação<input type="text" data-v="note" placeholder="dipirona, sem ar-condicionado, no chão…"></label><button data-vsave="temp">Salvar</button></div></details>` : ''}</div>
-    <div class="section-title"><h2>Água e comida</h2><span>o que foi anotado por dia</span></div>
+    <div class="section-title"><h2>Água e calorias</h2><span>o que foi anotado por dia</span></div>
     <div class="card"><div style="position:relative;height:200px"><canvas id="intakeCv" aria-label="Gráfico de água e comida por dia"></canvas></div>
-    <p class="note" style="margin-top:6px">Barras: água/líquido em mL (escala da esquerda) e comida em gramas (escala da direita) anotados no dia. O número em cima é quantas vezes ele comeu (inclui refeições sem quantidade anotada). Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
-    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água mL</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+    <p class="note" style="margin-top:6px">Barras: água do dia em mL (bebida + a água que vem na comida), escala da esquerda. Linha: calorias (escala da direita). Tracejados: metas. O número em cima é quantas vezes ele comeu. Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
+    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água total mL</th><th>kcal</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar água ou comida</summary><div class="vform">
       <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
-      <label>Água/líquido (mL)<input type="number" min="0" data-v="water"></label><label>Comida (g)<input type="number" min="0" data-v="food"></label>
+      <label>Bebida<select data-v="drink">${foodList().filter(f => f.kind === 'bebida').map(f => `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('')}</select></label><label>Quanto bebeu (mL)<input type="number" min="0" data-v="water"></label>
+      <label>Alimento<select data-v="foodid"><option value="">—</option>${foodList().filter(f => f.kind === 'comida').map(f => `<option value="${esc(f.id)}">${esc(f.name)}${f.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}</select></label><label>Quanto comeu (g ou unidades)<input type="number" min="0" step="any" data-v="food"></label>
       <label class="chk vchk"><input type="checkbox" data-v="ate"> comeu (sem medir)</label>
       <label class="wide">Anotação<input type="text" data-v="note" placeholder="ração pastosa, iogurte, xixi, fezes…"></label><button data-vsave="intake">Salvar</button></div></details>` : ''}</div>`;
   host.appendChild(sec);
@@ -957,19 +1008,29 @@ function renderHomeTemp(host) {
   if (days.length) {
     const lab = days.map(d => dm(d)), I = days.map(intake);
     const mealsPlugin = { id: 'meals', afterDatasetsDraw(c) { const ctx = c.ctx; ctx.save(); ctx.fillStyle = ink; ctx.font = '11px "IBM Plex Mono", monospace'; ctx.textAlign = 'center';
-      c.getDatasetMeta(0).data.forEach((b, i) => { const n = I[i].meals; if (!n) return; const top = Math.min(b.y, c.getDatasetMeta(1).data[i].y); ctx.fillText('🍽 ' + n, b.x + (c.getDatasetMeta(1).data[i].x - b.x) / 2, top - 6); }); ctx.restore(); } };
+      c.getDatasetMeta(0).data.forEach((b, i) => { const n = I[i].meals; if (!n) return; const top = Math.min(b.y, c.getDatasetMeta(1).data[i].y); ctx.fillText('🍽 ' + n, b.x, top - 6); }); ctx.restore(); } };
     charts.push(new Chart(sec.querySelector('#intakeCv'), { type: 'bar', plugins: [mealsPlugin],
-      data: { labels: lab, datasets: [{ label: 'Água/líquido (mL)', data: I.map(x => x.water || null), backgroundColor: accent }, { label: 'Comida (g)', yAxisID: 'y2', data: I.map(x => x.food || null), backgroundColor: ok }] },
+      data: { labels: lab, datasets: [{ label: 'Bebida (mL)', stack: 'w', data: I.map(x => x.drink || null), backgroundColor: accent }, { label: 'Água da comida (mL)', stack: 'w', data: I.map(x => x.fwater || null), backgroundColor: css('--accent-soft'), borderColor: accent, borderWidth: 1 },
+        { label: 'Calorias (kcal)', type: 'line', yAxisID: 'y2', data: I.map(x => x.kcal || null), borderColor: ok, backgroundColor: ok, pointRadius: 3, spanGaps: true },
+        ...(goalsNow().water ? [{ label: 'Meta água', type: 'line', data: I.map(() => goalsNow().water), borderColor: accent, borderDash: [4, 4], borderWidth: 1, pointRadius: 0 }] : []),
+        ...(goalsNow().kcal ? [{ label: 'Meta kcal', type: 'line', yAxisID: 'y2', data: I.map(() => goalsNow().kcal), borderColor: ok, borderDash: [4, 4], borderWidth: 1, pointRadius: 0 }] : [])] },
       options: { responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 18 } },
-        scales: { x: { grid: { display: false }, ticks: { color: muted, font: { size: 10.5 } } }, y: { beginAtZero: true, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' mL' } },
-          y2: { position: 'right', beginAtZero: true, grid: { display: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' g' } } },
-        plugins: { legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { afterBody: it => I[it[0].dataIndex].meals ? `Comeu ${I[it[0].dataIndex].meals}x` : '' } } } } }));
+        scales: { x: { grid: { display: false }, ticks: { color: muted, font: { size: 10.5 } } }, y: { stacked: true, beginAtZero: true, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' mL' } },
+          y2: { position: 'right', beginAtZero: true, grid: { display: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' kcal' } } },
+        plugins: { legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { afterBody: it => { const x = I[it[0].dataIndex]; return [`Água total: ${x.total} mL`, x.food ? `Comida: ${x.food} g` : '', x.meals ? `Comeu ${x.meals}x` : ''].filter(Boolean); } } } } } }));
   }
   sec.querySelectorAll('[data-vsave]').forEach(btn => btn.addEventListener('click', async () => {
     const f = btn.closest('.vform'), g = k => f.querySelector(`[data-v="${k}"]`), val = k => g(k) ? g(k).value : '', n = k => num(val(k));
     const doc = { date: val('date'), time: val('time') || null, note: val('note').trim(), source: 'cockpit', createdAt: Date.now() };
     if (btn.dataset.vsave === 'temp') { doc.temp = n('temp'); if (n('temp2')) doc.temp2 = n('temp2'); if (!doc.temp) { say('Preencha a temperatura.', 'err'); return; } }
-    else { doc.water_ml = n('water'); doc.food_g = n('food'); doc.food = g('ate').checked || !!doc.food_g; if (!doc.water_ml && !doc.food) { say('Preencha a água, a comida ou marque que ele comeu.', 'err'); return; } }
+    else {
+      doc.water_ml = n('water'); if (doc.water_ml) doc.drinkId = val('drink') || 'agua';
+      const fd = foodById(val('foodid')), q = n('food');
+      if (q) { if (fd && fd.unit === 'un') { doc.qty = q; doc.unit = 'un'; doc.food_g = q * (fd.gUnit || 0); } else doc.food_g = q; if (fd) doc.foodId = fd.id; }
+      doc.food = g('ate').checked || !!doc.food_g;
+      if (!doc.water_ml && !doc.food) { say('Preencha a água, a comida ou marque que ele comeu.', 'err'); return; }
+      if (fd && !doc.note) doc.note = fd.name;
+    }
     if (!doc.date) { say('Preencha a data.', 'err'); return; }
     btn.disabled = true; try { await db.collection('vitals').add(doc); say('Anotado.', 'done'); } catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); btn.disabled = false; }
   }));
@@ -1586,6 +1647,13 @@ function renderAttention() {
   const items = [];
   const add = (lvl, t, s) => items.push({ lvl, t, s });
   const today = todayIso(), in7 = dayIso(dayNum(today) + 7), in30 = dayIso(dayNum(today) + 30);
+  // água e calorias: depois das 18h, abaixo de 60% da meta
+  if (new Date().getHours() >= 18) {
+    const tt = dayTotals(today), gg = goalsNow(), low = [];
+    if (gg.water && tt.water < 0.6 * gg.water) low.push(`água ${fmt(Math.round(tt.water))} de ${fmt(gg.water)} mL`);
+    if (gg.kcal && tt.kcal < 0.6 * gg.kcal) low.push(`calorias ${fmt(Math.round(tt.kcal))} de ${fmt(gg.kcal)} kcal`);
+    if (low.length) add('hi', 'Abaixo da meta de hoje', low.join(' · ') + (tt.unknown ? ` (${tt.unknown} registro(s) sem alimento/quantidade não entram na conta)` : ''));
+  }
   // alergias
   const alg = meds.filter(m => m.allergy);
   if (alg.length) add('bad', 'Alergia registrada', alg.map(m => m.name + (m.composition ? ` (${m.composition})` : '')).join(' · ') + '. Avise qualquer clínica nova.');
@@ -2016,23 +2084,24 @@ const CAL_CATS = [
   ['Água', '#4fb3d9'], ['Temperatura', '#d9645c'], ['Fezes/xixi', '#a07a52'], ['Decúbito', '#8c9aa3'], ['Foto', '#6aa84f'], ['Vacina', '#c9a227'], ['Acontecimento', '#7f8c99']
 ];
 const CAL_COLOR = Object.fromEntries(CAL_CATS);
-let calView = 'lista', calMode = 'dia', calDate = todayIso(), calSel = new Set(), rlogs = [];
+let calView = 'lista', calMode = 'dia', calDate = todayIso(), calSel = new Set(), rlogs = [], calLast = [];
+const calNarrow = () => matchMedia('(max-width: 560px)').matches;
 const CONSULTA_RE = /consulta|retorno|fisioterap|acupunt|coleta|reavalia/i;
 function calItems() {
   const out = [], add = (date, time, cat, text, extra = {}) => date && out.push({ date, time: time || null, cat, text, ...extra });
   for (const e of events) {
     const cat = e.kind === 'consulta' || CONSULTA_RE.test(e.text || '') ? 'Consulta' : ['fezes', 'urina'].includes(e.kind) ? 'Fezes/xixi' : /comeu|comida|ra[çc][ãa]o|refei[çc]|petisco/i.test(e.text || '') ? 'Alimentação' : 'Acontecimento';
-    add(e.date, e.time, cat, e.text, { fut: e.date > todayIso() || (e.date === todayIso() && e.time && e.time > new Date().toTimeString().slice(0, 5)), mark: e.mark, id: e.id, appt: e.kind === 'consulta' });
+    add(e.date, e.time, cat, e.text, { src: e, fut: e.date > todayIso() || (e.date === todayIso() && e.time && e.time > new Date().toTimeString().slice(0, 5)), mark: e.mark, id: e.id, appt: e.kind === 'consulta' });
   }
-  for (const x of exams) add(x.date, x.time, 'Exame', `${x.kind || 'Exame'}${x.lab ? ' · ' + x.lab : ''}`);
+  for (const x of exams) add(x.date, x.time, 'Exame', `${x.kind || 'Exame'}${x.lab ? ' · ' + x.lab : ''}`, { exam: x });
   for (const v of vitals) {
-    if (v.water_ml) add(v.date, v.time, 'Água', `${fmt(v.water_ml)} mL${v.note ? ' · ' + v.note : ''}`);
-    if (v.food_g || (v.food && !v.water_ml && v.temp == null)) add(v.date, v.time, 'Alimentação', v.food_g ? `${fmt(v.food_g)} g${v.note ? ' · ' + v.note : ''}` : (v.note || 'comeu'));
-    if (typeof v.temp === 'number') add(v.date, v.time, 'Temperatura', `${fmt(v.temp)} °C${v.temp2 ? ' / ' + fmt(v.temp2) + ' °C' : ''}`);
+    if (v.water_ml) add(v.date, v.time, 'Água', `${fmt(v.water_ml)} mL${v.note ? ' · ' + v.note : ''}`, { vit: v });
+    if (v.food_g || (v.food && !v.water_ml && v.temp == null)) add(v.date, v.time, 'Alimentação', v.qty ? `${fmt(v.qty)} unid. · ${v.note || ''}` : v.food_g ? `${fmt(v.food_g)} g${v.note ? ' · ' + v.note : ''}` : (v.note || 'comeu'), { vit: v });
+    if (typeof v.temp === 'number') add(v.date, v.time, 'Temperatura', `${fmt(v.temp)} °C${v.temp2 ? ' / ' + fmt(v.temp2) + ' °C' : ''}${v.note ? ' · ' + v.note : ''}`, { vit: v });
   }
   for (const l of rlogs) {
     if (l.kind === 'decubito') add(l.date, l.time, 'Decúbito', 'Troca de decúbito' + (l.side ? ' · ' + l.side : ''));
-    else if (l.kind === 'med') add(l.date, l.time, 'Remédio', l.label + (l.status === 'skipped' ? ' (pulou)' : ''), { skip: l.status === 'skipped' });
+    else if (l.kind === 'med') add(l.date, l.time, 'Remédio', l.label + (l.status === 'skipped' ? ' (pulou)' : ''), { skip: l.status === 'skipped', log: l });
   }
   for (const m of meds) { if (m.start) add(m.start, null, 'Remédio', `Começou: ${m.name}`); if (m.end && m.end <= todayIso()) add(m.end, null, 'Remédio', `Terminou: ${m.name}`); }
   for (const v of prevent) if (!v.planned && v.date) add(v.date, null, 'Vacina', `${v.kind}: ${v.product}`);
@@ -2050,11 +2119,29 @@ function calDayList(iso, items) {
   const rows = list.map(i => `<div class="citem${i.skip ? ' skip' : ''}${i.fut ? ' fut' : ''}" style="--cc:${CAL_COLOR[i.cat]}"><span class="h">${esc(i.time || '—')}</span><span><span class="k">${esc(i.cat)}${i.fut ? ' · agendado' : ''}</span> ${esc(i.text)}${i.assetId && !i.video ? `<br><img class="tlp" src="${esc(photoSrc(i.assetId))}" alt="" loading="lazy" data-open="${esc(i.assetId)}" data-cap="${esc(i.text)}">` : ''}${i.appt && canWrite ? ` <button class="tiny ghost" data-evdel="${esc(i.id)}">excluir</button>` : ''}</span></div>`).join('');
   return stay + rows || '<p class="muted" style="margin:4px 0">Nada registrado.</p>';
 }
+function calModal(i) {
+  closeBig(true);
+  const rows = [['Quando', `${dayTitle(i.date)}${i.time ? ' às ' + i.time : ' (sem hora)'}`], ['Tipo', i.cat + (i.fut ? ' · agendado' : '')]];
+  if (i.vit) { const n = nutri(i.vit); if (n.drink || n.fwater) rows.push(['Água', `${Math.round(n.drink + n.fwater)} mL${n.fwater ? ` (${Math.round(n.fwater)} mL vindos da comida)` : ''}`]); if (n.kcal) rows.push(['Calorias', `${Math.round(n.kcal)} kcal`]); if (i.vit.by) rows.push(['Registrado por', i.vit.by.split('@')[0]]); }
+  if (i.log) { if (i.log.block) rows.push(['Bloco', i.log.block]); rows.push(['Situação', i.log.status === 'skipped' ? 'pulou' : 'dado']); if (i.log.by) rows.push(['Registrado por', i.log.by.split('@')[0]]); if (i.log.note) rows.push(['Obs.', i.log.note]); }
+  if (i.exam) { const x = i.exam, ps = Object.entries(x.params || {}).filter(([k]) => P[k]).map(([k, v]) => `${P[k].l}: ${fmt(v)} ${P[k].u}`); if (ps.length) rows.push(['Valores', ps.join(' · ')]); if ((x.other || []).length) rows.push(['Achados', x.other.join(' · ')]); }
+  if (i.src && i.src.remind) rows.push(['Lembrete', i.src.remind >= 1440 ? '1 dia antes' : `${i.src.remind / 60} h antes`]);
+  const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+  box.innerHTML = `<div class="mbox" style="width:min(560px,100%)"><div class="mhead"><div><h2 style="display:flex;gap:8px;align-items:center"><i style="width:12px;height:12px;border-radius:50%;background:${CAL_COLOR[i.cat]};display:inline-block"></i>${esc(i.cat)}</h2></div><button class="ghost tiny" data-close aria-label="Fechar">✕</button></div>
+    <p style="margin:8px 0 10px;white-space:pre-wrap">${esc(i.text)}</p>
+    ${i.assetId && !i.video ? `<img src="${esc(photoSrc(i.assetId))}" alt="" style="width:100%;border-radius:8px;margin-bottom:10px">` : ''}
+    <table class="mtable"><tbody>${rows.map(([k, v]) => `<tr><td class="muted" style="width:34%">${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
+    ${i.appt && canWrite ? `<div class="row" style="margin-top:10px"><button class="tiny danger" data-evdel="${esc(i.src.id)}">excluir compromisso</button></div>` : ''}</div>`;
+  document.body.appendChild(box); document.body.style.overflow = 'hidden'; box.querySelector('[data-close]').focus();
+  box.addEventListener('click', async ev => {
+    const dl = ev.target.closest('button[data-evdel]'); if (dl) { if (!armed(dl, 'excluir compromisso')) return; dl.disabled = true; try { await db.collection('events').doc(dl.dataset.evdel).delete(); closeBig(); } catch (e) { alertErr(e); } }
+  });
+}
 function calGrid(days, items, week) {
   const t = todayIso(), nowH = new Date().getHours();
   const per = d => items.filter(i => i.date === d);
   const head = `<tr><th class="hl"></th>${days.map(d => `<th class="${d === t ? 'is-today' : ''}" ${week ? `data-cday="${d}" style="cursor:pointer"` : ''}>${wdShort[dowOf(d)]} <span class="dn">${+d.slice(8)}</span></th>`).join('')}</tr>`;
-  const chip = i => `<span class="gev${i.skip ? ' skip' : ''}${i.fut ? ' fut' : ''}" style="--cc:${CAL_COLOR[i.cat]}" title="${esc((i.time ? i.time + ' · ' : '') + i.cat + ': ' + i.text)}">${i.time ? `<span class="t">${esc(i.time)}</span>` : ''}${esc(i.text)}${i.appt && canWrite && !week ? ` <button class="tiny ghost" data-evdel="${esc(i.id)}">excluir</button>` : ''}</span>`;
+  const chip = i => `<span class="gev${i.skip ? ' skip' : ''}${i.fut ? ' fut' : ''}" data-ci="${calLast.indexOf(i)}" role="button" tabindex="0" style="--cc:${CAL_COLOR[i.cat]}" title="${esc((i.time ? i.time + ' · ' : '') + i.cat + ': ' + i.text)}">${i.time ? `<span class="t">${esc(i.time)}</span>` : ''}${esc(i.text)}${i.appt && canWrite && !week ? ` <button class="tiny ghost" data-evdel="${esc(i.id)}">excluir</button>` : ''}</span>`;
   const allday = days.map(d => { const st = stayOf(d), show = st && (!calSel.size || calSel.has('Internação'));
     return `<td ${week ? `data-cday="${d}"` : ''}>${show ? `<span class="gev" style="--cc:${CAL_COLOR['Internação']}">${esc(st.label)} · ${esc(st.clinic)}</span>` : ''}${per(d).filter(i => !i.time).map(chip).join('')}</td>`; }).join('');
   let body = `<tr class="allday"><th class="hl">dia</th>${allday}</tr>`;
@@ -2072,7 +2159,8 @@ function scrollGrid(days, items) {
 }
 function renderCalendar() {
   const host = $('cal'); if (!host || host.classList.contains('hidden')) return;
-  const all = calItems(), items = calShown(all);
+  if (calNarrow() && calMode !== 'dia') calMode = 'dia';
+  const all = calItems(), items = calShown(all); calLast = items;
   $('calCats').innerHTML = `<button class="chip${calSel.size ? '' : ' on'}" data-ccat="">Tudo</button>` + CAL_CATS.filter(([c]) => c === 'Internação' || all.some(i => i.cat === c)).map(([c, col]) => `<button class="chip${calSel.has(c) ? ' on' : ''}" data-ccat="${esc(c)}" style="--cc:${col}"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${col};margin-right:5px"></i>${esc(c)}</button>`).join('');
   document.querySelectorAll('#calMode [data-cmode]').forEach(b => b.classList.toggle('on', b.dataset.cmode === calMode));
   const t = todayIso();
@@ -2093,7 +2181,7 @@ function renderCalendar() {
       const showStay = st && (!calSel.size || calSel.has('Internação'));
       return `<div class="cd${d.slice(0, 7) !== mo ? ' out' : ''}${d === t ? ' is-today' : ''}${showStay ? ' stay' : ''}" data-cday="${d}" ${showStay ? `style="--clc:${CAL_COLOR['Internação']}"` : ''} title="${esc(dayTitle(d))}">
         <span class="n">${+d.slice(8)}</span>
-        ${di.slice(0, 3).map(i => `<span class="cev" style="--cc:${CAL_COLOR[i.cat]}">${i.time ? esc(i.time) + ' ' : ''}${esc(i.text)}</span>`).join('')}${di.length > 3 ? `<span class="muted more" style="font-size:11px">+${di.length - 3}</span>` : ''}
+        ${di.slice(0, 3).map(i => `<span class="cev" style="--cc:${CAL_COLOR[i.cat]}" title="${esc(i.text)}">${i.time ? esc(i.time) + ' ' : ''}${esc(i.text)}</span>`).join('')}${di.length > 3 ? `<span class="muted more" style="font-size:11px">+${di.length - 3}</span>` : ''}
         <span class="cdots">${cats.map(c => `<i style="--cc:${CAL_COLOR[c]}"></i>`).join('')}</span></div>`;
     }).join('')}</div>`;
   }
@@ -2117,6 +2205,7 @@ $('cal').addEventListener('click', async ev => {
     return renderCalendar();
   }
   const md = ev.target.closest('[data-cmode]'); if (md) { calMode = md.dataset.cmode; return renderCalendar(); }
+  const ci = ev.target.closest('[data-ci]'); if (ci && !ev.target.closest('button')) { const it = calLast[+ci.dataset.ci]; if (it) calModal(it); return; }
   const cd = ev.target.closest('[data-cday]'); if (cd) { calDate = cd.dataset.cday; calMode = 'dia'; return renderCalendar(); }
   const cc = ev.target.closest('[data-ccat]');
   if (cc) { const c = cc.dataset.ccat; if (!c) calSel.clear(); else calSel.has(c) ? calSel.delete(c) : calSel.add(c); return renderCalendar(); }
@@ -2213,7 +2302,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
     canWrite = false; document.body.classList.add('ro');
     try {
       const d = await (await fetch(STATIC, { cache: 'no-store' })).json();
-      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; vitals = d.vitals || []; photos = d.photos || [];
+      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; vitals = d.vitals || []; photos = d.photos || []; foods = d.foods || []; goals = d.goals || null;
       lastUpdate = d.updatedAt || (d.exportedAt ? Date.parse(d.exportedAt) : null);
       $('conn').textContent = `${exams.length} exames · ${events.length} acontecimentos`;
       renderAll();
@@ -2243,7 +2332,8 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
   sub('photos', v => photos = v);
   sub('vitals', v => vitals = v);
   sub('rotina_log', v => rlogs = v);
-  rawDb.collection('meta').onSnapshot(snap => { const m = snap.docs.find(x => x.id === 'status'); lastUpdate = m ? m.data().updatedAt : null; renderUpdated(); }, () => {});
+  sub('foods', v => foods = v);
+  rawDb.collection('meta').onSnapshot(snap => { const m = snap.docs.find(x => x.id === 'status'); lastUpdate = m ? m.data().updatedAt : null; const g = snap.docs.find(x => x.id === 'goals'); goals = g ? g.data() : null; renderUpdated(); scheduleRender(); }, () => {});
 })();
 </script>
 </body>
