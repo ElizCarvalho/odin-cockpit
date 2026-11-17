@@ -306,17 +306,17 @@ body.ro .wr { display: none !important; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .seg { display: inline-flex; gap: 4px; }
 .calbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; }
-.caltitle { font-family: var(--font-display); margin-left: 6px; text-transform: capitalize; }
+.caltitle { font-family: var(--font-display); margin-left: 6px; }
 .calgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .calgrid .wd { font-size: 11px; color: var(--muted); text-align: center; padding: 4px 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .calgrid .cd { min-height: 92px; padding: 4px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); cursor: pointer; display: grid; align-content: start; gap: 2px; min-width: 0; }
-.calgrid .cd.out { opacity: .4; } .calgrid .cd.today .n { background: var(--accent); color: var(--bg); border-radius: 99px; padding: 0 6px; }
+.calgrid .cd.out { opacity: .4; } .calgrid .cd.is-today .n { background: var(--accent); color: var(--bg); border-radius: 99px; padding: 0 6px; }
 .calgrid .cd.stay { background: color-mix(in srgb, var(--clc) 12%, transparent); }
 .calgrid .n { font-size: 12px; font-weight: 600; justify-self: start; }
 .cev { font-size: 11px; line-height: 1.3; padding: 1px 4px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: color-mix(in srgb, var(--cc) 18%, transparent); border-left: 3px solid var(--cc); }
 .cdots { display: none; flex-wrap: wrap; gap: 2px; } .cdots i { width: 6px; height: 6px; border-radius: 50%; background: var(--cc); }
 .cday { border-top: 1px solid var(--line); padding: 10px 0; }
-.cday h3 { margin: 0 0 6px; font-size: 14px; text-transform: capitalize; } .cday h3 .muted { font-weight: 400; }
+.cday h3 { margin: 0 0 6px; font-size: 14px; } .cday h3 .muted { font-weight: 400; }
 .citem { display: grid; grid-template-columns: 46px 1fr; gap: 8px; padding: 4px 0 4px 8px; border-left: 3px solid var(--cc); margin: 4px 0; font-size: 13.5px; }
 .citem .h { font-family: var(--font-mono); font-size: 12px; color: var(--muted); } .citem .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
 .citem.skip { opacity: .55; } .citem.fut { background: color-mix(in srgb, var(--cc) 10%, transparent); border-radius: 0 6px 6px 0; }
@@ -2026,7 +2026,8 @@ function calItems() {
 const calShown = items => calSel.size ? items.filter(i => calSel.has(i.cat)) : items;
 const wdShort = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
 const dowOf = iso => new Date(dayNum(iso) * 864e5).getUTCDay();
-const dayTitle = iso => new Date(iso + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
+const cap1 = t => t.charAt(0).toUpperCase() + t.slice(1);
+const dayTitle = iso => cap1(new Date(iso + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' }));
 function calDayList(iso, items) {
   const st = stayOf(iso), list = items.filter(i => i.date === iso).sort((a, b) => (a.time || '99') < (b.time || '99') ? -1 : (a.time || '99') > (b.time || '99') ? 1 : 0);
   const stay = st && (!calSel.size || calSel.has('Internação')) ? `<div class="citem" style="--cc:${CAL_COLOR['Internação']}"><span class="h">dia todo</span><span><span class="k">Internação</span> ${esc(st.label)} na ${esc(st.clinic)}</span></div>` : '';
@@ -2050,11 +2051,11 @@ function renderCalendar() {
     const first = calDate.slice(0, 8) + '01', f = dayNum(first), lead = dowOf(first), cells = [];
     for (let k = -lead; k < 42 - lead; k++) cells.push(dayIso(f + k));
     const mo = calDate.slice(0, 7);
-    $('calTitle').textContent = monthName(first);
+    $('calTitle').textContent = cap1(monthName(first));
     $('calBody').innerHTML = `<div class="calgrid">${wdShort.map(w => `<div class="wd">${w}</div>`).join('')}${cells.slice(0, cells[35].slice(0, 7) === mo ? 42 : 35).map(d => {
       const di = items.filter(i => i.date === d), st = stayOf(d), cats = [...new Set(di.map(i => i.cat))];
       const showStay = st && (!calSel.size || calSel.has('Internação'));
-      return `<div class="cd${d.slice(0, 7) !== mo ? ' out' : ''}${d === t ? ' today' : ''}${showStay ? ' stay' : ''}" data-cday="${d}" ${showStay ? `style="--clc:${CAL_COLOR['Internação']}"` : ''} title="${esc(dayTitle(d))}">
+      return `<div class="cd${d.slice(0, 7) !== mo ? ' out' : ''}${d === t ? ' is-today' : ''}${showStay ? ' stay' : ''}" data-cday="${d}" ${showStay ? `style="--clc:${CAL_COLOR['Internação']}"` : ''} title="${esc(dayTitle(d))}">
         <span class="n">${+d.slice(8)}</span>
         ${di.slice(0, 3).map(i => `<span class="cev" style="--cc:${CAL_COLOR[i.cat]}">${i.time ? esc(i.time) + ' ' : ''}${esc(i.text)}</span>`).join('')}${di.length > 3 ? `<span class="muted more" style="font-size:11px">+${di.length - 3}</span>` : ''}
         <span class="cdots">${cats.map(c => `<i style="--cc:${CAL_COLOR[c]}"></i>`).join('')}</span></div>`;

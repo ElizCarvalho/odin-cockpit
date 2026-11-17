@@ -79,6 +79,8 @@ try {
       await page.click(`[data-cmode=${mode}]`); await page.waitForTimeout(250);
       const ov = await overflow(page);
       check(ov <= 1, `${width}px · calendário ${mode} sem estourar a largura${ov > 1 ? ` (+${ov}px)` : ''}`);
+      const esc = await page.evaluate(() => [...document.querySelectorAll('#calBody *')].filter(e => getComputedStyle(e).position === 'absolute' || getComputedStyle(e).position === 'fixed').length);
+      check(esc === 0, `${width}px · calendário ${mode} sem nada solto por cima da tela`);
     }
     check(await page.locator('#calBody .citem').count() > 0, `${width}px · calendário dia mostra o que aconteceu hoje`);
     if (width === 390) {
@@ -88,7 +90,7 @@ try {
       check(ap.length === 1 && ap[0] === 'Consulta: neuro|1440', 'Calendário · agendar consulta com lembrete');
       await page.click('[data-ccat="Consulta"]'); await page.waitForTimeout(200);
       check(await page.evaluate(() => [...document.querySelectorAll('#calBody .citem')].every(x => /Consulta/.test(x.textContent))), 'Calendário · filtro por tipo');
-      await page.click('[data-cmode=mes]'); await page.click('.calgrid .cd.today'); await page.waitForTimeout(200);
+      await page.click('[data-cmode=mes]'); await page.waitForTimeout(200); await page.click('[data-cmode=sem]', { timeout: 2000 }); await page.click('[data-cmode=mes]', { timeout: 2000 }); await page.click('.calgrid .cd.is-today'); await page.waitForTimeout(200);
       check(await page.evaluate(() => calMode) === 'dia', 'Calendário · tocar no dia do mês abre o dia');
     }
     check(errs.length === 0, `${width}px · calendário sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
