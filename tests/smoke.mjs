@@ -100,6 +100,12 @@ try {
     check(st.notifs.includes('done') && st.notifs.includes('skipped'), 'Edita · lembretes marcados como feito e pulado');
     check(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden), 'Edita · não vê a aba Admin');
     check(await page.evaluate(() => !!document.querySelector('#p-rotina .mic svg')), 'Rotina · remédio aparece com o ícone de forma/tipo');
+    await page.click('summary:has-text("Registrar fora de hora")'); await page.click('[data-free=fezes]'); await page.waitForTimeout(300);
+    await page.selectOption('#rFree [name=cons]', 'pastosa'); await page.click('#rFree [type=submit]'); await page.waitForTimeout(800);
+    await page.click('[data-free=urina]'); await page.waitForTimeout(300);
+    await page.selectOption('#rFree [name=como]', 'com escape'); await page.click('#rFree [type=submit]'); await page.waitForTimeout(800);
+    const fx = await page.evaluate(() => Object.values(__store.events).filter(e => ['fezes', 'urina'].includes(e.kind)).map(e => e.text));
+    check(fx.some(t => /Fezes pastosa/.test(t)) && fx.some(t => /Xixi com escape/.test(t)), 'Rotina · fezes e xixi viram acontecimento');
     check(errs.length === 0, `Edita · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();
   }

@@ -9,7 +9,8 @@
   document.head.appendChild(css);
   const KIND = {
     med: { e: '💊', t: 'Remédio' }, agua: { e: '💧', t: 'Água' }, comida: { e: '🍽', t: 'Comida' },
-    decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' }, outro: { e: '🐶', t: 'Outro' }
+    decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' },
+    fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, outro: { e: '🐶', t: 'Outro' }
   };
   let scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
@@ -69,6 +70,14 @@
         const c = parseFloat(form.querySelector('[name=v]').value.replace(',', '.'));
         if (!(c > 30 && c < 45)) throw new Error('temperatura em °C, ex.: 38,4');
         await db.collection('vitals').add({ ...base, temp: c, note });
+      } else if (n.kind === 'fezes' || n.kind === 'urina') {
+        // vira acontecimento: aparece na linha do tempo e nos últimos acontecimentos
+        const get = k => form.querySelector(`[name=${k}]`)?.value || '';
+        const det = n.kind === 'fezes' ? { consistencia: get('cons'), cor: get('cor') } : { como: get('como'), cor: get('cor'), quantidade: get('qtd') };
+        const text = n.kind === 'fezes'
+          ? `Fezes ${det.consistencia}${det.cor ? ', ' + det.cor : ''}.${note ? ' ' + note : ''}`
+          : `Xixi ${det.como}${det.cor ? ', ' + det.cor : ''}${det.quantidade ? ', ' + det.quantidade : ''}.${note ? ' ' + note : ''}`;
+        await db.collection('events').add({ ...base, kind: n.kind, details: det, text, mark: false });
       } else {
         const side = form?.querySelector('[name=side]')?.value || '';
         await fb.fs.collection('rotina_log').add({ ...base, kind: n.kind, label: n.label, medId: n.medId || null, side, note, status: 'done' });
@@ -86,6 +95,11 @@
     if (n.kind === 'agua') f = `<label>Água (mL)<input type="text" name="v" inputmode="decimal" required></label><label class="chk"><input type="checkbox" name="coco"> água de coco</label>`;
     else if (n.kind === 'comida') f = `<label>Comida (g)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required></label>`;
+    else if (n.kind === 'fezes') f = `<label>Consistência<select name="cons"><option>normal (firme)</option><option>pastosa</option><option>mole</option><option>líquida (diarreia)</option><option>ressecada / dura</option></select></label>
+      <label>Cor<select name="cor"><option>marrom</option><option>marrom escura</option><option>preta</option><option>amarelada</option><option>esverdeada</option><option>com sangue</option><option>com muco</option></select></label>`;
+    else if (n.kind === 'urina') f = `<label>Como<select name="como"><option>espontâneo</option><option>com escape</option><option>ao pressionar a bexiga</option><option>na sonda</option></select></label>
+      <label>Cor<select name="cor"><option>clarinho</option><option>amarelo</option><option>amarelo escuro</option><option>rosado / com sangue</option></select></label>
+      <label>Quantidade<select name="qtd"><option>pouco</option><option>normal</option><option>bastante</option></select></label>`;
     else if (n.kind === 'decubito') f = `<label>Posição<select name="side"><option>lado esquerdo</option><option>lado direito</option><option>esfinge</option><option>em pé / andando</option></select></label>`;
     const ok = n.kind === 'med' ? 'Dei ✓' : 'Salvar';
     return `<form class="vform rForm" data-n="${esc(n.id || '')}">${f}${time}${note}
@@ -103,7 +117,8 @@
     const today = todayIso();
     const done = [
       ...logs.map(l => ({ ...l, src: 'log' })),
-      ...vitals.filter(v => v.source === 'rotina' && v.date >= daysAgo(1)).map(v => ({ ...v, src: 'v' }))
+      ...vitals.filter(v => ['rotina', 'chat'].includes(v.source) && v.date >= daysAgo(1)).map(v => ({ ...v, src: 'v' })),
+      ...events.filter(e => ['fezes', 'urina'].includes(e.kind) && e.date >= daysAgo(1)).map(e => ({ ...e, src: 'e' }))
     ].filter(x => x.date >= daysAgo(1)).sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')));
     const vtxt = v => v.water_ml ? `💧 ${fmt(v.water_ml)} mL` : v.food_g ? `🍽 ${fmt(v.food_g)} g` : v.temp ? `🌡 ${fmt(v.temp)} °C` : '';
     const ltxt = l => `${ic(l)}${esc(l.label || (KIND[l.kind] || KIND.outro).t)}${l.side ? ' · ' + esc(l.side) : ''}${l.status === 'skipped' ? ' <span class="pill lo">pulou</span>' : ''}`;
@@ -127,7 +142,7 @@
 
     <section class="card">
       <h2>Últimas 48 h</h2>
-      <div class="list" style="margin-top:6px">${done.slice(0, 40).map(x => `<div class="item row between"><span>${x.src === 'v' ? vtxt(x) + (x.note ? ' · ' + esc(x.note) : '') : ltxt(x)}</span><span class="muted">${x.date === today ? '' : dm(x.date) + ' '}${esc(x.time || '')}</span></div>`).join('') || '<p class="muted">Nada ainda.</p>'}</div>
+      <div class="list" style="margin-top:6px">${done.slice(0, 40).map(x => `<div class="item row between"><span>${x.src === 'v' ? vtxt(x) + (x.note ? ' · ' + esc(x.note) : '') : x.src === 'e' ? (KIND[x.kind] || KIND.outro).e + ' ' + esc(x.text) : ltxt(x)}</span><span class="muted">${x.date === today ? '' : dm(x.date) + ' '}${esc(x.time || '')}</span></div>`).join('') || '<p class="muted">Nada ainda.</p>'}</div>
     </section>
 
     <section class="card">
