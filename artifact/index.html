@@ -1567,6 +1567,8 @@ function renderAttention() {
   // remédios acabando / em uso
   const act = meds.filter(inUse);
   const ending = act.filter(m => m.end && m.end <= in7).sort((a, b) => a.end < b.end ? -1 : 1);
+  const buy = meds.filter(inUse).map(m => [m, needsBuy(m)]).filter(([m, e]) => e && dayNum(e) - dayNum(today) <= 7).sort((a, b) => a[1] < b[1] ? -1 : 1);
+  if (buy.length) add('hi', 'Comprar logo', buy.map(([m, e]) => `${m.name} (acaba ~${dm(e)})`).join(' · '));
   if (ending.length) add('', 'Remédios que terminam nesta semana', ending.map(m => `${m.name} (${dm(m.end)})`).join(' · '));
   // vacinas/vermífugo
   const latest = new Map();
@@ -1594,6 +1596,9 @@ function armed(b, label) {
 /* ---------- Medications ---------- */
 const isActive = m => !m.end || m.end > todayIso();
 const isPaused = m => !!m.paused && isActive(m);
+// estoque: qty unidades em countedAt (já sem a dose daquele dia), gastando perDay por dia → último dia coberto
+const stockEnd = st => st && st.qty >= 0 && st.perDay > 0 && st.countedAt ? dayIso(dayNum(st.countedAt) + Math.floor(st.qty / st.perDay)) : null;
+const needsBuy = m => { const e = stockEnd(m.stock); return e && inUse(m) && (!m.end || e < m.end) ? e : null; };
 const inUse = m => isActive(m) && !m.paused;
 const CL_COLORS = ['#9b8de0', '#e0a458', '#e07ac0', '#5ec8c0', '#a0a0a0', '#c8b45e'];
 function clinicPill(c) {
@@ -1663,6 +1668,12 @@ function medDetail(m) {
     ${m.notes ? `<div class="s"><b>Obs.:</b> ${esc(m.notes)}</div>` : ''}
     ${canWrite && m.id ? `<div class="medit">Tipo <select data-mkind="${esc(m.id)}"><option value="med"${kindOf(m) === 'med' ? ' selected' : ''}>Medicamento</option><option value="sup"${kindOf(m) === 'sup' ? ' selected' : ''}>Suplemento</option></select>
       Forma <select data-mform="${esc(m.id)}">${Object.entries(FORMS).map(([k, v]) => `<option value="${k}"${formOf(m) === k ? ' selected' : ''}>${v[0]}</option>`).join('')}</select></div>` : ''}
+    ${m.stock ? `<div class="s"><b>Estoque:</b> ${fmt(m.stock.qty)} ${esc(m.stock.unit || 'un.')} em ${dm(m.stock.countedAt)}, gasta ${fmt(m.stock.perDay)}/dia${stockEnd(m.stock) ? ` → dura até <b>${dm(stockEnd(m.stock))}</b>` : ''}${needsBuy(m) ? ' <span class="pill hi">comprar antes</span>' : m.end && stockEnd(m.stock) ? ' <span class="pill ok">dá até o fim</span>' : ''}</div>` : ''}
+    ${canWrite && m.id ? `<details class="mstock"><summary class="muted" style="cursor:pointer;font-size:12.5px">${m.stock ? 'atualizar estoque' : 'informar estoque'}</summary>
+      <div class="medit"><input type="number" step="any" min="0" data-sq="${esc(m.id)}" value="${m.stock ? m.stock.qty : ''}" placeholder="quantidade" style="width:100px">
+      <input type="text" data-su="${esc(m.id)}" value="${esc(m.stock ? m.stock.unit || '' : '')}" placeholder="unidade (comp., mL, g…)" style="width:150px">
+      <input type="number" step="any" min="0" data-sp="${esc(m.id)}" value="${m.stock ? m.stock.perDay : ''}" placeholder="gasta por dia" style="width:110px">
+      <button class="tiny" data-msave="${esc(m.id)}">salvar (contado hoje)</button></div></details>` : ''}
     ${isPaused(m) && m.pauseReason ? `<div class="s"><b>Pausado:</b> ${esc(m.pauseReason)}</div>` : ''}
     ${Array.isArray(m.pauses) && m.pauses.length ? `<div class="s"><b>Pausas anteriores:</b> ${m.pauses.map(p => `${dm(p.from)}–${dm(p.to)}${p.reason ? ' (' + esc(p.reason) + ')' : ''}`).join(' · ')}</div>` : ''}`;
 }
@@ -1763,6 +1774,15 @@ document.addEventListener('click', async ev => {
   if (ok1) { ok1.disabled = true; try { await db.collection('meds').doc(ok1.dataset.mok).update({ confirmedAt: todayIso() }); } catch (e) { alertErr(e); } return; }
   const e1 = ev.target.closest('button[data-mend]'), d1 = ev.target.closest('button[data-mdel]');
   if (e1) { e1.disabled = true; try { await db.collection('meds').doc(e1.dataset.mend).update({ end: todayIso(), endEstimated: false }); } catch (e) { alertErr(e); } }
+  const sv = ev.target.closest('button[data-msave]');
+  if (sv) {
+    const id = sv.dataset.msave, q = document.querySelector(`[data-sq="${id}"]`), u = document.querySelector(`[data-su="${id}"]`), pd = document.querySelector(`[data-sp="${id}"]`);
+    const qty = parseFloat(q.value), perDay = parseFloat(pd.value);
+    if (!(qty >= 0) || !(perDay > 0)) { alert('Coloque a quantidade e quanto ele gasta por dia.'); return; }
+    sv.disabled = true;
+    try { await db.collection('meds').doc(id).update({ stock: { qty, unit: u.value.trim(), perDay, countedAt: todayIso(), lead: (meds.find(x => x.id === id)?.stock || {}).lead || 5 } }); } catch (e) { alertErr(e); }
+    return;
+  }
   const p1 = ev.target.closest('button[data-mpause]'), r1 = ev.target.closest('button[data-mresume]');
   if (p1) {
     const m = meds.find(x => x.id === p1.dataset.mpause); if (!m) return;

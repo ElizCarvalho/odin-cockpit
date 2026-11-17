@@ -28,11 +28,12 @@ const SEED = {
   acl: { users: { emails: ['admin@teste.com', 'edita@teste.com', 've@teste.com'], roles: { 'admin@teste.com': 'admin', 'edita@teste.com': 'edit', 've@teste.com': 'view' }, notify: {} } },
   exams: { e1: { date: today, kind: 'Hemograma', lab: 'Lab teste', params: { hb: 9.1, ht: 27 }, other: [], createdAt: 1 } },
   events: { v1: { date: today, time: '08:10', text: 'Evento de teste', mark: false } },
-  meds: { m0: { name: 'Remédio antigo', start: '2026-01-01', end: '2026-01-10' }, m1: { name: 'Remédio teste', start: today, dose: '1 comp.' }, m2: { name: 'Outro em uso', start: '2026-01-05', dose: '1 comp.' } },
+  meds: { m0: { name: 'Remédio antigo', start: '2026-01-01', end: '2026-01-10' }, m1: { name: 'Remédio teste', start: today, dose: '1 comp.' }, m2: { name: 'Outro em uso', start: '2026-01-05', dose: '1 comp.', stock: { qty: 4, unit: 'comp.', perDay: 1, countedAt: today } } },
   vitals: { t1: { date: today, time: '07:00', temp: 38.4 } },
   schedule: { s1: { kind: 'med', label: 'Remédio teste', times: ['09:00'], active: true }, s2: { kind: 'agua', label: 'Água', every: 120, from: '08:00', to: '22:00', active: true } },
   notifs: {
     [`s1_${today}_0900`]: { schedId: 's1', kind: 'med', label: 'Remédio teste', date: today, time: '09:00', status: 'pending', sentAt: 1 },
+    [`s3_${today}_0930`]: { schedId: 's3', kind: 'med', label: 'Manhã', date: today, time: '09:30', status: 'pending', sentAt: 1, items: [{ medId: 'm1', name: 'Remédio teste', dose: '1 comp.' }, { medId: 'm2', name: 'Outro em uso', dose: '1 comp.' }] },
     [`s2_${today}_1000`]: { schedId: 's2', kind: 'agua', label: 'Água', date: today, time: '10:00', status: 'pending', sentAt: 1 }
   }
 };
@@ -64,6 +65,7 @@ try {
       check(visible && ov <= 1, `${width}px · aba ${tab} abre sem estourar a largura${ov > 1 ? ` (+${ov}px)` : ''}`);
     }
     check(!(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden)), `${width}px · admin vê a aba Admin`);
+    if (width === 390) check(await page.evaluate(() => /Comprar logo/.test(document.getElementById('p-painel').textContent)), 'Painel · avisa remédio que precisa comprar');
     check(errs.length === 0, `${width}px · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();
   }
@@ -94,12 +96,17 @@ try {
     const n = `#rn-s2_${today}_1000`;
     await page.fill(`${n} [name=v]`, '150'); await page.check(`${n} [name=coco]`);
     await page.click(`${n} [type=submit]`); await page.waitForTimeout(800);
-    await page.click('[data-skip]'); await page.waitForTimeout(800);
+    await page.click(`#rn-s1_${today}_0900 [data-skip]`); await page.waitForTimeout(800);
     const st = await page.evaluate(() => ({ notifs: Object.values(__store.notifs).map(n => n.status), v: Object.values(__store.vitals).filter(v => v.source === 'rotina') }));
     check(st.v.length === 1 && st.v[0].water_ml === 150 && /coco/.test(st.v[0].note), 'Edita · resposta de água vira registro (150 mL, água de coco)');
     check(st.notifs.includes('done') && st.notifs.includes('skipped'), 'Edita · lembretes marcados como feito e pulado');
     check(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden), 'Edita · não vê a aba Admin');
     check(await page.evaluate(() => !!document.querySelector('#p-rotina .mic svg')), 'Rotina · remédio aparece com o ícone de forma/tipo');
+    const blk = `#rn-s3_${today}_0930`;
+    check(await page.locator(`${blk} [name=it]`).count() === 2, 'Rotina · bloco mostra a lista de remédios pra marcar');
+    await page.uncheck(`${blk} [name=it][value="1"]`); await page.click(`${blk} [type=submit]`); await page.waitForTimeout(800);
+    const bl = await page.evaluate(() => ({ st: Object.entries(__store.notifs).find(([k]) => k.startsWith('s3_'))[1].status, logs: Object.values(__store.rotina_log || {}).filter(l => l.block === 'Manhã').map(l => l.status).sort() }));
+    check(bl.st === 'partial' && bl.logs.join() === 'done,skipped', 'Rotina · bloco grava um registro por remédio (dado/pulado)');
     await page.click('summary:has-text("Registrar fora de hora")'); await page.click('[data-free=fezes]'); await page.waitForTimeout(300);
     await page.selectOption('#rFree [name=cons]', 'pastosa'); await page.click('#rFree [type=submit]'); await page.waitForTimeout(800);
     await page.click('[data-free=urina]'); await page.waitForTimeout(300);

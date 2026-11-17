@@ -1,7 +1,7 @@
 /* Aba Rotina: horários, notificações push e resposta rápida que vira registro no cockpit. */
 (function () {
   const css = document.createElement('style');
-  css.textContent = `.tab[hidden]{display:none!important}#p-rotina .rN{display:block}#p-rotina .vform > .row{grid-column:1/-1}#p-rotina .rN .vform{margin-top:4px}
+  css.textContent = `.tab[hidden]{display:none!important}#p-rotina .rItems{grid-column:1/-1;display:grid;gap:6px}#p-rotina .rItems label.chk{align-items:center;gap:8px;font-size:14px;color:var(--ink)}#p-rotina .rItems input{width:20px;height:20px;accent-color:var(--accent)}#p-rotina .rN{display:block}#p-rotina .vform > .row{grid-column:1/-1}#p-rotina .rN .vform{margin-top:4px}
     #p-rotina input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
     #p-rotina .rFocus{box-shadow:0 0 0 2px var(--accent);border-radius:10px;padding:10px}
     #p-admin .aRow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}#p-admin .aMail{overflow-wrap:anywhere}#p-admin select{width:auto}#p-admin .vform > .row{grid-column:1/-1}#p-admin input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}#p-admin label.chk,#p-rotina label.chk{display:flex;gap:6px;align-items:center;align-self:center}
@@ -10,7 +10,7 @@
   const KIND = {
     med: { e: '💊', t: 'Remédio' }, agua: { e: '💧', t: 'Água' }, comida: { e: '🍽', t: 'Comida' },
     decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' },
-    fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, outro: { e: '🐶', t: 'Outro' }
+    fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, compra: { e: '🛒', t: 'Comprar' }, outro: { e: '🐶', t: 'Outro' }
   };
   let scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
@@ -22,11 +22,15 @@
   const canEdit = () => role() === 'admin' || role() === 'edit';
   // ícone: remédio usa o mesmo ícone da aba Medicamentos (forma + medicamento/suplemento); o resto, emoji
   const ic = x => {
+    if (Array.isArray(x.items) && x.items.length > 1) return '💊 ';
+    if (Array.isArray(x.items) && x.items.length === 1) x = { kind: 'med', medId: x.items[0].medId, label: x.items[0].name };
     if (x.kind !== 'med' || typeof medIcon !== 'function') return (KIND[x.kind] || KIND.outro).e + ' ';
     const first = String(x.label || '').toLowerCase().split(/[\s·(]/)[0];
     const m = meds.find(y => y.id === x.medId) || (first && meds.find(y => (y.name || '').toLowerCase().startsWith(first)));
     return medIcon(m || { name: x.label || '', dose: x.label || '' }, true);
   };
+  const DOW = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+  const schedDays = s => Array.isArray(s.days) && s.days.length ? ' · ' + s.days.map(d => DOW[d]).join(', ') : Number(s.everyDays) > 1 ? ` · a cada ${s.everyDays} dias (desde ${dm(s.anchor || '')})` : '';
   const ROLE = { admin: 'Admin', edit: 'Edita', view: 'Só vê' };
 
   /* ---------- Ativar push neste aparelho ---------- */
@@ -56,6 +60,19 @@
     const t = form ? (form.querySelector('[name=time]').value || hhmm()) : hhmm();
     const note = form ? form.querySelector('[name=note]')?.value.trim() || '' : '';
     const base = { date: n.date, time: t, source: 'rotina', createdAt: Date.now(), by: me() };
+    if (n.kind === 'compra') { // aviso de compra: só marca como visto
+      await fb.fs.collection('notifs').doc(n.id).update({ status: 'done', doneAt: Date.now(), by: me() }); return;
+    }
+    if (Array.isArray(n.items) && n.items.length) {
+      // bloco: um registro por remédio, marcado como dado ou pulado
+      const given = new Set(form && !skipped ? [...form.querySelectorAll('[name=it]:checked')].map(x => +x.value) : []);
+      for (const [i, it] of n.items.entries()) {
+        await fb.fs.collection('rotina_log').add({ ...base, kind: 'med', label: it.name + (it.dose ? ' · ' + it.dose : ''), medId: it.medId || null, note, status: given.has(i) ? 'done' : 'skipped', block: n.label || '' });
+      }
+      const st = given.size === n.items.length ? 'done' : given.size ? 'partial' : 'skipped';
+      if (n.id) await fb.fs.collection('notifs').doc(n.id).update({ status: st, doneAt: Date.now(), by: me() });
+      return;
+    }
     if (!skipped) {
       if (n.kind === 'agua') {
         const ml = parseFloat(form.querySelector('[name=v]').value.replace(',', '.'));
@@ -92,7 +109,9 @@
     const time = `<label>Hora<input type="time" name="time" value="${hhmm()}"></label>`;
     const note = `<label>Obs.<input type="text" name="note" placeholder="opcional"></label>`;
     let f = '';
-    if (n.kind === 'agua') f = `<label>Água (mL)<input type="text" name="v" inputmode="decimal" required></label><label class="chk"><input type="checkbox" name="coco"> água de coco</label>`;
+    if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque na aba Medicamentos.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
+    if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}" checked> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
+    else if (n.kind === 'agua') f = `<label>Água (mL)<input type="text" name="v" inputmode="decimal" required></label><label class="chk"><input type="checkbox" name="coco"> água de coco</label>`;
     else if (n.kind === 'comida') f = `<label>Comida (g)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'fezes') f = `<label>Consistência<select name="cons"><option>normal (firme)</option><option>pastosa</option><option>mole</option><option>líquida (diarreia)</option><option>ressecada / dura</option></select></label>
@@ -101,7 +120,7 @@
       <label>Cor<select name="cor"><option>clarinho</option><option>amarelo</option><option>amarelo escuro</option><option>rosado / com sangue</option></select></label>
       <label>Quantidade<select name="qtd"><option>pouco</option><option>normal</option><option>bastante</option></select></label>`;
     else if (n.kind === 'decubito') f = `<label>Posição<select name="side"><option>lado esquerdo</option><option>lado direito</option><option>esfinge</option><option>em pé / andando</option></select></label>`;
-    const ok = n.kind === 'med' ? 'Dei ✓' : 'Salvar';
+    const ok = n.kind === 'med' ? (n.items && n.items.length > 1 ? 'Dei os marcados ✓' : 'Dei ✓') : 'Salvar';
     return `<form class="vform rForm" data-n="${esc(n.id || '')}">${f}${time}${note}
       <div class="row"><button type="submit">${ok}</button>${n.id ? '<button type="button" class="ghost" data-skip>Pulei</button>' : ''}</div></form>`;
   }
@@ -149,7 +168,7 @@
       <h2>Horários</h2>
       <div class="list" style="margin-top:6px">${scheds.sort((a, b) => (a.kind + a.label).localeCompare(b.kind + b.label)).map(s => `
         <div class="item row between">
-          <span>${ic(s)}<b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${s.until ? ' · até ' + dm(s.until) : ''}</span></span>
+          <span>${ic(s)}<b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${schedDays(s)}${s.until ? ' · até ' + dm(s.until) : ''}${Array.isArray(s.items) && s.items.length ? '<br>' + s.items.map(i => esc(i.name + (i.dose ? ' ' + i.dose : ''))).join(' · ') : ''}</span></span>
           <span class="row"${canEdit() ? '' : ' hidden'}><button class="ghost tiny" data-tog="${esc(s.id)}">${s.active ? 'Pausar' : 'Ativar'}</button><button class="tiny danger" data-del="${esc(s.id)}">Apagar</button></span>
         </div>`).join('') || '<p class="muted">Nenhum horário ainda.</p>'}</div>
       <details data-k="new" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Novo horário</summary>

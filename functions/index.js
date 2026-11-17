@@ -18,6 +18,7 @@ const KIND = {
   comida: { emoji: '🍽', title: 'Comida' },
   decubito: { emoji: '🔄', title: 'Troca de decúbito' },
   temp: { emoji: '🌡', title: 'Temperatura' },
+  compra: { emoji: '🛒', title: 'Comprar remédio' },
   outro: { emoji: '🐶', title: 'Odin' }
 };
 
@@ -27,11 +28,24 @@ function nowSP(d = new Date()) {
   return { date: `${p.year}-${p.month}-${p.day}`, hm: `${p.hour}:${p.minute}` };
 }
 const mins = hm => { const [h, m] = String(hm || '').split(':').map(Number); return h * 60 + m; };
+const dayNum = iso => Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)) / 864e5;
+const dayIso = n => new Date(n * 864e5).toISOString().slice(0, 10);
+const dmBr = iso => iso.slice(8, 10) + '/' + iso.slice(5, 7);
+
+// Estoque: qty unidades em countedAt (já descontada a dose daquele dia), gastando perDay por dia.
+// Devolve o último dia coberto pelo estoque, ou null se não há como calcular.
+export function stockEnd(stock) {
+  if (!stock || !(stock.qty >= 0) || !(stock.perDay > 0) || !stock.countedAt) return null;
+  return dayIso(dayNum(stock.countedAt) + Math.floor(stock.qty / stock.perDay));
+}
 
 export function isDue(s, date, hm) {
   if (!s.active) return false;
   if (s.from_date && date < s.from_date) return false;
   if (s.until && date > s.until) return false;
+  if (Array.isArray(s.days) && s.days.length && !s.days.includes(new Date(dayNum(date) * 864e5).getUTCDay())) return false;
+  const ed = Number(s.everyDays);
+  if (ed > 1) { const diff = dayNum(date) - dayNum(s.anchor || date); if (diff < 0 || diff % ed !== 0) return false; }
   if (Array.isArray(s.times) && s.times.includes(hm)) return true;
   const every = Number(s.every);
   if (every > 0) {
@@ -53,7 +67,7 @@ async function push(notifId, n, again) {
     webpush: {
       notification: {
         title: `${k.emoji} ${again ? 'Ainda pendente: ' : ''}${k.title} · ${n.time}`,
-        body: n.label || k.title,
+        body: Array.isArray(n.items) && n.items.length ? n.items.map(i => i.name + (i.dose ? ' ' + i.dose : '')).join(' · ') : (n.label || k.title),
         icon: `${APP_URL}/icon-192.png`,
         tag: notifId,
         renotify: true
@@ -71,15 +85,37 @@ async function push(notifId, n, again) {
 export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount: 0, memory: '256MiB' }, async () => {
   const { date, hm } = nowSP();
   const scheds = await db.collection('schedule').where('active', '==', true).get();
-  const paused = new Set((await db.collection('meds').where('paused', '==', true).get()).docs.map(d => d.id));
-  for (const doc of scheds.docs) {
+  const due = scheds.docs.filter(d => isDue(d.data(), date, hm));
+  const meds = due.length || hm === '10:00' ? new Map((await db.collection('meds').get()).docs.map(d => [d.id, d.data()])) : new Map();
+  // remédio vale no dia se existe, não está pausado, já começou e não terminou
+  const onToday = id => { const m = meds.get(id); return m && !m.paused && (!m.start || m.start <= date) && (!m.end || m.end >= date); };
+  for (const doc of due) {
     const s = doc.data();
-    if (!isDue(s, date, hm)) continue;
-    if (s.medId && paused.has(s.medId)) continue; // remédio pausado: sem lembrete
+    if (s.medId && !onToday(s.medId)) continue; // remédio pausado ou fora do período: sem lembrete
+    let items = null;
+    if (Array.isArray(s.items) && s.items.length) {
+      items = s.items.filter(i => !i.medId || onToday(i.medId)).map(i => ({ medId: i.medId || null, name: i.name, dose: i.dose || '' }));
+      if (!items.length) continue; // bloco sem nenhum remédio valendo hoje
+    }
     const id = `${doc.id}_${date}_${hm.replace(':', '')}`;
-    const n = { schedId: doc.id, kind: s.kind || 'outro', label: s.label || '', medId: s.medId || null, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: false };
+    const n = { schedId: doc.id, kind: s.kind || 'outro', label: s.label || '', medId: s.medId || null, items, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: false };
     try { await db.collection('notifs').doc(id).create(n); } catch { continue; } // já criado
     await push(id, n, false);
+  }
+  // estoque: uma vez por dia, avisa quem precisa comprar
+  if (hm === '10:00') {
+    for (const [id, m] of meds) {
+      const end = stockEnd(m.stock);
+      if (!end || m.paused || (m.end && m.end < date) || (m.end && end >= m.end)) continue;
+      const left = dayNum(end) - dayNum(date), lead = Number(m.stock.lead) || 5;
+      if (left > lead || m.stock.alertedFor === end) continue;
+      const nid = `stock_${id}_${end}`, label = `Comprar ${m.name}`;
+      const n = { kind: 'compra', label, medId: id, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: true,
+        note: left < 0 ? 'o estoque já acabou' : `o estoque acaba por volta de ${dmBr(end)} (${left} dia${left === 1 ? '' : 's'})` };
+      try { await db.collection('notifs').doc(nid).create(n); } catch { continue; }
+      await db.collection('meds').doc(id).update({ 'stock.alertedFor': end });
+      await push(nid, { ...n, items: [{ name: m.name, dose: '— ' + n.note }] }, false);
+    }
   }
   const limit = Date.now() - RENOTIFY_MIN * 60e3;
   const pend = await db.collection('notifs').where('status', '==', 'pending').get();
