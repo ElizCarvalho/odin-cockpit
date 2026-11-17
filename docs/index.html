@@ -202,6 +202,8 @@ select { font: inherit; color: var(--ink); background: var(--bg); border: 1px so
 .bar { position: absolute; top: 2px; height: 12px; border-radius: 3px; background: var(--muted); opacity: .55; min-width: 4px; }
 .bar.on { background: var(--accent); opacity: 1; }
 .bar.alg { background: var(--bad); opacity: .9; }
+.bar.pz { background: repeating-linear-gradient(135deg, var(--warn) 0 4px, transparent 4px 7px); border: 1px solid var(--warn); opacity: .9; }
+.gsep.pz { color: var(--warn); }
 .gaxis { position: relative; height: 18px; font-size: 11px; color: var(--muted); }
 .gaxis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
 .today { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--accent); }
@@ -304,6 +306,42 @@ body.ro .wr { display: none !important; }
 .grow[data-mk] { cursor: pointer; border-radius: 4px; }
 .grow[data-mk]:hover .gl { color: var(--accent); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg { display: inline-flex; gap: 4px; }
+.calbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; }
+.caltitle { font-family: var(--font-display); margin-left: 6px; }
+.calgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.calgrid .wd { font-size: 11px; color: var(--muted); text-align: center; padding: 4px 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.calgrid .cd { min-height: 92px; padding: 4px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); cursor: pointer; display: grid; align-content: start; gap: 2px; min-width: 0; }
+.calgrid .cd.out { opacity: .4; } .calgrid .cd.is-today .n { background: var(--accent); color: var(--bg); border-radius: 99px; padding: 0 6px; }
+.calgrid .cd.stay { background: color-mix(in srgb, var(--clc) 12%, transparent); }
+.calgrid .n { font-size: 12px; font-weight: 600; justify-self: start; }
+.cev { font-size: 11px; line-height: 1.3; padding: 1px 4px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: color-mix(in srgb, var(--cc) 18%, transparent); border-left: 3px solid var(--cc); }
+.cdots { display: none; flex-wrap: wrap; gap: 2px; } .cdots i { width: 6px; height: 6px; border-radius: 50%; background: var(--cc); }
+.cday { border-top: 1px solid var(--line); padding: 10px 0; }
+.cday h3 { margin: 0 0 6px; font-size: 14px; } .cday h3 .muted { font-weight: 400; }
+.citem { display: grid; grid-template-columns: 46px 1fr; gap: 8px; padding: 4px 0 4px 8px; border-left: 3px solid var(--cc); margin: 4px 0; font-size: 13.5px; }
+.citem .h { font-family: var(--font-mono); font-size: 12px; color: var(--muted); } .citem .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.gev[data-ci] { cursor: pointer; } .gev[data-ci]:hover { filter: brightness(1.15); }
+@media (max-width: 560px) { #calMode { display: none; } }
+.hgrid-wrap { max-height: 72vh; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+.hgrid { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: 12px; }
+.hgrid th, .hgrid td { border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); vertical-align: top; padding: 2px 3px; }
+.hgrid thead th { position: sticky; top: 0; z-index: 2; background: var(--surface); font-weight: 600; font-size: 12px; padding: 6px 3px; text-align: center; }
+.hgrid thead th.is-today { color: var(--accent); }
+.hgrid thead th.is-today .dn { background: var(--accent); color: var(--bg); border-radius: 99px; padding: 0 6px; }
+.hgrid .hl { width: 46px; text-align: right; color: var(--muted); font-family: var(--font-mono); font-size: 11px; border-left: 0; padding-right: 6px; background: var(--surface); position: sticky; left: 0; z-index: 1; }
+.hgrid tr.now .hl { color: var(--accent); font-weight: 600; }
+.hgrid tbody td { height: 26px; cursor: default; text-align: left; }
+.hgrid.week tbody td { cursor: pointer; }
+.hgrid tr.allday td, .hgrid tr.allday .hl { background: color-mix(in srgb, var(--line) 35%, transparent); }
+.gev { display: block; margin: 1px 0; padding: 2px 5px; border-radius: 4px; background: color-mix(in srgb, var(--cc) 20%, transparent); border-left: 3px solid var(--cc); line-height: 1.3; overflow-wrap: anywhere; }
+.gev .t { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); margin-right: 4px; }
+.gev.skip { opacity: .5; text-decoration: line-through; } .gev.fut { outline: 1px dashed var(--cc); }
+.hgrid.week .gev { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 560px) { .hgrid.week .gev { font-size: 0; padding: 0; height: 6px; border-left-width: 0; background: var(--cc); margin: 2px 0; } .hgrid.week thead th { font-size: 10.5px; } .hgrid .hl { width: 38px; } }
+.citem.skip { opacity: .55; } .citem.fut { background: color-mix(in srgb, var(--cc) 10%, transparent); border-radius: 0 6px 6px 0; }
+@media (max-width: 560px) { .calgrid .cd { min-height: 54px; } .calgrid .cev { display: none; } .calgrid .cdots { display: flex; } .calgrid .more { display: none; } }
+.pbar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 6px; } .pbar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; } .tile.ok .pbar i { background: var(--ok); } .tile.lo .pbar i { background: var(--warn); }
 .chip .cnt { opacity: .7; font-size: 11px; margin-left: 2px; }
 .mrow { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 0 10px; border-bottom: 1px solid var(--line); }
 .mrow:not(:has(.msel)) { grid-template-columns: minmax(0,1fr); }
@@ -314,6 +352,15 @@ body.ro .wr { display: none !important; }
 .mitem[open] summary::before { content: '▾'; }
 .mitem { position: relative; padding-left: 14px; }
 .mname { font-weight: 600; font-size: 14px; }
+.mic { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 6px; flex: none; }
+.mic svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mic.med { background: var(--accent-soft); color: var(--accent); }
+.mic.sup { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); border-radius: 7px; }
+.mic.sm { width: 20px; height: 20px; margin-right: 5px; } .mic.sm svg { width: 13px; height: 13px; }
+.mkey { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); margin: 0 0 8px; align-items: center; }
+.mkey span { display: inline-flex; align-items: center; }
+.medit { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; font-size: 12.5px; color: var(--muted); align-items: center; }
+.medit select { width: auto; padding: 4px 8px; font-size: 12.5px; }
 .mcat { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
 .mper { font-size: 12.5px; color: var(--muted); white-space: nowrap; min-width: 112px; text-align: right; }
 .mbody { padding: 0 0 10px; display: grid; gap: 2px; }
@@ -469,6 +516,7 @@ body.ro .wr { display: none !important; }
       <h2>Linha do tempo dos medicamentos</h2>
       <div class="glegend">
         <span><i class="bar on" style="position:static"></i>em uso</span>
+        <span><i class="bar pz" style="position:static"></i>pausado</span>
         <span><i class="bar" style="position:static"></i>já terminou</span>
         <span><i class="bar alg" style="position:static"></i>reação/alergia</span>
         <span><i class="bar on mix" style="position:static"></i>fórmula manipulada (vários ativos juntos)</span>
@@ -504,6 +552,7 @@ body.ro .wr { display: none !important; }
       </div>
     </section>
     <section class="card"><h2 id="medActiveH">Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list"></div></section>
+    <section class="card hidden" id="medPausedCard"><h2 id="medPausedH">Pausados</h2><p class="note" style="margin:2px 0 8px">Parados por enquanto: sem lembrete e sem aviso de compra até retomar.</p><div id="medPaused" class="list"></div></section>
     <section class="card"><h2 id="medPastH">Já usou</h2><div id="medPast" class="list"></div></section>
   </div>
 
@@ -530,6 +579,7 @@ body.ro .wr { display: none !important; }
       <h2>Adicionar fotos ou vídeos</h2>
       <div class="formgrid" style="margin-top:10px">
         <label for="fDate">Data<input id="fDate" type="date"></label>
+        <label for="fTime">Hora<input id="fTime" type="time"></label>
         <label for="fCap" style="grid-column: span 2">Legenda<input id="fCap" type="text" placeholder="Ex.: comendo iogurte com ajuda"></label>
         <button id="fBtn">Escolher arquivos</button>
         <input id="fFile" type="file" accept="image/*,video/mp4,video/webm" multiple class="hidden">
@@ -541,10 +591,27 @@ body.ro .wr { display: none !important; }
 
   <div class="panel" id="p-linha" role="tabpanel" hidden>
   <section class="card">
-    <h2>Linha do tempo</h2>
-    <div class="row" style="margin-top:8px" id="tlFilters"></div>
-    <div id="timeline" class="timeline" style="margin-top:8px"></div>
-  </section>
+    <div class="row between"><h2>Linha do tempo</h2><div class="seg" id="tlView"><button class="chip on" data-view="lista">Lista</button><button class="chip" data-view="cal">Calendário</button></div></div>
+    <div id="tlList">
+      <div class="row" style="margin-top:8px" id="tlFilters"></div>
+      <div id="timeline" class="timeline" style="margin-top:8px"></div>
+    </div>
+    <div id="cal" class="hidden" style="margin-top:8px">
+      <div class="calbar">
+        <div class="row" style="gap:6px"><button class="tiny ghost" data-cnav="-1" aria-label="Anterior">‹</button><button class="tiny ghost" data-cnav="0">Hoje</button><button class="tiny ghost" data-cnav="1" aria-label="Próximo">›</button><b id="calTitle" class="caltitle"></b></div>
+        <div class="row" style="gap:6px"><span class="seg" id="calMode"><button class="chip" data-cmode="mes">Mês</button><button class="chip" data-cmode="sem">7 dias</button><button class="chip on" data-cmode="dia">Dia</button></span><button class="tiny wr" id="calAddBtn">+ Agendar</button></div>
+      </div>
+      <form id="calAdd" class="vform hidden" style="margin:8px 0 4px">
+        <label>Tipo<select name="sub"><option>Consulta</option><option>Fisioterapia</option><option>Acupuntura</option><option>Coleta de exame</option><option>Outro</option></select></label>
+        <label>O quê / onde<input type="text" name="what" placeholder="Ex.: neuro na Vetreabilite" required></label>
+        <label>Data<input type="date" name="date" required></label>
+        <label>Hora<input type="time" name="time"></label>
+        <label>Lembrete<select name="remind"><option value="0">sem lembrete</option><option value="1440" selected>1 dia antes</option><option value="120">2 h antes</option><option value="60">1 h antes</option></select></label>
+        <div class="row"><button type="submit">Salvar</button><button type="button" class="ghost" id="calAddX">cancelar</button></div>
+      </form>
+      <div class="chips" id="calCats" style="margin:8px 0"></div>
+      <div id="calBody"></div>
+    </div>
   </div>
 
   <p class="note">Esta página organiza os exames e ajuda a entender a evolução. Quem interpreta e decide o tratamento é a equipe veterinária.</p>
@@ -600,7 +667,7 @@ const P = Object.fromEntries(PARAMS.map(p => [p.k, p]));
 const KEY_ORDER = PARAMS.map(p => p.k);
 
 let db = null, sample = null;
-let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [], vitals = [];
+let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [], vitals = [], foods = [], goals = null;
 let assets = null;
 const TABS = ['painel','exames','remedios','vacinas','fotos','linha'];
 let activeTab = 'painel';
@@ -664,7 +731,7 @@ function tempTile() {
 }
 function renderTiles() {
   const keys = ['ht','wbc','plt','peso'];
-  $('tiles').innerHTML = tempTile() + keys.map(k => {
+  $('tiles').innerHTML = tempTile() + intakeTile('water') + intakeTile('kcal') + keys.map(k => {
 
     const s = series(k); const p = P[k];
     const info = `<button class="info" type="button" aria-label="O que ${esc(p.l)} avalia" aria-expanded="false">?</button>`;
@@ -844,6 +911,53 @@ function renderCharts() {
   }
   if (!shown) host.innerHTML = '<p class="muted">Nenhum parâmetro fora da faixa no último exame.</p>';
 }
+/* ---------- Água e calorias ---------- */
+// Lista inicial: kcal por 100 g (ou 100 mL) e fração de água. "est" = estimado; confira no rótulo e ajuste no Admin.
+const FOOD_DEFAULTS = [
+  { id: 'agua', name: 'Água', kind: 'bebida', unit: 'mL', kcal100: 0, water: 1, match: '', src: '' },
+  { id: 'coco', name: 'Água de coco natural', kind: 'bebida', unit: 'mL', kcal100: 19, water: 0.95, match: 'coco', src: 'TACO' },
+  { id: 'cha', name: 'Chá (sem açúcar)', kind: 'bebida', unit: 'mL', kcal100: 0, water: 1, match: 'ch[aá]', src: '' },
+  { id: 'racao', name: 'Ração seca Fórmula Natural Fresh Meat Sênior', kind: 'comida', unit: 'g', kcal100: 380, water: 0.09, match: 'ra[çc][ãa]o (s[óo]lida|seca)|f[óo]rmula natural|fresh meat', src: 'estimado pela linha Fresh Meat; confira no saco', est: true },
+  { id: 'petdelicia', name: 'Pet Delícia Hipercalórica (úmida)', kind: 'comida', unit: 'g', kcal100: 133, water: 0.72, match: 'pet del[íi]cia|hipercal|ra[çc][ãa]o [úu]mida', src: 'rótulo: 1.330 kcal/kg; água estimada', est: true },
+  { id: 'iogurte', name: 'Iogurte natural integral zero lactose', kind: 'comida', unit: 'g', kcal100: 73, water: 0.87, match: 'iogurte|iorgute', src: 'tabela Itambé; água estimada', est: true },
+  { id: 'quiabo', name: 'Quiabo cozido', kind: 'comida', unit: 'g', kcal100: 22, water: 0.92, match: 'quiabo', src: 'TACO; água estimada', est: true },
+  { id: 'iogquiabo', name: 'Iogurte batido com quiabo (peneirado)', kind: 'comida', unit: 'g', kcal100: 48, water: 0.89, match: '', src: 'média 50/50 iogurte + quiabo', est: true },
+  { id: 'pate', name: 'Patê caseiro (fígado, inhame, cenoura)', kind: 'comida', unit: 'g', kcal100: 130, water: 0.7, match: 'pat[êe]', src: 'estimado', est: true },
+  { id: 'biscrok', name: 'Biscrok Multi', kind: 'comida', unit: 'un', gUnit: 10, kcal100: 340, water: 0.1, match: 'biscrok|biscoito', src: 'estimado; pese 1 biscoito e veja kcal/kg no pacote', est: true },
+  { id: 'traqueia', name: 'Petisco de traqueia bovina', kind: 'comida', unit: 'un', gUnit: 30, kcal100: 350, water: 0.1, match: 'traqueia', src: 'estimado', est: true }
+];
+const foodList = () => foods.length ? foods : FOOD_DEFAULTS;
+const foodById = id => id && foodList().find(f => f.id === id);
+const matchFood = (txt, kind) => foodList().find(f => f.kind === kind && f.match && new RegExp(f.match, 'i').test(txt || ''));
+// água bebida, água que veio na comida e calorias de um registro
+function nutri(v) {
+  const r = { drink: 0, fwater: 0, kcal: 0, unknown: 0 };
+  if (v.water_ml) { const f = foodById(v.drinkId) || matchFood(v.note, 'bebida') || foodById('agua') || { kcal100: 0, water: 1 }; r.drink += v.water_ml * (f.water ?? 1); r.kcal += v.water_ml * (f.kcal100 || 0) / 100; }
+  if (v.food_g) { const f = foodById(v.foodId) || matchFood(v.note, 'comida'); if (f) { r.fwater += v.food_g * (f.water || 0); r.kcal += v.food_g * (f.kcal100 || 0) / 100; } else r.unknown++; }
+  else if (v.food && !v.water_ml && typeof v.temp !== 'number') r.unknown++;
+  return r;
+}
+function dayTotals(d) {
+  const t = { drink: 0, fwater: 0, water: 0, kcal: 0, unknown: 0 };
+  for (const v of vitals) if (v.date === d) { const n = nutri(v); t.drink += n.drink; t.fwater += n.fwater; t.kcal += n.kcal; t.unknown += n.unknown; }
+  t.water = t.drink + t.fwater; return t;
+}
+function latestWeight() { const w = [...exams].filter(e => typeof e.params?.peso === 'number').sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : (a.time || '') < (b.time || '') ? -1 : 1).pop(); return w ? { kg: w.params.peso, date: w.date } : null; }
+function goalsNow() {
+  const w = latestWeight(), kg = w ? w.kg : null;
+  const sug = kg ? { water: Math.round(kg * 50 / 10) * 10, kcal: Math.round(1.6 * 70 * Math.pow(kg, 0.75) / 10) * 10 } : { water: null, kcal: null };
+  return { water: goals?.water_ml || sug.water, kcal: goals?.kcal || sug.kcal, sugWater: sug.water, sugKcal: sug.kcal, set: !!(goals?.water_ml || goals?.kcal), kg, wDate: w?.date };
+}
+function intakeTile(kind) {
+  const t = dayTotals(todayIso()), g = goalsNow(), isW = kind === 'water';
+  const val = isW ? t.water : t.kcal, goal = isW ? g.water : g.kcal, pct = goal ? Math.round(val / goal * 100) : null;
+  const st = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
+  const sub = isW ? `bebida ${Math.round(t.drink)} + comida ${Math.round(t.fwater)} mL` : (t.unknown ? `${t.unknown} sem quantidade/alimento` : 'pelo que foi anotado');
+  return `<div class="tile ${st}" data-go="rotina" style="cursor:pointer" title="Ver e registrar na Rotina"><div class="lbl">${isW ? 'Água hoje' : 'Calorias hoje'}${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
+    <div class="val">${fmt(Math.round(val))}<small>${isW ? 'mL' : 'kcal'}</small></div>
+    <div class="reft">${goal ? `meta ${fmt(goal)} ${isW ? 'mL' : 'kcal'}${g.set ? '' : ' (sugerida)'}` : 'sem meta (falta o peso)'}</div><div class="meta">${esc(sub)}</div>
+    ${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`;
+}
 const ate = v => !!(v.food || v.food_g || /comid|comeu|ração|racao|quiabo|iogurte|recovery/i.test(v.note || ''));
 function renderHomeTemp(host) {
   const accent = css('--accent'), muted = css('--muted'), line = css('--line'), band = css('--band'), ink = css('--ink'), surface = css('--surface'), warn = css('--warn'), ok = css('--ok');
@@ -854,10 +968,10 @@ function renderHomeTemp(host) {
   const pts = [...home, ...clinic].sort((a, b) => a.x - b.x);
   const byDay = new Map(); for (const p of pts) { if (!byDay.has(p.v.date)) byDay.set(p.v.date, []); byDay.get(p.v.date).push(p); }
   const days = [...new Set(vitals.map(v => v.date).filter(Boolean))].sort();
-  const intake = d => { const l = vitals.filter(v => v.date === d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_g || 0), 0), meals: l.filter(ate).length }; };
+  const intake = d => { const l = vitals.filter(v => v.date === d), T = dayTotals(d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_g || 0), 0), meals: l.filter(ate).length, drink: Math.round(T.drink), fwater: Math.round(T.fwater), total: Math.round(T.water), kcal: Math.round(T.kcal) }; };
   const rows = [...new Set([...byDay.keys(), ...days])].sort().reverse().map(d => { const l = byDay.get(d) || [], ys = l.map(p => p.y), I = intake(d);
     const mx = ys.length ? Math.max(...ys) : null, mn = ys.length ? Math.min(...ys) : null, hot = ys.filter(y => y > 39.2).length;
-    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.water || ''}</td><td class="num">${I.food || ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
+    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.total || ''}</td><td class="num">${I.kcal || ''}</td><td class="num">${I.food || ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
   const sec = document.createElement('section'); sec.style.display = 'grid'; sec.style.gap = '12px';
   sec.innerHTML = `<div class="section-title"><h2>Temperatura</h2><span>${home.length} medições em casa (quadro branco)${clinic.length ? ` + ${clinic.length} na clínica/exame` : ''}</span></div>
     <div class="card"><div style="position:relative;height:240px"><canvas id="tempCv" aria-label="Gráfico de temperatura"></canvas></div>
@@ -866,13 +980,14 @@ function renderHomeTemp(host) {
       <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
       <label>Temperatura (°C)<input type="number" step="0.1" min="35" max="43" data-v="temp" placeholder="39,2"></label><label>2º termômetro (opcional)<input type="number" step="0.1" min="35" max="43" data-v="temp2"></label>
       <label class="wide">Anotação<input type="text" data-v="note" placeholder="dipirona, sem ar-condicionado, no chão…"></label><button data-vsave="temp">Salvar</button></div></details>` : ''}</div>
-    <div class="section-title"><h2>Água e comida</h2><span>o que foi anotado por dia</span></div>
+    <div class="section-title"><h2>Água e calorias</h2><span>o que foi anotado por dia</span></div>
     <div class="card"><div style="position:relative;height:200px"><canvas id="intakeCv" aria-label="Gráfico de água e comida por dia"></canvas></div>
-    <p class="note" style="margin-top:6px">Barras: água/líquido em mL (escala da esquerda) e comida em gramas (escala da direita) anotados no dia. O número em cima é quantas vezes ele comeu (inclui refeições sem quantidade anotada). Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
-    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água mL</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+    <p class="note" style="margin-top:6px">Barras: água do dia em mL (bebida + a água que vem na comida), escala da esquerda. Linha: calorias (escala da direita). Tracejados: metas. O número em cima é quantas vezes ele comeu. Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
+    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água total mL</th><th>kcal</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar água ou comida</summary><div class="vform">
       <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
-      <label>Água/líquido (mL)<input type="number" min="0" data-v="water"></label><label>Comida (g)<input type="number" min="0" data-v="food"></label>
+      <label>Bebida<select data-v="drink">${foodList().filter(f => f.kind === 'bebida').map(f => `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('')}</select></label><label>Quanto bebeu (mL)<input type="number" min="0" data-v="water"></label>
+      <label>Alimento<select data-v="foodid"><option value="">—</option>${foodList().filter(f => f.kind === 'comida').map(f => `<option value="${esc(f.id)}">${esc(f.name)}${f.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}</select></label><label>Quanto comeu (g ou unidades)<input type="number" min="0" step="any" data-v="food"></label>
       <label class="chk vchk"><input type="checkbox" data-v="ate"> comeu (sem medir)</label>
       <label class="wide">Anotação<input type="text" data-v="note" placeholder="ração pastosa, iogurte, xixi, fezes…"></label><button data-vsave="intake">Salvar</button></div></details>` : ''}</div>`;
   host.appendChild(sec);
@@ -895,19 +1010,29 @@ function renderHomeTemp(host) {
   if (days.length) {
     const lab = days.map(d => dm(d)), I = days.map(intake);
     const mealsPlugin = { id: 'meals', afterDatasetsDraw(c) { const ctx = c.ctx; ctx.save(); ctx.fillStyle = ink; ctx.font = '11px "IBM Plex Mono", monospace'; ctx.textAlign = 'center';
-      c.getDatasetMeta(0).data.forEach((b, i) => { const n = I[i].meals; if (!n) return; const top = Math.min(b.y, c.getDatasetMeta(1).data[i].y); ctx.fillText('🍽 ' + n, b.x + (c.getDatasetMeta(1).data[i].x - b.x) / 2, top - 6); }); ctx.restore(); } };
+      c.getDatasetMeta(0).data.forEach((b, i) => { const n = I[i].meals; if (!n) return; const top = Math.min(b.y, c.getDatasetMeta(1).data[i].y); ctx.fillText('🍽 ' + n, b.x, top - 6); }); ctx.restore(); } };
     charts.push(new Chart(sec.querySelector('#intakeCv'), { type: 'bar', plugins: [mealsPlugin],
-      data: { labels: lab, datasets: [{ label: 'Água/líquido (mL)', data: I.map(x => x.water || null), backgroundColor: accent }, { label: 'Comida (g)', yAxisID: 'y2', data: I.map(x => x.food || null), backgroundColor: ok }] },
+      data: { labels: lab, datasets: [{ label: 'Bebida (mL)', stack: 'w', data: I.map(x => x.drink || null), backgroundColor: accent }, { label: 'Água da comida (mL)', stack: 'w', data: I.map(x => x.fwater || null), backgroundColor: css('--accent-soft'), borderColor: accent, borderWidth: 1 },
+        { label: 'Calorias (kcal)', type: 'line', yAxisID: 'y2', data: I.map(x => x.kcal || null), borderColor: ok, backgroundColor: ok, pointRadius: 3, spanGaps: true },
+        ...(goalsNow().water ? [{ label: 'Meta água', type: 'line', data: I.map(() => goalsNow().water), borderColor: accent, borderDash: [4, 4], borderWidth: 1, pointRadius: 0 }] : []),
+        ...(goalsNow().kcal ? [{ label: 'Meta kcal', type: 'line', yAxisID: 'y2', data: I.map(() => goalsNow().kcal), borderColor: ok, borderDash: [4, 4], borderWidth: 1, pointRadius: 0 }] : [])] },
       options: { responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 18 } },
-        scales: { x: { grid: { display: false }, ticks: { color: muted, font: { size: 10.5 } } }, y: { beginAtZero: true, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' mL' } },
-          y2: { position: 'right', beginAtZero: true, grid: { display: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' g' } } },
-        plugins: { legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { afterBody: it => I[it[0].dataIndex].meals ? `Comeu ${I[it[0].dataIndex].meals}x` : '' } } } } }));
+        scales: { x: { grid: { display: false }, ticks: { color: muted, font: { size: 10.5 } } }, y: { stacked: true, beginAtZero: true, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' mL' } },
+          y2: { position: 'right', beginAtZero: true, grid: { display: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => v + ' kcal' } } },
+        plugins: { legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { afterBody: it => { const x = I[it[0].dataIndex]; return [`Água total: ${x.total} mL`, x.food ? `Comida: ${x.food} g` : '', x.meals ? `Comeu ${x.meals}x` : ''].filter(Boolean); } } } } } }));
   }
   sec.querySelectorAll('[data-vsave]').forEach(btn => btn.addEventListener('click', async () => {
     const f = btn.closest('.vform'), g = k => f.querySelector(`[data-v="${k}"]`), val = k => g(k) ? g(k).value : '', n = k => num(val(k));
     const doc = { date: val('date'), time: val('time') || null, note: val('note').trim(), source: 'cockpit', createdAt: Date.now() };
     if (btn.dataset.vsave === 'temp') { doc.temp = n('temp'); if (n('temp2')) doc.temp2 = n('temp2'); if (!doc.temp) { say('Preencha a temperatura.', 'err'); return; } }
-    else { doc.water_ml = n('water'); doc.food_g = n('food'); doc.food = g('ate').checked || !!doc.food_g; if (!doc.water_ml && !doc.food) { say('Preencha a água, a comida ou marque que ele comeu.', 'err'); return; } }
+    else {
+      doc.water_ml = n('water'); if (doc.water_ml) doc.drinkId = val('drink') || 'agua';
+      const fd = foodById(val('foodid')), q = n('food');
+      if (q) { if (fd && fd.unit === 'un') { doc.qty = q; doc.unit = 'un'; doc.food_g = q * (fd.gUnit || 0); } else doc.food_g = q; if (fd) doc.foodId = fd.id; }
+      doc.food = g('ate').checked || !!doc.food_g;
+      if (!doc.water_ml && !doc.food) { say('Preencha a água, a comida ou marque que ele comeu.', 'err'); return; }
+      if (fd && !doc.note) doc.note = fd.name;
+    }
     if (!doc.date) { say('Preencha a data.', 'err'); return; }
     btn.disabled = true; try { await db.collection('vitals').add(doc); say('Anotado.', 'done'); } catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); btn.disabled = false; }
   }));
@@ -1094,10 +1219,12 @@ function renderTimeline() {
     const pics = list.filter(i => i.kind === 'Foto').sort((a, b) => byTime(a, b) || a.createdAt - b.createdAt);
     let body = '';
     const hh = t => t ? `<span class="hh">${esc(t)}</span>` : '';
-    for (const e of evs) body += `<div class="tli ev ${e.mark ? 'mk' : ''}">${hh(e.time)}${e.mark && e.short ? `<span class="pill mkp">${esc(e.short)}</span> ` : ''}${esc(e.text)}
-      ${canWrite ? ` <button class="tiny ghost" data-evdel="${esc(e.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`;
     const cut = t => t.length > 150 ? t.slice(0, 150).replace(/\s+\S*$/, '') + '…' : t;
-    for (const o of others) body += `<div class="tli">${hh(o.time)}<span class="k">${o.kind}</span> ${esc(o.text)}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}</div>`;
+    // tudo do dia na ordem da hora; o que não tem hora fica no fim
+    for (const o of [...evs, ...others].sort(byTime)) body += o.kind === 'Acontecimento'
+      ? `<div class="tli ev ${o.mark ? 'mk' : ''}">${hh(o.time)}${o.mark && o.short ? `<span class="pill mkp">${esc(o.short)}</span> ` : ''}${esc(o.text)}
+      ${canWrite ? ` <button class="tiny ghost" data-evdel="${esc(o.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`
+      : `<div class="tli">${hh(o.time)}<span class="k">${o.kind}</span> ${esc(o.text)}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}</div>`;
     const medTxt = arr => arr.map(x => esc(x.name) + (x.allergy ? ' <span class="warnt">(teve reação)</span>' : '')).join(' · ');
     if (starts.length) body += `<div class="tli"><span class="k">Começou</span> ${medTxt(starts)}</div>`;
     if (ends.length) body += `<div class="tli"><span class="k">Terminou</span> ${medTxt(ends)}</div>`;
@@ -1522,6 +1649,13 @@ function renderAttention() {
   const items = [];
   const add = (lvl, t, s) => items.push({ lvl, t, s });
   const today = todayIso(), in7 = dayIso(dayNum(today) + 7), in30 = dayIso(dayNum(today) + 30);
+  // água e calorias: depois das 18h, abaixo de 60% da meta
+  if (new Date().getHours() >= 18) {
+    const tt = dayTotals(today), gg = goalsNow(), low = [];
+    if (gg.water && tt.water < 0.6 * gg.water) low.push(`água ${fmt(Math.round(tt.water))} de ${fmt(gg.water)} mL`);
+    if (gg.kcal && tt.kcal < 0.6 * gg.kcal) low.push(`calorias ${fmt(Math.round(tt.kcal))} de ${fmt(gg.kcal)} kcal`);
+    if (low.length) add('hi', 'Abaixo da meta de hoje', low.join(' · ') + (tt.unknown ? ` (${tt.unknown} registro(s) sem alimento/quantidade não entram na conta)` : ''));
+  }
   // alergias
   const alg = meds.filter(m => m.allergy);
   if (alg.length) add('bad', 'Alergia registrada', alg.map(m => m.name + (m.composition ? ` (${m.composition})` : '')).join(' · ') + '. Avise qualquer clínica nova.');
@@ -1552,8 +1686,10 @@ function renderAttention() {
   const lastBlood = [...exams].filter(e => e.params && (e.params.ht != null || e.params.wbc != null)).sort((a, b) => a.date < b.date ? 1 : -1)[0];
   if (lastBlood && dayNum(today) - dayNum(lastBlood.date) > 7) add('hi', 'Hemograma atrasado?', `O último foi em ${dm(lastBlood.date)} (${ago(lastBlood.date)}). Vale perguntar quando repetir.`);
   // remédios acabando / em uso
-  const act = meds.filter(isActive);
+  const act = meds.filter(inUse);
   const ending = act.filter(m => m.end && m.end <= in7).sort((a, b) => a.end < b.end ? -1 : 1);
+  const buy = meds.filter(inUse).map(m => [m, needsBuy(m)]).filter(([m, e]) => e && dayNum(e) - dayNum(today) <= 7).sort((a, b) => a[1] < b[1] ? -1 : 1);
+  if (buy.length) add('hi', 'Comprar logo', buy.map(([m, e]) => `${m.name} (acaba ~${dm(e)})`).join(' · '));
   if (ending.length) add('', 'Remédios que terminam nesta semana', ending.map(m => `${m.name} (${dm(m.end)})`).join(' · '));
   // vacinas/vermífugo
   const latest = new Map();
@@ -1565,8 +1701,9 @@ function renderAttention() {
     + `<div class="item"><div class="s">${act.length} remédio(s) em uso</div><button class="ghost tiny" data-go="remedios">ver medicamentos</button></div>`;
 }
 function renderRecent() {
-  const ev = [...events].sort((a, b) => a.date === b.date ? (b.createdAt || 0) - (a.createdAt || 0) : a.date < b.date ? 1 : -1).slice(0, 5);
-  $('recent').innerHTML = ev.map(e => `<div class="item"><div><div class="s num">${dm(e.date)} · ${ago(e.date)}</div><div class="t" style="font-weight:400">${esc(e.text)}</div></div></div>`).join('') || '<p class="muted">Nada registrado ainda.</p>';
+  // mais recente primeiro: data, depois hora (sem hora vai pro fim do dia), depois quando foi registrado
+  const ev = [...events].sort((a, b) => a.date !== b.date ? (a.date < b.date ? 1 : -1) : (b.time || '') !== (a.time || '') ? ((b.time || '') < (a.time || '') ? -1 : 1) : (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 5);
+  $('recent').innerHTML = ev.map(e => `<div class="item"><div><div class="s num">${dm(e.date)}${e.time ? ' ' + esc(e.time) : ''} · ${ago(e.date)}</div><div class="t" style="font-weight:400">${esc(e.text)}</div></div></div>`).join('') || '<p class="muted">Nada registrado ainda.</p>';
 }
 
 /* ---------- Two-click delete helper ---------- */
@@ -1579,6 +1716,11 @@ function armed(b, label) {
 
 /* ---------- Medications ---------- */
 const isActive = m => !m.end || m.end > todayIso();
+const isPaused = m => !!m.paused && isActive(m);
+// estoque: qty unidades em countedAt (já sem a dose daquele dia), gastando perDay por dia → último dia coberto
+const stockEnd = st => st && st.qty >= 0 && st.perDay > 0 && st.countedAt ? dayIso(dayNum(st.countedAt) + Math.floor(st.qty / st.perDay)) : null;
+const needsBuy = m => { const e = stockEnd(m.stock); return e && inUse(m) && (!m.end || e < m.end) ? e : null; };
+const inUse = m => isActive(m) && !m.paused;
 const CL_COLORS = ['#9b8de0', '#e0a458', '#e07ac0', '#5ec8c0', '#a0a0a0', '#c8b45e'];
 function clinicPill(c) {
   if (!c) return '';
@@ -1599,27 +1741,72 @@ const CATS = [
   ['Dor e inflamação', /(^|[^a-zà-ú])dor([^a-zà-ú]|$)|febre|cortic|inflam/],
   ['Suplementos', /massa|suplement|vitamin|[ôo]mega|creatin|carnitin|aditil/],
 ];
+const FORMS = {
+  comprimido: ['Comprimido', '<circle cx="12" cy="12" r="8"/><path d="M6.5 17.5l11-11"/>'],
+  capsula: ['Cápsula', '<rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="M9.5 9.5l5 5"/>'],
+  snack: ['Tablete / petisco', '<path d="M8.6 5.4a2.2 2.2 0 1 0-3.2 3.2l1 .1 9 9 .1 1a2.2 2.2 0 1 0 3.2-3.2 2.2 2.2 0 1 0-3.2-3.2l-1-.1-6-6-.1-1a2.2 2.2 0 1 0-3.2 3.2"/>'],
+  gotas: ['Gotas', '<path d="M12 3c3 4 6 7.2 6 10.5a6 6 0 0 1-12 0C6 10.2 9 7 12 3z"/>'],
+  sache: ['Sachê / pó', '<path d="M6 6l1.5-2 1.5 2 1.5-2 1.5 2 1.5-2 1.5 2 1.5-2L18 6v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z"/><path d="M9 12h6M9 15h4"/>'],
+  liquido: ['Líquido (mL)', '<path d="M9.5 3h5M10.5 3v4L7 11.5V20a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-8.5L13.5 7V3"/><path d="M7 14.5h10"/>'],
+  seringa: ['Seringa oral', '<path d="M15 3l6 6M18 6l-9 9-3-3 9-9M6 12l-2.5 2.5V18H7l2.5-2.5M10.5 9.5l1.5 1.5M12.5 7.5L14 9"/>'],
+  injetavel: ['Injetável / ampola', '<path d="M10 3h4v3l2 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-3z"/><path d="M8 13h8"/>'],
+  spray: ['Spray', '<rect x="6" y="10" width="9" height="11" rx="1.5"/><path d="M8.5 10V7h4v3M12.5 8H16M19 5.5v.01M21 8v.01M19 10.5v.01"/>'],
+  colirio: ['Colírio', '<path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.5"/>'],
+  pomada: ['Pomada', '<path d="M8.5 3h7l-1 4h-5z"/><path d="M9.5 7h5v11l-2.5 3-2.5-3z"/>']
+};
+const SUP_RE = /suplement|vitamin|[ôo]mega|creatin|carnitin|ad-?til|glicopan|ai-g|eritr|macrogard|imunes|promun|spirulina|vitavet|sarcopen|happy bones|hemolitan|organoneuro|pr[óo]-?rim|cetuneurin|citoneurin/;
+function kindOf(m) { if (m.kind === 'med' || m.kind === 'sup') return m.kind; return SUP_RE.test(`${m.name || ''} ${m.purpose || ''} ${m.composition || ''}`.toLowerCase()) ? 'sup' : 'med'; }
+function formOf(m) {
+  if (m.form && FORMS[m.form]) return m.form;
+  const n = `${m.name || ''}`.toLowerCase(), t = `${n} ${m.dose || ''}`.toLowerCase();
+  if (/col[ií]rio|hyabak|lacrifilm|systane|\bgota.*olho/.test(t)) return 'colirio';
+  if (/pomada|vetaglos|sulfadiaz|creme/.test(t)) return 'pomada';
+  if (/spray|borrifad|cinocontrol/.test(t)) return 'spray';
+  if (/injet|ampola|\bsc\b|\bim\b|\biv\b|engystol|ceftriax/.test(t)) return 'injetavel';
+  if (/seringa|promun/.test(t)) return 'seringa';
+  if (/c[áa]psula/.test(t)) return 'capsula';
+  if (/snack|tablete|stick|biscoito|imunes|macrogard|eritr|happy bones/.test(t)) return 'snack';
+  if (/sach[êe]|scoop|\bp[óo]\b|\d\s*g\b|creatin|spirulina/.test(t)) return 'sache';
+  if (/gotas?\b|ad-?til/.test(t)) return 'gotas';
+  if (/\bml\b|xarope|suspens|vitavet|luftal|simetic/.test(t)) return 'liquido';
+  return 'comprimido';
+}
+function medIcon(m, sm) {
+  const k = kindOf(m), f = formOf(m);
+  return `<span class="mic ${k}${sm ? ' sm' : ''}" title="${k === 'sup' ? 'Suplemento' : 'Medicamento'} · ${FORMS[f][0]}"><svg viewBox="0 0 24 24" aria-hidden="true">${FORMS[f][1]}</svg></span>`;
+}
+const MKEY = `<div class="mkey"><span><span class="mic med sm"><svg viewBox="0 0 24 24">${'<circle cx="12" cy="12" r="8"/>'}</svg></span>medicamento</span><span><span class="mic sup sm"><svg viewBox="0 0 24 24">${'<circle cx="12" cy="12" r="8"/>'}</svg></span>suplemento</span><span class="muted">o desenho mostra a forma (comprimido, gotas, sachê…)</span></div>`;
 function catOf(m) { const t = `${m.purpose || ''} ${m.name || ''} ${m.composition || ''}`.toLowerCase(); for (const [c, re] of CATS) if (re.test(t)) return c; return 'Outros'; }
 let medCat = 'Todos', medRange = 'all';
 const medVisible = m => medCat === 'Todos' || catOf(m) === medCat;
-function staleOf(m) { const base = m.confirmedAt || m.start; return isActive(m) && !m.end && base && dayNum(todayIso()) - dayNum(base) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
+function staleOf(m) { const base = m.confirmedAt || m.start; return inUse(m) && !m.end && base && dayNum(todayIso()) - dayNum(base) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
 function medDetail(m) {
   const comp = Array.isArray(m.components) && m.components.length;
   return `${m.composition ? `<div class="s"><b>Composição:</b> ${esc(m.composition)}</div>` : ''}
     ${m.dose ? `<div class="s"><b>Posologia:</b> ${esc(m.dose)}</div>` : ''}
     ${m.purpose ? `<div class="s"><b>Para quê:</b> ${esc(m.purpose)}</div>` : ''}
     ${comp ? `<ul class="comp">${m.components.map(c => `<li>${esc(c.name)}${c.dose ? ' <span class="muted">· ' + esc(c.dose) + '</span>' : ''}</li>`).join('')}</ul>` : ''}
-    ${m.notes ? `<div class="s"><b>Obs.:</b> ${esc(m.notes)}</div>` : ''}`;
+    ${m.notes ? `<div class="s"><b>Obs.:</b> ${esc(m.notes)}</div>` : ''}
+    ${canWrite && m.id ? `<div class="medit">Tipo <select data-mkind="${esc(m.id)}"><option value="med"${kindOf(m) === 'med' ? ' selected' : ''}>Medicamento</option><option value="sup"${kindOf(m) === 'sup' ? ' selected' : ''}>Suplemento</option></select>
+      Forma <select data-mform="${esc(m.id)}">${Object.entries(FORMS).map(([k, v]) => `<option value="${k}"${formOf(m) === k ? ' selected' : ''}>${v[0]}</option>`).join('')}</select></div>` : ''}
+    ${m.stock ? `<div class="s"><b>Estoque:</b> ${fmt(m.stock.qty)} ${esc(m.stock.unit || 'un.')} em ${dm(m.stock.countedAt)}, gasta ${fmt(m.stock.perDay)}/dia${stockEnd(m.stock) ? ` → dura até <b>${dm(stockEnd(m.stock))}</b>` : ''}${needsBuy(m) ? ' <span class="pill hi">comprar antes</span>' : m.end && stockEnd(m.stock) ? ' <span class="pill ok">dá até o fim</span>' : ''}</div>` : ''}
+    ${canWrite && m.id ? `<details class="mstock"><summary class="muted" style="cursor:pointer;font-size:12.5px">${m.stock ? 'atualizar estoque' : 'informar estoque'}</summary>
+      <div class="medit"><input type="number" step="any" min="0" data-sq="${esc(m.id)}" value="${m.stock ? m.stock.qty : ''}" placeholder="quantidade" style="width:100px">
+      <input type="text" data-su="${esc(m.id)}" value="${esc(m.stock ? m.stock.unit || '' : '')}" placeholder="unidade (comp., mL, g…)" style="width:150px">
+      <input type="number" step="any" min="0" data-sp="${esc(m.id)}" value="${m.stock ? m.stock.perDay : ''}" placeholder="gasta por dia" style="width:110px">
+      <button class="tiny" data-msave="${esc(m.id)}">salvar (contado hoje)</button></div></details>` : ''}
+    ${isPaused(m) && m.pauseReason ? `<div class="s"><b>Pausado:</b> ${esc(m.pauseReason)}</div>` : ''}
+    ${Array.isArray(m.pauses) && m.pauses.length ? `<div class="s"><b>Pausas anteriores:</b> ${m.pauses.map(p => `${dm(p.from)}–${dm(p.to)}${p.reason ? ' (' + esc(p.reason) + ')' : ''}`).join(' · ')}</div>` : ''}`;
 }
 function medPeriod(m) { return `${m.start ? dm(m.start) : '?'} → ${m.end ? dm(m.end) + (m.endEstimated ? '*' : '') : 'em uso'}`; }
 function medLine(m) {
   const comp = Array.isArray(m.components) && m.components.length;
   return `<div class="mrow">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}
     <details class="mitem"><summary>
-      <span class="mname">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim e sem confirmação há mais de 30 dias">confirmar se continua</span>' : ''}</span>
+      <span class="mname">${medIcon(m)}${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${isPaused(m) ? `<span class="pill hi">pausado${m.pausedAt ? ' desde ' + dm(m.pausedAt) : ''}</span>` : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim e sem confirmação há mais de 30 dias">confirmar se continua</span>' : ''}</span>
       <span class="mcat">${esc(catOf(m))}</span><span class="mper num">${medPeriod(m)}</span></summary>
       <div class="mbody">${medDetail(m)}
-        ${canWrite ? `<div class="acts" style="margin-top:6px">${staleOf(m) ? `<button class="tiny ghost" data-mok="${esc(m.id)}">ainda usa</button>` : ''}${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button></div>` : ''}</div>
+        ${canWrite ? `<div class="acts" style="margin-top:6px">${staleOf(m) ? `<button class="tiny ghost" data-mok="${esc(m.id)}">ainda usa</button>` : ''}${inUse(m) ? `<button class="tiny ghost" data-mpause="${esc(m.id)}">pausar</button>` : ''}${isPaused(m) ? `<button class="tiny ghost" data-mresume="${esc(m.id)}">retomar</button>` : ''}${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button></div>` : ''}</div>
     </details></div>`;
 }
 function openMed(key) {
@@ -1648,11 +1835,13 @@ function renderMeds() {
   const cats = ['Todos', ...CATS.map(c => c[0]), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
   $('medChips').innerHTML = cats.map(c => `<button class="chip${medCat === c ? ' on' : ''}" data-mcat="${esc(c)}">${esc(c)} <span class="cnt">${c === 'Todos' ? meds.length : meds.filter(m => catOf(m) === c).length}</span></button>`).join('');
   const sorted = [...meds].filter(medVisible).sort((a,b) => (a.start || '') < (b.start || '') ? 1 : -1);
-  const act = sorted.filter(isActive), past = sorted.filter(m => !isActive(m)).sort((a, b) => (a.end || '') < (b.end || '') ? 1 : -1);
+  const act = sorted.filter(inUse), paused = sorted.filter(isPaused), past = sorted.filter(m => !isActive(m)).sort((a, b) => (a.end || '') < (b.end || '') ? 1 : -1);
+  $('medPausedCard').classList.toggle('hidden', !paused.length); $('medPausedH').textContent = `Pausados (${paused.length})`;
+  $('medPaused').innerHTML = paused.map(medLine).join('');
   $('medActiveH').textContent = `Em uso (${act.length})`; $('medPastH').textContent = `Já usou (${past.length})`;
-  $('medActive').innerHTML = (act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>') + (act.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
+  $('medActive').innerHTML = MKEY + (act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>') + (act.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
   $('medPast').innerHTML = (past.map(medLine).join('') || '<p class="muted">Nada registrado.</p>') + (past.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
-  if ($('activeMeds')) $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
+  if ($('activeMeds')) $('activeMeds').innerHTML = act.length ? act.map(m => `<div class="item"><div><div class="t">${medIcon(m, true)}${esc(m.name)} ${clinicPill(m.clinic)}</div><div class="s">${[m.purpose, m.dose].filter(Boolean).map(esc).join(' · ')}</div></div><div class="s num">desde ${m.start ? dm(m.start) : '?'}</div></div>`).join('')
     : '<p class="muted">Nenhum medicamento em uso registrado.</p>';
   // gantt
   $('medRange').innerHTML = [['all','Tudo'],['60','60 dias'],['30','30 dias'],['14','14 dias']].map(([v, t]) => `<button class="chip${medRange === v ? ' on' : ''}" data-mrange="${v}">${t}</button>`).join('');
@@ -1674,20 +1863,21 @@ function renderMeds() {
   const nameOf = m => (m.name || '').replace(/\s*\(\s*\d+\s*[ºo°]?\s*ciclo\s*\)/i, '').trim();
   const rows = [];
   for (const m of withStart) { const k = keyOf(m); let row = rows.find(x => x.k === k); if (!row) rows.push(row = { k, name: nameOf(m), items: [] }); row.items.push(m); }
-  for (const row of rows) { row.active = row.items.some(isActive); row.first = row.items[0].start; row.last = row.items.map(m => m.end || '9999').sort().slice(-1)[0]; }
+  // grupos: 0 já terminou · 1 pausado · 2 em uso agora
+  for (const row of rows) { row.active = row.items.some(inUse) ? 2 : row.items.some(isPaused) ? 1 : 0; row.first = row.items[0].start; row.last = row.items.map(m => m.end || '9999').sort().slice(-1)[0]; }
   rows.sort((x, y) => (x.active - y.active) || (x.active ? (x.first < y.first ? -1 : 1) : (x.last < y.last ? -1 : x.last > y.last ? 1 : (x.first < y.first ? -1 : 1))));
-  const firstActive = rows.findIndex(r => r.active);
+  const firstActive = rows.findIndex(r => r.active === 2), firstPaused = rows.findIndex(r => r.active === 1);
   $('medGantt').innerHTML = `<div class="grow"><div></div><div class="gaxis">${ticks}</div></div>` + rows.map((row, i) => {
     const comps = row.items.find(m => Array.isArray(m.components) && m.components.length)?.components || [];
     const clinics = [...new Set(row.items.map(m => m.clinic).filter(Boolean))];
-    const label = `<span class="gl1">${comps.length ? '<span class="mtag">manipulado</span>' : ''}<span class="gn">${esc(row.name)}</span>${clinics.map(clinicPill).join('')}</span>${comps.length ? `<span class="gc">${comps.map(c => esc(c.name)).join(' + ')}</span>` : ''}`;
+    const label = `<span class="gl1">${comps.length ? '<span class="mtag">manipulado</span>' : ''}${medIcon(row.items[row.items.length - 1], true)}<span class="gn">${esc(row.name)}</span>${clinics.map(clinicPill).join('')}</span>${comps.length ? `<span class="gc">${comps.map(c => esc(c.name)).join(' + ')}</span>` : ''}`;
     const tip = row.name + (clinics.length ? ' (' + clinics.join(', ') + ')' : '') + (comps.length ? ' — ' + comps.map(c => c.name + (c.dose ? ' ' + c.dose : '')).join(', ') : '');
     const bars = row.items.filter(m => !winStart || !m.end || m.end >= winStart).map(m => {
       const a = Math.max(t0, dayNum(m.start)), b = m.end ? dayNum(m.end) : dayNum(todayIso()) + 1;
-      const cls = (m.allergy ? 'alg' : isActive(m) ? 'on' : '') + (comps.length ? ' mix' : '');
-      return `<div class="bar ${cls}" style="left:${pct(a)}%; width:${Math.max(0.6, pct(b) - pct(a))}%" title="${esc(m.name)}: ${dm(m.start)} → ${m.end ? dm(m.end) : 'em uso'}"></div>`;
+      const cls = (m.allergy ? 'alg' : inUse(m) ? 'on' : isPaused(m) ? 'pz' : '') + (comps.length ? ' mix' : '');
+      return `<div class="bar ${cls}" style="left:${pct(a)}%; width:${Math.max(0.6, pct(b) - pct(a))}%" title="${esc(m.name)}: ${dm(m.start)} → ${m.end ? dm(m.end) : isPaused(m) ? 'pausado' : 'em uso'}"></div>`;
     }).join('');
-    return (i === firstActive && i > 0 ? '<div class="gsep">em uso agora</div>' : '') + `<div class="grow" data-mk="${esc(row.k)}" role="button" tabindex="0" aria-label="Ver detalhes de ${esc(row.name)}"><div class="gl" title="${esc(tip)}">${label}</div><div class="track${comps.length ? ' tall' : ''}"><div class="today" style="left:${tday}%"></div>${bars}</div></div>`;
+    return (i === firstPaused && i > 0 ? '<div class="gsep pz">pausados</div>' : '') + (i === firstActive && i > 0 ? '<div class="gsep">em uso agora</div>' : '') + `<div class="grow" data-mk="${esc(row.k)}" role="button" tabindex="0" aria-label="Ver detalhes de ${esc(row.name)}"><div class="gl" title="${esc(tip)}">${label}</div><div class="track${comps.length ? ' tall' : ''}"><div class="today" style="left:${tday}%"></div>${bars}</div></div>`;
   }).join('');
 }
 $('mStart').value = todayIso();
@@ -1705,10 +1895,42 @@ document.addEventListener('click', async ev => {
   if (ok1) { ok1.disabled = true; try { await db.collection('meds').doc(ok1.dataset.mok).update({ confirmedAt: todayIso() }); } catch (e) { alertErr(e); } return; }
   const e1 = ev.target.closest('button[data-mend]'), d1 = ev.target.closest('button[data-mdel]');
   if (e1) { e1.disabled = true; try { await db.collection('meds').doc(e1.dataset.mend).update({ end: todayIso(), endEstimated: false }); } catch (e) { alertErr(e); } }
+  const sv = ev.target.closest('button[data-msave]');
+  if (sv) {
+    const id = sv.dataset.msave, q = document.querySelector(`[data-sq="${id}"]`), u = document.querySelector(`[data-su="${id}"]`), pd = document.querySelector(`[data-sp="${id}"]`);
+    const qty = parseFloat(q.value), perDay = parseFloat(pd.value);
+    if (!(qty >= 0) || !(perDay > 0)) { alert('Coloque a quantidade e quanto ele gasta por dia.'); return; }
+    sv.disabled = true;
+    try { await db.collection('meds').doc(id).update({ stock: { qty, unit: u.value.trim(), perDay, countedAt: todayIso(), lead: (meds.find(x => x.id === id)?.stock || {}).lead || 5 } }); } catch (e) { alertErr(e); }
+    return;
+  }
+  const p1 = ev.target.closest('button[data-mpause]'), r1 = ev.target.closest('button[data-mresume]');
+  if (p1) {
+    const box = document.createElement('div'); box.className = 'medit';
+    box.innerHTML = `Motivo <input type="text" value="aguardando a neuro" style="width:220px;padding:4px 8px"><button class="tiny" data-mpausego="${esc(p1.dataset.mpause)}">pausar</button><button class="tiny ghost" data-mpausex>cancelar</button>`;
+    p1.closest('.acts').after(box); p1.disabled = true; box.querySelector('input').focus();
+    return;
+  }
+  if (ev.target.closest('button[data-mpausex]')) { scheduleRender(); return; }
+  const pg = ev.target.closest('button[data-mpausego]');
+  if (pg) {
+    const reason = pg.previousElementSibling.value.trim(); pg.disabled = true;
+    try { await db.collection('meds').doc(pg.dataset.mpausego).update({ paused: true, pausedAt: todayIso(), pauseReason: reason }); } catch (e) { alertErr(e); }
+    return;
+  }
+  if (r1) {
+    const m = meds.find(x => x.id === r1.dataset.mresume); if (!m) return;
+    r1.disabled = true;
+    const pauses = [...(m.pauses || []), { from: m.pausedAt || todayIso(), to: todayIso(), reason: m.pauseReason || '' }];
+    try { await db.collection('meds').doc(m.id).update({ paused: false, pausedAt: null, pauseReason: null, pauses }); } catch (e) { alertErr(e); }
+  }
   if (d1 && armed(d1, 'excluir')) { d1.disabled = true; try { await db.collection('meds').doc(d1.dataset.mdel).delete(); } catch (e) { alertErr(e); } }
 });
 
-document.addEventListener('change', ev => {
+document.addEventListener('change', async ev => {
+  const mk = ev.target.closest('select[data-mkind]'), mf = ev.target.closest('select[data-mform]');
+  if (mk) { try { await db.collection('meds').doc(mk.dataset.mkind).update({ kind: mk.value }); } catch (e) { alertErr(e); } return; }
+  if (mf) { try { await db.collection('meds').doc(mf.dataset.mform).update({ form: mf.value }); } catch (e) { alertErr(e); } return; }
   const c = ev.target.closest('input[data-msel]'); if (!c) return;
   c.checked ? mergeSel.add(c.dataset.msel) : mergeSel.delete(c.dataset.msel);
   document.querySelectorAll(`input[data-msel="${c.dataset.msel}"]`).forEach(x => x.checked = c.checked);
@@ -1791,7 +2013,7 @@ document.addEventListener('click', async ev => {
 /* ---------- Photos ---------- */
 const monthName = iso => new Date(iso + 'T12:00:00').toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 function renderPhotos() {
-  const sorted = [...photos].sort((a,b) => a.date === b.date ? (b.createdAt||0) - (a.createdAt||0) : a.date < b.date ? 1 : -1);
+  const sorted = [...photos].sort((a,b) => a.date !== b.date ? (a.date < b.date ? 1 : -1) : (b.time || '') !== (a.time || '') ? ((b.time || '') < (a.time || '') ? -1 : 1) : (b.createdAt||0) - (a.createdAt||0));
   if (!sorted.length) { $('photoGrid').innerHTML = '<p class="muted">Nenhuma foto ainda.</p>'; return; }
   const groups = new Map();
   for (const p of sorted) { const k = p.date.slice(0,7); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(p); }
@@ -1799,10 +2021,24 @@ function renderPhotos() {
     const src = photoSrc(p.assetId);
     const media = p.video ? `<video src="${src}" preload="metadata" muted data-open="${esc(p.assetId)}" data-video="1"></video>` : `<img src="${src}" alt="${esc(p.caption || 'Foto do Odin')}" loading="lazy" data-open="${esc(p.assetId)}">`;
     return `<figure class="ph" style="margin:0">${media}<figcaption class="cap"><span class="d">${dmy(p.date)}${p.time ? ' · ' + esc(p.time) : ''}</span>${esc(p.caption || '')}
-      ${canWrite && assets ? `<button class="tiny danger" data-pdel="${esc(p.id)}" style="justify-self:start">excluir</button>` : ''}</figcaption></figure>`;
+      ${canWrite && assets ? `<span class="row" style="gap:6px"><button class="tiny ghost" data-ptime="${esc(p.id)}">${p.time ? 'mudar hora' : 'pôr hora'}</button><button class="tiny danger" data-pdel="${esc(p.id)}">excluir</button></span>` : ''}</figcaption></figure>`;
   }).join('') + '</div>').join('');
 }
 $('photoGrid').addEventListener('click', async ev => {
+  const pt = ev.target.closest('button[data-ptime]');
+  if (pt) {
+    const p = photos.find(x => x.id === pt.dataset.ptime); if (!p) return;
+    const box = document.createElement('span'); box.className = 'row'; box.style.gap = '6px';
+    box.innerHTML = `<input type="time" value="${esc(p.time || '')}" style="width:auto;padding:4px 8px"><button class="tiny" data-ptsave="${esc(p.id)}">salvar</button>`;
+    pt.closest('.row').replaceWith(box); box.querySelector('input').focus();
+    return;
+  }
+  const ps = ev.target.closest('button[data-ptsave]');
+  if (ps) {
+    const t = ps.previousElementSibling.value; ps.disabled = true;
+    try { await db.collection('photos').doc(ps.dataset.ptsave).update({ time: t || null }); } catch (e) { alertErr(e); }
+    scheduleRender(); return;
+  }
   const o = ev.target.closest('[data-open]');
   if (o) { openLightbox(o.dataset.open, !!o.dataset.video, o.closest('figure')?.querySelector('figcaption')?.innerText.replace(/excluir$/, '').trim()); return; }
   const b = ev.target.closest('button[data-pdel]'); if (!b || !armed(b, 'excluir')) return;
@@ -1810,6 +2046,7 @@ $('photoGrid').addEventListener('click', async ev => {
   try { await db.collection('photos').doc(p.id).delete(); if (assets && p.assetId) await assets.delete(p.assetId).catch(() => {}); } catch (e) { alertErr(e); }
 });
 $('fDate').value = todayIso();
+$('fTime').value = new Date().toTimeString().slice(0, 5);
 $('fBtn').addEventListener('click', () => $('fFile').click());
 $('fFile').addEventListener('change', async () => {
   const files = [...$('fFile').files]; $('fFile').value = ''; if (!files.length) return;
@@ -1821,7 +2058,7 @@ $('fFile').addEventListener('change', async () => {
       const isVideo = f.type.startsWith('video/');
       const blob = isVideo ? f : await shrinkImage(f);
       const res = await assets.upload(blob, isVideo ? undefined : { type: 'image/jpeg' });
-      await db.collection('photos').add({ assetId: res.id, date: $('fDate').value || todayIso(), caption: $('fCap').value.trim(), video: isVideo, createdAt: Date.now() });
+      await db.collection('photos').add({ assetId: res.id, date: $('fDate').value || todayIso(), time: $('fTime').value || null, caption: $('fCap').value.trim(), video: isVideo, createdAt: Date.now() });
       ok++;
     } catch (e) { $('fStatus').textContent = `${f.name}: ` + (e.code === 'too_large' ? 'arquivo grande demais (máx. 20 MB).' : e.code === 'quota_or_state' ? 'o espaço de armazenamento acabou.' : (e.message || e.code)); return; }
   }
@@ -1843,6 +2080,152 @@ $('seedBtn').addEventListener('click', async () => {
   } catch (e) { alertErr(e); b.disabled = false; b.textContent = 'Tentar de novo'; }
 });
 
+/* ---------- Calendário (visão da Linha do tempo) ---------- */
+const CAL_CATS = [
+  ['Consulta', '#5b9cf0'], ['Exame', '#b48ce6'], ['Internação', '#e5675f'], ['Remédio', '#2b9c8f'], ['Alimentação', '#e8a33d'],
+  ['Água', '#4fb3d9'], ['Temperatura', '#d9645c'], ['Fezes/xixi', '#a07a52'], ['Decúbito', '#8c9aa3'], ['Foto', '#6aa84f'], ['Vacina', '#c9a227'], ['Acontecimento', '#7f8c99']
+];
+const CAL_COLOR = Object.fromEntries(CAL_CATS);
+let calView = 'lista', calMode = 'dia', calDate = todayIso(), calSel = new Set(), rlogs = [], calLast = [];
+const calNarrow = () => matchMedia('(max-width: 560px)').matches;
+const CONSULTA_RE = /consulta|retorno|fisioterap|acupunt|coleta|reavalia/i;
+function calItems() {
+  const out = [], add = (date, time, cat, text, extra = {}) => date && out.push({ date, time: time || null, cat, text, ...extra });
+  for (const e of events) {
+    const cat = e.kind === 'consulta' || CONSULTA_RE.test(e.text || '') ? 'Consulta' : ['fezes', 'urina'].includes(e.kind) ? 'Fezes/xixi' : /comeu|comida|ra[çc][ãa]o|refei[çc]|petisco/i.test(e.text || '') ? 'Alimentação' : 'Acontecimento';
+    add(e.date, e.time, cat, e.text, { src: e, fut: e.date > todayIso() || (e.date === todayIso() && e.time && e.time > new Date().toTimeString().slice(0, 5)), mark: e.mark, id: e.id, appt: e.kind === 'consulta' });
+  }
+  for (const x of exams) add(x.date, x.time, 'Exame', `${x.kind || 'Exame'}${x.lab ? ' · ' + x.lab : ''}`, { exam: x });
+  for (const v of vitals) {
+    if (v.water_ml) add(v.date, v.time, 'Água', `${fmt(v.water_ml)} mL${v.note ? ' · ' + v.note : ''}`, { vit: v });
+    if (v.food_g || (v.food && !v.water_ml && v.temp == null)) add(v.date, v.time, 'Alimentação', v.qty ? `${fmt(v.qty)} unid. · ${v.note || ''}` : v.food_g ? `${fmt(v.food_g)} g${v.note ? ' · ' + v.note : ''}` : (v.note || 'comeu'), { vit: v });
+    if (typeof v.temp === 'number') add(v.date, v.time, 'Temperatura', `${fmt(v.temp)} °C${v.temp2 ? ' / ' + fmt(v.temp2) + ' °C' : ''}${v.note ? ' · ' + v.note : ''}`, { vit: v });
+  }
+  for (const l of rlogs) {
+    if (l.kind === 'decubito') add(l.date, l.time, 'Decúbito', 'Troca de decúbito' + (l.side ? ' · ' + l.side : ''));
+    else if (l.kind === 'med') add(l.date, l.time, 'Remédio', l.label + (l.status === 'skipped' ? ' (pulou)' : ''), { skip: l.status === 'skipped', log: l });
+  }
+  for (const m of meds) { if (m.start) add(m.start, null, 'Remédio', `Começou: ${m.name}`); if (m.end && m.end <= todayIso()) add(m.end, null, 'Remédio', `Terminou: ${m.name}`); }
+  for (const v of prevent) if (!v.planned && v.date) add(v.date, null, 'Vacina', `${v.kind}: ${v.product}`);
+  for (const p of photos) add(p.date, p.time, 'Foto', p.caption || 'Foto', { assetId: p.assetId, video: p.video });
+  return out;
+}
+const calShown = items => calSel.size ? items.filter(i => calSel.has(i.cat)) : items;
+const wdShort = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+const dowOf = iso => new Date(dayNum(iso) * 864e5).getUTCDay();
+const cap1 = t => t.charAt(0).toUpperCase() + t.slice(1);
+const dayTitle = iso => cap1(new Date(iso + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' }));
+function calDayList(iso, items) {
+  const st = stayOf(iso), list = items.filter(i => i.date === iso).sort((a, b) => (a.time || '99') < (b.time || '99') ? -1 : (a.time || '99') > (b.time || '99') ? 1 : 0);
+  const stay = st && (!calSel.size || calSel.has('Internação')) ? `<div class="citem" style="--cc:${CAL_COLOR['Internação']}"><span class="h">dia todo</span><span><span class="k">Internação</span> ${esc(st.label)} na ${esc(st.clinic)}</span></div>` : '';
+  const rows = list.map(i => `<div class="citem${i.skip ? ' skip' : ''}${i.fut ? ' fut' : ''}" style="--cc:${CAL_COLOR[i.cat]}"><span class="h">${esc(i.time || '—')}</span><span><span class="k">${esc(i.cat)}${i.fut ? ' · agendado' : ''}</span> ${esc(i.text)}${i.assetId && !i.video ? `<br><img class="tlp" src="${esc(photoSrc(i.assetId))}" alt="" loading="lazy" data-open="${esc(i.assetId)}" data-cap="${esc(i.text)}">` : ''}${i.appt && canWrite ? ` <button class="tiny ghost" data-evdel="${esc(i.id)}">excluir</button>` : ''}</span></div>`).join('');
+  return stay + rows || '<p class="muted" style="margin:4px 0">Nada registrado.</p>';
+}
+function calModal(i) {
+  closeBig(true);
+  const rows = [['Quando', `${dayTitle(i.date)}${i.time ? ' às ' + i.time : ' (sem hora)'}`], ['Tipo', i.cat + (i.fut ? ' · agendado' : '')]];
+  if (i.vit) { const n = nutri(i.vit); if (n.drink || n.fwater) rows.push(['Água', `${Math.round(n.drink + n.fwater)} mL${n.fwater ? ` (${Math.round(n.fwater)} mL vindos da comida)` : ''}`]); if (n.kcal) rows.push(['Calorias', `${Math.round(n.kcal)} kcal`]); if (i.vit.by) rows.push(['Registrado por', i.vit.by.split('@')[0]]); }
+  if (i.log) { if (i.log.block) rows.push(['Bloco', i.log.block]); rows.push(['Situação', i.log.status === 'skipped' ? 'pulou' : 'dado']); if (i.log.by) rows.push(['Registrado por', i.log.by.split('@')[0]]); if (i.log.note) rows.push(['Obs.', i.log.note]); }
+  if (i.exam) { const x = i.exam, ps = Object.entries(x.params || {}).filter(([k]) => P[k]).map(([k, v]) => `${P[k].l}: ${fmt(v)} ${P[k].u}`); if (ps.length) rows.push(['Valores', ps.join(' · ')]); if ((x.other || []).length) rows.push(['Achados', x.other.join(' · ')]); }
+  if (i.src && i.src.remind) rows.push(['Lembrete', i.src.remind >= 1440 ? '1 dia antes' : `${i.src.remind / 60} h antes`]);
+  const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+  box.innerHTML = `<div class="mbox" style="width:min(560px,100%)"><div class="mhead"><div><h2 style="display:flex;gap:8px;align-items:center"><i style="width:12px;height:12px;border-radius:50%;background:${CAL_COLOR[i.cat]};display:inline-block"></i>${esc(i.cat)}</h2></div><button class="ghost tiny" data-close aria-label="Fechar">✕</button></div>
+    <p style="margin:8px 0 10px;white-space:pre-wrap">${esc(i.text)}</p>
+    ${i.assetId && !i.video ? `<img src="${esc(photoSrc(i.assetId))}" alt="" style="width:100%;border-radius:8px;margin-bottom:10px">` : ''}
+    <table class="mtable"><tbody>${rows.map(([k, v]) => `<tr><td class="muted" style="width:34%">${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
+    ${i.appt && canWrite ? `<div class="row" style="margin-top:10px"><button class="tiny danger" data-evdel="${esc(i.src.id)}">excluir compromisso</button></div>` : ''}</div>`;
+  document.body.appendChild(box); document.body.style.overflow = 'hidden'; box.querySelector('[data-close]').focus();
+  box.addEventListener('click', async ev => {
+    const dl = ev.target.closest('button[data-evdel]'); if (dl) { if (!armed(dl, 'excluir compromisso')) return; dl.disabled = true; try { await db.collection('events').doc(dl.dataset.evdel).delete(); closeBig(); } catch (e) { alertErr(e); } }
+  });
+}
+function calGrid(days, items, week) {
+  const t = todayIso(), nowH = new Date().getHours();
+  const per = d => items.filter(i => i.date === d);
+  const head = `<tr><th class="hl"></th>${days.map(d => `<th class="${d === t ? 'is-today' : ''}" ${week ? `data-cday="${d}" style="cursor:pointer"` : ''}>${wdShort[dowOf(d)]} <span class="dn">${+d.slice(8)}</span></th>`).join('')}</tr>`;
+  const chip = i => `<span class="gev${i.skip ? ' skip' : ''}${i.fut ? ' fut' : ''}" data-ci="${calLast.indexOf(i)}" role="button" tabindex="0" style="--cc:${CAL_COLOR[i.cat]}" title="${esc((i.time ? i.time + ' · ' : '') + i.cat + ': ' + i.text)}">${i.time ? `<span class="t">${esc(i.time)}</span>` : ''}${esc(i.text)}${i.appt && canWrite && !week ? ` <button class="tiny ghost" data-evdel="${esc(i.id)}">excluir</button>` : ''}</span>`;
+  const allday = days.map(d => { const st = stayOf(d), show = st && (!calSel.size || calSel.has('Internação'));
+    return `<td ${week ? `data-cday="${d}"` : ''}>${show ? `<span class="gev" style="--cc:${CAL_COLOR['Internação']}">${esc(st.label)} · ${esc(st.clinic)}</span>` : ''}${per(d).filter(i => !i.time).map(chip).join('')}</td>`; }).join('');
+  let body = `<tr class="allday"><th class="hl">dia</th>${allday}</tr>`;
+  for (let h = 0; h < 24; h++) {
+    const hh = String(h).padStart(2, '0');
+    body += `<tr class="${h === nowH && days.includes(t) ? 'now' : ''}" data-h="${h}"><th class="hl">${hh}:00</th>${days.map(d => `<td ${week ? `data-cday="${d}"` : ''}>${per(d).filter(i => i.time && i.time.slice(0, 2) === hh).sort((a, b) => a.time < b.time ? -1 : 1).map(chip).join('')}</td>`).join('')}</tr>`;
+  }
+  return `<div class="hgrid-wrap"><table class="hgrid${week ? ' week' : ''}"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+}
+function scrollGrid(days, items) {
+  const w = document.querySelector('#calBody .hgrid-wrap'); if (!w) return;
+  const hrs = items.filter(i => days.includes(i.date) && i.time).map(i => +i.time.slice(0, 2));
+  const h = days.includes(todayIso()) ? Math.max(0, new Date().getHours() - 2) : hrs.length ? Math.min(...hrs) : 7;
+  const row = w.querySelector(`tr[data-h="${Math.min(h, 23)}"]`); if (row) w.scrollTop = row.offsetTop - w.querySelector('thead').offsetHeight - 30;
+}
+function renderCalendar() {
+  const host = $('cal'); if (!host || host.classList.contains('hidden')) return;
+  if (calNarrow() && calMode !== 'dia') calMode = 'dia';
+  const all = calItems(), items = calShown(all); calLast = items;
+  $('calCats').innerHTML = `<button class="chip${calSel.size ? '' : ' on'}" data-ccat="">Tudo</button>` + CAL_CATS.filter(([c]) => c === 'Internação' || all.some(i => i.cat === c)).map(([c, col]) => `<button class="chip${calSel.has(c) ? ' on' : ''}" data-ccat="${esc(c)}" style="--cc:${col}"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${col};margin-right:5px"></i>${esc(c)}</button>`).join('');
+  document.querySelectorAll('#calMode [data-cmode]').forEach(b => b.classList.toggle('on', b.dataset.cmode === calMode));
+  const t = todayIso();
+  if (calMode === 'dia') {
+    $('calTitle').textContent = dayTitle(calDate) + (calDate === t ? ' · hoje' : '');
+    $('calBody').innerHTML = calGrid([calDate], items, false); scrollGrid([calDate], items);
+  } else if (calMode === 'sem') {
+    const start = dayNum(calDate) - dowOf(calDate), days = Array.from({ length: 7 }, (_, k) => dayIso(start + k));
+    $('calTitle').textContent = `${dm(days[0])} a ${dm(days[6])}`;
+    $('calBody').innerHTML = calGrid(days, items, true); scrollGrid(days, items);
+  } else {
+    const first = calDate.slice(0, 8) + '01', f = dayNum(first), lead = dowOf(first), cells = [];
+    for (let k = -lead; k < 42 - lead; k++) cells.push(dayIso(f + k));
+    const mo = calDate.slice(0, 7);
+    $('calTitle').textContent = cap1(monthName(first));
+    $('calBody').innerHTML = `<div class="calgrid">${wdShort.map(w => `<div class="wd">${w}</div>`).join('')}${cells.slice(0, cells[35].slice(0, 7) === mo ? 42 : 35).map(d => {
+      const di = items.filter(i => i.date === d), st = stayOf(d), cats = [...new Set(di.map(i => i.cat))];
+      const showStay = st && (!calSel.size || calSel.has('Internação'));
+      return `<div class="cd${d.slice(0, 7) !== mo ? ' out' : ''}${d === t ? ' is-today' : ''}${showStay ? ' stay' : ''}" data-cday="${d}" ${showStay ? `style="--clc:${CAL_COLOR['Internação']}"` : ''} title="${esc(dayTitle(d))}">
+        <span class="n">${+d.slice(8)}</span>
+        ${di.slice(0, 3).map(i => `<span class="cev" style="--cc:${CAL_COLOR[i.cat]}" title="${esc(i.text)}">${i.time ? esc(i.time) + ' ' : ''}${esc(i.text)}</span>`).join('')}${di.length > 3 ? `<span class="muted more" style="font-size:11px">+${di.length - 3}</span>` : ''}
+        <span class="cdots">${cats.map(c => `<i style="--cc:${CAL_COLOR[c]}"></i>`).join('')}</span></div>`;
+    }).join('')}</div>`;
+  }
+}
+$('tlView').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-view]'); if (!b) return;
+  calView = b.dataset.view;
+  document.querySelectorAll('#tlView [data-view]').forEach(x => x.classList.toggle('on', x === b));
+  $('tlList').classList.toggle('hidden', calView !== 'lista'); $('cal').classList.toggle('hidden', calView !== 'cal');
+  try { localStorage.setItem('odinTlView', calView); } catch {}
+  renderCalendar();
+});
+$('cal').addEventListener('click', async ev => {
+  const nav = ev.target.closest('[data-cnav]');
+  if (nav) {
+    const k = +nav.dataset.cnav;
+    if (!k) calDate = todayIso();
+    else if (calMode === 'dia') calDate = dayIso(dayNum(calDate) + k);
+    else if (calMode === 'sem') calDate = dayIso(dayNum(calDate) + 7 * k);
+    else { const y = +calDate.slice(0, 4), m = +calDate.slice(5, 7) - 1 + k; calDate = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 10); }
+    return renderCalendar();
+  }
+  const md = ev.target.closest('[data-cmode]'); if (md) { calMode = md.dataset.cmode; return renderCalendar(); }
+  const ci = ev.target.closest('[data-ci]'); if (ci && !ev.target.closest('button')) { const it = calLast[+ci.dataset.ci]; if (it) calModal(it); return; }
+  const cd = ev.target.closest('[data-cday]'); if (cd) { calDate = cd.dataset.cday; calMode = 'dia'; return renderCalendar(); }
+  const cc = ev.target.closest('[data-ccat]');
+  if (cc) { const c = cc.dataset.ccat; if (!c) calSel.clear(); else calSel.has(c) ? calSel.delete(c) : calSel.add(c); return renderCalendar(); }
+  const im = ev.target.closest('img[data-open]'); if (im) { openLightbox(im.dataset.open, false, im.dataset.cap); return; }
+  const dl = ev.target.closest('button[data-evdel]'); if (dl) { if (!armed(dl, 'excluir')) return; dl.disabled = true; try { await db.collection('events').doc(dl.dataset.evdel).delete(); } catch (e) { alertErr(e); } return; }
+  if (ev.target.id === 'calAddBtn') { const f = $('calAdd'); f.classList.toggle('hidden'); f.date.value = calDate >= todayIso() ? calDate : todayIso(); return; }
+  if (ev.target.id === 'calAddX') { $('calAdd').classList.add('hidden'); return; }
+});
+$('calAdd').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const f = ev.target, sub = f.sub.value, what = f.what.value.trim(), d = f.date.value;
+  try {
+    await db.collection('events').add({ kind: 'consulta', sub, date: f.date.value, time: f.time.value || null, text: `${sub}: ${what}`, remind: +f.remind.value || 0, mark: false, source: 'agenda', createdAt: Date.now() });
+    f.reset(); f.classList.add('hidden'); calDate = d || calDate; calMode = 'dia'; renderCalendar();
+  } catch (e) { alertErr(e); }
+});
+try { if (localStorage.getItem('odinTlView') === 'cal') setTimeout(() => document.querySelector('#tlView [data-view="cal"]').click(), 0); } catch {}
+
 /* ---------- Tabs ---------- */
 function go(tab, push = true) {
   if (!TABS.includes(tab)) tab = 'painel';
@@ -1857,7 +2240,7 @@ document.addEventListener('click', ev => { const b = ev.target.closest('[data-go
 window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
 /* ---------- Render all ---------- */
-function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderRecent(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); renderUpdated(); }
+function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderRecent(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); renderCalendar(); renderUpdated(); }
 let rt = null; const scheduleRender = () => { clearTimeout(rt); rt = setTimeout(renderAll, 60); };
 new MutationObserver(scheduleRender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', scheduleRender); } catch {}
@@ -1921,7 +2304,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
     canWrite = false; document.body.classList.add('ro');
     try {
       const d = await (await fetch(STATIC, { cache: 'no-store' })).json();
-      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; vitals = d.vitals || []; photos = d.photos || [];
+      exams = d.exams || []; events = d.events || []; analyses = d.analyses || []; meds = d.meds || []; prevent = d.prevent || []; vitals = d.vitals || []; photos = d.photos || []; foods = d.foods || []; goals = d.goals || null;
       lastUpdate = d.updatedAt || (d.exportedAt ? Date.parse(d.exportedAt) : null);
       $('conn').textContent = `${exams.length} exames · ${events.length} acontecimentos`;
       renderAll();
@@ -1950,7 +2333,9 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
   sub('prevent', v => prevent = v);
   sub('photos', v => photos = v);
   sub('vitals', v => vitals = v);
-  rawDb.collection('meta').onSnapshot(snap => { const m = snap.docs.find(x => x.id === 'status'); lastUpdate = m ? m.data().updatedAt : null; renderUpdated(); }, () => {});
+  sub('rotina_log', v => rlogs = v);
+  sub('foods', v => foods = v);
+  rawDb.collection('meta').onSnapshot(snap => { const m = snap.docs.find(x => x.id === 'status'); lastUpdate = m ? m.data().updatedAt : null; const g = snap.docs.find(x => x.id === 'goals'); goals = g ? g.data() : null; renderUpdated(); scheduleRender(); }, () => {});
 })();
 </script>
 </body>
