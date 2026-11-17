@@ -166,9 +166,9 @@
 
     <section class="card">
       <h2>Horários</h2>
-      <div class="list" style="margin-top:6px">${scheds.sort((a, b) => (a.kind + a.label).localeCompare(b.kind + b.label)).map(s => `
+      <div class="list" style="margin-top:6px">${scheds.sort((a, b) => ((a.times || [])[0] || a.from || '').localeCompare((b.times || [])[0] || b.from || '') || (a.label || '').localeCompare(b.label || '')).map(s => `
         <div class="item row between">
-          <span>${ic(s)}<b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${schedDays(s)}${s.until ? ' · até ' + dm(s.until) : ''}${Array.isArray(s.items) && s.items.length ? '<br>' + s.items.map(i => esc(i.name + (i.dose ? ' ' + i.dose : ''))).join(' · ') : ''}</span></span>
+          <span>${ic(s)}<b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${schedDays(s)}${s.until ? ' · até ' + dm(s.until) : ''}${Array.isArray(s.items) && s.items.length ? '<br>' + s.items.map(i => { const m = meds.find(x => x.id === i.medId); const off = m && (m.paused || (m.end && m.end < todayIso())); return off ? `<s>${esc(i.name)}</s> <span class="pill hi">${m.paused ? 'pausado' : 'terminou'}</span>` : esc(i.name + (i.dose ? ' ' + i.dose : '')); }).join(' · ') : ''}</span></span>
           <span class="row"${canEdit() ? '' : ' hidden'}><button class="ghost tiny" data-tog="${esc(s.id)}">${s.active ? 'Pausar' : 'Ativar'}</button><button class="tiny danger" data-del="${esc(s.id)}">Apagar</button></span>
         </div>`).join('') || '<p class="muted">Nenhum horário ainda.</p>'}</div>
       <details data-k="new" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Novo horário</summary>
