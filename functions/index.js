@@ -71,9 +71,11 @@ async function push(notifId, n, again) {
 export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount: 0, memory: '256MiB' }, async () => {
   const { date, hm } = nowSP();
   const scheds = await db.collection('schedule').where('active', '==', true).get();
+  const paused = new Set((await db.collection('meds').where('paused', '==', true).get()).docs.map(d => d.id));
   for (const doc of scheds.docs) {
     const s = doc.data();
     if (!isDue(s, date, hm)) continue;
+    if (s.medId && paused.has(s.medId)) continue; // remédio pausado: sem lembrete
     const id = `${doc.id}_${date}_${hm.replace(':', '')}`;
     const n = { schedId: doc.id, kind: s.kind || 'outro', label: s.label || '', medId: s.medId || null, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: false };
     try { await db.collection('notifs').doc(id).create(n); } catch { continue; } // já criado

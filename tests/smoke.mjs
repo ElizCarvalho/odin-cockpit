@@ -68,6 +68,22 @@ try {
     await page.close();
   }
 
+  // pausar e retomar um remédio
+  {
+    const { page, errs } = await open(390, 'admin@teste.com', '#remedios');
+    page.on('dialog', d => d.accept('aguardando a neuro'));
+    await page.evaluate(() => document.querySelector('#medActive details').open = true);
+    await page.click('#medActive [data-mpause]'); await page.waitForTimeout(800);
+    const p1 = await page.evaluate(() => ({ m: __store.meds.m1, card: !document.getElementById('medPausedCard').classList.contains('hidden'), n: document.querySelectorAll('#medPaused .mrow').length }));
+    check(p1.m.paused === true && p1.m.pauseReason === 'aguardando a neuro' && p1.card && p1.n === 1, 'Pausar · remédio vai pra Pausados com o motivo');
+    await page.evaluate(() => document.querySelector('#medPaused details').open = true);
+    await page.click('#medPaused [data-mresume]'); await page.waitForTimeout(800);
+    const p2 = await page.evaluate(() => ({ m: __store.meds.m1, card: document.getElementById('medPausedCard').classList.contains('hidden') }));
+    check(p2.m.paused === false && (p2.m.pauses || []).length === 1 && p2.card, 'Retomar · volta pra Em uso e guarda o histórico da pausa');
+    check(errs.length === 0, `Pausar · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
+    await page.close();
+  }
+
   // quem edita: responde um lembrete de água e pula o remédio
   {
     const { page, errs } = await open(390, 'edita@teste.com', '#rotina');

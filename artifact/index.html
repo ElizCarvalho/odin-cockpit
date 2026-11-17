@@ -502,6 +502,7 @@ body.ro .wr { display: none !important; }
       </div>
     </section>
     <section class="card"><h2 id="medActiveH">Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list"></div></section>
+    <section class="card hidden" id="medPausedCard"><h2 id="medPausedH">Pausados</h2><p class="note" style="margin:2px 0 8px">Parados por enquanto: sem lembrete e sem aviso de compra até retomar.</p><div id="medPaused" class="list"></div></section>
     <section class="card"><h2 id="medPastH">Já usou</h2><div id="medPast" class="list"></div></section>
   </div>
 
@@ -1552,7 +1553,7 @@ function renderAttention() {
   const lastBlood = [...exams].filter(e => e.params && (e.params.ht != null || e.params.wbc != null)).sort((a, b) => a.date < b.date ? 1 : -1)[0];
   if (lastBlood && dayNum(today) - dayNum(lastBlood.date) > 7) add('hi', 'Hemograma atrasado?', `O último foi em ${dm(lastBlood.date)} (${ago(lastBlood.date)}). Vale perguntar quando repetir.`);
   // remédios acabando / em uso
-  const act = meds.filter(isActive);
+  const act = meds.filter(inUse);
   const ending = act.filter(m => m.end && m.end <= in7).sort((a, b) => a.end < b.end ? -1 : 1);
   if (ending.length) add('', 'Remédios que terminam nesta semana', ending.map(m => `${m.name} (${dm(m.end)})`).join(' · '));
   // vacinas/vermífugo
@@ -1579,6 +1580,8 @@ function armed(b, label) {
 
 /* ---------- Medications ---------- */
 const isActive = m => !m.end || m.end > todayIso();
+const isPaused = m => !!m.paused && isActive(m);
+const inUse = m => isActive(m) && !m.paused;
 const CL_COLORS = ['#9b8de0', '#e0a458', '#e07ac0', '#5ec8c0', '#a0a0a0', '#c8b45e'];
 function clinicPill(c) {
   if (!c) return '';
@@ -1602,24 +1605,26 @@ const CATS = [
 function catOf(m) { const t = `${m.purpose || ''} ${m.name || ''} ${m.composition || ''}`.toLowerCase(); for (const [c, re] of CATS) if (re.test(t)) return c; return 'Outros'; }
 let medCat = 'Todos', medRange = 'all';
 const medVisible = m => medCat === 'Todos' || catOf(m) === medCat;
-function staleOf(m) { const base = m.confirmedAt || m.start; return isActive(m) && !m.end && base && dayNum(todayIso()) - dayNum(base) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
+function staleOf(m) { const base = m.confirmedAt || m.start; return inUse(m) && !m.end && base && dayNum(todayIso()) - dayNum(base) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
 function medDetail(m) {
   const comp = Array.isArray(m.components) && m.components.length;
   return `${m.composition ? `<div class="s"><b>Composição:</b> ${esc(m.composition)}</div>` : ''}
     ${m.dose ? `<div class="s"><b>Posologia:</b> ${esc(m.dose)}</div>` : ''}
     ${m.purpose ? `<div class="s"><b>Para quê:</b> ${esc(m.purpose)}</div>` : ''}
     ${comp ? `<ul class="comp">${m.components.map(c => `<li>${esc(c.name)}${c.dose ? ' <span class="muted">· ' + esc(c.dose) + '</span>' : ''}</li>`).join('')}</ul>` : ''}
-    ${m.notes ? `<div class="s"><b>Obs.:</b> ${esc(m.notes)}</div>` : ''}`;
+    ${m.notes ? `<div class="s"><b>Obs.:</b> ${esc(m.notes)}</div>` : ''}
+    ${isPaused(m) && m.pauseReason ? `<div class="s"><b>Pausado:</b> ${esc(m.pauseReason)}</div>` : ''}
+    ${Array.isArray(m.pauses) && m.pauses.length ? `<div class="s"><b>Pausas anteriores:</b> ${m.pauses.map(p => `${dm(p.from)}–${dm(p.to)}${p.reason ? ' (' + esc(p.reason) + ')' : ''}`).join(' · ')}</div>` : ''}`;
 }
 function medPeriod(m) { return `${m.start ? dm(m.start) : '?'} → ${m.end ? dm(m.end) + (m.endEstimated ? '*' : '') : 'em uso'}`; }
 function medLine(m) {
   const comp = Array.isArray(m.components) && m.components.length;
   return `<div class="mrow">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}
     <details class="mitem"><summary>
-      <span class="mname">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim e sem confirmação há mais de 30 dias">confirmar se continua</span>' : ''}</span>
+      <span class="mname">${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${isPaused(m) ? `<span class="pill hi">pausado${m.pausedAt ? ' desde ' + dm(m.pausedAt) : ''}</span>` : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim e sem confirmação há mais de 30 dias">confirmar se continua</span>' : ''}</span>
       <span class="mcat">${esc(catOf(m))}</span><span class="mper num">${medPeriod(m)}</span></summary>
       <div class="mbody">${medDetail(m)}
-        ${canWrite ? `<div class="acts" style="margin-top:6px">${staleOf(m) ? `<button class="tiny ghost" data-mok="${esc(m.id)}">ainda usa</button>` : ''}${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button></div>` : ''}</div>
+        ${canWrite ? `<div class="acts" style="margin-top:6px">${staleOf(m) ? `<button class="tiny ghost" data-mok="${esc(m.id)}">ainda usa</button>` : ''}${inUse(m) ? `<button class="tiny ghost" data-mpause="${esc(m.id)}">pausar</button>` : ''}${isPaused(m) ? `<button class="tiny ghost" data-mresume="${esc(m.id)}">retomar</button>` : ''}${isActive(m) ? `<button class="tiny ghost" data-mend="${esc(m.id)}">encerrar hoje</button>` : ''}<button class="tiny danger" data-mdel="${esc(m.id)}">excluir</button></div>` : ''}</div>
     </details></div>`;
 }
 function openMed(key) {
@@ -1648,7 +1653,9 @@ function renderMeds() {
   const cats = ['Todos', ...CATS.map(c => c[0]), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
   $('medChips').innerHTML = cats.map(c => `<button class="chip${medCat === c ? ' on' : ''}" data-mcat="${esc(c)}">${esc(c)} <span class="cnt">${c === 'Todos' ? meds.length : meds.filter(m => catOf(m) === c).length}</span></button>`).join('');
   const sorted = [...meds].filter(medVisible).sort((a,b) => (a.start || '') < (b.start || '') ? 1 : -1);
-  const act = sorted.filter(isActive), past = sorted.filter(m => !isActive(m)).sort((a, b) => (a.end || '') < (b.end || '') ? 1 : -1);
+  const act = sorted.filter(inUse), paused = sorted.filter(isPaused), past = sorted.filter(m => !isActive(m)).sort((a, b) => (a.end || '') < (b.end || '') ? 1 : -1);
+  $('medPausedCard').classList.toggle('hidden', !paused.length); $('medPausedH').textContent = `Pausados (${paused.length})`;
+  $('medPaused').innerHTML = paused.map(medLine).join('');
   $('medActiveH').textContent = `Em uso (${act.length})`; $('medPastH').textContent = `Já usou (${past.length})`;
   $('medActive').innerHTML = (act.map(medLine).join('') || '<p class="muted">Nenhum medicamento em uso registrado.</p>') + (act.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
   $('medPast').innerHTML = (past.map(medLine).join('') || '<p class="muted">Nada registrado.</p>') + (past.some(m => m.endEstimated) ? '<p class="note" style="margin:8px 0 0">* fim estimado pela duração na receita.</p>' : '');
@@ -1684,7 +1691,7 @@ function renderMeds() {
     const tip = row.name + (clinics.length ? ' (' + clinics.join(', ') + ')' : '') + (comps.length ? ' — ' + comps.map(c => c.name + (c.dose ? ' ' + c.dose : '')).join(', ') : '');
     const bars = row.items.filter(m => !winStart || !m.end || m.end >= winStart).map(m => {
       const a = Math.max(t0, dayNum(m.start)), b = m.end ? dayNum(m.end) : dayNum(todayIso()) + 1;
-      const cls = (m.allergy ? 'alg' : isActive(m) ? 'on' : '') + (comps.length ? ' mix' : '');
+      const cls = (m.allergy ? 'alg' : inUse(m) ? 'on' : '') + (comps.length ? ' mix' : '');
       return `<div class="bar ${cls}" style="left:${pct(a)}%; width:${Math.max(0.6, pct(b) - pct(a))}%" title="${esc(m.name)}: ${dm(m.start)} → ${m.end ? dm(m.end) : 'em uso'}"></div>`;
     }).join('');
     return (i === firstActive && i > 0 ? '<div class="gsep">em uso agora</div>' : '') + `<div class="grow" data-mk="${esc(row.k)}" role="button" tabindex="0" aria-label="Ver detalhes de ${esc(row.name)}"><div class="gl" title="${esc(tip)}">${label}</div><div class="track${comps.length ? ' tall' : ''}"><div class="today" style="left:${tday}%"></div>${bars}</div></div>`;
@@ -1705,6 +1712,18 @@ document.addEventListener('click', async ev => {
   if (ok1) { ok1.disabled = true; try { await db.collection('meds').doc(ok1.dataset.mok).update({ confirmedAt: todayIso() }); } catch (e) { alertErr(e); } return; }
   const e1 = ev.target.closest('button[data-mend]'), d1 = ev.target.closest('button[data-mdel]');
   if (e1) { e1.disabled = true; try { await db.collection('meds').doc(e1.dataset.mend).update({ end: todayIso(), endEstimated: false }); } catch (e) { alertErr(e); } }
+  const p1 = ev.target.closest('button[data-mpause]'), r1 = ev.target.closest('button[data-mresume]');
+  if (p1) {
+    const m = meds.find(x => x.id === p1.dataset.mpause); if (!m) return;
+    const reason = prompt(`Pausar ${m.name}. Motivo (opcional):`, 'aguardando a neuro'); if (reason === null) return;
+    p1.disabled = true; try { await db.collection('meds').doc(m.id).update({ paused: true, pausedAt: todayIso(), pauseReason: reason.trim() }); } catch (e) { alertErr(e); }
+  }
+  if (r1) {
+    const m = meds.find(x => x.id === r1.dataset.mresume); if (!m) return;
+    r1.disabled = true;
+    const pauses = [...(m.pauses || []), { from: m.pausedAt || todayIso(), to: todayIso(), reason: m.pauseReason || '' }];
+    try { await db.collection('meds').doc(m.id).update({ paused: false, pausedAt: null, pauseReason: null, pauses }); } catch (e) { alertErr(e); }
+  }
   if (d1 && armed(d1, 'excluir')) { d1.disabled = true; try { await db.collection('meds').doc(d1.dataset.mdel).delete(); } catch (e) { alertErr(e); } }
 });
 
