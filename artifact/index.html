@@ -1578,8 +1578,9 @@ function renderAttention() {
     + `<div class="item"><div class="s">${act.length} remédio(s) em uso</div><button class="ghost tiny" data-go="remedios">ver medicamentos</button></div>`;
 }
 function renderRecent() {
-  const ev = [...events].sort((a, b) => a.date === b.date ? (b.createdAt || 0) - (a.createdAt || 0) : a.date < b.date ? 1 : -1).slice(0, 5);
-  $('recent').innerHTML = ev.map(e => `<div class="item"><div><div class="s num">${dm(e.date)} · ${ago(e.date)}</div><div class="t" style="font-weight:400">${esc(e.text)}</div></div></div>`).join('') || '<p class="muted">Nada registrado ainda.</p>';
+  // mais recente primeiro: data, depois hora (sem hora vai pro fim do dia), depois quando foi registrado
+  const ev = [...events].sort((a, b) => a.date !== b.date ? (a.date < b.date ? 1 : -1) : (b.time || '') !== (a.time || '') ? ((b.time || '') < (a.time || '') ? -1 : 1) : (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 5);
+  $('recent').innerHTML = ev.map(e => `<div class="item"><div><div class="s num">${dm(e.date)}${e.time ? ' ' + esc(e.time) : ''} · ${ago(e.date)}</div><div class="t" style="font-weight:400">${esc(e.text)}</div></div></div>`).join('') || '<p class="muted">Nada registrado ainda.</p>';
 }
 
 /* ---------- Two-click delete helper ---------- */
