@@ -1,0 +1,13 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function member() {
+      return request.auth != null && request.auth.token.email_verified == true &&
+        request.auth.token.email.lower() in firestore.get(/databases/(default)/documents/acl/users).data.emails;
+    }
+    match /blobs/{id} {
+      allow read, delete: if member();
+      allow create, update: if member() && request.resource.size < 60 * 1024 * 1024;
+    }
+  }
+}

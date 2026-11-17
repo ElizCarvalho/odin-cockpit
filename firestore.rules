@@ -1,0 +1,20 @@
+rules_version = '2';
+// Só quem está na lista acl/users (e-mail Google verificado) lê e grava.
+// O primeiro login cria a lista com o próprio e-mail; depois, quem está nela adiciona os outros pelo app.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null && request.auth.token.email_verified == true; }
+    function me() { return request.auth.token.email.lower(); }
+    function aclPath() { return /databases/$(database)/documents/acl/users; }
+    function member() { return signedIn() && exists(aclPath()) && me() in get(aclPath()).data.emails; }
+
+    match /acl/users {
+      allow read: if member() || (signedIn() && !exists(aclPath()));
+      allow create: if signedIn() && !exists(aclPath()) && request.resource.data.emails == [me()];
+      allow update: if member() && me() in request.resource.data.emails;
+    }
+    match /{col}/{id} {
+      allow read, write: if member() && col != 'acl';
+    }
+  }
+}

@@ -1,0 +1,38 @@
+name: Deploy do app (Firebase)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'artifact/index.html'
+      - 'functions/**'
+      - 'firebase.json'
+      - 'firestore.rules'
+      - 'firestore.indexes.json'
+      - 'storage.rules'
+      - 'scripts/build-app.mjs'
+      - '.github/workflows/deploy-app.yml'
+  workflow_dispatch:
+
+concurrency: { group: deploy-app, cancel-in-progress: false }
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Monta o app
+        run: node scripts/build-app.mjs
+      - name: Dependências das functions
+        run: npm ci --prefix functions
+      - name: Chave da IA (se existir)
+        env: { ANTHROPIC_API_KEY: '${{ secrets.ANTHROPIC_API_KEY }}' }
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then printf 'ANTHROPIC_API_KEY=%s\n' "$ANTHROPIC_API_KEY" > functions/.env; fi
+      - uses: google-github-actions/auth@v2
+        with: { credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' }
+      - name: Deploy
+        run: npx -y firebase-tools@14 deploy --project odin-cockpit --only hosting,firestore,storage,functions --force --non-interactive

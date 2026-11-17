@@ -3,3 +3,7 @@ exports/
 odin-export-*.json
 node_modules/
 .DS_Store
+
+# app montado no deploy
+app/public/
+functions/.env

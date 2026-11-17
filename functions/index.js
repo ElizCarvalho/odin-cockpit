@@ -1,0 +1,120 @@
+import { initializeApp } from 'firebase-admin/app';
+import { getFirestore, FieldValue } from 'firebase-admin/firestore';
+import { getMessaging } from 'firebase-admin/messaging';
+import { onSchedule } from 'firebase-functions/v2/scheduler';
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { setGlobalOptions } from 'firebase-functions/v2';
+
+initializeApp();
+setGlobalOptions({ region: 'southamerica-east1', maxInstances: 2 });
+const db = getFirestore();
+const APP_URL = 'https://odin-cockpit.web.app';
+const TZ = 'America/Sao_Paulo';
+const RENOTIFY_MIN = 15;
+
+const KIND = {
+  med: { emoji: '💊', title: 'Remédio' },
+  agua: { emoji: '💧', title: 'Água' },
+  comida: { emoji: '🍽', title: 'Comida' },
+  decubito: { emoji: '🔄', title: 'Troca de decúbito' },
+  temp: { emoji: '🌡', title: 'Temperatura' },
+  outro: { emoji: '🐶', title: 'Odin' }
+};
+
+function nowSP(d = new Date()) {
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+    .formatToParts(d).map(x => [x.type, x.value]));
+  return { date: `${p.year}-${p.month}-${p.day}`, hm: `${p.hour}:${p.minute}` };
+}
+const mins = hm => { const [h, m] = String(hm || '').split(':').map(Number); return h * 60 + m; };
+
+export function isDue(s, date, hm) {
+  if (!s.active) return false;
+  if (s.from_date && date < s.from_date) return false;
+  if (s.until && date > s.until) return false;
+  if (Array.isArray(s.times) && s.times.includes(hm)) return true;
+  const every = Number(s.every);
+  if (every > 0) {
+    const t = mins(hm), a = mins(s.from || '00:00'), b = mins(s.to || '23:59');
+    if (t >= a && t <= b && (t - a) % every === 0) return true;
+  }
+  return false;
+}
+
+async function push(notifId, n, again) {
+  const toks = await db.collection('tokens').get();
+  const list = toks.docs.map(d => d.id);
+  if (!list.length) return 0;
+  const k = KIND[n.kind] || KIND.outro;
+  const res = await getMessaging().sendEachForMulticast({
+    tokens: list,
+    data: { notifId, kind: n.kind || 'outro' },
+    webpush: {
+      notification: {
+        title: `${k.emoji} ${again ? 'Ainda pendente: ' : ''}${k.title} · ${n.time}`,
+        body: n.label || k.title,
+        icon: `${APP_URL}/icon-192.png`,
+        tag: notifId,
+        renotify: true
+      },
+      fcmOptions: { link: `${APP_URL}/?n=${encodeURIComponent(notifId)}#rotina` }
+    }
+  });
+  await Promise.all(res.responses.map((r, i) => {
+    const c = r.error && r.error.code;
+    if (c === 'messaging/registration-token-not-registered' || c === 'messaging/invalid-registration-token') return db.collection('tokens').doc(list[i]).delete();
+  }));
+  return res.successCount;
+}
+
+export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount: 0, memory: '256MiB' }, async () => {
+  const { date, hm } = nowSP();
+  const scheds = await db.collection('schedule').where('active', '==', true).get();
+  for (const doc of scheds.docs) {
+    const s = doc.data();
+    if (!isDue(s, date, hm)) continue;
+    const id = `${doc.id}_${date}_${hm.replace(':', '')}`;
+    const n = { schedId: doc.id, kind: s.kind || 'outro', label: s.label || '', medId: s.medId || null, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: false };
+    try { await db.collection('notifs').doc(id).create(n); } catch { continue; } // já criado
+    await push(id, n, false);
+  }
+  const limit = Date.now() - RENOTIFY_MIN * 60e3;
+  const pend = await db.collection('notifs').where('status', '==', 'pending').get();
+  for (const doc of pend.docs) {
+    const n = doc.data();
+    if (n.renotified || !n.sentAt || n.sentAt > limit) continue;
+    await doc.ref.update({ renotified: true });
+    await push(doc.id, n, true);
+  }
+});
+
+async function isMember(email) {
+  if (!email) return false;
+  const acl = await db.collection('acl').doc('users').get();
+  return acl.exists && (acl.data().emails || []).includes(String(email).toLowerCase());
+}
+
+// Lê texto/imagens com a IA da Anthropic e devolve o texto da resposta (o app faz o parse do JSON).
+export const registrar = onCall({ timeoutSeconds: 120, memory: '512MiB' }, async req => {
+  const t = req.auth && req.auth.token;
+  if (!t || !t.email_verified || !(await isMember(t.email))) throw new HttpsError('permission-denied', 'sem acesso');
+  const key = process.env.ANTHROPIC_API_KEY;
+  if (!key) throw new HttpsError('failed-precondition', 'IA não configurada (falta ANTHROPIC_API_KEY)');
+  const { prompt, images = [] } = req.data || {};
+  if (!prompt || typeof prompt !== 'string' || prompt.length > 200000) throw new HttpsError('invalid-argument', 'prompt inválido');
+  const content = [];
+  for (const im of images.slice(0, 8)) {
+    const m = /^data:(image\/[a-z+]+);base64,(.+)$/.exec(im || '');
+    if (m) content.push({ type: 'image', source: { type: 'base64', media_type: m[1], data: m[2] } });
+  }
+  content.push({ type: 'text', text: prompt });
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+    body: JSON.stringify({ model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-5-5', max_tokens: 8000, messages: [{ role: 'user', content }] })
+  });
+  const j = await r.json();
+  if (!r.ok) throw new HttpsError('internal', (j.error && j.error.message) || 'erro na IA');
+  await db.collection('meta').doc('usage').set({ registrar: FieldValue.increment(1), lastAt: Date.now() }, { merge: true });
+  return { text: (j.content || []).filter(c => c.type === 'text').map(c => c.text).join('') };
+});
