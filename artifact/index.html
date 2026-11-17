@@ -541,6 +541,7 @@ body.ro .wr { display: none !important; }
       <h2>Adicionar fotos ou vídeos</h2>
       <div class="formgrid" style="margin-top:10px">
         <label for="fDate">Data<input id="fDate" type="date"></label>
+        <label for="fTime">Hora<input id="fTime" type="time"></label>
         <label for="fCap" style="grid-column: span 2">Legenda<input id="fCap" type="text" placeholder="Ex.: comendo iogurte com ajuda"></label>
         <button id="fBtn">Escolher arquivos</button>
         <input id="fFile" type="file" accept="image/*,video/mp4,video/webm" multiple class="hidden">
@@ -1884,7 +1885,7 @@ document.addEventListener('click', async ev => {
 /* ---------- Photos ---------- */
 const monthName = iso => new Date(iso + 'T12:00:00').toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 function renderPhotos() {
-  const sorted = [...photos].sort((a,b) => a.date === b.date ? (b.createdAt||0) - (a.createdAt||0) : a.date < b.date ? 1 : -1);
+  const sorted = [...photos].sort((a,b) => a.date !== b.date ? (a.date < b.date ? 1 : -1) : (b.time || '') !== (a.time || '') ? ((b.time || '') < (a.time || '') ? -1 : 1) : (b.createdAt||0) - (a.createdAt||0));
   if (!sorted.length) { $('photoGrid').innerHTML = '<p class="muted">Nenhuma foto ainda.</p>'; return; }
   const groups = new Map();
   for (const p of sorted) { const k = p.date.slice(0,7); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(p); }
@@ -1892,10 +1893,19 @@ function renderPhotos() {
     const src = photoSrc(p.assetId);
     const media = p.video ? `<video src="${src}" preload="metadata" muted data-open="${esc(p.assetId)}" data-video="1"></video>` : `<img src="${src}" alt="${esc(p.caption || 'Foto do Odin')}" loading="lazy" data-open="${esc(p.assetId)}">`;
     return `<figure class="ph" style="margin:0">${media}<figcaption class="cap"><span class="d">${dmy(p.date)}${p.time ? ' · ' + esc(p.time) : ''}</span>${esc(p.caption || '')}
-      ${canWrite && assets ? `<button class="tiny danger" data-pdel="${esc(p.id)}" style="justify-self:start">excluir</button>` : ''}</figcaption></figure>`;
+      ${canWrite && assets ? `<span class="row" style="gap:6px"><button class="tiny ghost" data-ptime="${esc(p.id)}">${p.time ? 'mudar hora' : 'pôr hora'}</button><button class="tiny danger" data-pdel="${esc(p.id)}">excluir</button></span>` : ''}</figcaption></figure>`;
   }).join('') + '</div>').join('');
 }
 $('photoGrid').addEventListener('click', async ev => {
+  const pt = ev.target.closest('button[data-ptime]');
+  if (pt) {
+    const p = photos.find(x => x.id === pt.dataset.ptime); if (!p) return;
+    const v = prompt('Hora da foto (HH:MM):', p.time || ''); if (v === null) return;
+    const t = v.trim().replace(/^(\d)(?=:)/, '0$1');
+    if (t && !/^([01]\d|2[0-3]):[0-5]\d$/.test(t)) { alert('Use o formato HH:MM, ex.: 14:30'); return; }
+    try { await db.collection('photos').doc(p.id).update({ time: t || null }); } catch (e) { alertErr(e); }
+    return;
+  }
   const o = ev.target.closest('[data-open]');
   if (o) { openLightbox(o.dataset.open, !!o.dataset.video, o.closest('figure')?.querySelector('figcaption')?.innerText.replace(/excluir$/, '').trim()); return; }
   const b = ev.target.closest('button[data-pdel]'); if (!b || !armed(b, 'excluir')) return;
@@ -1903,6 +1913,7 @@ $('photoGrid').addEventListener('click', async ev => {
   try { await db.collection('photos').doc(p.id).delete(); if (assets && p.assetId) await assets.delete(p.assetId).catch(() => {}); } catch (e) { alertErr(e); }
 });
 $('fDate').value = todayIso();
+$('fTime').value = new Date().toTimeString().slice(0, 5);
 $('fBtn').addEventListener('click', () => $('fFile').click());
 $('fFile').addEventListener('change', async () => {
   const files = [...$('fFile').files]; $('fFile').value = ''; if (!files.length) return;
@@ -1914,7 +1925,7 @@ $('fFile').addEventListener('change', async () => {
       const isVideo = f.type.startsWith('video/');
       const blob = isVideo ? f : await shrinkImage(f);
       const res = await assets.upload(blob, isVideo ? undefined : { type: 'image/jpeg' });
-      await db.collection('photos').add({ assetId: res.id, date: $('fDate').value || todayIso(), caption: $('fCap').value.trim(), video: isVideo, createdAt: Date.now() });
+      await db.collection('photos').add({ assetId: res.id, date: $('fDate').value || todayIso(), time: $('fTime').value || null, caption: $('fCap').value.trim(), video: isVideo, createdAt: Date.now() });
       ok++;
     } catch (e) { $('fStatus').textContent = `${f.name}: ` + (e.code === 'too_large' ? 'arquivo grande demais (máx. 20 MB).' : e.code === 'quota_or_state' ? 'o espaço de armazenamento acabou.' : (e.message || e.code)); return; }
   }
