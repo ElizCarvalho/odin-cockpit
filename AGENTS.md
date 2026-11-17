@@ -28,7 +28,7 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
 | Lembretes a cada minuto e IA do Registrar | `functions/index.js` |
 | Quem pode ler e escrever | `firestore.rules`, `storage.rules` |
 | Teste de fumaça e Firebase falso | `tests/smoke.mjs`, `tests/fakefb.js` |
-| Site público anonimizado (GitHub Pages) | `docs/`, gerado por `scripts/publicar.mjs` (não editar à mão) |
+| Site público anonimizado (GitHub Pages) | `docs/`, gerado de hora em hora pelo Action "Publicar site público" (`scripts/exportar-firestore.mjs` → `scripts/publicar.mjs`). Não editar à mão |
 
 `app/public/` é gerado (está no `.gitignore`). Não edite nele.
 
@@ -46,5 +46,6 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
 
 - Firebase project `odin-cockpit`: Firestore em `southamerica-east1`, Storage em `us-east1` (cota grátis), funções em `southamerica-east1`.
 - O deploy é automático no push pra `main` (Action "Deploy do app (Firebase)"), que roda `npm run check` antes de publicar.
+- O site público se atualiza sozinho de hora em hora (Action "Publicar site público"). Ele lê o Firebase e passa pelo anonimizador (`config/anonimizacao.json`), que **para a publicação** se sobrar nome, CRMV, CPF ou e-mail. Nome novo de pessoa em documento? Acrescente em `substituir` e `proibidos`.
 - Papéis em `acl/users`: `emails[]`, `roles{email: admin|edit|view}`, `notify{email: bool}`.
 - O lembrete é um doc `notifs/{schedId_AAAA-MM-DD_HHMM}`, criado pela função `tick` a partir de `schedule`. A resposta grava em `vitals` (água, comida, temperatura) ou em `rotina_log` (remédio, decúbito).

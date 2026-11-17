@@ -52,6 +52,7 @@ function clean(str) {
   s = s.replace(/\s*\((?:Dra?\.?|Dr\.)\s[^)]*\)/g, '');                // "(Dra. Fulana, CRMV ...)"
   s = s.replace(/,?\s*CRMV[- ]?(?:[A-Z]{2})?\s*[\d.]+/gi, '');           // CRMV-RJ 12345
   s = s.replace(/\b\d{3}\.\d{3}\.\d{3}-\d{2}\b/g, '[removido]');         // CPF
+  s = s.replace(/[\w.+-]+@[\w-]+\.[\w.-]+/g, '[removido]');                // e-mail
   s = s.replace(/\(?\b\d{2}\)?\s?9?\d{4}-\d{4}\b/g, '[removido]');       // telefone
   s = s.replace(/\b\d{15}\b/g, '[removido]');                            // microchip
   for (const [re, to] of pairs) s = s.replace(re, to);
@@ -89,7 +90,8 @@ for (const p of raw.photos || []) {
   photos.push(rest);
 }
 
-const strip = list => (list || []).map(({ source, createdAt, ...rest }) => rest);
+// campos internos e de quem registrou nunca vão pro site
+const strip = list => (list || []).map(({ source, createdAt, by, stock, pauses, ...rest }) => rest);
 const data = walk({
   exportedAt: raw.exportedAt,
   updatedAt: raw.updatedAt || null,
@@ -99,6 +101,8 @@ const data = walk({
   meds: strip(raw.meds),
   prevent: strip(raw.prevent),
   vitals: strip(raw.vitals),
+  foods: strip(raw.foods),
+  goals: raw.goals || null,
   photos
 });
 if (!cfg.manter_clinicas) {

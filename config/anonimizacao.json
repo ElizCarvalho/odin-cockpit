@@ -2,6 +2,10 @@
   "_leia": "Regras aplicadas a TODOS os textos antes de publicar. 'substituir' troca nomes de pessoas (o mais longo primeiro). 'remover_linhas' apaga achados inteiros que batem com o padrão. 'proibidos' faz a publicação falhar se algo sobrar.",
   "manter_clinicas": true,
   "substituir": {
+    "Dr. Paulo Roberto Rodrigues de Sousa Junior": "o veterinário",
+    "Paulo Roberto Rodrigues de Sousa Junior": "o veterinário",
+    "Dr.. Paulo Roberto": "o veterinário",
+    "Paulo Roberto": "o veterinário",
     "Dra. Patrícia Cerqueira da Silveira": "a neurologista",
     "Dra. Patrícia Cerqueira": "a neurologista",
     "Dra. Patricia Cerqueira": "a neurologista",
@@ -29,7 +33,8 @@
     "Giovanna Almeida": "a tutora",
     "Giovanna": "a tutora",
     "Elizabeth": "a tutora",
-    "Brenda": "a veterinária"
+    "Brenda": "a veterinária",
+    "Elis": "a tutora"
   },
   "remover_linhas": [
     "propriet[aá]ri[ao]",
@@ -52,6 +57,11 @@
     "Stephany",
     "Kono",
     "Anacleto",
-    "Jos[eé] Muller"
+    "Jos[eé] Muller",
+    "Sousa Junior",
+    "@gmail",
+    "@[\\w-]+\\.com",
+    "\\bElis\\b",
+    "Viviane"
   ]
 }
