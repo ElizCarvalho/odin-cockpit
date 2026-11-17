@@ -29,6 +29,7 @@ const SEED = {
   exams: { e1: { date: today, kind: 'Hemograma', lab: 'Lab teste', params: { hb: 9.1, ht: 27 }, other: [], createdAt: 1 } },
   events: { v1: { date: today, time: '08:10', text: 'Evento de teste', mark: false } },
   meds: { m0: { name: 'Remédio antigo', start: '2026-01-01', end: '2026-01-10' }, m1: { name: 'Remédio teste', start: today, dose: '1 comp.' }, m2: { name: 'Outro em uso', start: '2026-01-05', dose: '1 comp.', stock: { qty: 4, unit: 'comp.', perDay: 1, countedAt: today } } },
+  photos: { p1: { assetId: 'a1', date: today, caption: 'Foto teste', createdAt: 1 } },
   vitals: { t1: { date: today, time: '07:00', temp: 38.4 } },
   schedule: { s1: { kind: 'med', label: 'Remédio teste', times: ['09:00'], active: true }, s2: { kind: 'agua', label: 'Água', every: 120, from: '08:00', to: '22:00', active: true } },
   notifs: {
@@ -73,11 +74,12 @@ try {
   // pausar e retomar um remédio
   {
     const { page, errs } = await open(390, 'admin@teste.com', '#remedios');
-    page.on('dialog', d => d.accept('aguardando a neuro'));
+    page.on('dialog', d => { console.log('✗ caixa de diálogo aberta: ' + d.message()); d.dismiss(); });
     const ic = await page.evaluate(() => [...document.querySelectorAll('#medActive .mrow')].map(r => !!r.querySelector('.mic svg')));
     check(ic.length > 0 && ic.every(Boolean), 'Remédios · cada item tem ícone de forma e cor de tipo');
     await page.evaluate(() => document.querySelector('#medActive details').open = true);
-    await page.click('#medActive [data-mpause]'); await page.waitForTimeout(800);
+    await page.click('#medActive [data-mpause]'); await page.waitForTimeout(200);
+    await page.click('#medActive [data-mpausego]'); await page.waitForTimeout(800);
     const p1 = await page.evaluate(() => ({ m: __store.meds.m1, card: !document.getElementById('medPausedCard').classList.contains('hidden'), n: document.querySelectorAll('#medPaused .mrow').length }));
     check(p1.m.paused === true && p1.m.pauseReason === 'aguardando a neuro' && p1.card && p1.n === 1, 'Pausar · remédio vai pra Pausados com o motivo');
     const g = await page.evaluate(() => ({ sep: [...document.querySelectorAll('#medGantt .gsep')].map(x => x.textContent), pz: document.querySelectorAll('#medGantt .bar.pz').length }));
@@ -86,6 +88,9 @@ try {
     await page.click('#medPaused [data-mresume]'); await page.waitForTimeout(800);
     const p2 = await page.evaluate(() => ({ m: __store.meds.m1, card: document.getElementById('medPausedCard').classList.contains('hidden') }));
     check(p2.m.paused === false && (p2.m.pauses || []).length === 1 && p2.card, 'Retomar · volta pra Em uso e guarda o histórico da pausa');
+    await page.evaluate(() => go('fotos')); await page.waitForTimeout(500);
+    await page.click('[data-ptime]'); await page.fill('#photoGrid input[type=time]', '14:30'); await page.click('[data-ptsave]'); await page.waitForTimeout(800);
+    check(await page.evaluate(() => __store.photos.p1.time) === '14:30', 'Fotos · pôr hora numa foto existente');
     check(errs.length === 0, `Pausar · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();
   }

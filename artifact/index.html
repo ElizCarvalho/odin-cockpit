@@ -1786,9 +1786,17 @@ document.addEventListener('click', async ev => {
   }
   const p1 = ev.target.closest('button[data-mpause]'), r1 = ev.target.closest('button[data-mresume]');
   if (p1) {
-    const m = meds.find(x => x.id === p1.dataset.mpause); if (!m) return;
-    const reason = prompt(`Pausar ${m.name}. Motivo (opcional):`, 'aguardando a neuro'); if (reason === null) return;
-    p1.disabled = true; try { await db.collection('meds').doc(m.id).update({ paused: true, pausedAt: todayIso(), pauseReason: reason.trim() }); } catch (e) { alertErr(e); }
+    const box = document.createElement('div'); box.className = 'medit';
+    box.innerHTML = `Motivo <input type="text" value="aguardando a neuro" style="width:220px;padding:4px 8px"><button class="tiny" data-mpausego="${esc(p1.dataset.mpause)}">pausar</button><button class="tiny ghost" data-mpausex>cancelar</button>`;
+    p1.closest('.acts').after(box); p1.disabled = true; box.querySelector('input').focus();
+    return;
+  }
+  if (ev.target.closest('button[data-mpausex]')) { scheduleRender(); return; }
+  const pg = ev.target.closest('button[data-mpausego]');
+  if (pg) {
+    const reason = pg.previousElementSibling.value.trim(); pg.disabled = true;
+    try { await db.collection('meds').doc(pg.dataset.mpausego).update({ paused: true, pausedAt: todayIso(), pauseReason: reason }); } catch (e) { alertErr(e); }
+    return;
   }
   if (r1) {
     const m = meds.find(x => x.id === r1.dataset.mresume); if (!m) return;
@@ -1900,11 +1908,16 @@ $('photoGrid').addEventListener('click', async ev => {
   const pt = ev.target.closest('button[data-ptime]');
   if (pt) {
     const p = photos.find(x => x.id === pt.dataset.ptime); if (!p) return;
-    const v = prompt('Hora da foto (HH:MM):', p.time || ''); if (v === null) return;
-    const t = v.trim().replace(/^(\d)(?=:)/, '0$1');
-    if (t && !/^([01]\d|2[0-3]):[0-5]\d$/.test(t)) { alert('Use o formato HH:MM, ex.: 14:30'); return; }
-    try { await db.collection('photos').doc(p.id).update({ time: t || null }); } catch (e) { alertErr(e); }
+    const box = document.createElement('span'); box.className = 'row'; box.style.gap = '6px';
+    box.innerHTML = `<input type="time" value="${esc(p.time || '')}" style="width:auto;padding:4px 8px"><button class="tiny" data-ptsave="${esc(p.id)}">salvar</button>`;
+    pt.closest('.row').replaceWith(box); box.querySelector('input').focus();
     return;
+  }
+  const ps = ev.target.closest('button[data-ptsave]');
+  if (ps) {
+    const t = ps.previousElementSibling.value; ps.disabled = true;
+    try { await db.collection('photos').doc(ps.dataset.ptsave).update({ time: t || null }); } catch (e) { alertErr(e); }
+    scheduleRender(); return;
   }
   const o = ev.target.closest('[data-open]');
   if (o) { openLightbox(o.dataset.open, !!o.dataset.video, o.closest('figure')?.querySelector('figcaption')?.innerText.replace(/excluir$/, '').trim()); return; }

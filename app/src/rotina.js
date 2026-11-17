@@ -279,6 +279,9 @@
   }
   document.addEventListener('change', ev => { if (ev.target.id === 'rImp' && ev.target.files[0]) importExport(ev.target.files[0]); });
 
+  // confirmação em dois toques (sem caixa de diálogo, que o app instalado bloqueia)
+  const arm = b => { if (b.dataset.armed === '1') return true; const t0 = b.textContent; b.dataset.armed = '1'; b.textContent = 'confirmar?'; setTimeout(() => { b.dataset.armed = ''; b.textContent = t0; }, 4000); return false; };
+
   /* ---------- Eventos ---------- */
   const say = (el, msg) => { let p = el.querySelector('.rMsg'); if (!p) { p = document.createElement('p'); p.className = 'muted rMsg'; el.appendChild(p); } p.textContent = msg; };
   document.addEventListener('submit', async ev => {
@@ -318,8 +321,8 @@
       freeKind = t.dataset.free; render();
     }
     if (t.matches('[data-tog]')) { const s = scheds.find(x => x.id === t.dataset.tog); if (s) await fb.fs.collection('schedule').doc(s.id).update({ active: !s.active }); }
-    if (t.matches('[data-del]')) { const s = scheds.find(x => x.id === t.dataset.del); if (s && confirm(`Apagar o horário "${s.label}"?`)) await fb.fs.collection('schedule').doc(s.id).delete(); }
-    if (t.matches('[data-rmacl]')) { const e = t.dataset.rmacl; if (confirm(`Tirar o acesso de ${e}?`)) { const roles = { ...(aclDoc.roles || {}) }, notify = { ...(aclDoc.notify || {}) }; delete roles[e]; delete notify[e];
+    if (t.matches('[data-del]')) { const s = scheds.find(x => x.id === t.dataset.del); if (s && arm(t)) await fb.fs.collection('schedule').doc(s.id).delete(); }
+    if (t.matches('[data-rmacl]')) { const e = t.dataset.rmacl; if (arm(t)) { const roles = { ...(aclDoc.roles || {}) }, notify = { ...(aclDoc.notify || {}) }; delete roles[e]; delete notify[e];
       await aclRef().update({ emails: firebase.firestore.FieldValue.arrayRemove(e), roles, notify }); } }
     if (t.id === 'rPush') enablePush(t);
   });
