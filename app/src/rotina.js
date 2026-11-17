@@ -11,7 +11,7 @@
     med: { e: '💊', t: 'Remédio' }, agua: { e: '💧', t: 'Água' }, comida: { e: '🍽', t: 'Comida' },
     decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' }, outro: { e: '🐶', t: 'Outro' }
   };
-  let scheds = [], notifs = [], logs = [], acl = [], fb = null, freeKind = null;
+  let scheds = [], notifs = [], logs = [], acl = [], fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
   const focusId = new URLSearchParams(location.search).get('n');
   const hhmm = () => new Date().toTimeString().slice(0, 5);
@@ -153,11 +153,53 @@
       <p class="note" style="margin:4px 0 8px">Quem pode ver, registrar e receber lembretes (conta Google).</p>
       <div class="list">${acl.map(e => `<div class="item row between"><span>${esc(e)}</span>${e !== me() ? `<button class="tiny danger" data-rmacl="${esc(e)}">Tirar</button>` : '<span class="muted">você</span>'}</div>`).join('')}</div>
       <form id="rAcl" class="row" style="margin-top:8px"><input name="email" type="email" placeholder="email@gmail.com" required style="flex:1"><button type="submit">Adicionar</button></form>
+    </section>
+
+    <section class="card"${exams.length ? '' : ' style="border-color:var(--accent)"'}>
+      <details data-k="imp"${exams.length ? '' : ' open'}><summary>Trazer dados do cockpit antigo</summary>
+        <p class="note" style="margin:6px 0 8px">No cockpit antigo (claude.ai), use <b>Exportar para o site</b> no Painel. Depois escolha aqui o arquivo <code>odin-export-….json</code> que foi pro Downloads. Pode repetir: o que já existe é atualizado, nada é duplicado.</p>
+        <input type="file" id="rImp" accept=".json,application/json">
+        <p class="muted" id="rImpMsg" style="margin-top:6px">${esc(impMsg)}</p>
+      </details>
     </section>`;
     host.querySelectorAll('details').forEach(d => { if (openK.has(d.dataset.k)) d.open = true; });
     if (focusId) { const el = document.getElementById('rn-' + focusId); if (el && !render.scrolled) { render.scrolled = true; el.scrollIntoView({ block: 'center' }); } }
   }
   window.renderRotina = render;
+
+  /* ---------- Importar o export do cockpit antigo ---------- */
+  async function importExport(file) {
+    const msg = t => { impMsg = t; const el = document.getElementById('rImpMsg'); if (el) el.textContent = t; };
+    try {
+      msg('Lendo o arquivo…');
+      const d = JSON.parse(await file.text());
+      if (!Array.isArray(d.exams) || !Array.isArray(d.photos)) throw new Error('não parece um export do cockpit');
+      let n = 0;
+      for (const col of ['exams', 'events', 'analyses', 'meds', 'prevent', 'vitals']) {
+        const list = d[col] || [];
+        for (let i = 0; i < list.length; i += 400) {
+          const b = fb.fs.batch();
+          for (const x of list.slice(i, i + 400)) { const { id, ...rest } = x; b.set(fb.fs.collection(col).doc(String(id || fb.fs.collection(col).doc().id)), rest); n++; }
+          await b.commit();
+        }
+        msg(`Dados: ${n} registros…`);
+      }
+      let ok = 0, sem = 0;
+      for (const [i, p] of d.photos.entries()) {
+        const { id, dataUrl, ...rest } = p;
+        if (dataUrl && rest.assetId) {
+          const blob = await (await fetch(dataUrl)).blob();
+          await fb.st.ref('blobs/' + rest.assetId).put(blob, { contentType: blob.type || 'image/jpeg' });
+          ok++;
+        } else sem++;
+        await fb.fs.collection('photos').doc(String(id)).set(rest);
+        msg(`Fotos: ${i + 1} de ${d.photos.length}…`);
+      }
+      await fb.fs.collection('meta').doc('status').set({ updatedAt: d.updatedAt || Date.now() });
+      msg(`Pronto: ${n} registros e ${ok} fotos.` + (sem ? ` ${sem} vídeo(s)/foto(s) sem arquivo no export: dá pra subir de novo na aba Fotos.` : ''));
+    } catch (e) { msg('Não consegui importar: ' + (e.message || e.code)); }
+  }
+  document.addEventListener('change', ev => { if (ev.target.id === 'rImp' && ev.target.files[0]) importExport(ev.target.files[0]); });
 
   /* ---------- Eventos ---------- */
   const say = (el, msg) => { let p = el.querySelector('.rMsg'); if (!p) { p = document.createElement('p'); p.className = 'muted rMsg'; el.appendChild(p); } p.textContent = msg; };
