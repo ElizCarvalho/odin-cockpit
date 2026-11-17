@@ -99,6 +99,7 @@ try {
     check(st.v.length === 1 && st.v[0].water_ml === 150 && /coco/.test(st.v[0].note), 'Edita · resposta de água vira registro (150 mL, água de coco)');
     check(st.notifs.includes('done') && st.notifs.includes('skipped'), 'Edita · lembretes marcados como feito e pulado');
     check(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden), 'Edita · não vê a aba Admin');
+    check(await page.evaluate(() => !!document.querySelector('#p-rotina .mic svg')), 'Rotina · remédio aparece com o ícone de forma/tipo');
     check(errs.length === 0, `Edita · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();
   }

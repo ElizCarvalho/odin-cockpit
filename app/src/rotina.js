@@ -19,6 +19,13 @@
   const me = () => (window.ODIN_USER && window.ODIN_USER.email) || '';
   const role = () => (aclDoc.roles || {})[me()] || 'view';
   const canEdit = () => role() === 'admin' || role() === 'edit';
+  // ícone: remédio usa o mesmo ícone da aba Medicamentos (forma + medicamento/suplemento); o resto, emoji
+  const ic = x => {
+    if (x.kind !== 'med' || typeof medIcon !== 'function') return (KIND[x.kind] || KIND.outro).e + ' ';
+    const first = String(x.label || '').toLowerCase().split(/[\s·(]/)[0];
+    const m = meds.find(y => y.id === x.medId) || (first && meds.find(y => (y.name || '').toLowerCase().startsWith(first)));
+    return medIcon(m || { name: x.label || '', dose: x.label || '' }, true);
+  };
   const ROLE = { admin: 'Admin', edit: 'Edita', view: 'Só vê' };
 
   /* ---------- Ativar push neste aparelho ---------- */
@@ -99,7 +106,7 @@
       ...vitals.filter(v => v.source === 'rotina' && v.date >= daysAgo(1)).map(v => ({ ...v, src: 'v' }))
     ].filter(x => x.date >= daysAgo(1)).sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')));
     const vtxt = v => v.water_ml ? `💧 ${fmt(v.water_ml)} mL` : v.food_g ? `🍽 ${fmt(v.food_g)} g` : v.temp ? `🌡 ${fmt(v.temp)} °C` : '';
-    const ltxt = l => `${(KIND[l.kind] || KIND.outro).e} ${esc(l.label || (KIND[l.kind] || KIND.outro).t)}${l.side ? ' · ' + esc(l.side) : ''}${l.status === 'skipped' ? ' <span class="pill lo">pulou</span>' : ''}`;
+    const ltxt = l => `${ic(l)}${esc(l.label || (KIND[l.kind] || KIND.outro).t)}${l.side ? ' · ' + esc(l.side) : ''}${l.status === 'skipped' ? ' <span class="pill lo">pulou</span>' : ''}`;
     const isOn = localStorage.getItem('odinPush') === '1';
 
     host.innerHTML = `
@@ -107,7 +114,7 @@
       <div class="row between"><h2>Agora</h2><span class="pill">${pend.length ? pend.length + ' pendente' + (pend.length > 1 ? 's' : '') : 'nada pendente'}</span></div>
       <div class="list" style="margin-top:8px">${pend.map(n => `
         <div class="item rN${n.id === focusId ? ' rFocus' : ''}" id="rn-${esc(n.id)}">
-          <div class="row between"><b>${(KIND[n.kind] || KIND.outro).e} ${esc(n.label || (KIND[n.kind] || KIND.outro).t)}</b>
+          <div class="row between"><b>${ic(n)}${esc(n.label || (KIND[n.kind] || KIND.outro).t)}</b>
           <span class="muted">${n.date === today ? '' : dm(n.date) + ' '}${esc(n.time)}${n.renotified ? ' · avisado 2x' : ''}</span></div>
           ${canEdit() ? entryForm(n) : ''}
         </div>`).join('') || '<p class="muted">Quando chegar a hora de algo, aparece aqui pra você marcar.</p>'}</div>
@@ -127,7 +134,7 @@
       <h2>Horários</h2>
       <div class="list" style="margin-top:6px">${scheds.sort((a, b) => (a.kind + a.label).localeCompare(b.kind + b.label)).map(s => `
         <div class="item row between">
-          <span>${(KIND[s.kind] || KIND.outro).e} <b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${s.until ? ' · até ' + dm(s.until) : ''}</span></span>
+          <span>${ic(s)}<b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${s.until ? ' · até ' + dm(s.until) : ''}</span></span>
           <span class="row"${canEdit() ? '' : ' hidden'}><button class="ghost tiny" data-tog="${esc(s.id)}">${s.active ? 'Pausar' : 'Ativar'}</button><button class="tiny danger" data-del="${esc(s.id)}">Apagar</button></span>
         </div>`).join('') || '<p class="muted">Nenhum horário ainda.</p>'}</div>
       <details data-k="new" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Novo horário</summary>
