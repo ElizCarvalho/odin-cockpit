@@ -4,7 +4,15 @@
   "type": "module",
   "description": "Cockpit de acompanhamento de saúde do Odin, publicado no GitHub Pages",
   "scripts": {
+    "check": "node scripts/check.mjs",
+    "smoke": "node scripts/build-app.mjs && node tests/smoke.mjs",
+    "app:build": "node scripts/build-app.mjs",
+    "app:ver": "node scripts/build-app.mjs && npx --yes serve app/public -l 5050",
+    "deploy:verificar": "node scripts/verificar-deploy.mjs",
     "publicar": "node scripts/publicar.mjs",
     "ver": "npx --yes serve docs -l 4173"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
   }
 }

@@ -12,6 +12,10 @@ on:
       - 'firestore.indexes.json'
       - 'storage.rules'
       - 'scripts/build-app.mjs'
+      - 'scripts/check.mjs'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/deploy-app.yml'
   workflow_dispatch:
 
@@ -24,10 +28,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - name: Monta o app
-        run: node scripts/build-app.mjs
-      - name: Dependências das functions
-        run: npm ci --prefix functions
+      - name: Dependências
+        run: |
+          npm ci
+          npm ci --prefix functions
+          npx playwright install --with-deps chromium
+      - name: Validação (mesmo check de antes do commit)
+        run: npm run check
       - name: Chave da IA (se existir)
         env: { ANTHROPIC_API_KEY: '${{ secrets.ANTHROPIC_API_KEY }}' }
         run: |

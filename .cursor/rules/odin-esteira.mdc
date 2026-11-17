@@ -1,0 +1,10 @@
+---
+description: Regras do Odin Cockpit e esteira de desenvolvimento (pull, check, commit, push, verificar deploy)
+alwaysApply: true
+---
+
+Leia e siga @AGENTS.md (regras do projeto).
+
+Pra entregar qualquer mudança, siga o passo a passo em @.claude/skills/esteira/SKILL.md.
+É o mesmo processo usado pelo Claude: `git pull --rebase` → mudar → `npm run check` → commit → `git push` → `npm run deploy:verificar`.
+Só diga que está no ar depois que `npm run deploy:verificar` der ✓.

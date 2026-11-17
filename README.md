@@ -3,7 +3,19 @@
 Acompanhamento de saúde do Odin (American Bully, nascido em 23/10/2025): exames, remédios, vacinas, fotos e linha do tempo.
 
 - **Site público (só leitura):** GitHub Pages, servido da pasta `docs/`.
-- **Onde se edita:** no artefato do Claude (cockpit com cadastro, leitura automática de exames/receitas e voz). O site é um retrato publicado dele.
+- **App (onde se usa e registra):** https://odin-cockpit.web.app — Firebase, login Google, Rotina com push, papéis admin/edita/só vê.
+- **Site público (retrato anonimizado):** gerado de um export e servido da pasta `docs/`.
+
+## Desenvolvimento
+
+Regras e esteira em [`AGENTS.md`](AGENTS.md) (valem pro Claude, Cursor ou qualquer agente):
+
+```bash
+git pull --rebase           # antes de começar
+npm run check               # valida tudo (build, sintaxe, segredos, smoke 390/1440 px)
+git commit && git push      # push na main publica o app sozinho
+npm run deploy:verificar    # espera o Action e confere se o app está no ar com esse commit
+```
 
 ## Estrutura
 

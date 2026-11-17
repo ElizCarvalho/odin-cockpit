@@ -1,5 +1,6 @@
 // Monta o app (Firebase Hosting) a partir do cockpit: artifact/index.html + app/src + app/static -> app/public
 import { readFileSync, writeFileSync, mkdirSync, cpSync, rmSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { firebaseConfig, vapidKey } from '../app/firebase-config.js';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -14,7 +15,10 @@ let h = readFileSync(root + 'artifact/index.html', 'utf8');
 const swap = (from, to) => { if (!h.includes(from)) throw new Error('não achei no cockpit: ' + from.slice(0, 80)); h = h.replace(from, to); };
 const V = '10.14.1', G = `https://www.gstatic.com/firebasejs/${V}/`;
 
+let build = process.env.GITHUB_SHA || '';
+try { build = build || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(); } catch {}
 swap('<title>Odin - Cockpit</title>', `<title>Odin - Cockpit</title>
+<meta name="odin-build" content="${build}">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" href="/icon-192.png">

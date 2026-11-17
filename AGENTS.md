@@ -1,0 +1,50 @@
+# Odin - Cockpit · regras do projeto (pra qualquer agente: Claude, Cursor, etc.)
+
+Cockpit de saúde do Odin (American Bully, cinomose e anemia). Quem usa é a Elis e quem ela adicionar.
+Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interface também é em português.
+
+## Esteira de desenvolvimento (sempre, nesta ordem)
+
+1. **Antes de começar:** `git pull --rebase` na `main`. Se tiver mudança local não commitada, pare e pergunte.
+2. **Desenvolver** (veja "Onde mexer" abaixo).
+3. **Validar:** `npm run check`. Ele monta o app, confere a sintaxe de todo o JS, os JSON, as funções, os vazamentos de segredo, CPF ou export bruto, e roda o smoke no navegador (390 e 1440 px, papéis admin/edita/só vê).
+   - Só siga com tudo ✓. Se falhar, conserte. Não pule nem desligue checagem pra passar.
+   - Mudou tela? Olhe também no navegador: `npm run app:ver` (http://localhost:5050, com Firebase de verdade, então precisa logar).
+4. **Commit** na `main`, com mensagem curta em português dizendo o que mudou pra quem usa (ex.: "Linha do tempo: itens do dia em ordem de hora"). Terminar com as linhas de coautoria que o ambiente pedir.
+5. **Push:** `git push`. Se for rejeitado, `git pull --rebase`, rode `npm run check` de novo e repita.
+6. **Conferir que está no ar:** `npm run deploy:verificar`. Ele espera os GitHub Actions desse commit e confere se https://odin-cockpit.web.app está servindo exatamente esse commit (e o site público, se `docs/` mudou).
+   - Só diga "está no ar" depois disso dar ✓. Se der ✗, abra o link do Action, leia o erro e conserte.
+7. **Contar pra Elis** em 1–3 frases: o que mudou, onde ver, e se ela precisa fazer algo (recarregar o app etc.).
+
+## Onde mexer
+
+| O quê | Arquivo |
+|---|---|
+| Cockpit (painel, exames, gráficos, remédios, vacinas, fotos, linha do tempo) | `artifact/index.html`, que é a fonte única do app e do site público |
+| Login, ligação com o Firebase (db, fotos, IA, ditado) | `app/src/shim.js` |
+| Abas Rotina (lembretes) e Admin (acesso, importação) | `app/src/rotina.js` |
+| Ícones, manifest, service worker do push | `app/static/` |
+| Como o app é montado (injeções no cockpit) | `scripts/build-app.mjs` |
+| Lembretes a cada minuto e IA do Registrar | `functions/index.js` |
+| Quem pode ler e escrever | `firestore.rules`, `storage.rules` |
+| Teste de fumaça e Firebase falso | `tests/smoke.mjs`, `tests/fakefb.js` |
+| Site público anonimizado (GitHub Pages) | `docs/`, gerado por `scripts/publicar.mjs` (não editar à mão) |
+
+`app/public/` é gerado (está no `.gitignore`). Não edite nele.
+
+## Regras que não se quebram
+
+- **Dados reais do Odin vivem no Firestore**, não no repositório. Nunca commitar export bruto (`exports/`, `odin-export-*.json`).
+- **Sem segredos no git:** chave de conta de serviço, chave da Anthropic e tokens ficam só nos secrets do GitHub (`FIREBASE_SERVICE_ACCOUNT`, `ANTHROPIC_API_KEY`). Nunca peça pra colarem chave no chat.
+- **Privacidade:** nada de CPF, endereço, telefone, nome de veterinária ou valores de orçamento no site público. O anonimizador (`config/anonimizacao.json`) não pode ser enfraquecido. No site público não entram fotos com rosto de pessoas.
+- **Não mude dado clínico** (valores de exame, doses, datas) sem a Elis pedir. Na dúvida, pergunte.
+- **Permissões:** quem "só vê" não escreve nada. Isso é garantido nas regras, não só escondendo botão. Mexeu em papel ou coleção nova? Atualize `firestore.rules`/`storage.rules` e o smoke.
+- **Configurações de nuvem** (IAM, billing, OAuth, APIs do Google Cloud) quem faz é a Elis. Explique o passo a passo e confira depois.
+- **Coleções novas** precisam de regra própria se não forem "membro lê, quem edita escreve".
+
+## Infra (pra referência)
+
+- Firebase project `odin-cockpit`: Firestore em `southamerica-east1`, Storage em `us-east1` (cota grátis), funções em `southamerica-east1`.
+- O deploy é automático no push pra `main` (Action "Deploy do app (Firebase)"), que roda `npm run check` antes de publicar.
+- Papéis em `acl/users`: `emails[]`, `roles{email: admin|edit|view}`, `notify{email: bool}`.
+- O lembrete é um doc `notifs/{schedId_AAAA-MM-DD_HHMM}`, criado pela função `tick` a partir de `schedule`. A resposta grava em `vitals` (água, comida, temperatura) ou em `rotina_log` (remédio, decúbito).
