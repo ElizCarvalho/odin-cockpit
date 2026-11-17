@@ -1,7 +1,7 @@
 // Configuração pública do app web (não é segredo; o acesso é controlado pelas regras do Firestore/Storage)
 export const firebaseConfig = {
   apiKey: "AIzaSyBRLkioO0Xqf5JsATxOmsFhlaIQYEcSL3g",
-  authDomain: "odin-cockpit.firebaseapp.com",
+  authDomain: "odin-cockpit.web.app",
   projectId: "odin-cockpit",
   storageBucket: "odin-cockpit.firebasestorage.app",
   messagingSenderId: "516260936928",
