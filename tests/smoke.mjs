@@ -71,6 +71,30 @@ try {
     await page.close();
   }
 
+  // calendário (visão da Linha do tempo)
+  for (const width of [390, 1440]) {
+    const { page, errs } = await open(width, 'admin@teste.com', '#linha');
+    await page.click('#tlView [data-view=cal]'); await page.waitForTimeout(300);
+    for (const mode of ['mes', 'sem', 'dia']) {
+      await page.click(`[data-cmode=${mode}]`); await page.waitForTimeout(250);
+      const ov = await overflow(page);
+      check(ov <= 1, `${width}px · calendário ${mode} sem estourar a largura${ov > 1 ? ` (+${ov}px)` : ''}`);
+    }
+    check(await page.locator('#calBody .citem').count() > 0, `${width}px · calendário dia mostra o que aconteceu hoje`);
+    if (width === 390) {
+      await page.click('#calAddBtn'); await page.fill('#calAdd [name=what]', 'neuro'); await page.fill('#calAdd [name=time]', '15:00');
+      await page.click('#calAdd [type=submit]'); await page.waitForTimeout(800);
+      const ap = await page.evaluate(() => Object.values(__store.events).filter(e => e.kind === 'consulta').map(e => e.text + '|' + e.remind));
+      check(ap.length === 1 && ap[0] === 'Consulta: neuro|1440', 'Calendário · agendar consulta com lembrete');
+      await page.click('[data-ccat="Consulta"]'); await page.waitForTimeout(200);
+      check(await page.evaluate(() => [...document.querySelectorAll('#calBody .citem')].every(x => /Consulta/.test(x.textContent))), 'Calendário · filtro por tipo');
+      await page.click('[data-cmode=mes]'); await page.click('.calgrid .cd.today'); await page.waitForTimeout(200);
+      check(await page.evaluate(() => calMode) === 'dia', 'Calendário · tocar no dia do mês abre o dia');
+    }
+    check(errs.length === 0, `${width}px · calendário sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
+    await page.close();
+  }
+
   // pausar e retomar um remédio
   {
     const { page, errs } = await open(390, 'admin@teste.com', '#remedios');

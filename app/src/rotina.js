@@ -10,7 +10,7 @@
   const KIND = {
     med: { e: '💊', t: 'Remédio' }, agua: { e: '💧', t: 'Água' }, comida: { e: '🍽', t: 'Comida' },
     decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' },
-    fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, compra: { e: '🛒', t: 'Comprar' }, outro: { e: '🐶', t: 'Outro' }
+    fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, compra: { e: '🛒', t: 'Comprar' }, consulta: { e: '📅', t: 'Compromisso' }, outro: { e: '🐶', t: 'Outro' }
   };
   let scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
@@ -60,7 +60,7 @@
     const t = form ? (form.querySelector('[name=time]').value || hhmm()) : hhmm();
     const note = form ? form.querySelector('[name=note]')?.value.trim() || '' : '';
     const base = { date: n.date, time: t, source: 'rotina', createdAt: Date.now(), by: me() };
-    if (n.kind === 'compra') { // aviso de compra: só marca como visto
+    if (n.kind === 'compra' || n.kind === 'consulta') { // aviso: só marca como visto
       await fb.fs.collection('notifs').doc(n.id).update({ status: 'done', doneAt: Date.now(), by: me() }); return;
     }
     if (Array.isArray(n.items) && n.items.length) {
@@ -109,6 +109,7 @@
     const time = `<label>Hora<input type="time" name="time" value="${hhmm()}"></label>`;
     const note = `<label>Obs.<input type="text" name="note" placeholder="opcional"></label>`;
     let f = '';
+    if (n.kind === 'consulta') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}</p><div class="row"><button type="submit">Ok</button></div></form>`;
     if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque na aba Medicamentos.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
     if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}" checked> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
     else if (n.kind === 'agua') f = `<label>Água (mL)<input type="text" name="v" inputmode="decimal" required></label><label class="chk"><input type="checkbox" name="coco"> água de coco</label>`;
@@ -154,7 +155,7 @@
         </div>`).join('') || '<p class="muted">Quando chegar a hora de algo, aparece aqui pra você marcar.</p>'}</div>
       ${canEdit() ? '' : '<p class="note" style="margin-top:8px">Você está com acesso só de visualização.</p>'}
       <details data-k="free" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Registrar fora de hora</summary>
-        <div class="row" style="margin-top:8px">${Object.entries(KIND).filter(([k]) => !['outro', 'compra'].includes(k)).map(([k, v]) => `<button type="button" class="ghost tiny" data-free="${k}">${v.e} ${v.t}</button>`).join('')}</div>
+        <div class="row" style="margin-top:8px">${Object.entries(KIND).filter(([k]) => !['outro', 'compra', 'consulta'].includes(k)).map(([k, v]) => `<button type="button" class="ghost tiny" data-free="${k}">${v.e} ${v.t}</button>`).join('')}</div>
         <div id="rFree">${freeKind ? entryForm({ kind: freeKind, label: KIND[freeKind].t }).replace('data-n=""', `data-n="" data-kind="${freeKind}"`) : ''}</div>
       </details>
     </section>
@@ -173,7 +174,7 @@
         </div>`).join('') || '<p class="muted">Nenhum horário ainda.</p>'}</div>
       <details data-k="new" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Novo horário</summary>
         <form id="rNew" class="vform">
-          <label>Tipo<select name="kind">${Object.entries(KIND).filter(([k]) => k !== 'compra').map(([k, v]) => `<option value="${k}">${v.e} ${v.t}</option>`).join('')}</select></label>
+          <label>Tipo<select name="kind">${Object.entries(KIND).filter(([k]) => !['compra', 'consulta'].includes(k)).map(([k, v]) => `<option value="${k}">${v.e} ${v.t}</option>`).join('')}</select></label>
           <label>Nome<input type="text" name="label" placeholder="ex.: Gardenal 1 comp." required></label>
           <label>Remédio da lista<select name="medId"><option value="">—</option>${meds.filter(m => !m.end || m.end >= today).map(m => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join('')}</select></label>
           <label>Horários fixos<input type="text" name="times" placeholder="08:00, 20:00"></label>

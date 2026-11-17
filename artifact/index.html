@@ -304,6 +304,23 @@ body.ro .wr { display: none !important; }
 .grow[data-mk] { cursor: pointer; border-radius: 4px; }
 .grow[data-mk]:hover .gl { color: var(--accent); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg { display: inline-flex; gap: 4px; }
+.calbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; }
+.caltitle { font-family: var(--font-display); margin-left: 6px; text-transform: capitalize; }
+.calgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.calgrid .wd { font-size: 11px; color: var(--muted); text-align: center; padding: 4px 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.calgrid .cd { min-height: 92px; padding: 4px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); cursor: pointer; display: grid; align-content: start; gap: 2px; min-width: 0; }
+.calgrid .cd.out { opacity: .4; } .calgrid .cd.today .n { background: var(--accent); color: var(--bg); border-radius: 99px; padding: 0 6px; }
+.calgrid .cd.stay { background: color-mix(in srgb, var(--clc) 12%, transparent); }
+.calgrid .n { font-size: 12px; font-weight: 600; justify-self: start; }
+.cev { font-size: 11px; line-height: 1.3; padding: 1px 4px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: color-mix(in srgb, var(--cc) 18%, transparent); border-left: 3px solid var(--cc); }
+.cdots { display: none; flex-wrap: wrap; gap: 2px; } .cdots i { width: 6px; height: 6px; border-radius: 50%; background: var(--cc); }
+.cday { border-top: 1px solid var(--line); padding: 10px 0; }
+.cday h3 { margin: 0 0 6px; font-size: 14px; text-transform: capitalize; } .cday h3 .muted { font-weight: 400; }
+.citem { display: grid; grid-template-columns: 46px 1fr; gap: 8px; padding: 4px 0 4px 8px; border-left: 3px solid var(--cc); margin: 4px 0; font-size: 13.5px; }
+.citem .h { font-family: var(--font-mono); font-size: 12px; color: var(--muted); } .citem .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.citem.skip { opacity: .55; } .citem.fut { background: color-mix(in srgb, var(--cc) 10%, transparent); border-radius: 0 6px 6px 0; }
+@media (max-width: 560px) { .calgrid .cd { min-height: 54px; } .calgrid .cev { display: none; } .calgrid .cdots { display: flex; } .calgrid .more { display: none; } }
 .chip .cnt { opacity: .7; font-size: 11px; margin-left: 2px; }
 .mrow { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 0 10px; border-bottom: 1px solid var(--line); }
 .mrow:not(:has(.msel)) { grid-template-columns: minmax(0,1fr); }
@@ -553,10 +570,27 @@ body.ro .wr { display: none !important; }
 
   <div class="panel" id="p-linha" role="tabpanel" hidden>
   <section class="card">
-    <h2>Linha do tempo</h2>
-    <div class="row" style="margin-top:8px" id="tlFilters"></div>
-    <div id="timeline" class="timeline" style="margin-top:8px"></div>
-  </section>
+    <div class="row between"><h2>Linha do tempo</h2><div class="seg" id="tlView"><button class="chip on" data-view="lista">Lista</button><button class="chip" data-view="cal">Calendário</button></div></div>
+    <div id="tlList">
+      <div class="row" style="margin-top:8px" id="tlFilters"></div>
+      <div id="timeline" class="timeline" style="margin-top:8px"></div>
+    </div>
+    <div id="cal" class="hidden" style="margin-top:8px">
+      <div class="calbar">
+        <div class="row" style="gap:6px"><button class="tiny ghost" data-cnav="-1" aria-label="Anterior">‹</button><button class="tiny ghost" data-cnav="0">Hoje</button><button class="tiny ghost" data-cnav="1" aria-label="Próximo">›</button><b id="calTitle" class="caltitle"></b></div>
+        <div class="row" style="gap:6px"><span class="seg" id="calMode"><button class="chip" data-cmode="mes">Mês</button><button class="chip" data-cmode="sem">7 dias</button><button class="chip on" data-cmode="dia">Dia</button></span><button class="tiny wr" id="calAddBtn">+ Agendar</button></div>
+      </div>
+      <form id="calAdd" class="vform hidden" style="margin:8px 0 4px">
+        <label>Tipo<select name="sub"><option>Consulta</option><option>Fisioterapia</option><option>Acupuntura</option><option>Coleta de exame</option><option>Outro</option></select></label>
+        <label>O quê / onde<input type="text" name="what" placeholder="Ex.: neuro na Vetreabilite" required></label>
+        <label>Data<input type="date" name="date" required></label>
+        <label>Hora<input type="time" name="time"></label>
+        <label>Lembrete<select name="remind"><option value="0">sem lembrete</option><option value="1440" selected>1 dia antes</option><option value="120">2 h antes</option><option value="60">1 h antes</option></select></label>
+        <div class="row"><button type="submit">Salvar</button><button type="button" class="ghost" id="calAddX">cancelar</button></div>
+      </form>
+      <div class="chips" id="calCats" style="margin:8px 0"></div>
+      <div id="calBody"></div>
+    </div>
   </div>
 
   <p class="note">Esta página organiza os exames e ajuda a entender a evolução. Quem interpreta e decide o tratamento é a equipe veterinária.</p>
@@ -1960,6 +1994,110 @@ $('seedBtn').addEventListener('click', async () => {
   } catch (e) { alertErr(e); b.disabled = false; b.textContent = 'Tentar de novo'; }
 });
 
+/* ---------- Calendário (visão da Linha do tempo) ---------- */
+const CAL_CATS = [
+  ['Consulta', '#5b9cf0'], ['Exame', '#b48ce6'], ['Internação', '#e5675f'], ['Remédio', '#2b9c8f'], ['Alimentação', '#e8a33d'],
+  ['Água', '#4fb3d9'], ['Temperatura', '#d9645c'], ['Fezes/xixi', '#a07a52'], ['Decúbito', '#8c9aa3'], ['Foto', '#6aa84f'], ['Vacina', '#c9a227'], ['Acontecimento', '#7f8c99']
+];
+const CAL_COLOR = Object.fromEntries(CAL_CATS);
+let calView = 'lista', calMode = 'dia', calDate = todayIso(), calSel = new Set(), rlogs = [];
+const CONSULTA_RE = /consulta|retorno|fisioterap|acupunt|coleta|reavalia/i;
+function calItems() {
+  const out = [], add = (date, time, cat, text, extra = {}) => date && out.push({ date, time: time || null, cat, text, ...extra });
+  for (const e of events) {
+    const cat = e.kind === 'consulta' || CONSULTA_RE.test(e.text || '') ? 'Consulta' : ['fezes', 'urina'].includes(e.kind) ? 'Fezes/xixi' : /comeu|comida|ra[çc][ãa]o|refei[çc]|petisco/i.test(e.text || '') ? 'Alimentação' : 'Acontecimento';
+    add(e.date, e.time, cat, e.text, { fut: e.date > todayIso() || (e.date === todayIso() && e.time && e.time > new Date().toTimeString().slice(0, 5)), mark: e.mark, id: e.id, appt: e.kind === 'consulta' });
+  }
+  for (const x of exams) add(x.date, x.time, 'Exame', `${x.kind || 'Exame'}${x.lab ? ' · ' + x.lab : ''}`);
+  for (const v of vitals) {
+    if (v.water_ml) add(v.date, v.time, 'Água', `${fmt(v.water_ml)} mL${v.note ? ' · ' + v.note : ''}`);
+    if (v.food_g || (v.food && !v.water_ml && v.temp == null)) add(v.date, v.time, 'Alimentação', v.food_g ? `${fmt(v.food_g)} g${v.note ? ' · ' + v.note : ''}` : (v.note || 'comeu'));
+    if (typeof v.temp === 'number') add(v.date, v.time, 'Temperatura', `${fmt(v.temp)} °C${v.temp2 ? ' / ' + fmt(v.temp2) + ' °C' : ''}`);
+  }
+  for (const l of rlogs) {
+    if (l.kind === 'decubito') add(l.date, l.time, 'Decúbito', 'Troca de decúbito' + (l.side ? ' · ' + l.side : ''));
+    else if (l.kind === 'med') add(l.date, l.time, 'Remédio', l.label + (l.status === 'skipped' ? ' (pulou)' : ''), { skip: l.status === 'skipped' });
+  }
+  for (const m of meds) { if (m.start) add(m.start, null, 'Remédio', `Começou: ${m.name}`); if (m.end && m.end <= todayIso()) add(m.end, null, 'Remédio', `Terminou: ${m.name}`); }
+  for (const v of prevent) if (!v.planned && v.date) add(v.date, null, 'Vacina', `${v.kind}: ${v.product}`);
+  for (const p of photos) add(p.date, p.time, 'Foto', p.caption || 'Foto', { assetId: p.assetId, video: p.video });
+  return out;
+}
+const calShown = items => calSel.size ? items.filter(i => calSel.has(i.cat)) : items;
+const wdShort = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+const dowOf = iso => new Date(dayNum(iso) * 864e5).getUTCDay();
+const dayTitle = iso => new Date(iso + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
+function calDayList(iso, items) {
+  const st = stayOf(iso), list = items.filter(i => i.date === iso).sort((a, b) => (a.time || '99') < (b.time || '99') ? -1 : (a.time || '99') > (b.time || '99') ? 1 : 0);
+  const stay = st && (!calSel.size || calSel.has('Internação')) ? `<div class="citem" style="--cc:${CAL_COLOR['Internação']}"><span class="h">dia todo</span><span><span class="k">Internação</span> ${esc(st.label)} na ${esc(st.clinic)}</span></div>` : '';
+  const rows = list.map(i => `<div class="citem${i.skip ? ' skip' : ''}${i.fut ? ' fut' : ''}" style="--cc:${CAL_COLOR[i.cat]}"><span class="h">${esc(i.time || '—')}</span><span><span class="k">${esc(i.cat)}${i.fut ? ' · agendado' : ''}</span> ${esc(i.text)}${i.assetId && !i.video ? `<br><img class="tlp" src="${esc(photoSrc(i.assetId))}" alt="" loading="lazy" data-open="${esc(i.assetId)}" data-cap="${esc(i.text)}">` : ''}${i.appt && canWrite ? ` <button class="tiny ghost" data-evdel="${esc(i.id)}">excluir</button>` : ''}</span></div>`).join('');
+  return stay + rows || '<p class="muted" style="margin:4px 0">Nada registrado.</p>';
+}
+function renderCalendar() {
+  const host = $('cal'); if (!host || host.classList.contains('hidden')) return;
+  const all = calItems(), items = calShown(all);
+  $('calCats').innerHTML = `<button class="chip${calSel.size ? '' : ' on'}" data-ccat="">Tudo</button>` + CAL_CATS.filter(([c]) => c === 'Internação' || all.some(i => i.cat === c)).map(([c, col]) => `<button class="chip${calSel.has(c) ? ' on' : ''}" data-ccat="${esc(c)}" style="--cc:${col}"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${col};margin-right:5px"></i>${esc(c)}</button>`).join('');
+  document.querySelectorAll('#calMode [data-cmode]').forEach(b => b.classList.toggle('on', b.dataset.cmode === calMode));
+  const t = todayIso();
+  if (calMode === 'dia') {
+    $('calTitle').textContent = dayTitle(calDate) + (calDate === t ? ' · hoje' : '');
+    $('calBody').innerHTML = `<div class="cday">${calDayList(calDate, items)}</div>`;
+  } else if (calMode === 'sem') {
+    const start = dayNum(calDate) - 6, days = Array.from({ length: 7 }, (_, k) => dayIso(start + k));
+    $('calTitle').textContent = `${dm(days[0])} a ${dm(days[6])}`;
+    $('calBody').innerHTML = days.slice().reverse().map(d => `<div class="cday"><h3>${esc(dayTitle(d))}${d === t ? ' <span class="muted">· hoje</span>' : ''}</h3>${calDayList(d, items)}</div>`).join('');
+  } else {
+    const first = calDate.slice(0, 8) + '01', f = dayNum(first), lead = dowOf(first), cells = [];
+    for (let k = -lead; k < 42 - lead; k++) cells.push(dayIso(f + k));
+    const mo = calDate.slice(0, 7);
+    $('calTitle').textContent = monthName(first);
+    $('calBody').innerHTML = `<div class="calgrid">${wdShort.map(w => `<div class="wd">${w}</div>`).join('')}${cells.slice(0, cells[35].slice(0, 7) === mo ? 42 : 35).map(d => {
+      const di = items.filter(i => i.date === d), st = stayOf(d), cats = [...new Set(di.map(i => i.cat))];
+      const showStay = st && (!calSel.size || calSel.has('Internação'));
+      return `<div class="cd${d.slice(0, 7) !== mo ? ' out' : ''}${d === t ? ' today' : ''}${showStay ? ' stay' : ''}" data-cday="${d}" ${showStay ? `style="--clc:${CAL_COLOR['Internação']}"` : ''} title="${esc(dayTitle(d))}">
+        <span class="n">${+d.slice(8)}</span>
+        ${di.slice(0, 3).map(i => `<span class="cev" style="--cc:${CAL_COLOR[i.cat]}">${i.time ? esc(i.time) + ' ' : ''}${esc(i.text)}</span>`).join('')}${di.length > 3 ? `<span class="muted more" style="font-size:11px">+${di.length - 3}</span>` : ''}
+        <span class="cdots">${cats.map(c => `<i style="--cc:${CAL_COLOR[c]}"></i>`).join('')}</span></div>`;
+    }).join('')}</div>`;
+  }
+}
+$('tlView').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-view]'); if (!b) return;
+  calView = b.dataset.view;
+  document.querySelectorAll('#tlView [data-view]').forEach(x => x.classList.toggle('on', x === b));
+  $('tlList').classList.toggle('hidden', calView !== 'lista'); $('cal').classList.toggle('hidden', calView !== 'cal');
+  try { localStorage.setItem('odinTlView', calView); } catch {}
+  renderCalendar();
+});
+$('cal').addEventListener('click', async ev => {
+  const nav = ev.target.closest('[data-cnav]');
+  if (nav) {
+    const k = +nav.dataset.cnav;
+    if (!k) calDate = todayIso();
+    else if (calMode === 'dia') calDate = dayIso(dayNum(calDate) + k);
+    else if (calMode === 'sem') calDate = dayIso(dayNum(calDate) + 7 * k);
+    else { const y = +calDate.slice(0, 4), m = +calDate.slice(5, 7) - 1 + k; calDate = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 10); }
+    return renderCalendar();
+  }
+  const md = ev.target.closest('[data-cmode]'); if (md) { calMode = md.dataset.cmode; return renderCalendar(); }
+  const cd = ev.target.closest('[data-cday]'); if (cd) { calDate = cd.dataset.cday; calMode = 'dia'; return renderCalendar(); }
+  const cc = ev.target.closest('[data-ccat]');
+  if (cc) { const c = cc.dataset.ccat; if (!c) calSel.clear(); else calSel.has(c) ? calSel.delete(c) : calSel.add(c); return renderCalendar(); }
+  const im = ev.target.closest('img[data-open]'); if (im) { openLightbox(im.dataset.open, false, im.dataset.cap); return; }
+  const dl = ev.target.closest('button[data-evdel]'); if (dl) { if (!armed(dl, 'excluir')) return; dl.disabled = true; try { await db.collection('events').doc(dl.dataset.evdel).delete(); } catch (e) { alertErr(e); } return; }
+  if (ev.target.id === 'calAddBtn') { const f = $('calAdd'); f.classList.toggle('hidden'); f.date.value = calDate >= todayIso() ? calDate : todayIso(); return; }
+  if (ev.target.id === 'calAddX') { $('calAdd').classList.add('hidden'); return; }
+});
+$('calAdd').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const f = ev.target, sub = f.sub.value, what = f.what.value.trim(), d = f.date.value;
+  try {
+    await db.collection('events').add({ kind: 'consulta', sub, date: f.date.value, time: f.time.value || null, text: `${sub}: ${what}`, remind: +f.remind.value || 0, mark: false, source: 'agenda', createdAt: Date.now() });
+    f.reset(); f.classList.add('hidden'); calDate = d || calDate; calMode = 'dia'; renderCalendar();
+  } catch (e) { alertErr(e); }
+});
+try { if (localStorage.getItem('odinTlView') === 'cal') setTimeout(() => document.querySelector('#tlView [data-view="cal"]').click(), 0); } catch {}
+
 /* ---------- Tabs ---------- */
 function go(tab, push = true) {
   if (!TABS.includes(tab)) tab = 'painel';
@@ -1974,7 +2112,7 @@ document.addEventListener('click', ev => { const b = ev.target.closest('[data-go
 window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
 /* ---------- Render all ---------- */
-function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderRecent(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); renderUpdated(); }
+function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderRecent(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); renderCalendar(); renderUpdated(); }
 let rt = null; const scheduleRender = () => { clearTimeout(rt); rt = setTimeout(renderAll, 60); };
 new MutationObserver(scheduleRender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', scheduleRender); } catch {}
@@ -2067,6 +2205,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
   sub('prevent', v => prevent = v);
   sub('photos', v => photos = v);
   sub('vitals', v => vitals = v);
+  sub('rotina_log', v => rlogs = v);
   rawDb.collection('meta').onSnapshot(snap => { const m = snap.docs.find(x => x.id === 'status'); lastUpdate = m ? m.data().updatedAt : null; renderUpdated(); }, () => {});
 })();
 </script>

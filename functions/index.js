@@ -19,6 +19,7 @@ const KIND = {
   decubito: { emoji: '🔄', title: 'Troca de decúbito' },
   temp: { emoji: '🌡', title: 'Temperatura' },
   compra: { emoji: '🛒', title: 'Comprar remédio' },
+  consulta: { emoji: '📅', title: 'Compromisso' },
   outro: { emoji: '🐶', title: 'Odin' }
 };
 
@@ -101,6 +102,17 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     const n = { schedId: doc.id, kind: s.kind || 'outro', label: s.label || '', medId: s.medId || null, items, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: false };
     try { await db.collection('notifs').doc(id).create(n); } catch { continue; } // já criado
     await push(id, n, false);
+  }
+  // compromissos agendados (consulta, fisioterapia, coleta…): lembrete X minutos antes
+  const appts = await db.collection('events').where('kind', '==', 'consulta').get();
+  const nowAbs = dayNum(date) * 1440 + mins(hm);
+  for (const doc of appts.docs) {
+    const e = doc.data(); if (!e.remind || !e.date || e.date < date) continue;
+    if (dayNum(e.date) * 1440 + mins(e.time || '09:00') - Number(e.remind) !== nowAbs) continue;
+    const nid = `appt_${doc.id}`, quando = e.date === date ? 'hoje' : 'amanhã';
+    const n = { kind: 'consulta', label: e.text, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: true, note: `${quando}${e.time ? ' às ' + e.time : ''}` };
+    try { await db.collection('notifs').doc(nid).create(n); } catch { continue; }
+    await push(nid, { ...n, items: [{ name: e.text, dose: '— ' + n.note }] }, false);
   }
   // estoque: uma vez por dia, avisa quem precisa comprar
   if (hm === '10:00') {

@@ -30,7 +30,7 @@ swap('\n  <p class="note">Esta página organiza', '\n  <div class="panel" id="p-
 swap("const TABS = ['painel',", "const TABS = ['painel','rotina',");
 swap("'linha'];", "'linha','admin'];");
 swap('<button class="tab" role="tab" data-tab="linha">Linha do tempo</button>', '<button class="tab" role="tab" data-tab="linha">Linha do tempo</button>\n    <button class="tab" role="tab" data-tab="admin" hidden>Admin</button>');
-swap('renderPhotos(); renderUpdated(); }', 'renderPhotos(); renderUpdated(); if (window.renderRotina) renderRotina(); }');
+swap('renderCalendar(); renderUpdated(); }', 'renderCalendar(); renderUpdated(); if (window.renderRotina) renderRotina(); }');
 swap(": '/_blob/' + encodeURIComponent(id); }", ': blobUrl(id); }');
 swap("await fetch('/_blob/' + encodeURIComponent(p.assetId))", 'await fetch(await blobUrlAsync(p.assetId))');
 const libs = ['app', 'auth', 'firestore', 'storage', 'functions', 'messaging'].map(m => `<script src="${G}firebase-${m}-compat.js"></script>`).join('\n');
