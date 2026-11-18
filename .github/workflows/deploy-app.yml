@@ -35,10 +35,14 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Validação (mesmo check de antes do commit)
         run: npm run check
-      - name: Chave da IA (se existir)
-        env: { ANTHROPIC_API_KEY: '${{ secrets.ANTHROPIC_API_KEY }}' }
+      - name: Chaves das funções (se existirem)
+        env:
+          ANTHROPIC_API_KEY: '${{ secrets.ANTHROPIC_API_KEY }}'
+          GH_DISPATCH_TOKEN: '${{ secrets.GH_DISPATCH_TOKEN }}'
         run: |
-          if [ -n "$ANTHROPIC_API_KEY" ]; then printf 'ANTHROPIC_API_KEY=%s\n' "$ANTHROPIC_API_KEY" > functions/.env; fi
+          : > functions/.env
+          if [ -n "$ANTHROPIC_API_KEY" ]; then printf 'ANTHROPIC_API_KEY=%s\n' "$ANTHROPIC_API_KEY" >> functions/.env; fi
+          if [ -n "$GH_DISPATCH_TOKEN" ]; then printf 'GH_DISPATCH_TOKEN=%s\n' "$GH_DISPATCH_TOKEN" >> functions/.env; fi
       - uses: google-github-actions/auth@v2
         with: { credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' }
       - name: Deploy

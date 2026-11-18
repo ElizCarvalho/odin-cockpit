@@ -3,6 +3,7 @@ import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { getMessaging } from 'firebase-admin/messaging';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { setGlobalOptions } from 'firebase-functions/v2';
 
 initializeApp();
@@ -137,7 +138,44 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     await doc.ref.update({ renotified: true });
     await push(doc.id, n, true);
   }
+  try { await publicarSeMudou(); } catch (e) { console.error('publicar site:', e.message); }
 });
+
+/* ---------- Site público: publica quando os dados mudam ---------- */
+// Coleções que vão pro site público (as mesmas de scripts/exportar-firestore.mjs).
+export const PUBLIC_COLS = ['exams', 'events', 'analyses', 'meds', 'prevent', 'vitals', 'photos', 'foods'];
+export const isPublicDoc = (col, id) => PUBLIC_COLS.includes(col) || (col === 'meta' && ['goals', 'status'].includes(id));
+const QUIET_MS = 3 * 60e3;   // espera 3 min sem mudança (junta várias edições num envio só)
+const MIN_GAP_MS = 10 * 60e3; // e no máximo um envio a cada 10 min
+
+// Toda escrita numa coleção pública marca o site como "desatualizado".
+export const marcarSitePublico = onDocumentWritten({ document: '{col}/{id}', memory: '256MiB' }, async ev => {
+  const { col, id } = ev.params;
+  if (!isPublicDoc(col, id)) return;
+  await db.doc('meta/publico').set({ dirtyAt: Date.now() }, { merge: true });
+});
+
+// Chamado pelo tick: se o site está desatualizado e as edições pararam, dispara o Action "Publicar site público".
+export function devePublicar(d, now) {
+  if (!d || !d.dirtyAt) return false;
+  if (d.sentAt && d.sentAt >= d.dirtyAt) return false;
+  if (now - d.dirtyAt < QUIET_MS) return false;
+  if (d.sentAt && now - d.sentAt < MIN_GAP_MS) return false;
+  return true;
+}
+async function publicarSeMudou() {
+  const tok = process.env.GH_DISPATCH_TOKEN;
+  if (!tok) return;
+  const ref = db.doc('meta/publico'), now = Date.now();
+  if (!devePublicar((await ref.get()).data(), now)) return;
+  const r = await fetch('https://api.github.com/repos/ElizCarvalho/odin-cockpit/actions/workflows/publicar-site.yml/dispatches', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${tok}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'odin-cockpit' },
+    body: JSON.stringify({ ref: 'main' })
+  });
+  await ref.set({ sentAt: now, lastStatus: r.status }, { merge: true });
+  if (!r.ok) console.error('dispatch do site público:', r.status, (await r.text()).slice(0, 200));
+}
 
 async function canEdit(email) {
   if (!email) return false;

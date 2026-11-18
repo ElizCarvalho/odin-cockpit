@@ -54,8 +54,10 @@ try {
     const s = { active: true, every: 120, from: '08:00', to: '22:00' };
     const t = [m.isDue(s, '2026-01-01', '10:00'), m.isDue(s, '2026-01-01', '10:30'), m.isDue({ active: true, times: ['09:00'] }, '2026-01-01', '09:00'),
       m.isDue({ active: false, times: ['09:00'] }, '2026-01-01', '09:00'), m.isDue({ active: true, times: ['09:00'], until: '2025-12-31' }, '2026-01-01', '09:00')];
-    console.log(JSON.stringify(t));`], { encoding: 'utf8', cwd: r('functions'), stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop();
-  out === '[true,false,true,false,false]' ? ok('functions carregam e isDue confere') : bad('isDue deu ' + out);
+    const N = 1e9, P = [m.devePublicar({ dirtyAt: N - 4 * 60e3 }, N), m.devePublicar({ dirtyAt: N - 60e3 }, N), m.devePublicar({ dirtyAt: N - 4 * 60e3, sentAt: N - 5 * 60e3 }, N),
+      m.devePublicar({ dirtyAt: N - 20 * 60e3, sentAt: N - 30 * 60e3 }, N), m.devePublicar({ dirtyAt: N - 30 * 60e3, sentAt: N - 20 * 60e3 }, N), m.isPublicDoc('vitals', 'x'), m.isPublicDoc('rotina_log', 'x'), m.isPublicDoc('meta', 'publico')];
+    console.log(JSON.stringify(t) + JSON.stringify(P));`], { encoding: 'utf8', cwd: r('functions'), stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop();
+  out === '[true,false,true,false,false][true,false,false,true,false,true,false,false]' ? ok('functions carregam, isDue e o gatilho do site público conferem') : bad('isDue/devePublicar deu ' + out);
 } catch (e) {
   const msg = String(e.stderr || e.message);
   /Cannot find (package|module) 'firebase-/.test(msg) ? console.log('• functions: pulei (rode npm ci --prefix functions pra testar)') : bad('functions: ' + msg.trim().split('\n').slice(-1)[0]);

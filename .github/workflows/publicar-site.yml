@@ -2,7 +2,7 @@ name: Publicar site público
 
 on:
   schedule:
-    - cron: '17 * * * *'   # de hora em hora
+    - cron: '17 */6 * * *'   # rede de segurança; o normal é o Firebase disparar quando os dados mudam
   workflow_dispatch:
 
 permissions:
