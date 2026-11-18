@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-18T17:31:20.579Z",
- "updatedAt": 1795022854392,
+ "exportedAt": "2026-11-18T17:44:17.172Z",
+ "updatedAt": 1795023647597,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -2481,6 +2481,14 @@
    "date": "2026-11-17",
    "time": "20:30",
    "temp": 39.6,
+   "note": ""
+  },
+  {
+   "id": "MnkoB1jFCrvWZqJVIg20",
+   "date": "2026-11-18",
+   "time": "14:34",
+   "water_ml": 150,
+   "drinkId": "agua",
    "note": ""
   },
   {
