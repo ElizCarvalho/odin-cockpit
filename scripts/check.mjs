@@ -92,13 +92,13 @@ else {
   else { process.stdout.write(res.stdout.split('\n').filter(l => l.startsWith('✗')).map(l => '   ' + l).join('\n') + '\n'); bad('smoke falhou'); }
 }
 
-// 7. cenários de comportamento (Gherkin em português, features/*.feature)
+// 7. cenários de comportamento (Gherkin em português, features/*.feature), no Chrome e no Safari simulando iPhone
 if (process.argv.includes('--rapido')) console.log('• cenários: pulados (--rapido)');
-else {
-  const res = spawnSync('npx', ['cucumber-js', '--format', 'summary'], { encoding: 'utf8', cwd: r('.') });
+else for (const [nav, nome] of [['chromium', 'Chrome'], ['webkit', 'Safari/iPhone']]) {
+  const res = spawnSync('npx', ['cucumber-js', '--format', 'summary'], { encoding: 'utf8', cwd: r('.'), env: { ...process.env, NAVEGADOR: nav } });
   const resumo = (res.stdout.match(/(\d+) scenarios? \(([^)]*)\)/) || [])[0] || '';
-  if (res.status === 0) ok('cenários Gherkin: ' + resumo.replace('scenarios', 'cenários').replace('passed', 'ok'));
-  else { process.stdout.write((res.stdout + res.stderr).split('\n').filter(l => /✖|Error|scenarios/.test(l)).slice(0, 20).map(l => '   ' + l).join('\n') + '\n'); bad('cenários Gherkin falharam (npm run bdd pra ver o detalhe)'); }
+  if (res.status === 0) ok(`cenários Gherkin no ${nome}: ` + resumo.replace('scenarios', 'cenários').replace('passed', 'ok'));
+  else { process.stdout.write((res.stdout + res.stderr).split('\n').filter(l => /✖|Error|scenarios/.test(l)).slice(0, 20).map(l => '   ' + l).join('\n') + '\n'); bad(`cenários Gherkin falharam no ${nome} (NAVEGADOR=${nav} npm run bdd pra ver o detalhe)`); }
 }
 
 if (fails.length) { console.error(`\n✗ check: ${fails.length} problema(s). Não commite assim.`); process.exit(1); }

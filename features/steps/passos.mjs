@@ -91,6 +91,11 @@ Then('a consulta aparece no calendário de hoje', async function () {
   await expect(this.historico.compromisso('Consulta: ' + MASSA.consulta)).toBeVisible()
 })
 
+Then(/^eu vejo a confirmação de que (?:a|o) (comida|xixi|água) foi registrad[ao]$/, async function (oque) {
+  const marca = { comida: '🍽', xixi: 'Xixi', 'água': '💧' }[oque]
+  await expect(this.page.getByRole('status').filter({ hasText: 'Registrado' })).toContainText(marca)
+})
+
 /* ---------- Lembretes ---------- */
 When('eu respondo o lembrete de água dizendo que ele bebeu água de coco', async function () {
   await this.abrir()
@@ -178,4 +183,26 @@ Then('o histórico dele mostra a pausa', async function () {
   const r = await this.medicamentos.abrir('Em uso', MASSA.remedio)
   await expect(r).toContainText('Pausas anteriores')
   expect(this.dialogos).toEqual([])
+})
+
+/* ---------- Site público ---------- */
+Given('que eu visito o site público no celular', async function () { this.largura = TELA.celular; await this.abrirSite() })
+Given('que eu visito o site público no computador', async function () { this.largura = TELA.computador; await this.abrirSite() })
+When('eu abro {string} em {string} no site', async function (parte, secao) { await this.nav.abrir(secao, parte) })
+When('eu abro {string} no site', async function (secao) { await this.nav.abrir(secao) })
+Then('eu vejo as seções Hoje, Evolução, Histórico e Mais', async function () {
+  for (const s of ['Hoje', 'Evolução', 'Histórico', 'Mais']) await expect(this.nav.secao(s)).toBeVisible()
+})
+Then('a página não registra erro', function () { expect([...this.erros, ...this.consoleErros]).toEqual([]) })
+Then('eu não encontro Lembretes nem Admin', async function () {
+  await expect(this.nav.partes.getByRole('tab')).toHaveText(['Medicamentos', 'Vacinas e vermífugos'])
+})
+Then('não aparece nenhum endereço de e-mail na página', async function () {
+  expect(await this.page.locator('body').innerText()).not.toMatch(/[\w.+-]+@[\w-]+\.[\w.]+/)
+})
+Then('todo o conteúdo da página está dentro do cabeçalho, do menu ou de uma seção', async function () {
+  const soltos = await this.page.evaluate(() => [...document.body.childNodes]
+    .filter(n => (n.nodeType === 3 && n.textContent.trim()) || (n.nodeType === 1 && !/^(SCRIPT|STYLE|HEADER|NAV|MAIN|FOOTER|DIV|SECTION|TEMPLATE|DIALOG|P)$/.test(n.tagName) && n.offsetParent !== null && n.innerText?.trim()))
+    .map(n => (n.textContent || '').trim().slice(0, 40)))
+  expect(soltos).toEqual([])
 })

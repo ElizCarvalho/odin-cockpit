@@ -17,14 +17,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - name: Dependências (firebase-admin das functions)
-        run: npm ci --prefix functions
+      - name: Dependências (firebase-admin das functions, Playwright e Cucumber)
+        run: |
+          npm ci --prefix functions
+          npm ci
+          npx playwright install --with-deps chromium webkit
       - uses: google-github-actions/auth@v2
         with: { credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' }
       - name: Exporta do Firebase
         run: node scripts/exportar-firestore.mjs
       - name: Anonimiza e monta o site (para se sobrar dado pessoal)
         run: node scripts/publicar.mjs
+      - name: Testa o site gerado antes de publicar (Chrome e Safari/iPhone)
+        run: |
+          rm -f gha-creds-*.json
+          SITE_DIR=docs npx cucumber-js --tags @site --format summary
+          SITE_DIR=docs NAVEGADOR=webkit npx cucumber-js --tags @site --format summary
       - name: Publica se mudou
         run: |
           rm -f gha-creds-*.json

@@ -11,7 +11,8 @@ Funcionalidade: Responder os lembretes do dia
   Cenário: Água de coco conta só pela água que ela tem
     Ilustração: 150 mL de água de coco, que é 95% água, somam 143 mL.
     Quando eu respondo o lembrete de água dizendo que ele bebeu água de coco
-    Então a água de hoje soma só a parte de água da água de coco
+    Então eu vejo a confirmação de que a água foi registrada
+    E a água de hoje soma só a parte de água da água de coco
 
   Cenário: No lembrete de vários remédios, registro o que dei e o que não dei
     Quando eu confirmo o lembrete da manhã deixando de fora um dos remédios

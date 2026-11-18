@@ -356,6 +356,15 @@
   const arm = b => { if (b.dataset.armed === '1') return true; const t0 = b.textContent; b.dataset.armed = '1'; b.textContent = 'confirmar?'; setTimeout(() => { b.dataset.armed = ''; b.textContent = t0; }, 4000); return false; };
 
   /* ---------- Eventos ---------- */
+  // confirmação visível mesmo quando o formulário é redesenhado (toast do cockpit; sem ele, mensagem no próprio form)
+  const feito = (el, msg) => { if (typeof window.toast === 'function') window.toast(msg); else say(el, msg); };
+  const descreve = (n, f) => {
+    const g = k => f.querySelector(`[name=${k}]`), hora = g('time')?.value || hhmm();
+    if (n.kind === 'comida') { const fd = foodList().find(x => x.id === g('fid')?.value); return `🍽 ${g('v')?.value || ''} ${fd ? (fd.unit === 'un' ? 'un. de ' : 'g de ') + fd.name : ''} às ${hora}`.replace(/\s+/g, ' '); }
+    if (n.kind === 'agua') { const fd = foodList().find(x => x.id === g('fid')?.value); return `💧 ${g('v')?.value || ''} mL de ${fd ? fd.name : 'água'} às ${hora}`; }
+    if (n.kind === 'med') { const k = f.querySelectorAll('[name=it]:checked').length; return `💊 ${k || ''} remédio${k === 1 ? '' : 's'} dado${k === 1 ? '' : 's'} às ${hora}`.replace(/^💊\s+r/, '💊 R'); }
+    return `${(KIND[n.kind] || KIND.outro).e} ${(KIND[n.kind] || KIND.outro).t} às ${hora}`;
+  };
   const say = (el, msg) => { let p = el.querySelector('.rMsg'); if (!p) { p = document.createElement('p'); p.className = 'muted rMsg'; el.appendChild(p); } p.textContent = msg; };
   document.addEventListener('input', ev => { if (ev.target.closest && ev.target.closest('form.rForm')) ev.target.dataset.touched = '1'; }, true);
   document.addEventListener('change', ev => { if (ev.target.closest && ev.target.closest('form.rForm')) ev.target.dataset.touched = '1'; }, true);
@@ -366,7 +375,8 @@
       const n = notifs.find(x => x.id === f.dataset.n) || { kind: f.dataset.kind, label: (KIND[f.dataset.kind] || KIND.outro).t, date: todayIso() };
       if (!f.dataset.n && n.kind === 'med') { n.items = activeMeds().map(m => ({ medId: m.id, name: m.name, dose: '' })); n.label = 'Fora de hora'; }
       const b = f.querySelector('[type=submit]'); b.disabled = true;
-      try { await answer(n, f, false); if (!f.dataset.n) { [...f.elements].forEach(e => delete e.dataset.touched); f.reset(); say(f, 'Salvo ✓'); } }
+      const msg = descreve(n, f);
+      try { await answer(n, f, false); feito(f, '✓ Registrado: ' + msg); if (!f.dataset.n) { [...f.elements].forEach(e => delete e.dataset.touched); f.reset(); } }
       catch (e) { say(f, 'Não salvou: ' + (e.message || e.code)); }
       finally { b.disabled = false; }
     }
@@ -416,7 +426,7 @@
     const t = ev.target;
     if (t.matches('[data-skip]')) {
       const f = t.closest('form'); const n = notifs.find(x => x.id === f.dataset.n);
-      if (n) { t.disabled = true; await answer(n, f, true).catch(e => say(f, e.message)); }
+      if (n) { t.disabled = true; await answer(n, f, true).then(() => feito(f, '⏭ Pulado: ' + (n.label || (KIND[n.kind] || KIND.outro).t))).catch(e => say(f, e.message)); }
     }
     if (t.matches('[data-late]')) { lateId = t.dataset.late; render(); }
     if (t.matches('[data-latex]')) { lateId = null; render(); }
@@ -425,7 +435,7 @@
       const tm = t.closest('.rLate').querySelector('[name=lt]').value || hhmm();
       t.disabled = true;
       await fb.fs.collection('rotina_log').doc(l.id).update({ status: 'done', time: tm, planned: l.time || '', note: ['dado com atraso' + (l.time ? ' (era ' + l.time + ')' : ''), l.note].filter(Boolean).join(' · '), lateBy: me(), lateAt: Date.now() });
-      lateId = null; t.blur(); render();
+      lateId = null; t.blur(); render(); feito(t, '✓ Registrado como dado às ' + tm);
     }
     if (t.closest('[data-freex]')) { freeKind = null; render(); document.querySelectorAll('#regGrid .regb').forEach(b => b.classList.remove('on')); }
     const fr = t.closest('[data-free]');

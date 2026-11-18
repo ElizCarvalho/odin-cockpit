@@ -21,7 +21,9 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const push = args.includes('--push');
-const fileArg = args.find(a => !a.startsWith('--'));
+const iSaida = args.indexOf('--saida');
+const OUT = iSaida >= 0 ? path.resolve(args[iSaida + 1]) : path.join(ROOT, 'docs'); // --saida <pasta>: gera em outro lugar (teste)
+const fileArg = args.find((a, i) => !a.startsWith('--') && (iSaida < 0 || i !== iSaida + 1));
 
 function findExport() {
   if (fileArg) return path.resolve(fileArg);
@@ -78,7 +80,7 @@ console.log('Export:', src);
 const raw = JSON.parse(fs.readFileSync(src, 'utf8'));
 
 // fotos: tira o base64 do JSON e grava como arquivo
-const photosDir = path.join(ROOT, 'docs/data/photos');
+const photosDir = path.join(OUT, 'data/photos');
 fs.rmSync(photosDir, { recursive: true, force: true });
 fs.mkdirSync(photosDir, { recursive: true });
 const photos = [];
@@ -119,14 +121,14 @@ if (hits.length) {
   process.exit(1);
 }
 
-fs.mkdirSync(path.join(ROOT, 'docs/data'), { recursive: true });
-fs.writeFileSync(path.join(ROOT, 'docs/data/odin.json'), json);
+fs.mkdirSync(path.join(OUT, 'data'), { recursive: true });
+fs.writeFileSync(path.join(OUT, 'data/odin.json'), json);
 
 // site = mesma página do artefato, em modo só leitura
 const html = fs.readFileSync(path.join(ROOT, 'artifact/index.html'), 'utf8')
   .replace('<head>', '<head>\n<script>window.ODIN_STATIC = "data/odin.json";</script>\n<meta name="robots" content="noindex">');
-fs.writeFileSync(path.join(ROOT, 'docs/index.html'), html);
-fs.writeFileSync(path.join(ROOT, 'docs/.nojekyll'), '');
+fs.writeFileSync(path.join(OUT, 'index.html'), html);
+fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
 
 console.log(`OK: ${data.exams.length} exames, ${data.events.length} acontecimentos, ${data.meds.length} remédios, ${data.prevent.length} vacinas/vermífugos, ${data.vitals.length} medições de temperatura, ${photos.length} fotos.`);
 

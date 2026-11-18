@@ -11,7 +11,8 @@
     "deploy:verificar": "node scripts/verificar-deploy.mjs",
     "publicar": "node scripts/publicar.mjs",
     "ver": "npx --yes serve docs -l 4173",
-    "bdd": "node scripts/build-app.mjs && cucumber-js"
+    "bdd": "node scripts/build-app.mjs && cucumber-js",
+    "producao:conferir": "node scripts/conferir-producao.mjs"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^11.3.0",

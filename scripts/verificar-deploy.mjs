@@ -55,5 +55,11 @@ if (pages && pages.conclusion === 'success') {
   st === 200 ? console.log(`✓ site público respondendo: ${SITE}`) : (console.log(`✗ site público respondeu ${st}`), fail = true);
 }
 
+// conferência em produção (só leitura): app e site no iPhone/Safari e no computador/Chrome
+if (!fail) {
+  console.log('\nConferindo produção no iPhone e no computador…');
+  try { execFileSync('node', [root + 'scripts/conferir-producao.mjs'], { stdio: 'inherit' }); }
+  catch { fail = true; }
+}
 if (fail) { console.error('\n✗ deploy com problema: veja os links acima.'); process.exit(1); }
 console.log('\n✓ tudo no ar');

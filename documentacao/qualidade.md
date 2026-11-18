@@ -10,7 +10,10 @@ flowchart TB
   D --> E["5. Privacidade: sem export bruto,<br/>sem chave, segredo ou CPF no git"]
   E --> F["6. Smoke no navegador<br/>390 e 1440 px · admin/edita/só vê"]
   F --> G["7. Cenários Gherkin<br/>(features/*.feature)"]
-  G --> H["deploy:verificar<br/>o Action passou e o app<br/>serve exatamente este commit"]
+  G --> G2["7b. Os mesmos cenários no Safari<br/>simulando iPhone (WebKit)"]
+  G2 --> H["deploy:verificar<br/>o Action passou e o app<br/>serve exatamente este commit"]
+  H --> I["Conferência de produção<br/>app + site no iPhone e no computador"]
+  I --> J["Executor com evidência<br/>(Playwright MCP) quando muda tela"]
 ```
 
 ## As camadas
@@ -20,7 +23,12 @@ flowchart TB
 | Estática | `scripts/check.mjs` (passos 1–5) | Erro de sintaxe, JSON quebrado, segredo vazado, regra de horário errada | ~3 s |
 | Smoke | `tests/smoke.mjs` | Tela que estoura a largura, erro de JavaScript, fluxo quebrado em qualquer papel | ~60 s |
 | Comportamento | `features/*.feature` + Page Objects + passos | Regra de negócio escrita como a pessoa fala, conferida na tela | ~40 s |
-| Produção | `scripts/verificar-deploy.mjs` | Deploy que falhou em silêncio, cache servindo versão velha | até alguns minutos |
+| Safari / iPhone | os mesmos cenários com `NAVEGADOR=webkit` (perfil iPhone 15) | Diferença de comportamento do Safari | ~40 s |
+| Site público | `features/site-publico.feature` (`@site`), sobre um site gerado do seed pelo mesmo `publicar.mjs`; no Action de publicar, sobre o site real antes do commit | Seção de registro aparecendo, dado pessoal, erro no console, tela estourando | ~15 s |
+| Produção | `scripts/verificar-deploy.mjs` + `scripts/conferir-producao.mjs` | Deploy que falhou em silêncio, cache servindo versão velha, erro de JS ou layout quebrado no ar (iPhone e computador) | até alguns minutos |
+| Aceite com evidência | Playwright MCP (qa-test-executor) no modo teste, 390 × 844 | O que só se vê olhando: a tela de verdade, com print | por cenário |
+
+**O que nenhuma camada pega:** o teclado e a barra de status de um iPhone de verdade. Bug achado no aparelho vira cenário, como o "Ok, visto" do aviso de compra (18/11).
 
 O smoke e os cenários rodam o **app de verdade** (`app/public`) num Chromium, com um Firebase falso (`tests/fakefb.js`) e dados de teste (`tests/seed.mjs`). Nada toca o Firebase real.
 

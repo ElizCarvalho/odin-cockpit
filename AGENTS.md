@@ -13,7 +13,8 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
    - Mudou tela? Olhe também no navegador: `npm run app:ver` (http://localhost:5050, com Firebase de verdade, então precisa logar).
 4. **Commit** na `main`, com mensagem curta em português dizendo o que mudou pra quem usa (ex.: "Linha do tempo: itens do dia em ordem de hora"). Terminar com as linhas de coautoria que o ambiente pedir.
 5. **Push:** `git push`. Se for rejeitado, `git pull --rebase`, rode `npm run check` de novo e repita.
-6. **Conferir que está no ar:** `npm run deploy:verificar`. Ele espera os GitHub Actions desse commit e confere se https://odin-cockpit.web.app está servindo exatamente esse commit (e o site público, se `docs/` mudou).
+6. **Conferir que está no ar:** `npm run deploy:verificar`. Ele espera os GitHub Actions desse commit, confere se https://odin-cockpit.web.app está servindo exatamente esse commit (e o site público, se `docs/` mudou) e roda a **conferência de produção** (`npm run producao:conferir`): app e site no iPhone/Safari e no computador/Chrome, procurando erro de JS, menu fora do lugar e tela estourando.
+   - **Mudou tela?** Depois do deploy, execute pelo menos um cenário afetado com o **Playwright MCP** (método qa-test-executor) no tamanho de iPhone (390 × 844), contra o modo teste (https://odin-cockpit.web.app/teste/), e registre em `documentacao/execucoes/AAAA-MM-DD.md`. Se o Playwright MCP não estiver disponível na sessão, diga isso no resumo pra Elis.
    - Só diga "está no ar" depois disso dar ✓. Se der ✗, abra o link do Action, leia o erro e conserte.
 7. **Contar pra Elis** em 1–3 frases: o que mudou, onde ver, e se ela precisa fazer algo (recarregar o app etc.).
 

@@ -32,7 +32,7 @@ jobs:
         run: |
           npm ci
           npm ci --prefix functions
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
       - name: Validação (mesmo check de antes do commit)
         run: npm run check
       - name: Chaves das funções (se existirem)

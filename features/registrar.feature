@@ -11,7 +11,8 @@ Funcionalidade: Registrar qualquer cuidado num lugar só
   Cenário: Comida contada em unidades entra nas calorias do dia
     Ilustração: 2 Biscrok Multi de 10 g somam 20 g; a 340 kcal/100 g, são 68 kcal.
     Quando eu registro que ele comeu biscoitos contados por unidade
-    Então as calorias de hoje passam a contar esses biscoitos pelo catálogo de alimentos
+    Então eu vejo a confirmação de que a comida foi registrada
+    E as calorias de hoje passam a contar esses biscoitos pelo catálogo de alimentos
 
   Cenário: Remédio dado fora de hora registra só o que eu marquei
     Quando eu registro que dei apenas um dos remédios em uso
@@ -25,7 +26,8 @@ Funcionalidade: Registrar qualquer cuidado num lugar só
 
   Cenário: Xixi com escape vira um registro do dia
     Quando eu registro um xixi com escape
-    Então esse xixi aparece nas últimas 48 horas
+    Então eu vejo a confirmação de que o xixi foi registrado
+    E esse xixi aparece nas últimas 48 horas
 
   Cenário: Consulta agendada aparece no calendário
     Ilustração: consulta com a neuro hoje às 15:00, lembrete 1 dia antes.
