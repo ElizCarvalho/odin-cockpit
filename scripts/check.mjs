@@ -1,6 +1,6 @@
 // Validação antes de commitar: monta o app, confere sintaxe, JSON, funções, privacidade e (se der) roda o smoke.
 // Uso: npm run check            (tudo)
-//      npm run check -- --rapido (pula o smoke)
+//      npm run check -- --rapido (pula o smoke e os cenários)
 import { readFileSync, readdirSync, writeFileSync, mkdtempSync } from 'node:fs';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { join } from 'node:path';
@@ -90,6 +90,15 @@ else {
   if (res.status === 2) console.log('• smoke: pulado — ' + (res.stderr.trim() || 'sem playwright'));
   else if (res.status === 0) ok('smoke no navegador (390 e 1440 px, papéis admin/edita/só vê)');
   else { process.stdout.write(res.stdout.split('\n').filter(l => l.startsWith('✗')).map(l => '   ' + l).join('\n') + '\n'); bad('smoke falhou'); }
+}
+
+// 7. cenários de comportamento (Gherkin em português, features/*.feature)
+if (process.argv.includes('--rapido')) console.log('• cenários: pulados (--rapido)');
+else {
+  const res = spawnSync('npx', ['cucumber-js', '--format', 'summary'], { encoding: 'utf8', cwd: r('.') });
+  const resumo = (res.stdout.match(/(\d+) scenarios? \(([^)]*)\)/) || [])[0] || '';
+  if (res.status === 0) ok('cenários Gherkin: ' + resumo.replace('scenarios', 'cenários').replace('passed', 'ok'));
+  else { process.stdout.write((res.stdout + res.stderr).split('\n').filter(l => /✖|Error|scenarios/.test(l)).slice(0, 20).map(l => '   ' + l).join('\n') + '\n'); bad('cenários Gherkin falharam (npm run bdd pra ver o detalhe)'); }
 }
 
 if (fails.length) { console.error(`\n✗ check: ${fails.length} problema(s). Não commite assim.`); process.exit(1); }

@@ -7,3 +7,4 @@ node_modules/
 # app montado no deploy
 app/public/
 functions/.env
+relatorios/

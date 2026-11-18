@@ -10,9 +10,11 @@
     "app:ver": "node scripts/build-app.mjs && npx --yes serve app/public -l 5050",
     "deploy:verificar": "node scripts/verificar-deploy.mjs",
     "publicar": "node scripts/publicar.mjs",
-    "ver": "npx --yes serve docs -l 4173"
+    "ver": "npx --yes serve docs -l 4173",
+    "bdd": "node scripts/build-app.mjs && cucumber-js"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^11.3.0",
     "playwright": "1.63.0"
   }
 }
