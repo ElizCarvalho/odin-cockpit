@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-17T20:47:07.899Z",
- "updatedAt": 1794946982376,
+ "exportedAt": "2026-11-18T02:41:45.947Z",
+ "updatedAt": 1794968402193,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -986,11 +986,52 @@
    "mark": false
   },
   {
+   "id": "96Et8Otc9qlWi0kZDz1g",
+   "date": "2026-11-17",
+   "time": null,
+   "text": "Ausculta limpa, verificada pela veterinária.",
+   "mark": false,
+   "short": ""
+  },
+  {
+   "id": "FPswgsfC0C3kChVDcez5",
+   "date": "2026-11-17",
+   "time": "20:30",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "pastosa",
+    "cor": "marrom"
+   },
+   "text": "Fezes pastosa, marrom.",
+   "mark": false
+  },
+  {
    "id": "H5YowW5eMMTNaT7zftpy",
    "date": "2026-11-17",
    "mark": false,
    "time": "15:56",
    "text": "Parou o sangramento depois da retirada da sonda urinária. Faz xixi só com escape ou quando a bexiga é pressionada (ainda não urina sozinho de forma voluntária)."
+  },
+  {
+   "id": "VgC86Hxy4AqyJHXP60sV",
+   "date": "2026-11-17",
+   "time": "20:00",
+   "text": "Odin teve a secreção ocular limpa.",
+   "mark": false,
+   "short": ""
+  },
+  {
+   "id": "cWCvPIujG2Zla7zx2JAK",
+   "date": "2026-11-17",
+   "time": "20:07",
+   "kind": "urina",
+   "details": {
+    "como": "ao pressionar a bexiga",
+    "cor": "clarinho",
+    "quantidade": "normal"
+   },
+   "text": "Xixi ao pressionar a bexiga, clarinho, normal. a veterinária fez a massagem",
+   "mark": false
   },
   {
    "id": "dhtmgia51hfrtcfpqzs3",
@@ -1009,11 +1050,35 @@
    "time": "10:14"
   },
   {
+   "id": "jJSHtCVslaMkbw1vG8Yg",
+   "date": "2026-11-17",
+   "time": null,
+   "text": "Odin coletou sangue para hemograma com contagem de reticulócitos (série vermelha produzida pela medula) e bioquímica.",
+   "mark": false,
+   "short": ""
+  },
+  {
    "id": "nG3aIx3WOZNjuc9lbgdJ",
    "date": "2026-11-17",
    "mark": false,
    "time": "15:56",
    "text": "Gardenal: estoque resolvido, tutora conseguiu comprar (89 comprimidos de 100 mg)."
+  },
+  {
+   "id": "ntiSqkbaIhvRJBBUfogg",
+   "date": "2026-11-17",
+   "time": null,
+   "text": "A dipirona, que era em comprimido, passou a ser dada em forma líquida (0,8 mL) conforme o peso dele.",
+   "mark": false,
+   "short": ""
+  },
+  {
+   "id": "oo96nYuxIiaYV4eWBJIu",
+   "date": "2026-11-17",
+   "time": null,
+   "text": "Odin tomou dipirona líquida 0,8 mL por causa da febre.",
+   "mark": false,
+   "short": ""
   },
   {
    "id": "s70ws29424u743c1pb3m",
@@ -1022,6 +1087,14 @@
    "short": "",
    "text": "Foi feita a limpeza da secreção ocular. O olho direito estava grudado por causa da remela.",
    "time": "05:35"
+  },
+  {
+   "id": "tvSKSAxLbnJCp21otwVL",
+   "date": "2026-11-17",
+   "time": "20:30",
+   "text": "Odin estava com estado febril.",
+   "mark": false,
+   "short": ""
   },
   {
    "id": "v01",
@@ -1339,6 +1412,11 @@
  ],
  "analyses": [
   {
+   "id": "1BfeSycP6ctt9viS0DBL",
+   "text": "## O que mudou\n- **Peso: 17,5 kg** em casa, contra 18,87 kg na receita de alta (16/11). Balanças diferentes podem explicar parte da diferença, então não dá pra cravar que perdeu 1,4 kg em um dia.\n- **Temperatura: 38,1 °C**, dentro da faixa normal (37,5–39,2). Mas no mesmo dia ele foi descrito como febril e tomou dipirona. A dipirona pode ter baixado a temperatura, então esse número sozinho não descarta febre.\n\n## Tendência geral\n- O peso vem caindo sem parar: de **27 kg (22/09) pra 17,5 kg**, cerca de um terço em menos de 2 meses. Isso bate com a perda de massa muscular que a equipe já tinha notado. A diarreia e o tempo sem comer direito podem ter pesado.\n- A anemia segue sem resolver: o hematócrito (% de glóbulos vermelhos) foi de 29,8% (14/11) pra 26% (16/11). Pode ter influência da coleta, como a vet amiga comentou.\n- O hemograma e a bioquímica de 17/11 ainda não têm resultado. Eles é que vão mostrar se a medula está reagindo (reticulócitos).\n\n## Perguntas pra levar à vet\n- **Se a febre voltar, ou se a diarreia líquida continuar, ou se ele ficar mais mole ou pálido: fale com a equipe logo.** Ele saiu há pouco da internação, e a transfusão seria considerada abaixo de 15% de hematócrito.\n- Dá pra pesar sempre na mesma balança, no mesmo horário, pra acompanhar o peso de forma confiável?\n- Quanta perda de peso é esperada nessa fase, e o que fazer pra ele recuperar massa?\n- A diarreia justifica algum exame, como o de fezes?\n- Como acompanhar a febre, já que a dipirona pode mascará-la?\n- Ele ainda não urina sozinho. Se não esvaziar a bexiga, quando coletar urina pra exame?",
+   "createdAt": 1794960843757
+  },
+  {
    "id": "28q9vkvk81wxor1jtku0",
    "text": "## O que mudou\n\n- **Cinomose:** o vírus segue detectado no sangue (PCR em 15/09 e em 17/10) e também no líquor (28/10). O líquor mostra inflamação no sistema nervoso (mais células e proteína que o normal), compatível com a doença neurológica.\n- **Anemia:** o hematócrito (% de glóbulos vermelhos) caiu de 37% (22/09) para 23% (24/10) e 12,2% (08/11), quando precisou de transfusão. Em 31/10 a anemia era \"não regenerativa\" (medula sem reagir). Em 08/11 já havia reação da medula, e o laudo sugeriu avaliar hemólise (destruição dos glóbulos vermelhos). Após a transfusão ficou em torno de 28–30%, estável.\n- **Infecção/inflamação:** os leucócitos chegaram a ~50 mil em outubro e agora estão em ~15 mil, bem melhor.\n- **Plaquetas:** 148 mil em 12/11 e 692 mil em 14/11. Fibrina na amostra pode distorcer a contagem, então vale acompanhar.\n- **Peso:** de 27 kg para 19 kg, com perda importante de massa muscular.\n\n## Tendência geral\n\n- Os números do sangue estão **mais estáveis desde a transfusão**.\n- O quadro neurológico é o ponto mais pesado: tetraparesia (fraqueza nas quatro patas), mioclonia e bexiga com dificuldade de esvaziar. A neuro descreveu estabilização, sem novas convulsões.\n- A perda de peso continua e preocupa.\n\n## Perguntas pra levar à vet\n\n- Qual a causa da anemia: hemólise, medula ou sangramento? As fezes pretas de 08/11 precisam ser investigadas.\n- Dá pra fazer Coombs e avaliar a medula?\n- A ureia estava alta (110 em 09/11) com creatinina baixa. Isso é desidratação ou sangramento digestivo?\n- Quando repetir hemograma e plaquetas?\n- Como será a nutrição, já que ele perdeu muito peso?\n- Qual o plano pra bexiga e o cuidado em casa se ele sair da sonda?\n- Qual o plano de neurorreabilitação?\n\n**Atenção:** se ele ficar pálido, muito letárgico, tiver fezes pretas de novo, febre ou convulsão, avise a equipe logo.",
    "createdAt": 1794763631920
@@ -1362,6 +1440,21 @@
    "id": "9onzngmkdojufprewkue",
    "text": "## O que mudou\n- **Peso: 17,5 kg** (era 18,87 kg na alta, 16/11). Perdeu cerca de 1,4 kg em 1 dia. Pode ser diferença de balança (casa vs. clínica), mas a tendência é de queda contínua: 27 kg em setembro, 21 kg em 08/11, 17,5 kg agora.\n- **Temperatura: 38,1 °C**, normal (ref. 37,5–39,2). Sem febre, o que é bom.\n\n## Tendência geral\n- O peso segue caindo, e isso combina com a perda de massa muscular que você já vinha notando. Mesmo comendo bem, ele ainda está gastando mais do que ganha (a cinomose e a mioclonia aumentam o gasto de energia).\n- A temperatura estável vai na linha do hemograma de 16/11, que não mostrou sinal forte de infecção.\n- O hematócrito (proporção de glóbulos vermelhos no sangue) caiu de 29,8% para 26% entre 14 e 16/11. A clínica falou em nova transfusão se ficar **abaixo de 15%**. Parte da queda pode ser da coleta (agregados de plaquetas), por isso o controle é importante.\n\n## Perguntas pra levar à vet\n- Essa queda de peso é só balança ou preocupa? Precisa ajustar a quantidade de comida ou o suporte nutricional pra recuperar massa?\n- Quando repetir o hemograma? **Vale fazer logo**, já que o hematócrito vinha caindo.\n- O sangramento depois de tirar a sonda urinária é esperado? Ele já está urinando sozinho? Se não esvaziar a bexiga, falar com a clínica logo.\n- Fezes escuras e amolecidas: preciso me preocupar? Quando voltar a ter fezes pretas, avisar na hora.\n- Receita nova do fenobarbital: **ele só tem o comprimido de ontem à noite**, então isso é urgente. Falar com a neurologista hoje pra não ficar sem a dose.\n\nSe ele ficar pálido, muito mole, com fezes pretas ou convulsão, ligue pra clínica na hora.",
    "createdAt": 1794926001604
+  },
+  {
+   "id": "MlP4kw2uAoeyk4yLIp28",
+   "text": "## O que mudou\n- **Peso 17,5 kg** (balança de casa). Na alta ontem constava 18,87 kg. Balanças diferentes não se comparam bem, então a queda de ~1,4 kg em um dia provavelmente é em parte diferença de balança.\n- **Temperatura 38,1 °C**: normal, sem febre. É mais baixa que as de 07/11 (38,8) e 14/11 (38,4), mas todas estão dentro da faixa normal. Bom sinal, já que ele teve vários episódios de febre antes.\n\n## Tendência geral\n- O peso vem caindo desde setembro: **27 kg → ~24 → ~21 → ~18 → 17,5 kg**. Isso é perda grande, e boa parte é massa muscular, o que bate com o que você já observava.\n- Em compensação, ele está comendo sozinho e sem febre. Isso é o que dá base pra recuperar peso.\n- O hematócrito (volume de glóbulos vermelhos) já tinha caído de 29,8% para 26% em 16/11, e a vet amiga acha que parte disso pode ser da coleta. O hemograma de hoje com reticulócitos vai esclarecer. Ele não depende desses dois dados novos.\n\n## Perguntas pra levar à vet\n- Como pesar sempre do mesmo jeito (mesma balança, mesmo horário) pra acompanhar a perda de forma confiável?\n- Ele precisa de um plano de calorias e proteína pra recuperar massa? Quanto ele deveria comer por dia?\n- Com diarreia líquida e fezes escuras nos últimos dias, o risco de desidratação e de perder mais peso aumenta? O que devo observar?\n- Quando devo repetir o hemograma, e quais sinais (gengiva branca, moleza) pedem contato imediato?\n\n**Se a diarreia continuar, ele parar de comer ou a gengiva ficar pálida, fale com a equipe logo.**",
+   "createdAt": 1794960669443
+  },
+  {
+   "id": "QdLRERuQ3b1pmpREaJfS",
+   "text": "## O que mudou\n\n- **Peso 17,5 kg** em casa, contra 18,87 kg na alta da Rio Vet (16/11). São ~1,4 kg a menos em 1 dia. Balanças diferentes (casa x clínica) exageram a diferença, então não dá pra cravar o tamanho da queda. Pode ter influência de diarreia e de menos soro (ele saiu da fluidoterapia).\n- **Temperatura 38,1 °C:** normal, **sem febre**. É bom sinal, já que ele teve febre várias vezes antes.\n\n## Tendência geral\n\n- **O peso vem caindo sem parar**: 27 kg (22/09) → 23,5 (04/11) → 21 (08/11) → ~18,6 (15/11) → 17,5 agora. É cerca de 35% a menos desde setembro, o que bate com a perda de massa muscular que você já viu.\n- Ele está comendo bem pela boca, o que é um ponto positivo. Mas a diarreia de hoje (líquida em alguns momentos) atrapalha a recuperação do peso e pode piorar a desidratação.\n- O hematócrito (% de glóbulos vermelhos) estava em 26% em 16/11, abaixo dos 29,8% de 14/11. A vet amiga acha que parte da queda pode ser da coleta. O hemograma de hoje, com reticulócitos (células novas que a medula produz), vai esclarecer isso.\n\n## Perguntas pra levar à vet\n\n- A queda de peso é real ou diferença de balança? Vale **pesar sempre na mesma balança**.\n- A diarreia de hoje preocupa? Precisa de exame de fezes ou ajuste na alimentação?\n- Quantas calorias por dia ele precisa pra recuperar massa, e o que está faltando?\n- O que o hemograma de hoje mostrou, e a anemia está estável?\n- Quando saem o PCR de cinomose e o fenobarbital?\n\n**Fale com a equipe logo** se vier fezes pretas ou com sangue, gengiva branca, moleza forte, febre, diarreia que não para ou se ele continuar sem fazer xixi.",
+   "createdAt": 1794960721295
+  },
+  {
+   "id": "SttyZbGXtSOAnWCCXSwi",
+   "text": "## O que mudou\n- **Peso: 17,5 kg** em casa, contra 18,87 kg na alta da Rio Vet (16/11). Balanças diferentes, então não dá pra cravar a queda de 1,4 kg em um dia. Mas ela bate com a perda de massa muscular que a equipe já vinha vendo.\n- **Temperatura: 38,1 °C**, normal e sem febre. Está um pouco abaixo das últimas medidas (38,4 em 14/11; 38,8 em 07/11).\n\n## Tendência geral\n- **O peso segue caindo** desde setembro (27 kg → 24,75 → 23,5 → ~19 → 17,5). É a perda de músculo da doença somada a dias de pouca comida.\n- A temperatura normal é um bom sinal, mas não descarta infecção. Os leucócitos seguem altos, e a diarreia e a secreção nos olhos e no nariz continuam.\n- **Ponto de atenção:** em 17/11 ele teve diarreia líquida duas vezes, fez pouco xixi e já vinha com fezes bem escuras (16/11) e anemia (Ht 26% em 16/11, abaixo do 29,8% de 14/11). Diarreia líquida repetida pode desidratar e derrubar ainda mais o peso. **Vale avisar a Rio Vet ou a neuro hoje**, sem esperar o próximo exame.\n\n## Perguntas pra levar à vet\n- Essa diarreia líquida precisa de exame de fezes ou de reavaliação? Fezes escuras junto com anemia merecem checagem?\n- Quando repetir o hemograma? A queda do hematócrito foi real ou efeito dos agregados de plaquetas?\n- Como ver se ele está desidratado e quanto ele precisa comer por dia pra parar de perder peso?\n- Vale pesar de novo na mesma balança, pra comparar certinho?\n- Como confirmar que a bexiga esvazia por completo, já que ele ainda não urina sozinho? Precisa de exame de urina?\n- Quando saem o PCR de cinomose e o fenobarbital, coletados em 16/11?",
+   "createdAt": 1794960591480
   },
   {
    "id": "a01",
@@ -1404,6 +1497,11 @@
    "createdAt": 1794925665254
   },
   {
+   "id": "rkxjwuHMXzoo4ZIZzmgq",
+   "text": "## O que mudou\n- **Anemia (hematócrito = % de glóbulos vermelhos):** foi de 37% (set.) para 12,2% em 08/11. Depois da transfusão subiu para ~29%, mas em 16/11 caiu pra **26%**. A vet amiga lembrou que os agregados de plaquetas na amostra podem ter atrapalhado.\n- **Infecção/inflamação:** os neutrófilos seguem altos e os linfócitos baixos, comum na cinomose. O pico de leucócitos foi em outubro, e agora está menor.\n- **Neurológico:** sem convulsões e com espasmos menores. Segue tetraparético, mas consciente.\n- **Peso:** de 27 kg para **17,5 kg**, perda contínua.\n- **Positivo:** comendo sozinho, gengiva rosada, ausculta limpa.\n\n## Tendência geral\nO quadro neurológico parece estabilizando, mas o **hematócrito não se sustentou** e o peso continua caindo. Pontos de atenção: **febre em 17/11**, fezes escuras e diarreia (o ferro também escurece as fezes) e **ainda sem urinar sozinho**, com histórico de cistite. Os exames de 17/11 (reticulócitos, que mostram se a medula está produzindo, e bioquímica) estão pendentes. PCR da cinomose e fenobarbital também aguardam resultado.\n\n**Como há febre, anemia e bexiga sem esvaziar, vale falar com a equipe ainda hoje**, sem esperar o retorno.\n\n## Perguntas pra levar à vet\n- O hematócrito de 26% é queda real ou efeito da coleta? Quando repetir?\n- As fezes escuras indicam sangramento digestivo ou é o ferro?\n- Qual a causa da febre? A dipirona pode mascarar a temperatura?\n- Como acompanhar a bexiga? Quando coletar urina?\n- Como frear a perda de peso e massa muscular?\n- Os reticulócitos mostram a medula respondendo?\n- Quando sai o fenobarbital e quem ajusta a dose?",
+   "createdAt": 1794960864070
+  },
+  {
    "id": "syei46pe1ocrgbvqyypq",
    "text": "## O que mudou\n- **Cinomose:** o vírus ainda aparece no sangue (PCR) e no líquor (o líquido que envolve cérebro e medula). O líquor tem células e proteína acima do normal, o que indica inflamação no sistema nervoso. Isso bate com a mioclonia (espasmos) e a tetraparesia (fraqueza nas quatro patas).\n- **Anemia:** o hematócrito (% de glóbulos vermelhos) caiu de 37% para 12,2% em 08/11. Subiu para ~29% após a transfusão e se manteve estável em 12 e 14/11. Antes da queda, a anemia era \"não regenerativa\" (a medula não repunha células); em 08/11 já havia reticulocitose, ou seja, a medula reagindo.\n- **Infecção/inflamação:** os leucócitos chegaram a 50 mil em outubro e agora estão ~15 mil, quase normais.\n- **Plaquetas:** foram a 148 mil em 12/11 e a 692 mil em 14/11. Pode ser amostra com fibrina ou rebote, mas vale acompanhar.\n- **Peso:** de 27 kg para 19 kg, com grande perda de massa muscular.\n- **Ureia** estava alta (110) em 09/11, com creatinina normal. Pode ser desidratação ou sangramento digestivo (as fezes pretas).\n\n## Tendência geral\n- Anemia **estabilizada após a transfusão**, mas a causa ainda não está esclarecida.\n- Sinais gerais (infecção, febre, hemograma) **melhoraram**.\n- O quadro neurológico é o ponto mais grave: **sem melhora clara** e com perda de peso contínua.\n\n## Perguntas pra levar à vet\n- Por que o hematócrito caiu tanto? Pode ser hemólise (destruição dos glóbulos vermelhos), sangramento digestivo ou problema na medula? Que exames faltam?\n- A ureia alta e as fezes pretas indicam sangramento no estômago ou intestino?\n- Como o hematócrito será monitorado após a alta, e com que frequência?\n- A plaqueta alta é preocupante?\n- Como garantir nutrição e frear a perda de peso?\n- Qual o prognóstico neurológico e quando começa a neurorreabilitação?\n- Quais sinais de alerta exigem voltar na hora (palidez, fezes pretas, febre, urina travada)?\n\n**Se ele ficar pálido, letárgico ou com fezes pretas de novo, fale com a equipe logo.**",
    "createdAt": 1794770211706
@@ -1430,6 +1528,20 @@
   }
  ],
  "meds": [
+  {
+   "id": "0brLnf09agm5aXOnef3c",
+   "name": "Dipirona líquida",
+   "purpose": "Estado febril",
+   "dose": "0,8 mL (líquido, em vez de comprimido, ajustado ao peso)",
+   "start": "2026-11-17",
+   "end": null,
+   "endEstimated": false,
+   "notes": "da receita: relato",
+   "allergy": false,
+   "clinic": "",
+   "composition": "Dipirona",
+   "components": []
+  },
   {
    "id": "0v5llg0vglvnd4qo2bsq",
    "allergy": false,
@@ -2325,6 +2437,13 @@
    "note": "ração sólida · comeu entre 09:30 e 10:20, junto com os remédios"
   },
   {
+   "id": "GpPmVoYlCxjOokTwPIDl",
+   "date": "2026-11-17",
+   "time": "20:30",
+   "temp": 39.6,
+   "note": ""
+  },
+  {
    "id": "TJ8PtwISGSWZJbtv6oql",
    "date": "2026-11-17",
    "time": "09:30",
@@ -2363,6 +2482,22 @@
    "water_ml": 100
   },
   {
+   "id": "kVLU8xZATqB7y3nKskCP",
+   "date": "2026-11-17",
+   "time": "17:51",
+   "water_ml": 100,
+   "drinkId": "coco",
+   "note": "água de coco natural"
+  },
+  {
+   "id": "kaQlnAONnuE906rMCjMQ",
+   "date": "2026-11-17",
+   "time": "21:30",
+   "food": true,
+   "note": "Ração úmida Recovery Royal Canini",
+   "food_g": 195
+  },
+  {
    "id": "m6g0pafu4bhbt2qe98u9",
    "date": "2026-11-16",
    "food": false,
@@ -2391,6 +2526,13 @@
    "temp": null,
    "time": "21:00",
    "water_ml": 150
+  },
+  {
+   "id": "p1kxaO2BCbXfFivlGbjV",
+   "date": "2026-11-17",
+   "time": "20:45",
+   "temp": 39.1,
+   "note": ""
   },
   {
    "id": "q20261030-0700-1",
@@ -2908,6 +3050,14 @@
    "time": "10:00"
   },
   {
+   "id": "qEBZGPSn76g1lrwlCQEs",
+   "date": "2026-11-17",
+   "time": "20:50",
+   "water_ml": 110,
+   "drinkId": "coco",
+   "note": "água de coco natural"
+  },
+  {
    "id": "raZ06IRnhIHth36yqKmP",
    "date": "2026-11-17",
    "time": "14:30",
@@ -2921,6 +3071,14 @@
    "time": "15:00",
    "water_ml": 100,
    "note": "água de coco"
+  },
+  {
+   "id": "srtfaSMZN155xFsP5Pe2",
+   "date": "2026-11-17",
+   "time": "21:06",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural"
   },
   {
    "id": "vujdj5fxku1wd8m71nzg",
@@ -2950,11 +3108,11 @@
    "kind": "comida",
    "unit": "un",
    "gUnit": 10,
-   "kcal100": 340,
    "water": 0.1,
    "match": "biscrok|biscoito",
-   "src": "estimado; pese 1 biscoito e veja kcal/kg no pacote",
-   "est": true
+   "est": true,
+   "src": "kcal: 350 kcal/100g (rótulo, via sites); umidade máx 10%; peso por biscoito estimado (10 g)",
+   "kcal100": 350
   },
   {
    "id": "cha",
@@ -3036,11 +3194,11 @@
    "name": "Ração seca Fórmula Natural Fresh Meat Sênior",
    "kind": "comida",
    "unit": "g",
-   "kcal100": 380,
    "water": 0.09,
    "match": "ra[çc][ãa]o (s[óo]lida|seca)|f[óo]rmula natural|fresh meat",
-   "src": "estimado pela linha Fresh Meat; confira no saco",
-   "est": true
+   "est": true,
+   "src": "calculado pelos níveis de garantia (PB 28%, EE 16%, FB 4,5%, MM 8,5%, umidade 9%) — o site não informa a energia metabolizável",
+   "kcal100": 355
   },
   {
    "id": "traqueia",
