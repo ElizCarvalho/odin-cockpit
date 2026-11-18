@@ -4,7 +4,7 @@
   css.textContent = `.tab[hidden]{display:none!important}#p-rotina .rItems{grid-column:1/-1;display:grid;gap:6px}#p-rotina .rItems label.chk{align-items:center;gap:8px;font-size:14px;color:var(--ink)}#p-rotina .rItems input{width:20px;height:20px;accent-color:var(--accent)}#p-rotina .rToday{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}#p-rotina .rN{display:block}#p-rotina .vform > .row{grid-column:1/-1}#p-rotina .rN .vform{margin-top:4px}
     #p-rotina input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
     #p-rotina .rFocus{box-shadow:0 0 0 2px var(--accent);border-radius:10px;padding:10px}
-    #p-admin .aFood{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}#p-admin .aFood .wide{grid-column:1/-1}#p-admin .aRow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}#p-admin .aMail{overflow-wrap:anywhere}#p-admin select{width:auto}#p-admin .vform > .row{grid-column:1/-1}#p-admin input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}#p-admin label.chk,#p-rotina label.chk{display:flex;gap:6px;align-items:center;align-self:center}
+    #p-admin .nGrp{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px 10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:4px 0}#p-admin .nGrp > label.chk,#p-admin .nGrp > span{grid-column:1/-1}#p-admin #aNotif > label.chk{grid-column:1/-1}#p-admin .aFood{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}#p-admin .aFood .wide{grid-column:1/-1}#p-admin .aRow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}#p-admin .aMail{overflow-wrap:anywhere}#p-admin select{width:auto}#p-admin .vform > .row{grid-column:1/-1}#p-admin input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}#p-admin label.chk,#p-rotina label.chk{display:flex;gap:6px;align-items:center;align-self:center}
     #p-rotina details summary{cursor:pointer;font-weight:600;color:var(--accent)}`;
   document.head.appendChild(css);
   const KIND = {
@@ -12,7 +12,7 @@
     decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' },
     fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, compra: { e: '🛒', t: 'Comprar' }, consulta: { e: '📅', t: 'Compromisso' }, outro: { e: '🐶', t: 'Outro' }
   };
-  let lateId = null, scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
+  let ncfg = {}, lateId = null, scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
   const focusId = new URLSearchParams(location.search).get('n');
   const hhmm = () => new Date().toTimeString().slice(0, 5);
@@ -124,7 +124,7 @@
     else if (n.kind === 'urina') f = `<label>Como<select name="como"><option>espontâneo</option><option>com escape</option><option>ao pressionar a bexiga</option><option>na sonda</option></select></label>
       <label>Cor<select name="cor"><option>clarinho</option><option>amarelo</option><option>amarelo escuro</option><option>rosado / com sangue</option></select></label>
       <label>Quantidade<select name="qtd"><option>pouco</option><option>normal</option><option>bastante</option></select></label>`;
-    else if (n.kind === 'decubito') f = `<label>Posição<select name="side"><option>lado esquerdo</option><option>lado direito</option><option>esfinge</option><option>em pé / andando</option></select></label>`;
+    else if (n.kind === 'decubito') f = `<label>Posição<select name="side">${['lado esquerdo', 'esternal (de bruços)', 'lado direito', 'em pé / andando'].map(o => `<option${n.suggest === o ? ' selected' : ''}>${o}</option>`).join('')}</select></label>`;
     const ok = n.kind === 'med' ? (n.items && n.items.length > 1 ? 'Dei os marcados ✓' : 'Dei ✓') : 'Salvar';
     return `<form class="vform rForm" data-n="${esc(n.id || '')}">${f}${time}${note}
       <div class="row"><button type="submit">${ok}</button>${n.id ? '<button type="button" class="ghost" data-skip>Pulei</button>' : ''}</div></form>`;
@@ -242,6 +242,22 @@
     </section>
 
     <section class="card">
+      <h2>Notificações</h2>
+      <p class="note" style="margin:4px 0 8px">O que vira lembrete (push pra quem está marcado em "lembretes" acima). Decúbito e água viram horários na Rotina.</p>
+      <form id="aNotif" class="vform">
+        <label class="chk"><input type="checkbox" name="med"${ncfg.med === false ? '' : ' checked'}> 💊 Remédios</label>
+        <label class="chk"><input type="checkbox" name="compra"${ncfg.compra === false ? '' : ' checked'}> 🛒 Comprar remédio (estoque acabando)</label>
+        <label class="chk"><input type="checkbox" name="consulta"${ncfg.consulta === false ? '' : ' checked'}> 📅 Compromissos (consulta, fisio, exame)</label>
+        ${[['decubito', '🔄 Troca de decúbito', 'avisa qual é o próximo lado (esquerdo → esternal → direito → esternal)', { every: 240, from: '08:00', to: '22:00' }], ['agua', '💧 Oferecer água', 'diz quanto falta pra meta do dia e para de avisar quando bate', { every: 120, from: '08:00', to: '22:00' }]].map(([k, t, sub, def]) => {
+          const sc = scheds.find(x => x.id === k) || {}, ev = sc.every || def.every;
+          return `<fieldset class="nGrp"><label class="chk"><input type="checkbox" name="${k}_on"${sc.active ? ' checked' : ''}> <b>${t}</b></label><span class="muted" style="font-size:12px">${sub}</span>
+          <label>A cada<select name="${k}_every">${[60, 90, 120, 180, 240, 360].map(m => `<option value="${m}"${m === ev ? ' selected' : ''}>${m === 90 ? '1,5' : m / 60} h</option>`).join('')}</select></label>
+          <label>Das<input type="time" name="${k}_from" value="${esc(sc.from || def.from)}"></label><label>Às<input type="time" name="${k}_to" value="${esc(sc.to || def.to)}"></label></fieldset>`; }).join('')}
+        <div class="row"><button type="submit">Salvar notificações</button></div>
+      </form>
+    </section>
+
+    <section class="card">
       <h2>Metas de água e calorias</h2>
       <p class="note" style="margin:4px 0 8px">Sugestão pelo peso ${G.kg ? `(${fmt(G.kg)} kg em ${dm(G.wDate)})` : ''}: água ${G.sugWater ? fmt(G.sugWater) + ' mL/dia (50 mL/kg, somando bebida e a água da comida)' : '—'} · calorias ${G.sugKcal ? fmt(G.sugKcal) + ' kcal/dia (1,6 × 70 × peso^0,75)' : '—'}. <b>Confirme os números com a veterinária</b>; como ele precisa ganhar peso, ela pode querer mais.</p>
       <form id="aGoals" class="vform"><label>Meta de água (mL/dia)<input type="text" inputmode="numeric" name="water" value="${goals?.water_ml || ''}" placeholder="${G.sugWater || ''}"></label>
@@ -344,6 +360,17 @@
       await fb.fs.collection('schedule').add({ kind: d.kind, label: d.label.trim(), medId: d.medId || null, times, every, from: d.from || '00:00', to: d.to || '23:59',
         until: d.until || null, active: true, createdAt: Date.now(), by: me() });
     }
+    if (f.id === 'aNotif') {
+      ev.preventDefault();
+      try {
+        await fb.fs.collection('meta').doc('notificacoes').set({ med: f.med.checked, compra: f.compra.checked, consulta: f.consulta.checked, at: Date.now(), by: me() });
+        for (const [k, label] of [['decubito', 'Troca de decúbito'], ['agua', 'Oferecer água']]) {
+          await fb.fs.collection('schedule').doc(k).set({ kind: k, label, times: [], every: +f[k + '_every'].value, from: f[k + '_from'].value || '08:00', to: f[k + '_to'].value || '22:00', active: f[k + '_on'].checked, by: me(), at: Date.now() }, { merge: true });
+        }
+        say(f, 'Notificações salvas ✓');
+      } catch (x) { say(f, x.message); }
+      return;
+    }
     if (f.id === 'aGoals') {
       ev.preventDefault();
       const w = parseFloat((f.water.value || '').replace(',', '.')) || null, k = parseFloat((f.kcal.value || '').replace(',', '.')) || null;
@@ -400,6 +427,7 @@
     fb.fs.collection('schedule').onSnapshot(s => { scheds = s.docs.map(d => ({ id: d.id, ...d.data() })); rr(); });
     fb.fs.collection('notifs').where('date', '>=', daysAgo(2)).onSnapshot(s => { notifs = s.docs.map(d => ({ id: d.id, ...d.data() })); rr(); updateBadge(); });
     fb.fs.collection('rotina_log').where('date', '>=', daysAgo(1)).onSnapshot(s => { logs = s.docs.map(d => ({ id: d.id, ...d.data() })); rr(); });
+    fb.fs.collection('meta').doc('notificacoes').onSnapshot(s => { ncfg = s.data() || {}; rr(); });
     fb.fs.collection('acl').doc('users').onSnapshot(s => { aclDoc = { emails: [], roles: {}, notify: {}, ...(s.data() || {}) }; rr(); });
     if (localStorage.getItem('odinPush') === '1' && Notification.permission === 'granted') {
       navigator.serviceWorker.register('/firebase-messaging-sw.js').then(reg =>

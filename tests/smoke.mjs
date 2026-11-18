@@ -72,6 +72,10 @@ try {
       await page.evaluate(() => go('admin')); await page.waitForTimeout(300);
       await page.fill('#aGoals [name=water]', '900'); await page.fill('#aGoals [name=kcal]', '1000'); await page.click('#aGoals [type=submit]'); await page.waitForTimeout(600);
       check(await page.evaluate(() => JSON.stringify([__store.meta.goals.water_ml, __store.meta.goals.kcal])) === '[900,1000]', 'Admin · salva metas de água e calorias');
+      await page.uncheck('#aNotif [name=compra]'); await page.check('#aNotif [name=decubito_on]'); await page.check('#aNotif [name=agua_on]');
+      await page.selectOption('#aNotif [name=agua_every]', '120'); await page.click('#aNotif [type=submit]'); await page.waitForTimeout(800);
+      const nc = await page.evaluate(() => ({ c: __store.meta.notificacoes, d: __store.schedule.decubito, a: __store.schedule.agua }));
+      check(nc.c && nc.c.compra === false && nc.c.med === true && nc.d.active && nc.d.every === 240 && nc.d.kind === 'decubito' && nc.a.every === 120 && nc.a.from === '08:00', 'Admin · notificações: liga decúbito (4 h) e água (2 h), desliga compras');
     }
     check(errs.length === 0, `${width}px · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();

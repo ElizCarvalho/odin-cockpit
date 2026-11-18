@@ -56,8 +56,10 @@ try {
       m.isDue({ active: false, times: ['09:00'] }, '2026-01-01', '09:00'), m.isDue({ active: true, times: ['09:00'], until: '2025-12-31' }, '2026-01-01', '09:00')];
     const N = 1e9, P = [m.devePublicar({ dirtyAt: N - 4 * 60e3 }, N), m.devePublicar({ dirtyAt: N - 60e3 }, N), m.devePublicar({ dirtyAt: N - 4 * 60e3, sentAt: N - 5 * 60e3 }, N),
       m.devePublicar({ dirtyAt: N - 20 * 60e3, sentAt: N - 30 * 60e3 }, N), m.devePublicar({ dirtyAt: N - 30 * 60e3, sentAt: N - 20 * 60e3 }, N), m.isPublicDoc('vitals', 'x'), m.isPublicDoc('rotina_log', 'x'), m.isPublicDoc('meta', 'publico')];
-    console.log(JSON.stringify(t) + JSON.stringify(P));`], { encoding: 'utf8', cwd: r('functions'), stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop();
-  out === '[true,false,true,false,false][true,false,false,true,false,true,false,false]' ? ok('functions carregam, isDue e o gatilho do site público conferem') : bad('isDue/devePublicar deu ' + out);
+    const L = [m.proximoLado([]), m.proximoLado(['lado esquerdo']), m.proximoLado(['esfinge', 'lado esquerdo']), m.proximoLado(['esternal (de bruços)', 'lado direito', 'esfinge']),
+      m.aguaDoDia([{ water_ml: 100 }, { water_ml: 100, drinkId: 'coco' }, { food_g: 100, foodId: 'pate' }, { food_g: 50, note: 'ração' }], [{ id: 'agua', kind: 'bebida', water: 1 }, { id: 'coco', kind: 'bebida', water: 0.95 }, { id: 'pate', kind: 'comida', water: 0.8 }, { id: 'racao', kind: 'comida', water: 0.1, match: 'ra[çc][ãa]o' }])];
+    console.log(JSON.stringify(t) + JSON.stringify(P) + JSON.stringify(L));`], { encoding: 'utf8', cwd: r('functions'), stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop();
+  out === '[true,false,true,false,false][true,false,false,true,false,true,false,false]["lado esquerdo","esternal (de bruços)","lado direito","lado esquerdo",280]' ? ok('functions carregam; isDue, site público, próximo decúbito e água do dia conferem') : bad('isDue/devePublicar deu ' + out);
 } catch (e) {
   const msg = String(e.stderr || e.message);
   /Cannot find (package|module) 'firebase-/.test(msg) ? console.log('• functions: pulei (rode npm ci --prefix functions pra testar)') : bad('functions: ' + msg.trim().split('\n').slice(-1)[0]);

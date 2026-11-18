@@ -84,6 +84,44 @@ async function push(notifId, n, again) {
   return res.successCount;
 }
 
+/* ---------- Decúbito e água: lembretes que dizem o que fazer ---------- */
+const LATERAIS = ['lado esquerdo', 'lado direito'];
+const isEsternal = s => /esternal|esfinge|bru[çc]os/i.test(s || '');
+// Próximo lado: depois de um lateral vem esternal; depois do esternal, o lateral oposto ao último.
+export function proximoLado(sides) { // sides: do mais recente pro mais antigo
+  const s = sides.filter(x => LATERAIS.includes(x) || isEsternal(x));
+  if (!s.length) return 'lado esquerdo';
+  if (LATERAIS.includes(s[0])) return 'esternal (de bruços)';
+  const lat = s.find(x => LATERAIS.includes(x));
+  return lat === 'lado esquerdo' ? 'lado direito' : 'lado esquerdo';
+}
+async function ladosRecentes(date) {
+  const l = await db.collection('rotina_log').where('date', '>=', dayIso(dayNum(date) - 1)).get();
+  return l.docs.map(d => d.data()).filter(x => x.kind === 'decubito' && x.status !== 'skipped' && x.side)
+    .sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || ''))).map(x => x.side);
+}
+// Água do dia (bebida + água da comida), igual ao cockpit; meta = meta/goals ou 50 mL/kg do último peso.
+export function aguaDoDia(vitals, foods) {
+  const byId = new Map(foods.map(f => [f.id, f]));
+  const match = (note, kind) => foods.find(f => f.kind === kind && f.match && new RegExp(f.match, 'i').test(note || ''));
+  let w = 0;
+  for (const v of vitals) {
+    if (v.water_ml) { const f = byId.get(v.drinkId) || match(v.note, 'bebida') || byId.get('agua'); w += v.water_ml * (f && f.water != null ? f.water : 1); }
+    if (v.food_g) { const f = byId.get(v.foodId) || match(v.note, 'comida'); if (f) w += v.food_g * (f.water || 0); }
+  }
+  return Math.round(w);
+}
+async function aguaHoje(date) {
+  const [v, f, g, ex] = await Promise.all([db.collection('vitals').where('date', '==', date).get(), db.collection('foods').get(), db.doc('meta/goals').get(), db.collection('exams').get()]);
+  const water = aguaDoDia(v.docs.map(d => d.data()), f.docs.map(d => ({ id: d.id, ...d.data() })));
+  let goal = (g.data() || {}).water_ml || null;
+  if (!goal) {
+    const w = ex.docs.map(d => d.data()).filter(e => e.params && typeof e.params.peso === 'number').sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || ''))).pop();
+    if (w) goal = Math.round(w.params.peso * 50 / 10) * 10;
+  }
+  return { water, goal };
+}
+
 export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount: 0, memory: '256MiB' }, async () => {
   const { date, hm } = nowSP();
   const scheds = await db.collection('schedule').where('active', '==', true).get();
@@ -91,8 +129,10 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
   const meds = due.length || hm === '10:00' ? new Map((await db.collection('meds').get()).docs.map(d => [d.id, d.data()])) : new Map();
   // remédio vale no dia se existe, não está pausado, já começou e não terminou
   const onToday = id => { const m = meds.get(id); return m && !m.paused && (!m.start || m.start <= date) && (!m.end || m.end >= date); };
+  const cfg = (await db.doc('meta/notificacoes').get()).data() || {}; // o que a Elis ligou no Admin
   for (const doc of due) {
     const s = doc.data();
+    if ((s.kind || 'outro') === 'med' && cfg.med === false) continue;
     if (s.medId && !onToday(s.medId)) continue; // remédio pausado ou fora do período: sem lembrete
     let items = null;
     if (Array.isArray(s.items) && s.items.length) {
@@ -101,6 +141,12 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     }
     const id = `${doc.id}_${date}_${hm.replace(':', '')}`;
     const n = { schedId: doc.id, kind: s.kind || 'outro', label: s.label || '', medId: s.medId || null, items, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: false };
+    if (n.kind === 'agua') {
+      const a = await aguaHoje(date);
+      if (a.goal && a.water >= a.goal) continue; // meta batida: não incomoda
+      n.label = a.goal ? `Oferecer água · faltam ${Math.max(0, Math.round((a.goal - a.water) / 10) * 10)} mL (${a.water} de ${a.goal})` : 'Oferecer água';
+    }
+    if (n.kind === 'decubito') { n.suggest = proximoLado(await ladosRecentes(date)); n.label = `Troca de decúbito · agora: ${n.suggest}`; }
     try { await db.collection('notifs').doc(id).create(n); } catch { continue; } // já criado
     await push(id, n, false);
   }
@@ -108,7 +154,7 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
   const appts = await db.collection('events').where('kind', '==', 'consulta').get();
   const nowAbs = dayNum(date) * 1440 + mins(hm);
   for (const doc of appts.docs) {
-    const e = doc.data(); if (!e.remind || !e.date || e.date < date) continue;
+    const e = doc.data(); if (cfg.consulta === false || !e.remind || !e.date || e.date < date) continue;
     if (dayNum(e.date) * 1440 + mins(e.time || '09:00') - Number(e.remind) !== nowAbs) continue;
     const nid = `appt_${doc.id}`, quando = e.date === date ? 'hoje' : 'amanhã';
     const n = { kind: 'consulta', label: e.text, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: true, note: `${quando}${e.time ? ' às ' + e.time : ''}` };
@@ -116,7 +162,7 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     await push(nid, { ...n, items: [{ name: e.text, dose: '— ' + n.note }] }, false);
   }
   // estoque: uma vez por dia, avisa quem precisa comprar
-  if (hm === '10:00') {
+  if (hm === '10:00' && cfg.compra !== false) {
     for (const [id, m] of meds) {
       const end = stockEnd(m.stock);
       if (!end || m.paused || (m.end && m.end < date) || (m.end && end >= m.end)) continue;
