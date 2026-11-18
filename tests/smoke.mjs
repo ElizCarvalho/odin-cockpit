@@ -166,6 +166,10 @@ try {
     await page.uncheck(`${blk} [name=it][value="1"]`); await page.click(`${blk} [type=submit]`); await page.waitForTimeout(800);
     const bl = await page.evaluate(() => ({ st: Object.entries(__store.notifs).find(([k]) => k.startsWith('s3_'))[1].status, logs: Object.values(__store.rotina_log || {}).filter(l => l.block === 'Manhã').map(l => l.status).sort() }));
     check(bl.st === 'partial' && bl.logs.join() === 'done,skipped', 'Rotina · bloco grava um registro por remédio (dado/pulado)');
+    const sk = await page.evaluate(() => Object.entries(__store.rotina_log).find(([, l]) => l.block === 'Manhã' && l.status === 'skipped')[0]);
+    await page.click(`[data-late="${sk}"]`); await page.fill('.rLate [name=lt]', '11:28'); await page.click(`[data-latego="${sk}"]`); await page.waitForTimeout(800);
+    const lt = await page.evaluate(id => __store.rotina_log[id], sk);
+    check(lt.status === 'done' && lt.time === '11:28' && /atraso/.test(lt.note), 'Rotina · "Dei depois" vira dado no horário informado');
     await page.click('summary:has-text("Registrar fora de hora")'); await page.click('[data-free=fezes]'); await page.waitForTimeout(300);
     await page.selectOption('#rFree [name=cons]', 'pastosa'); await page.click('#rFree [type=submit]'); await page.waitForTimeout(800);
     await page.click('[data-free=urina]'); await page.waitForTimeout(300);

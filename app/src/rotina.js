@@ -12,7 +12,7 @@
     decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' },
     fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, compra: { e: '🛒', t: 'Comprar' }, consulta: { e: '📅', t: 'Compromisso' }, outro: { e: '🐶', t: 'Outro' }
   };
-  let scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
+  let lateId = null, scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
   const focusId = new URLSearchParams(location.search).get('n');
   const hhmm = () => new Date().toTimeString().slice(0, 5);
@@ -173,7 +173,7 @@
 
     <section class="card">
       <h2>Últimas 48 h</h2>
-      <div class="list" style="margin-top:6px">${done.slice(0, 40).map(x => `<div class="item row between"><span>${x.src === 'v' ? vtxt(x) + (x.note ? ' · ' + esc(x.note) : '') : x.src === 'e' ? (KIND[x.kind] || KIND.outro).e + ' ' + esc(x.text) : ltxt(x)}</span><span class="muted">${x.date === today ? '' : dm(x.date) + ' '}${esc(x.time || '')}</span></div>`).join('') || '<p class="muted">Nada ainda.</p>'}</div>
+      <div class="list" style="margin-top:6px">${done.slice(0, 40).map(x => `<div class="item"><div class="row between"><span>${x.src === 'v' ? vtxt(x) + (x.note ? ' · ' + esc(x.note) : '') : x.src === 'e' ? (KIND[x.kind] || KIND.outro).e + ' ' + esc(x.text) : ltxt(x)}</span><span class="row"><span class="muted">${x.date === today ? '' : dm(x.date) + ' '}${esc(x.time || '')}</span>${x.src === 'log' && x.status === 'skipped' && canEdit() && lateId !== x.id ? `<button type="button" class="ghost tiny" data-late="${esc(x.id)}">Dei depois</button>` : ''}</span></div>${lateId === x.id ? `<div class="row rLate" style="margin-top:6px"><label>Que horas deu?<input type="time" name="lt" value="${hhmm()}"></label><button type="button" class="tiny" data-latego="${esc(x.id)}">Salvar ✓</button><button type="button" class="ghost tiny" data-latex>Cancelar</button></div>` : ''}</div>`).join('') || '<p class="muted">Nada ainda.</p>'}</div>
     </section>
 
     <section class="card">
@@ -371,6 +371,15 @@
     if (t.matches('[data-skip]')) {
       const f = t.closest('form'); const n = notifs.find(x => x.id === f.dataset.n);
       if (n) { t.disabled = true; await answer(n, f, true).catch(e => say(f, e.message)); }
+    }
+    if (t.matches('[data-late]')) { lateId = t.dataset.late; render(); }
+    if (t.matches('[data-latex]')) { lateId = null; render(); }
+    if (t.matches('[data-latego]')) {
+      const l = logs.find(x => x.id === t.dataset.latego); if (!l) return;
+      const tm = t.closest('.rLate').querySelector('[name=lt]').value || hhmm();
+      t.disabled = true;
+      await fb.fs.collection('rotina_log').doc(l.id).update({ status: 'done', time: tm, planned: l.time || '', note: ['dado com atraso' + (l.time ? ' (era ' + l.time + ')' : ''), l.note].filter(Boolean).join(' · '), lateBy: me(), lateAt: Date.now() });
+      lateId = null; t.blur(); render();
     }
     if (t.matches('[data-free]')) {
       freeKind = t.dataset.free; render();
