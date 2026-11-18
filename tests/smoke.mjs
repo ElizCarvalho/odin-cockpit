@@ -58,15 +58,23 @@ const overflow = page => page.evaluate(() => document.scrollingElement.scrollWid
 
 try {
   for (const width of [390, 1440]) {
-    const { page, errs } = await open(width, 'admin@teste.com', '#painel');
-    for (const tab of ['painel', 'rotina', 'exames', 'remedios', 'vacinas', 'fotos', 'linha', 'admin']) {
+    const { page, errs } = await open(width, 'admin@teste.com', '#hoje');
+    for (const tab of ['hoje', 'registrar', 'exames', 'linha', 'fotos', 'remedios', 'vacinas', 'lembretes', 'admin']) {
       await page.evaluate(t => go(t), tab); await page.waitForTimeout(350);
       const visible = await page.evaluate(t => !document.getElementById('p-' + t).hidden, tab);
       const ov = await overflow(page);
-      check(visible && ov <= 1, `${width}px · aba ${tab} abre sem estourar a largura${ov > 1 ? ` (+${ov}px)` : ''}`);
+      check(visible && ov <= 1, `${width}px · ${tab} abre sem estourar a largura${ov > 1 ? ` (+${ov}px)` : ''}`);
     }
-    check(!(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden)), `${width}px · admin vê a aba Admin`);
-    if (width === 390) check(await page.evaluate(() => /Comprar logo/.test(document.getElementById('p-painel').textContent)), 'Painel · avisa remédio que precisa comprar');
+    const nav = await page.evaluate(() => ({ secs: [...document.querySelectorAll('.tabs .tab')].filter(b => b.offsetParent).map(b => b.dataset.sec), pos: getComputedStyle(document.querySelector('.tabs')).position, bottom: Math.round(innerHeight - document.querySelector('.tabs').getBoundingClientRect().bottom), h: Math.round(document.querySelector('.tabs').getBoundingClientRect().height) }));
+    check(nav.secs.join() === 'hoje,registrar,evolucao,historico,mais', `${width}px · menu com as 5 seções (Hoje, Registrar, Evolução, Histórico, Mais)`);
+    if (width === 390) check(nav.pos === 'fixed' && nav.bottom <= 1 && nav.h <= 80, `390px · menu é uma barra embaixo, baixa (${nav.h}px)`);
+    else check(nav.pos === 'sticky', '1440px · menu fica em cima');
+    await page.evaluate(() => go('mais')); await page.waitForTimeout(200);
+    check(await page.evaluate(() => [...document.querySelectorAll('#subtabs [data-go]')].map(b => b.dataset.go).join()) === 'remedios,vacinas,lembretes,admin', `${width}px · Mais mostra Medicamentos, Vacinas, Lembretes e Admin pro admin`);
+    await page.evaluate(() => go('rotina')); await page.waitForTimeout(200);
+    check(await page.evaluate(() => !document.getElementById('p-hoje').hidden), `${width}px · link antigo #rotina (do push) cai em Hoje`);
+    if (width === 390) check(await page.evaluate(() => /Comprar logo/.test(document.getElementById('p-hoje').textContent)), 'Hoje · avisa remédio que precisa comprar');
+    check(await page.evaluate(() => !/Publicar no site/.test(document.body.textContent)), `${width}px · sem o card antigo de publicar no site`);
     check(await page.evaluate(() => /Água hoje/.test(document.getElementById('tiles').textContent) && /Calorias hoje/.test(document.getElementById('tiles').textContent)), `${width}px · Painel mostra água e calorias de hoje`);
     if (width === 1440) {
       await page.evaluate(() => go('admin')); await page.waitForTimeout(300);
@@ -90,6 +98,7 @@ try {
   // calendário (visão da Linha do tempo)
   for (const width of [390, 1440]) {
     const { page, errs } = await open(width, 'admin@teste.com', '#linha');
+    check(await page.evaluate(() => [...document.querySelectorAll('#subtabs [data-go]')].map(b => b.dataset.go).join()) === 'linha,fotos', `${width}px · Histórico tem Linha do tempo e Fotos`);
     await page.click('#tlView [data-view=cal]'); await page.waitForTimeout(300);
     const modes = width === 390 ? ['dia'] : ['mes', 'sem', 'dia'];
     if (width === 390) check(!(await page.locator('#calMode').isVisible()) && await page.evaluate(() => calMode) === 'dia', '390px · no celular o calendário fica só na visão Dia');
@@ -115,10 +124,13 @@ try {
       check(await page.evaluate(() => calMode) === 'dia', 'Calendário · tocar no dia do mês abre o dia');
     }
     if (width === 390) {
-      await page.click('#calAddBtn'); await page.fill('#calAdd [name=what]', 'neuro'); await page.fill('#calAdd [name=time]', '15:00');
+      await page.click('#cal [data-reg=consulta]'); await page.waitForTimeout(300);
+      check(await page.evaluate(() => activeTab === 'registrar' && !document.querySelector('[data-regbox=consulta]').classList.contains('hidden')), 'Calendário · + Agendar abre o formulário em Registrar');
+      await page.fill('#calAdd [name=what]', 'neuro'); await page.fill('#calAdd [name=time]', '15:00');
       await page.click('#calAdd [type=submit]'); await page.waitForTimeout(800);
       const ap = await page.evaluate(() => Object.values(__store.events).filter(e => e.kind === 'consulta').map(e => e.text + '|' + e.remind));
       check(ap.length === 1 && ap[0] === 'Consulta: neuro|1440', 'Calendário · agendar consulta com lembrete');
+      await page.evaluate(() => go('linha')); await page.waitForTimeout(300);
       await page.click('[data-ccat="Consulta"]'); await page.waitForTimeout(200);
       const ft = await page.evaluate(() => [...document.querySelectorAll('#calBody .gev')].map(x => x.title));
       check(ft.length > 0 && ft.every(t => /Consulta/.test(t)), 'Calendário · filtro por tipo');
@@ -131,6 +143,7 @@ try {
   {
     const { page, errs } = await open(390, 'admin@teste.com', '#remedios');
     page.on('dialog', d => { console.log('✗ caixa de diálogo aberta: ' + d.message()); d.dismiss(); });
+    check(await page.evaluate(() => !document.getElementById('medPastBox').open), 'Remédios · "Já usou" vem recolhido');
     const ic = await page.evaluate(() => [...document.querySelectorAll('#medActive .mrow')].map(r => !!r.querySelector('.mic svg')));
     check(ic.length > 0 && ic.every(Boolean), 'Remédios · cada item tem ícone de forma e cor de tipo');
     await page.evaluate(() => document.querySelector('#medActive details').open = true);
@@ -145,6 +158,7 @@ try {
     const p2 = await page.evaluate(() => ({ m: __store.meds.m1, card: document.getElementById('medPausedCard').classList.contains('hidden') }));
     check(p2.m.paused === false && (p2.m.pauses || []).length === 1 && p2.card, 'Retomar · volta pra Em uso e guarda o histórico da pausa');
     await page.evaluate(() => go('fotos')); await page.waitForTimeout(500);
+    await page.waitForTimeout(200);
     await page.click('[data-ptime]'); await page.fill('#photoGrid input[type=time]', '14:30'); await page.click('[data-ptsave]'); await page.waitForTimeout(800);
     check(await page.evaluate(() => __store.photos.p1.time) === '14:30', 'Fotos · pôr hora numa foto existente');
     check(errs.length === 0, `Pausar · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
@@ -154,6 +168,7 @@ try {
   // quem edita: responde um lembrete de água e pula o remédio
   {
     const { page, errs } = await open(390, 'edita@teste.com', '#rotina');
+    check(await page.evaluate(() => document.querySelector('.tab[data-sec=hoje] .badge')?.textContent) === '3', 'Hoje · bolinha com 3 pendentes no menu');
     const n = `#rn-s2_${today}_1000`;
     await page.fill(`${n} [name=v]`, '150'); await page.selectOption(`${n} [name=fid]`, 'coco');
     await page.click(`${n} [type=submit]`); await page.waitForTimeout(800);
@@ -163,14 +178,22 @@ try {
     check(st.notifs.includes('done') && st.notifs.includes('skipped'), 'Edita · lembretes marcados como feito e pulado');
     const hoje = await page.evaluate(() => Math.round(dayTotals(todayIso()).water));
     check(hoje === 143, `Água · água de coco conta 95% como água (150 mL → ${hoje} mL)`);
-    await page.click('summary:has-text("Registrar fora de hora")'); await page.click('[data-free=comida]'); await page.waitForTimeout(300);
-    await page.selectOption('#rFree [name=fid]', 'biscrok'); await page.fill('#rFree [name=v]', '2'); await page.click('#rFree [type=submit]'); await page.waitForTimeout(800);
+    await page.click('.tab[data-sec=registrar]'); await page.waitForTimeout(300);
+    await page.click('#regGrid [data-free=comida]'); await page.waitForTimeout(300);
+    await page.selectOption('#regFree [name=fid]', 'biscrok'); await page.fill('#regFree [name=v]', '2'); await page.click('#regFree [type=submit]'); await page.waitForTimeout(800);
     const bis = await page.evaluate(() => { const v = Object.values(__store.vitals).find(x => x.foodId === 'biscrok'); return v && { g: v.food_g, qty: v.qty, kcal: Math.round(nutri(v).kcal) }; });
     check(bis && bis.qty === 2 && bis.g === 20 && bis.kcal === 68, 'Comida · por unidade vira gramas e calorias (2 Biscrok → 20 g, 68 kcal)');
-    check(await page.evaluate(() => /Calorias/.test(document.querySelector('#p-rotina .rToday').textContent)), 'Rotina · card Hoje com água e calorias');
-    await page.click('summary:has-text("Registrar fora de hora")');
-    check(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden), 'Edita · não vê a aba Admin');
-    check(await page.evaluate(() => !!document.querySelector('#p-rotina .mic svg')), 'Rotina · remédio aparece com o ícone de forma/tipo');
+    await page.click('#regGrid [data-free=med]'); await page.waitForTimeout(300);
+    await page.check('#regFree [name=it][value="0"]'); await page.click('#regFree [type=submit]'); await page.waitForTimeout(800);
+    const avulso = await page.evaluate(() => Object.values(__store.rotina_log || {}).filter(l => l.block === 'Fora de hora').map(l => l.status + ':' + l.label));
+    check(avulso.length === 1 && /^done:/.test(avulso[0]), 'Registrar · remédio dado fora de hora grava só o que foi marcado');
+    await page.click('#regGrid [data-reg=peso]'); await page.waitForTimeout(200);
+    await page.fill('#regPeso [data-w=kg]', '19.4'); await page.click('[data-wsave2]'); await page.waitForTimeout(800);
+    check(await page.evaluate(() => Object.values(__store.exams).some(e => e.params && e.params.peso === 19.4)), 'Registrar · peso vira pesagem');
+    await page.evaluate(() => go('mais')); await page.waitForTimeout(200);
+    check(await page.evaluate(() => ![...document.querySelectorAll('#subtabs [data-go]')].some(b => b.dataset.go === 'admin')), 'Edita · não vê Admin em Mais');
+    await page.evaluate(() => go('hoje')); await page.waitForTimeout(300);
+    check(await page.evaluate(() => !!document.querySelector('#hojeAgora .mic svg')), 'Hoje · remédio aparece com o ícone de forma/tipo');
     const blk = `#rn-s3_${today}_0930`;
     check(await page.locator(`${blk} [name=it]`).count() === 2, 'Rotina · bloco mostra a lista de remédios pra marcar');
     await page.uncheck(`${blk} [name=it][value="1"]`); await page.click(`${blk} [type=submit]`); await page.waitForTimeout(800);
@@ -180,10 +203,10 @@ try {
     await page.click(`[data-late="${sk}"]`); await page.fill('.rLate [name=lt]', '11:28'); await page.click(`[data-latego="${sk}"]`); await page.waitForTimeout(800);
     const lt = await page.evaluate(id => __store.rotina_log[id], sk);
     check(lt.status === 'done' && lt.time === '11:28' && /atraso/.test(lt.note), 'Rotina · "Dei depois" vira dado no horário informado');
-    await page.click('summary:has-text("Registrar fora de hora")'); await page.click('[data-free=fezes]'); await page.waitForTimeout(300);
-    await page.selectOption('#rFree [name=cons]', 'pastosa'); await page.click('#rFree [type=submit]'); await page.waitForTimeout(800);
-    await page.click('[data-free=urina]'); await page.waitForTimeout(300);
-    await page.selectOption('#rFree [name=como]', 'com escape'); await page.click('#rFree [type=submit]'); await page.waitForTimeout(800);
+    await page.click('.tab[data-sec=registrar]'); await page.click('#regGrid [data-free=fezes]'); await page.waitForTimeout(300);
+    await page.selectOption('#regFree [name=cons]', 'pastosa'); await page.click('#regFree [type=submit]'); await page.waitForTimeout(800);
+    await page.click('#regGrid [data-free=urina]'); await page.waitForTimeout(300);
+    await page.selectOption('#regFree [name=como]', 'com escape'); await page.click('#regFree [type=submit]'); await page.waitForTimeout(800);
     const fx = await page.evaluate(() => Object.values(__store.events).filter(e => ['fezes', 'urina'].includes(e.kind)).map(e => e.text));
     check(fx.some(t => /Fezes pastosa/.test(t)) && fx.some(t => /Xixi com escape/.test(t)), 'Rotina · fezes e xixi viram acontecimento');
     check(errs.length === 0, `Edita · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
@@ -194,8 +217,12 @@ try {
   {
     const { page, errs } = await open(390, 've@teste.com', '#rotina');
     check(await page.evaluate(() => canWrite === false), 'Só vê · cockpit em modo leitura');
-    check(await page.locator('#p-rotina .rN form').count() === 0, 'Só vê · lembretes sem formulário de resposta');
-    check(await page.evaluate(() => document.querySelector('.tab[data-tab=admin]').hidden), 'Só vê · não vê a aba Admin');
+    check(await page.locator('#hojeAgora .rN form').count() === 0, 'Só vê · lembretes sem formulário de resposta');
+    check(await page.evaluate(() => !document.querySelector('.tab[data-sec=registrar]').offsetParent), 'Só vê · sem o botão Registrar');
+    await page.evaluate(() => go('registrar')); await page.waitForTimeout(200);
+    check(await page.evaluate(() => activeTab === 'hoje'), 'Só vê · #registrar cai em Hoje');
+    await page.evaluate(() => go('mais')); await page.waitForTimeout(200);
+    check(await page.evaluate(() => ![...document.querySelectorAll('#subtabs [data-go]')].some(b => b.dataset.go === 'admin')), 'Só vê · não vê Admin');
     check(errs.length === 0, `Só vê · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();
   }

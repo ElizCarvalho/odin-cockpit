@@ -159,7 +159,7 @@
     const b = document.createElement('button');
     b.type = 'button'; b.id = 'odinUpd';
     b.textContent = '✨ Nova versão disponível · tocar pra atualizar';
-    b.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:9999;max-width:calc(100% - 24px);padding:12px 18px;border:0;border-radius:999px;background:#2b6c7d;color:#fff;font:600 14px system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer';
+    b.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(' + (innerWidth <= 760 ? 84 : 14) + 'px + env(safe-area-inset-bottom));z-index:9999;max-width:calc(100% - 24px);padding:12px 18px;border:0;border-radius:999px;background:#2b6c7d;color:#fff;font:600 14px system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer';
     b.onclick = () => location.reload();
     document.body.appendChild(b);
   }

@@ -1,11 +1,12 @@
 /* Aba Rotina: horários, notificações push e resposta rápida que vira registro no cockpit. */
 (function () {
   const css = document.createElement('style');
-  css.textContent = `.tab[hidden]{display:none!important}#p-rotina .rItems{grid-column:1/-1;display:grid;gap:6px}#p-rotina .rItems label.chk{align-items:center;gap:8px;font-size:14px;color:var(--ink)}#p-rotina .rItems input{width:20px;height:20px;accent-color:var(--accent)}#p-rotina .rToday{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}#p-rotina .rN{display:block}#p-rotina .vform > .row{grid-column:1/-1}#p-rotina .rN .vform{margin-top:4px}
-    #p-rotina input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
-    #p-rotina .rFocus{box-shadow:0 0 0 2px var(--accent);border-radius:10px;padding:10px}
-    #p-admin .nGrp{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px 10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:4px 0}#p-admin .nGrp > label.chk,#p-admin .nGrp > span{grid-column:1/-1}#p-admin #aNotif > label.chk{grid-column:1/-1}#p-admin .aFood{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}#p-admin .aFood .wide{grid-column:1/-1}#p-admin .aRow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}#p-admin .aMail{overflow-wrap:anywhere}#p-admin select{width:auto}#p-admin .vform > .row{grid-column:1/-1}#p-admin input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}#p-admin label.chk,#p-rotina label.chk{display:flex;gap:6px;align-items:center;align-self:center}
-    #p-rotina details summary{cursor:pointer;font-weight:600;color:var(--accent)}`;
+  css.textContent = `.tab[hidden]{display:none!important}.tab{position:relative}.tab .badge{position:absolute;top:2px;right:calc(50% - 22px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--warn);color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center}.tab .badge[hidden]{display:none}.rt .rItems{grid-column:1/-1;display:grid;gap:6px}.rt .rItems label.chk{align-items:center;gap:8px;font-size:14px;color:var(--ink)}.rt .rItems input{width:20px;height:20px;accent-color:var(--accent)}.rt .rToday{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.rt .rN{display:block}.rt .vform > .row{grid-column:1/-1}.rt .rN .vform{margin-top:4px}
+    .rt input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+    .rt .rFocus{box-shadow:0 0 0 2px var(--accent);border-radius:10px;padding:10px}
+    .rt .rMore{grid-column:1/-1}.rt .rMore summary{font-size:13px;font-weight:500;color:var(--muted)}
+    #p-admin .nGrp{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px 10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:4px 0}#p-admin .nGrp > label.chk,#p-admin .nGrp > span{grid-column:1/-1}#p-admin #aNotif > label.chk{grid-column:1/-1}#p-admin .aFood{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}#p-admin .aFood .wide{grid-column:1/-1}#p-admin .aRow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}#p-admin .aMail{overflow-wrap:anywhere}#p-admin select{width:auto}#p-admin .vform > .row{grid-column:1/-1}#p-admin input[type=email]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}#p-admin label.chk,.rt label.chk{display:flex;gap:6px;align-items:center;align-self:center}
+    .rt details summary{cursor:pointer;font-weight:600;color:var(--accent)}`;
   document.head.appendChild(css);
   const KIND = {
     med: { e: '💊', t: 'Remédio' }, agua: { e: '💧', t: 'Água' }, comida: { e: '🍽', t: 'Comida' },
@@ -66,7 +67,9 @@
     if (Array.isArray(n.items) && n.items.length) {
       // bloco: um registro por remédio, marcado como dado ou pulado
       const given = new Set(form && !skipped ? [...form.querySelectorAll('[name=it]:checked')].map(x => +x.value) : []);
+      if (!n.id && !given.size) throw new Error('marque pelo menos um');
       for (const [i, it] of n.items.entries()) {
+        if (!n.id && !given.has(i)) continue; // registro avulso: só o que foi dado
         await fb.fs.collection('rotina_log').add({ ...base, kind: 'med', label: it.name + (it.dose ? ' · ' + it.dose : ''), medId: it.medId || null, note, status: given.has(i) ? 'done' : 'skipped', block: n.label || '' });
       }
       const st = given.size === n.items.length ? 'done' : given.size ? 'partial' : 'skipped';
@@ -115,7 +118,7 @@
     let f = '';
     if (n.kind === 'consulta') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}</p><div class="row"><button type="submit">Ok</button></div></form>`;
     if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque na aba Medicamentos.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
-    if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}" checked> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
+    if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}"${n.free ? '' : ' checked'}> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
     else if (n.kind === 'agua') f = `<label>Bebida<select name="fid">${foodList().filter(x => x.kind === 'bebida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select></label><label>Quanto (mL)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'comida') f = `<label>Alimento<select name="fid">${foodList().filter(x => x.kind === 'comida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}${x.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}<option value="">outro</option></select></label><label>Quanto (g ou unidades)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required></label>`;
@@ -126,17 +129,33 @@
       <label>Quantidade<select name="qtd"><option>pouco</option><option>normal</option><option>bastante</option></select></label>`;
     else if (n.kind === 'decubito') f = `<label>Posição<select name="side">${['lado esquerdo', 'esternal (de bruços)', 'lado direito', 'em pé / andando'].map(o => `<option${n.suggest === o ? ' selected' : ''}>${o}</option>`).join('')}</select></label>`;
     const ok = n.kind === 'med' ? (n.items && n.items.length > 1 ? 'Dei os marcados ✓' : 'Dei ✓') : 'Salvar';
-    return `<form class="vform rForm" data-n="${esc(n.id || '')}">${f}${time}${note}
+    const extra = n.id ? `<details class="rMore" data-k="m-${esc(n.id)}"><summary>mudar hora ou anotar</summary><div class="vform" style="margin-top:6px">${time}${note}</div></details>` : time + note;
+    return `<form class="vform rForm" data-n="${esc(n.id || '')}">${f}${extra}
       <div class="row"><button type="submit">${ok}</button>${n.id ? '<button type="button" class="ghost" data-skip>Pulei</button>' : ''}</div></form>`;
   }
 
   /* ---------- Render ---------- */
-  function render() {
-    const host = document.getElementById('p-rotina');
-    if (!host || host.hidden || !fb) return;
+  // Cada pedaço da rotina mora num lugar: "Agora" e "Últimas 48 h" em Hoje, o formulário em Registrar, horários em Mais → Lembretes.
+  function paint(id, html, after) {
+    const host = document.getElementById(id);
+    if (!host) return;
     const ae = document.activeElement;
     if (ae && host.contains(ae) && /INPUT|SELECT|TEXTAREA/.test(ae.tagName)) { render.dirty = true; return; }
     const openK = new Set([...host.querySelectorAll('details[open]')].map(d => d.dataset.k));
+    // guarda o que a pessoa já escolheu nos formulários (um dado novo chegando não pode apagar a seleção)
+    const fkey = f => (f.dataset.n || '') + '|' + (f.dataset.kind || '');
+    const kept = new Map([...host.querySelectorAll('form.rForm')].map(f => [fkey(f), [...f.elements].filter(e => e.name && e.dataset.touched).map(e => [e.name, e.type === 'checkbox' ? e.checked : e.value, e.value])]));
+    host.innerHTML = html;
+    host.querySelectorAll('form.rForm').forEach(f => (kept.get(fkey(f)) || []).forEach(([n, v, raw]) => {
+      const el = [...f.elements].find(e => e.name === n && (e.type !== 'checkbox' || e.value === raw));
+      if (el) { if (el.type === 'checkbox') el.checked = v; else el.value = v; el.dataset.touched = '1'; }
+    }));
+    host.querySelectorAll('details').forEach(d => { if (openK.has(d.dataset.k)) d.open = true; });
+    if (after) after(host);
+  }
+  const activeMeds = () => meds.filter(m => !m.paused && (!m.end || m.end >= todayIso()) && (!m.start || m.start <= todayIso()));
+  function render() {
+    if (!fb) return;
     const pend = notifs.filter(n => n.status === 'pending').sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
     const today = todayIso();
     const done = [
@@ -148,14 +167,7 @@
     const ltxt = l => `${ic(l)}${esc(l.label || (KIND[l.kind] || KIND.outro).t)}${l.side ? ' · ' + esc(l.side) : ''}${l.status === 'skipped' ? ' <span class="pill lo">pulou</span>' : ''}`;
     const isOn = localStorage.getItem('odinPush') === '1';
 
-    const T = dayTotals(today), G = goalsNow();
-    const bar = (lbl, val, goal, unit, sub) => { const pct = goal ? Math.round(val / goal * 100) : null; const cls = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
-      return `<div class="tile ${cls}" style="padding:10px 12px"><div class="lbl">${lbl}${pct != null ? ` <span class="pill ${cls}">${pct}%</span>` : ''}</div><div class="val" style="font-size:22px">${fmt(Math.round(val))}<small>${unit}</small></div><div class="reft">${goal ? `meta ${fmt(goal)} ${unit}${G.set ? '' : ' (sugerida)'}` : 'sem meta'}</div>${sub ? `<div class="meta">${esc(sub)}</div>` : ''}${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`; };
-    host.innerHTML = `
-    <section class="card">
-      <div class="row between"><h2>Hoje</h2><button type="button" class="ghost tiny" data-go="exames">ver por dia</button></div>
-      <div class="rToday">${bar('💧 Água', T.water, G.water, 'mL', `bebida ${Math.round(T.drink)} + comida ${Math.round(T.fwater)} mL`)}${bar('🔥 Calorias', T.kcal, G.kcal, 'kcal', T.unknown ? `${T.unknown} registro(s) sem alimento/quantidade` : '')}</div>
-    </section>
+    paint('hojeAgora', `
     <section class="card">
       <div class="row between"><h2>Agora</h2><span class="pill">${pend.length ? pend.length + ' pendente' + (pend.length > 1 ? 's' : '') : 'nada pendente'}</span></div>
       <div class="list" style="margin-top:8px">${pend.map(n => `
@@ -163,19 +175,23 @@
           <div class="row between"><b>${ic(n)}${esc(n.label || (KIND[n.kind] || KIND.outro).t)}</b>
           <span class="muted">${n.date === today ? '' : dm(n.date) + ' '}${esc(n.time)}${n.renotified ? ' · avisado 2x' : ''}</span></div>
           ${canEdit() ? entryForm(n) : ''}
-        </div>`).join('') || '<p class="muted">Quando chegar a hora de algo, aparece aqui pra você marcar.</p>'}</div>
+        </div>`).join('') || '<p class="muted">Nada pendente agora. Quando chegar a hora de um remédio, da água ou do decúbito, aparece aqui.</p>'}</div>
       ${canEdit() ? '' : '<p class="note" style="margin-top:8px">Você está com acesso só de visualização.</p>'}
-      <details data-k="free" style="margin-top:10px${canEdit() ? '' : ';display:none'}"><summary>Registrar fora de hora</summary>
-        <div class="row" style="margin-top:8px">${Object.entries(KIND).filter(([k]) => !['outro', 'compra', 'consulta'].includes(k)).map(([k, v]) => `<button type="button" class="ghost tiny" data-free="${k}">${v.e} ${v.t}</button>`).join('')}</div>
-        <div id="rFree">${freeKind ? entryForm({ kind: freeKind, label: KIND[freeKind].t }).replace('data-n=""', `data-n="" data-kind="${freeKind}"`) : ''}</div>
-      </details>
     </section>
 
+`, () => { if (focusId) { const el = document.getElementById('rn-' + focusId); if (el && !render.scrolled) { render.scrolled = true; el.scrollIntoView({ block: 'center' }); } } });
+    paint('hoje48', `
     <section class="card">
-      <h2>Últimas 48 h</h2>
+      <div class="row between"><h2>Últimas 48 h</h2><button type="button" class="ghost tiny" data-go="registrar">＋ registrar</button></div>
       <div class="list" style="margin-top:6px">${done.slice(0, 40).map(x => `<div class="item"><div class="row between"><span>${x.src === 'v' ? vtxt(x) + (x.note ? ' · ' + esc(x.note) : '') : x.src === 'e' ? (KIND[x.kind] || KIND.outro).e + ' ' + esc(x.text) : ltxt(x)}</span><span class="row"><span class="muted">${x.date === today ? '' : dm(x.date) + ' '}${esc(x.time || '')}</span>${x.src === 'log' && x.status === 'skipped' && canEdit() && lateId !== x.id ? `<button type="button" class="ghost tiny" data-late="${esc(x.id)}">Dei depois</button>` : ''}</span></div>${lateId === x.id ? `<div class="row rLate" style="margin-top:6px"><label>Que horas deu?<input type="time" name="lt" value="${hhmm()}"></label><button type="button" class="tiny" data-latego="${esc(x.id)}">Salvar ✓</button><button type="button" class="ghost tiny" data-latex>Cancelar</button></div>` : ''}</div>`).join('') || '<p class="muted">Nada ainda.</p>'}</div>
     </section>
 
+`);
+    const fk = freeKind;
+    paint('regFree', fk ? `<section class="card rFreeBox"><div class="row between"><h2>${KIND[fk].e} ${esc(fk === 'med' ? 'Remédio dado' : KIND[fk].t)}</h2><button type="button" class="ghost tiny" data-freex>fechar</button></div>
+      ${fk === 'med' ? '<p class="note" style="margin:4px 0 0">Marque o que deu agora. Remédio que estava pendente num lembrete, responda por lá, em Hoje.</p>' : ''}
+      ${entryForm(fk === 'med' ? { kind: 'med', label: 'Remédio', items: activeMeds().map(m => ({ medId: m.id, name: m.name, dose: '' })), free: true } : { kind: fk, label: KIND[fk].t }).replace('data-n=""', `data-n="" data-kind="${fk}"`)}</section>` : '');
+    paint('p-lembretes', `
     <section class="card">
       <h2>Horários</h2>
       <div class="list" style="margin-top:6px">${scheds.sort((a, b) => ((a.times || [])[0] || a.from || '').localeCompare((b.times || [])[0] || b.from || '') || (a.label || '').localeCompare(b.label || '')).map(s => `
@@ -204,17 +220,17 @@
       <button id="rPush" class="${isOn ? 'ghost' : ''}">${isOn ? 'Ativar de novo' : 'Ativar notificações'}</button>
       <p class="muted" id="rPushMsg" style="margin-top:6px"></p>
     </section>
-`;
-    host.querySelectorAll('details').forEach(d => { if (openK.has(d.dataset.k)) d.open = true; });
-    if (focusId) { const el = document.getElementById('rn-' + focusId); if (el && !render.scrolled) { render.scrolled = true; el.scrollIntoView({ block: 'center' }); } }
+`);
   }
   window.renderRotina = () => { render(); renderAdmin(); };
+  window.rotinaFree = k => { freeKind = k || null; render(); };
+  // "Mais": Lembretes pra todo mundo do app; Admin só pra admin
+  window.panelHidden = p => p === 'admin' && role() !== 'admin';
+  document.body.classList.add('app');
 
   /* ---------- Admin ---------- */
   function renderAdmin() {
-    const tab = document.querySelector('.tab[data-tab="admin"]');
     const isAdmin = role() === 'admin';
-    if (tab) tab.hidden = !isAdmin;
     const host = document.getElementById('p-admin');
     if (!host || host.hidden || !fb) return;
     if (!isAdmin) { host.innerHTML = '<section class="card"><p class="muted">Só quem é admin vê esta aba.</p></section>'; return; }
@@ -341,13 +357,16 @@
 
   /* ---------- Eventos ---------- */
   const say = (el, msg) => { let p = el.querySelector('.rMsg'); if (!p) { p = document.createElement('p'); p.className = 'muted rMsg'; el.appendChild(p); } p.textContent = msg; };
+  document.addEventListener('input', ev => { if (ev.target.closest && ev.target.closest('form.rForm')) ev.target.dataset.touched = '1'; }, true);
+  document.addEventListener('change', ev => { if (ev.target.closest && ev.target.closest('form.rForm')) ev.target.dataset.touched = '1'; }, true);
   document.addEventListener('submit', async ev => {
     const f = ev.target;
     if (f.classList.contains('rForm')) {
       ev.preventDefault();
       const n = notifs.find(x => x.id === f.dataset.n) || { kind: f.dataset.kind, label: (KIND[f.dataset.kind] || KIND.outro).t, date: todayIso() };
+      if (!f.dataset.n && n.kind === 'med') { n.items = activeMeds().map(m => ({ medId: m.id, name: m.name, dose: '' })); n.label = 'Fora de hora'; }
       const b = f.querySelector('[type=submit]'); b.disabled = true;
-      try { await answer(n, f, false); if (!f.dataset.n) { say(f, 'Salvo ✓'); f.reset(); } }
+      try { await answer(n, f, false); if (!f.dataset.n) { [...f.elements].forEach(e => delete e.dataset.touched); f.reset(); say(f, 'Salvo ✓'); } }
       catch (e) { say(f, 'Não salvou: ' + (e.message || e.code)); }
       finally { b.disabled = false; }
     }
@@ -408,8 +427,14 @@
       await fb.fs.collection('rotina_log').doc(l.id).update({ status: 'done', time: tm, planned: l.time || '', note: ['dado com atraso' + (l.time ? ' (era ' + l.time + ')' : ''), l.note].filter(Boolean).join(' · '), lateBy: me(), lateAt: Date.now() });
       lateId = null; t.blur(); render();
     }
-    if (t.matches('[data-free]')) {
-      freeKind = t.dataset.free; render();
+    if (t.closest('[data-freex]')) { freeKind = null; render(); document.querySelectorAll('#regGrid .regb').forEach(b => b.classList.remove('on')); }
+    const fr = t.closest('[data-free]');
+    if (fr) {
+      freeKind = fr.dataset.free;
+      if (typeof go === 'function' && activeTab !== 'registrar') go('registrar');
+      document.querySelectorAll('[data-regbox]').forEach(b => b.classList.add('hidden'));
+      document.querySelectorAll('#regGrid .regb').forEach(b => b.classList.toggle('on', b.dataset.free === freeKind));
+      render(); setTimeout(() => document.getElementById('regFree')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
     }
     if (t.matches('[data-tog]')) { const s = scheds.find(x => x.id === t.dataset.tog); if (s) await fb.fs.collection('schedule').doc(s.id).update({ active: !s.active }); }
     if (t.matches('[data-del]')) { const s = scheds.find(x => x.id === t.dataset.del); if (s && arm(t)) await fb.fs.collection('schedule').doc(s.id).delete(); }
@@ -428,7 +453,7 @@
     fb.fs.collection('notifs').where('date', '>=', daysAgo(2)).onSnapshot(s => { notifs = s.docs.map(d => ({ id: d.id, ...d.data() })); rr(); updateBadge(); });
     fb.fs.collection('rotina_log').where('date', '>=', daysAgo(1)).onSnapshot(s => { logs = s.docs.map(d => ({ id: d.id, ...d.data() })); rr(); });
     fb.fs.collection('meta').doc('notificacoes').onSnapshot(s => { ncfg = s.data() || {}; rr(); });
-    fb.fs.collection('acl').doc('users').onSnapshot(s => { aclDoc = { emails: [], roles: {}, notify: {}, ...(s.data() || {}) }; rr(); });
+    fb.fs.collection('acl').doc('users').onSnapshot(s => { aclDoc = { emails: [], roles: {}, notify: {}, ...(s.data() || {}) }; if (typeof go === 'function') go(activeTab, false); rr(); });
     if (localStorage.getItem('odinPush') === '1' && Notification.permission === 'granted') {
       navigator.serviceWorker.register('/firebase-messaging-sw.js').then(reg =>
         firebase.messaging().getToken({ vapidKey: fb.vapidKey, serviceWorkerRegistration: reg })
@@ -438,8 +463,8 @@
   });
   function updateBadge() {
     const n = notifs.filter(x => x.status === 'pending').length;
-    const tab = document.querySelector('.tab[data-tab="rotina"]');
-    if (tab) tab.textContent = n ? `Rotina (${n})` : 'Rotina';
+    const tab = document.querySelector('.tab[data-sec="hoje"]');
+    if (tab) { let b = tab.querySelector('.badge'); if (!b) { b = document.createElement('span'); b.className = 'badge'; tab.appendChild(b); } b.textContent = n || ''; b.hidden = !n; }
     try { if (navigator.setAppBadge) n ? navigator.setAppBadge(n) : navigator.clearAppBadge(); } catch {}
   }
 })();
