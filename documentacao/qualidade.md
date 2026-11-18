@@ -33,7 +33,7 @@ Os cenários seguem as skills de QA do método **lunarpass-tests**:
 | `qa-gherkin-design` | Análise dos pedidos (explícito, derivável, a investigar), variantes, técnicas, Gherkin **declarativo em 1ª pessoa** com **Ilustração:**, e perguntas pros Três Amigos | [especificacao.md](especificacao.md) e `features/*.feature` |
 | `qa-testability-audit` | Parecer por elemento com a escada de locator. A interface ganhou papéis e nomes acessíveis | [aderencia.md](aderencia.md) |
 | `qa-test-automation` | Page Objects (`features/support/paginas.mjs`), locators `getByRole → getByLabel → …`, `expect` que espera sozinho, **sem `waitForTimeout`**, uma asserção por **Então**, massa isolada por cenário | `features/steps/passos.mjs` |
-| `qa-test-executor` | **Não executado.** Ele exige o Playwright MCP, que não existe no ambiente de desenvolvimento atual. Rodar no Cursor, contra o app no ar, quando quiser evidência de aceite | — |
+| `qa-test-executor` | Execução com o Playwright MCP (Chrome visível no Mac) contra o **modo teste** (`/teste/`, Firebase falso), com evidência em PNG e um relatório por cenário | [execucoes/](execucoes/) |
 
 Exemplo:
 
