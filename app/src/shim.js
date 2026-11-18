@@ -138,3 +138,34 @@
     }
   };
 })();
+
+/* ---------- Aviso de versão nova ---------- */
+// Compara o build desta página com o publicado; se mudou, mostra uma faixa pra atualizar.
+(function () {
+  const mine = document.querySelector('meta[name="odin-build"]')?.content || '';
+  if (!mine || location.protocol === 'file:') return;
+  let shown = false, last = 0;
+  async function check() {
+    if (shown || document.hidden || Date.now() - last < 60e3) return;
+    last = Date.now();
+    try {
+      const html = await fetch('/index.html?b=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '');
+      const live = (html.match(/<meta name="odin-build" content="([0-9a-f]*)"/) || [])[1] || '';
+      if (live && live !== mine) show();
+    } catch {}
+  }
+  function show() {
+    shown = true;
+    const b = document.createElement('button');
+    b.type = 'button'; b.id = 'odinUpd';
+    b.textContent = '✨ Nova versão disponível · tocar pra atualizar';
+    b.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:9999;max-width:calc(100% - 24px);padding:12px 18px;border:0;border-radius:999px;background:#2b6c7d;color:#fff;font:600 14px system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer';
+    b.onclick = () => location.reload();
+    document.body.appendChild(b);
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });
+  window.addEventListener('focus', check);
+  setInterval(check, 5 * 60e3);
+  setTimeout(check, 15e3);
+  window.ODIN_UPD_CHECK = () => { last = 0; return check(); };
+})();

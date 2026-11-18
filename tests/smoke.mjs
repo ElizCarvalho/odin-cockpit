@@ -76,6 +76,12 @@ try {
       await page.selectOption('#aNotif [name=agua_every]', '120'); await page.click('#aNotif [type=submit]'); await page.waitForTimeout(800);
       const nc = await page.evaluate(() => ({ c: __store.meta.notificacoes, d: __store.schedule.decubito, a: __store.schedule.agua }));
       check(nc.c && nc.c.compra === false && nc.c.med === true && nc.d.active && nc.d.every === 240 && nc.d.kind === 'decubito' && nc.a.every === 120 && nc.a.from === '08:00', 'Admin · notificações: liga decúbito (4 h) e água (2 h), desliga compras');
+      await page.evaluate(() => window.ODIN_UPD_CHECK()); await page.waitForTimeout(300);
+      check(!(await page.locator('#odinUpd').count()), 'Versão · sem faixa quando o app está atualizado');
+      await page.route('**/index.html?b=*', r => r.fulfill({ contentType: 'text/html', body: '<meta name="odin-build" content="abc123">' }));
+      await page.evaluate(() => window.ODIN_UPD_CHECK()); await page.waitForTimeout(300);
+      check(await page.locator('#odinUpd').isVisible(), 'Versão · faixa "Nova versão disponível" quando sai build novo');
+      await page.unroute('**/index.html?b=*'); await page.evaluate(() => document.getElementById('odinUpd')?.remove());
     }
     check(errs.length === 0, `${width}px · sem erro de JavaScript${errs.length ? ': ' + errs[0] : ''}`);
     await page.close();
