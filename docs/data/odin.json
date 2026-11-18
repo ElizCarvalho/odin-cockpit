@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-18T20:10:19.674Z",
- "updatedAt": 1795032413137,
+ "exportedAt": "2026-11-18T20:37:16.687Z",
+ "updatedAt": 1795034007438,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1022,6 +1022,19 @@
    "mark": false,
    "time": "15:56",
    "text": "Parou o sangramento depois da retirada da sonda urinária. Faz xixi só com escape ou quando a bexiga é pressionada (ainda não urina sozinho de forma voluntária)."
+  },
+  {
+   "id": "PnTIo6xQME8iJYNtJL7p",
+   "date": "2026-11-18",
+   "time": "17:32",
+   "kind": "urina",
+   "details": {
+    "como": "na sonda",
+    "cor": "clarinho",
+    "quantidade": "bastante"
+   },
+   "text": "Xixi na sonda, clarinho, bastante.",
+   "mark": false
   },
   {
    "id": "TgSmr77WI1o9yXyaIxoH",
