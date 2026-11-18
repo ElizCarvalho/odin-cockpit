@@ -154,7 +154,7 @@ try {
   // quem edita: responde um lembrete de água e pula o remédio
   {
     const { page, errs } = await open(390, 'edita@teste.com', '#rotina');
-    check(await page.evaluate(() => document.querySelector('.tab[data-sec=hoje] .badge')?.textContent) === '3', 'Hoje · bolinha com 3 pendentes no menu');
+    check(await page.evaluate(() => document.querySelector('.tab[data-sec=hoje] .badge')?.textContent) === '4', 'Hoje · bolinha com 4 pendentes no menu');
     const n = `#rn-s2_${today}_1000`;
     await page.fill(`${n} [name=v]`, '150'); await page.selectOption(`${n} [name=fid]`, 'coco');
     await page.click(`${n} [type=submit]`); await page.waitForTimeout(800);

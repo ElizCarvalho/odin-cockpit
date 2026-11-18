@@ -31,6 +31,7 @@ export class Hoje {
     if (deixarDeFora) await l.getByRole('checkbox', { name: new RegExp('^' + deixarDeFora) }).uncheck()
     await l.getByRole('button', { name: /^Dei/ }).click()
   }
+  async visto(nome) { await this.lembrete(nome).getByRole('button', { name: 'Ok, visto' }).click() }
   async pular(nome) { await this.lembrete(nome).getByRole('button', { name: 'Pulei' }).click() }
   ultimas48() { return this.page.getByRole('list', { name: 'Últimas 48 h' }) }
   registro48(nome) { return this.ultimas48().getByRole('listitem', { name: new RegExp(nome) }) }

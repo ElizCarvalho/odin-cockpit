@@ -28,3 +28,7 @@ Funcionalidade: Responder os lembretes do dia
   Cenário: Pular um lembrete tira ele do que está pendente
     Quando eu pulo o lembrete de um remédio
     Então esse lembrete sai da lista do que está pendente agora
+
+  Cenário: Aviso de compra de remédio pode ser marcado como visto
+    Quando eu marco como visto o aviso de compra de um remédio
+    Então esse aviso sai da lista do que está pendente agora

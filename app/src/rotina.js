@@ -58,7 +58,7 @@
 
   /* ---------- Registrar a resposta ---------- */
   async function answer(n, form, skipped) {
-    const t = form ? (form.querySelector('[name=time]').value || hhmm()) : hhmm();
+    const t = form?.querySelector('[name=time]')?.value || hhmm(); // aviso de compra/consulta não tem campo de hora
     const note = form ? form.querySelector('[name=note]')?.value.trim() || '' : '';
     const base = { date: n.date, time: t, source: 'rotina', createdAt: Date.now(), by: me() };
     if (n.kind === 'compra' || n.kind === 'consulta') { // aviso: só marca como visto

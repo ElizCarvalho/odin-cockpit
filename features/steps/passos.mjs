@@ -127,6 +127,12 @@ Then('esse lembrete sai da lista do que está pendente agora', async function ()
   await expect(this.hoje.lembrete(MASSA.remedio)).toHaveCount(0)
 })
 
+When('eu marco como visto o aviso de compra de um remédio', async function () { await this.abrir(); await this.hoje.visto('Comprar ' + MASSA.outroRemedio) })
+Then('esse aviso sai da lista do que está pendente agora', async function () {
+  await expect(this.hoje.lembrete('Comprar ' + MASSA.outroRemedio)).toHaveCount(0)
+  expect(this.erros).toEqual([])
+})
+
 /* ---------- Notificações ---------- */
 When('eu ligo os avisos de troca de decúbito e de água', async function () {
   await this.admin.configurar({ ligar: ['Troca de decúbito', 'Oferecer água'] })

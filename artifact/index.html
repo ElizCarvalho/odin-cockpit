@@ -408,7 +408,9 @@ body:not(.app) .app-only { display: none; }
   .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 2px; border-radius: 10px; font-size: 11px; }
   .tab .ti { margin: 0; font-size: 20px; line-height: 1.1; }
   .tab[aria-selected="true"] { background: transparent; color: var(--accent); border-color: transparent; }
-  .tab[data-sec="registrar"] .ti { display: grid; place-items: center; width: 40px; height: 40px; margin-top: -18px; border-radius: 50%; background: var(--accent); color: var(--surface); font-size: 26px; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+  .tab[data-sec="registrar"] .ti { display: grid; place-items: center; width: 40px; height: 24px; border-radius: 12px; background: var(--accent); color: var(--surface); font-size: 18px; font-weight: 700; line-height: 1; }
+  /* teclado aberto no iPhone: a barra some (o iOS reposiciona elementos fixos no meio da tela) */
+  body.kb .tabs { display: none; }
   #toast { bottom: calc(84px + env(safe-area-inset-bottom)); }
 }
 </style>
@@ -2324,6 +2326,20 @@ function openReg(k) {
   setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
 }
 window.openReg = openReg;
+// iPhone: com o teclado aberto o iOS desloca elementos fixos; esconde a barra e, ao fechar o teclado, força o reposicionamento
+document.addEventListener('focusin', e => { if (innerWidth <= 760 && e.target.matches('input:not([type=checkbox]):not([type=radio]), textarea, select')) document.body.classList.add('kb'); });
+document.addEventListener('focusout', () => setTimeout(() => {
+  const a = document.activeElement;
+  if (a && a.matches && a.matches('input:not([type=checkbox]):not([type=radio]), textarea, select')) return;
+  document.body.classList.remove('kb'); window.scrollTo(window.scrollX, window.scrollY);
+}, 150));
+// app aberto há muito tempo em segundo plano (ex.: desde ontem): volta com dados frescos
+let hiddenAt = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { hiddenAt = Date.now(); return; }
+  const a = document.activeElement, digitando = a && a.matches && a.matches('input, textarea, select') && a.value;
+  if (hiddenAt && Date.now() - hiddenAt > 30 * 60e3 && !digitando && !window.ODIN_STATIC) location.reload();
+});
 document.addEventListener('click', async ev => {
   if (!ev.target.matches('[data-wsave2]')) return;
   const f = $('regPeso'), g = k => f.querySelector(`[data-w="${k}"]`).value, kg = num(g('kg')), date = g('date');

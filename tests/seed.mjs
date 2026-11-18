@@ -11,6 +11,7 @@ export const SEED = {
   notifs: {
     [`s1_${today}_0900`]: { schedId: 's1', kind: 'med', label: 'Remédio teste', date: today, time: '09:00', status: 'pending', sentAt: 1 },
     [`s3_${today}_0930`]: { schedId: 's3', kind: 'med', label: 'Manhã', date: today, time: '09:30', status: 'pending', sentAt: 1, items: [{ medId: 'm1', name: 'Remédio teste', dose: '1 comp.' }, { medId: 'm2', name: 'Outro em uso', dose: '1 comp.' }] },
-    [`s2_${today}_1000`]: { schedId: 's2', kind: 'agua', label: 'Água', date: today, time: '10:00', status: 'pending', sentAt: 1 }
+    [`s2_${today}_1000`]: { schedId: 's2', kind: 'agua', label: 'Água', date: today, time: '10:00', status: 'pending', sentAt: 1 },
+    [`stock_m2_${today}`]: { schedId: 'stock_m2', kind: 'compra', label: 'Comprar Outro em uso', medId: 'm2', date: today, time: '10:00', status: 'pending', sentAt: 1, note: 'o estoque acaba em breve' }
   }
 };
