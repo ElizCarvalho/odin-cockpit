@@ -8,7 +8,7 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
 1. **Antes de começar:** `git pull --rebase` na `main`. Se tiver mudança local não commitada, pare e pergunte.
 2. **Desenvolver** (veja "Onde mexer" abaixo).
 3. **Validar:** `npm run check`. Ele monta o app, confere a sintaxe de todo o JS, os JSON, as funções, os vazamentos de segredo, CPF ou export bruto, roda o smoke no navegador (390 e 1440 px, papéis admin/edita/só vê) e os **cenários Gherkin** (`features/*.feature`).
-   - Comportamento novo ou bug corrigido? Escreva ou ajuste um cenário em `features/` (veja `documentacao/qualidade.md`).
+   - Comportamento novo ou bug corrigido? Escreva ou ajuste um cenário em `features/`: declarativo, em 1ª pessoa, sem clique ou campo no texto, automatizado por Page Object, sem `waitForTimeout` (veja `documentacao/qualidade.md`).
    - Só siga com tudo ✓. Se falhar, conserte. Não pule nem desligue checagem pra passar.
    - Mudou tela? Olhe também no navegador: `npm run app:ver` (http://localhost:5050, com Firebase de verdade, então precisa logar).
 4. **Commit** na `main`, com mensagem curta em português dizendo o que mudou pra quem usa (ex.: "Linha do tempo: itens do dia em ordem de hora"). Terminar com as linhas de coautoria que o ambiente pedir.
@@ -29,7 +29,7 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
 | Lembretes a cada minuto e IA do Registrar | `functions/index.js` |
 | Quem pode ler e escrever | `firestore.rules`, `storage.rules` |
 | Teste de fumaça, Firebase falso e dados de teste | `tests/smoke.mjs`, `tests/fakefb.js`, `tests/seed.mjs` |
-| Cenários de comportamento (Gherkin em português) | `features/*.feature`, passos em `features/steps/passos.mjs` |
+| Cenários de comportamento (Gherkin declarativo, método lunarpass-tests) | `features/*.feature`; Page Objects em `features/support/paginas.mjs`; passos em `features/steps/passos.mjs`; especificação e perguntas em `documentacao/especificacao.md` |
 | Documentação (arquitetura, dados, UX, qualidade, esteira, operação, ADRs) | `documentacao/`. Mudou arquitetura, dado ou navegação? Atualize junto |
 | Site público anonimizado (GitHub Pages) | `docs/`, gerado pelo Action "Publicar site público" (`scripts/exportar-firestore.mjs` → `scripts/publicar.mjs`). Não editar à mão |
 

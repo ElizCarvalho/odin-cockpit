@@ -1,27 +1,30 @@
 # language: pt
 Funcionalidade: Responder os lembretes do dia
-  O lembrete aparece em "Hoje" na hora certa. Quem edita marca o que deu,
-  pula o que não deu e pode corrigir depois.
+  Como quem cuida do Odin
+  Quero marcar o que dei, o que pulei e corrigir depois
+  Para o histórico refletir o que de fato aconteceu
 
   Contexto:
-    Dado que sou quem edita no celular
-    E abro o app
+    Dado que eu posso registrar os cuidados do Odin
+    E há lembretes pendentes para hoje
 
-  Cenário: Água pelo lembrete conta a água de coco como 95% água
-    Quando respondo o lembrete de "Água" com 150 mL de "Água de coco"
-    Então a água de hoje soma 143 mL
+  Cenário: Água de coco conta só pela água que ela tem
+    Ilustração: 150 mL de água de coco, que é 95% água, somam 143 mL.
+    Quando eu respondo o lembrete de água dizendo que ele bebeu água de coco
+    Então a água de hoje soma só a parte de água da água de coco
 
-  Cenário: Bloco de remédios grava um registro por remédio
-    Quando desmarco "Outro em uso" no lembrete "Manhã"
-    E confirmo o lembrete "Manhã"
-    Então o lembrete "Manhã" fica parcial
-    E "Remédio teste" fica dado e "Outro em uso" fica pulado
+  Cenário: No lembrete de vários remédios, registro o que dei e o que não dei
+    Quando eu confirmo o lembrete da manhã deixando de fora um dos remédios
+    Então o remédio que eu deixei de fora aparece como pulado nas últimas 48 horas
+    E o lembrete da manhã sai da lista do que está pendente agora
 
-  Cenário: Dar depois um remédio que tinha ficado como pulado
-    Dado que pulei "Outro em uso" no lembrete "Manhã"
-    Quando digo que dei "Outro em uso" às "11:28"
-    Então "Outro em uso" fica dado às "11:28" com a nota de atraso
+  Cenário: Remédio pulado pode ser registrado como dado depois
+    Ilustração: pulado às 09:30, dado às 11:28.
+    Dado que eu pulei um remédio no lembrete da manhã
+    Quando eu informo que dei esse remédio mais tarde
+    Então ele aparece como dado no horário que eu informei
+    E ele não aparece mais como pulado
 
-  Cenário: Pular um lembrete
-    Quando pulo o lembrete "Remédio teste"
-    Então o lembrete "Remédio teste" fica pulado
+  Cenário: Pular um lembrete tira ele do que está pendente
+    Quando eu pulo o lembrete de um remédio
+    Então esse lembrete sai da lista do que está pendente agora

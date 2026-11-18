@@ -27,7 +27,8 @@ Tudo em [`documentacao/`](documentacao/README.md):
 - [Arquitetura](documentacao/arquitetura.md): como as peças se ligam (PWA, Firebase, Functions, Actions, Pages)
 - [Modelo de dados](documentacao/dados.md): coleções do Firestore e o que cada campo significa
 - [UX e navegação](documentacao/ux.md): os princípios e o mapa das 5 seções
-- [Qualidade e testes](documentacao/qualidade.md): a pirâmide de checagens e como escrever um cenário Gherkin
+- [Qualidade e testes](documentacao/qualidade.md): a pirâmide de checagens e como escrever um cenário Gherkin (método lunarpass-tests)
+- [Especificação por exemplos](documentacao/especificacao.md) e [aderência pra automação](documentacao/aderencia.md)
 - [Esteira com IA](documentacao/esteira-ia.md): como o projeto é desenvolvido com agentes e o que aprendemos
 - [Operação](documentacao/operacao.md): segredos, permissões de nuvem e o que fazer quando algo quebra
 - [Decisões (ADRs)](documentacao/decisoes/): por que cada escolha foi feita

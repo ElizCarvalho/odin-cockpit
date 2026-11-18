@@ -1,27 +1,28 @@
 # language: pt
 Funcionalidade: Cada pessoa vê o que pode fazer
-  Admin faz tudo; quem edita registra e responde lembretes; quem só vê não altera nada.
-  A proteção de verdade está nas regras do Firestore; aqui conferimos que a tela acompanha.
+  Como quem administra o app
+  Quero que cada pessoa veja só o que pode fazer
+  Para ninguém alterar o que não deve
+  A proteção de verdade está nas regras do Firestore; aqui a tela acompanha.
 
-  Cenário: Quem só vê não tem o botão Registrar
-    Dado que sou quem só vê no celular
-    Quando abro o app
-    Então o botão "Registrar" não aparece
-    E os lembretes aparecem sem formulário de resposta
+  Cenário: Quem só acompanha não tem como registrar
+    Dado que eu só acompanho o Odin
+    Quando eu abro o app
+    Então eu não encontro a seção Registrar
+    E os lembretes aparecem sem opção de resposta
 
-  Cenário: Quem só vê, abrindo um link de Registrar, cai em Hoje
-    Dado que sou quem só vê no celular
-    Quando abro o app em "registrar"
-    Então a parte "hoje" aparece
+  Cenário: Quem só acompanha, ao abrir um link de registro, vai para Hoje
+    Dado que eu só acompanho o Odin
+    Quando eu abro um link que leva para Registrar
+    Então eu vou para Hoje
 
-  Esquema do Cenário: Admin só aparece pra quem é admin
-    Dado que sou <papel> no celular
-    Quando abro o app
-    E vou para "Mais"
-    Então Admin <aparece> em Mais
+  Esquema do Cenário: A administração só aparece para quem administra
+    Dado que eu <perfil>
+    Quando eu abro "Mais"
+    Então a administração <resultado>
 
     Exemplos:
-      | papel      | aparece      |
-      | admin      | aparece      |
-      | quem edita | não aparece  |
-      | quem só vê | não aparece  |
+      | perfil                               | resultado   |
+      | administro o app                     | aparece     |
+      | posso registrar os cuidados do Odin  | não aparece |
+      | só acompanho o Odin                  | não aparece |

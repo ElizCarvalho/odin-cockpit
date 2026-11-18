@@ -1,52 +1,52 @@
 # language: pt
-Funcionalidade: Navegação pelo que a pessoa quer fazer
-  Pra não se perder, o app se organiza em 5 seções:
-  Hoje (o que fazer agora), Registrar (lançar qualquer coisa), Evolução (como ele está),
-  Histórico (o que aconteceu) e Mais (medicamentos, vacinas, lembretes e admin).
+Funcionalidade: Encontrar o que preciso pelo que vim fazer
+  Como quem cuida do Odin
+  Quero que o app se organize pelo que eu vim fazer
+  Para não me perder entre remédios, exames e registros
+  Origem: ADR 0004 (navegação por tarefa) e auditoria de UX de 18/11/2026.
 
-  Cenário: No celular, as seções ficam numa barra embaixo
-    Dado que sou admin no celular
-    Quando abro o app
-    Então vejo as seções "Hoje, Registrar, Evolução, Histórico, Mais" no menu
-    E o menu fica preso embaixo da tela, com no máximo 80 px de altura
+  Cenário: No celular, as seções ficam ao alcance do polegar
+    Dado que eu uso o app no celular
+    Quando eu abro o app
+    Então eu vejo as seções Hoje, Registrar, Evolução, Histórico e Mais
+    E as seções ficam na parte de baixo da tela
 
-  Cenário: No computador, o menu fica em cima
-    Dado que sou admin no computador
-    Quando abro o app
-    Então vejo as seções "Hoje, Registrar, Evolução, Histórico, Mais" no menu
-    E o menu fica em cima da página
+  Cenário: No computador, as seções ficam no topo
+    Dado que eu uso o app no computador
+    Quando eu abro o app
+    Então eu vejo as seções Hoje, Registrar, Evolução, Histórico e Mais
+    E as seções ficam no topo da página
 
-  Esquema do Cenário: Cada parte abre inteira na tela do celular
-    Dado que sou admin no celular
-    Quando abro o app em "<parte>"
-    Então a parte "<parte>" aparece
-    E nada passa da largura da tela
+  Esquema do Cenário: Cada parte cabe inteira na tela do celular
+    Dado que eu uso o app no celular
+    Quando eu abro "<parte>" em "<seção>"
+    Então eu vejo "<parte>" sem precisar rolar para o lado
 
     Exemplos:
-      | parte     |
-      | hoje      |
-      | registrar |
-      | exames    |
-      | linha     |
-      | fotos     |
-      | remedios  |
-      | vacinas   |
-      | lembretes |
-      | admin     |
+      | seção     | parte                |
+      | Hoje      | Hoje                 |
+      | Registrar | Registrar            |
+      | Evolução  | Exames e gráficos    |
+      | Histórico | Linha do tempo       |
+      | Histórico | Fotos                |
+      | Mais      | Medicamentos         |
+      | Mais      | Vacinas e vermífugos |
+      | Mais      | Lembretes            |
+      | Mais      | Admin                |
 
-  Cenário: "Mais" junta o que se consulta de vez em quando
-    Dado que sou admin no celular
-    Quando abro o app
-    E vou para "Mais"
-    Então vejo as partes "Medicamentos, Vacinas e vermífugos, Lembretes, Admin"
+  Cenário: Mais reúne o que eu consulto de vez em quando
+    Dado que eu administro o app
+    Quando eu abro "Mais"
+    Então eu encontro Medicamentos, Vacinas e vermífugos, Lembretes e Admin
 
-  Cenário: O link do lembrete no celular abre em Hoje
-    Dado que sou quem edita no celular
-    Quando abro o app em "rotina"
-    Então a parte "hoje" aparece
-    E o menu mostra 3 pendentes em Hoje
+  Cenário: O aviso de um lembrete me leva para o que fazer agora
+    Dado que eu posso registrar os cuidados do Odin
+    E há lembretes pendentes para hoje
+    Quando eu abro o aviso de um lembrete
+    Então eu vou para Hoje
+    E eu vejo quantos lembretes estão pendentes
 
-  Cenário: O card antigo de publicar no site não existe mais
-    Dado que sou admin no computador
-    Quando abro o app
-    Então não aparece o texto "Publicar no site" em lugar nenhum
+  Cenário: Publicar o site não depende de mim
+    Dado que eu administro o app
+    Quando eu abro o app
+    Então eu não encontro instrução para publicar o site manualmente

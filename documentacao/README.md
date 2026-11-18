@@ -10,6 +10,8 @@ Esta pasta registra **como** ele é feito. A ideia é que qualquer pessoa ou age
 | [dados.md](dados.md) | O que tem em cada coleção do Firestore? |
 | [ux.md](ux.md) | Como a interface se organiza e por quê? |
 | [qualidade.md](qualidade.md) | Como sei que não quebrei nada? Como escrevo um cenário? |
+| [especificacao.md](especificacao.md) | Quais comportamentos estão combinados e o que está em aberto (Três Amigos)? |
+| [aderencia.md](aderencia.md) | Cada elemento da tela tem um locator estável pra automação? |
 | [esteira-ia.md](esteira-ia.md) | Como trabalhar neste projeto com um agente de IA? |
 | [operacao.md](operacao.md) | Onde ficam os segredos, quais permissões, o que fazer quando quebra? |
 | [decisoes/](decisoes/) | Por que cada escolha importante foi feita (ADRs) |

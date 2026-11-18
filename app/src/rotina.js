@@ -171,7 +171,7 @@
     <section class="card">
       <div class="row between"><h2>Agora</h2><span class="pill">${pend.length ? pend.length + ' pendente' + (pend.length > 1 ? 's' : '') : 'nada pendente'}</span></div>
       <div class="list" style="margin-top:8px">${pend.map(n => `
-        <div class="item rN${n.id === focusId ? ' rFocus' : ''}" id="rn-${esc(n.id)}">
+        <div class="item rN${n.id === focusId ? ' rFocus' : ''}" id="rn-${esc(n.id)}" role="group" aria-label="Lembrete ${esc(n.label || (KIND[n.kind] || KIND.outro).t)}">
           <div class="row between"><b>${ic(n)}${esc(n.label || (KIND[n.kind] || KIND.outro).t)}</b>
           <span class="muted">${n.date === today ? '' : dm(n.date) + ' '}${esc(n.time)}${n.renotified ? ' · avisado 2x' : ''}</span></div>
           ${canEdit() ? entryForm(n) : ''}
@@ -183,19 +183,19 @@
     paint('hoje48', `
     <section class="card">
       <div class="row between"><h2>Últimas 48 h</h2><button type="button" class="ghost tiny" data-go="registrar">＋ registrar</button></div>
-      <div class="list" style="margin-top:6px">${done.slice(0, 40).map(x => `<div class="item"><div class="row between"><span>${x.src === 'v' ? vtxt(x) + (x.note ? ' · ' + esc(x.note) : '') : x.src === 'e' ? (KIND[x.kind] || KIND.outro).e + ' ' + esc(x.text) : ltxt(x)}</span><span class="row"><span class="muted">${x.date === today ? '' : dm(x.date) + ' '}${esc(x.time || '')}</span>${x.src === 'log' && x.status === 'skipped' && canEdit() && lateId !== x.id ? `<button type="button" class="ghost tiny" data-late="${esc(x.id)}">Dei depois</button>` : ''}</span></div>${lateId === x.id ? `<div class="row rLate" style="margin-top:6px"><label>Que horas deu?<input type="time" name="lt" value="${hhmm()}"></label><button type="button" class="tiny" data-latego="${esc(x.id)}">Salvar ✓</button><button type="button" class="ghost tiny" data-latex>Cancelar</button></div>` : ''}</div>`).join('') || '<p class="muted">Nada ainda.</p>'}</div>
+      <div class="list" role="list" aria-label="Últimas 48 h" style="margin-top:6px">${done.slice(0, 40).map(x => `<div class="item" role="listitem" aria-label="${esc(x.src === 'v' ? vtxt(x) : x.src === 'e' ? x.text : (x.label || (KIND[x.kind] || KIND.outro).t))}"><div class="row between"><span>${x.src === 'v' ? vtxt(x) + (x.note ? ' · ' + esc(x.note) : '') : x.src === 'e' ? (KIND[x.kind] || KIND.outro).e + ' ' + esc(x.text) : ltxt(x)}</span><span class="row"><span class="muted">${x.date === today ? '' : dm(x.date) + ' '}${esc(x.time || '')}</span>${x.src === 'log' && x.status === 'skipped' && canEdit() && lateId !== x.id ? `<button type="button" class="ghost tiny" data-late="${esc(x.id)}">Dei depois</button>` : ''}</span></div>${lateId === x.id ? `<div class="row rLate" style="margin-top:6px"><label>Que horas deu?<input type="time" name="lt" value="${hhmm()}"></label><button type="button" class="tiny" data-latego="${esc(x.id)}">Salvar ✓</button><button type="button" class="ghost tiny" data-latex>Cancelar</button></div>` : ''}</div>`).join('') || '<p class="muted">Nada ainda.</p>'}</div>
     </section>
 
 `);
     const fk = freeKind;
-    paint('regFree', fk ? `<section class="card rFreeBox"><div class="row between"><h2>${KIND[fk].e} ${esc(fk === 'med' ? 'Remédio dado' : KIND[fk].t)}</h2><button type="button" class="ghost tiny" data-freex>fechar</button></div>
+    paint('regFree', fk ? `<section class="card rFreeBox" aria-label="Registrar ${esc(fk === 'med' ? 'Remédio dado' : KIND[fk].t)}"><div class="row between"><h2>${KIND[fk].e} ${esc(fk === 'med' ? 'Remédio dado' : KIND[fk].t)}</h2><button type="button" class="ghost tiny" data-freex>fechar</button></div>
       ${fk === 'med' ? '<p class="note" style="margin:4px 0 0">Marque o que deu agora. Remédio que estava pendente num lembrete, responda por lá, em Hoje.</p>' : ''}
       ${entryForm(fk === 'med' ? { kind: 'med', label: 'Remédio', items: activeMeds().map(m => ({ medId: m.id, name: m.name, dose: '' })), free: true } : { kind: fk, label: KIND[fk].t }).replace('data-n=""', `data-n="" data-kind="${fk}"`)}</section>` : '');
     paint('p-lembretes', `
     <section class="card">
       <h2>Horários</h2>
-      <div class="list" style="margin-top:6px">${scheds.sort((a, b) => ((a.times || [])[0] || a.from || '').localeCompare((b.times || [])[0] || b.from || '') || (a.label || '').localeCompare(b.label || '')).map(s => `
-        <div class="item row between">
+      <div class="list" role="list" aria-label="Horários" style="margin-top:6px">${scheds.sort((a, b) => ((a.times || [])[0] || a.from || '').localeCompare((b.times || [])[0] || b.from || '') || (a.label || '').localeCompare(b.label || '')).map(s => `
+        <div class="item row between" role="listitem" aria-label="${esc(s.label)}">
           <span>${ic(s)}<b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${schedDays(s)}${s.until ? ' · até ' + dm(s.until) : ''}${Array.isArray(s.items) && s.items.length ? '<br>' + s.items.map(i => { const m = meds.find(x => x.id === i.medId); const off = m && (m.paused || (m.end && m.end < todayIso())); return off ? `<s>${esc(i.name)}</s> <span class="pill hi">${m.paused ? 'pausado' : 'terminou'}</span>` : esc(i.name + (i.dose ? ' ' + i.dose : '')); }).join(' · ') : ''}</span></span>
           <span class="row"${canEdit() ? '' : ' hidden'}><button class="ghost tiny" data-tog="${esc(s.id)}">${s.active ? 'Pausar' : 'Ativar'}</button><button class="tiny danger" data-del="${esc(s.id)}">Apagar</button></span>
         </div>`).join('') || '<p class="muted">Nenhum horário ainda.</p>'}</div>
@@ -257,7 +257,7 @@
       </form>
     </section>
 
-    <section class="card">
+    <section class="card" aria-label="Notificações">
       <h2>Notificações</h2>
       <p class="note" style="margin:4px 0 8px">O que vira lembrete (push pra quem está marcado em "lembretes" acima). Decúbito e água viram horários em Mais → Lembretes.</p>
       <form id="aNotif" class="vform">
@@ -266,7 +266,7 @@
         <label class="chk"><input type="checkbox" name="consulta"${ncfg.consulta === false ? '' : ' checked'}> 📅 Compromissos (consulta, fisio, exame)</label>
         ${[['decubito', '🔄 Troca de decúbito', 'avisa qual é o próximo lado (esquerdo → esternal → direito → esternal)', { every: 240, from: '08:00', to: '22:00' }], ['agua', '💧 Oferecer água', 'diz quanto falta pra meta do dia e para de avisar quando bate', { every: 120, from: '08:00', to: '22:00' }]].map(([k, t, sub, def]) => {
           const sc = scheds.find(x => x.id === k) || {}, ev = sc.every || def.every;
-          return `<fieldset class="nGrp"><label class="chk"><input type="checkbox" name="${k}_on"${sc.active ? ' checked' : ''}> <b>${t}</b></label><span class="muted" style="font-size:12px">${sub}</span>
+          return `<fieldset class="nGrp" aria-label="${t.replace(/^\S+ /, '')}"><label class="chk"><input type="checkbox" name="${k}_on"${sc.active ? ' checked' : ''}> <b>${t}</b></label><span class="muted" style="font-size:12px">${sub}</span>
           <label>A cada<select name="${k}_every">${[60, 90, 120, 180, 240, 360].map(m => `<option value="${m}"${m === ev ? ' selected' : ''}>${m === 90 ? '1,5' : m / 60} h</option>`).join('')}</select></label>
           <label>Das<input type="time" name="${k}_from" value="${esc(sc.from || def.from)}"></label><label>Às<input type="time" name="${k}_to" value="${esc(sc.to || def.to)}"></label></fieldset>`; }).join('')}
         <div class="row"><button type="submit">Salvar notificações</button></div>
@@ -464,7 +464,7 @@
   function updateBadge() {
     const n = notifs.filter(x => x.status === 'pending').length;
     const tab = document.querySelector('.tab[data-sec="hoje"]');
-    if (tab) { let b = tab.querySelector('.badge'); if (!b) { b = document.createElement('span'); b.className = 'badge'; tab.appendChild(b); } b.textContent = n || ''; b.hidden = !n; }
+    if (tab) { let b = tab.querySelector('.badge'); if (!b) { b = document.createElement('span'); b.className = 'badge'; tab.appendChild(b); } b.textContent = n || ''; b.hidden = !n; b.setAttribute('aria-label', n + ' pendente' + (n > 1 ? 's' : '')); }
     try { if (navigator.setAppBadge) n ? navigator.setAppBadge(n) : navigator.clearAppBadge(); } catch {}
   }
 })();

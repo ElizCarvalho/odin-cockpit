@@ -19,58 +19,67 @@ flowchart TB
 |---|---|---|---|
 | Estática | `scripts/check.mjs` (passos 1–5) | Erro de sintaxe, JSON quebrado, segredo vazado, regra de horário errada | ~3 s |
 | Smoke | `tests/smoke.mjs` | Tela que estoura a largura, erro de JavaScript, fluxo quebrado em qualquer papel | ~60 s |
-| Comportamento | `features/*.feature` + `features/steps/passos.mjs` | Regra de negócio escrita como a pessoa fala ("remédio dado fora de hora grava só o que foi marcado") | ~50 s |
+| Comportamento | `features/*.feature` + Page Objects + passos | Regra de negócio escrita como a pessoa fala, conferida na tela | ~40 s |
 | Produção | `scripts/verificar-deploy.mjs` | Deploy que falhou em silêncio, cache servindo versão velha | até alguns minutos |
 
 O smoke e os cenários rodam o **app de verdade** (`app/public`) num Chromium, com um Firebase falso (`tests/fakefb.js`) e dados de teste (`tests/seed.mjs`). Nada toca o Firebase real.
 
-## Cenários em Gherkin
+## Cenários em Gherkin (método lunarpass-tests / Método ADT)
 
-Os cenários ficam em `features/`, escritos em português (`# language: pt`). Cada um descreve um comportamento que importa pra quem usa:
+Os cenários seguem as skills de QA do método **lunarpass-tests**:
+
+| Skill | Como foi aplicada aqui | Onde está |
+|---|---|---|
+| `qa-gherkin-design` | Análise dos pedidos (explícito, derivável, a investigar), variantes, técnicas, Gherkin **declarativo em 1ª pessoa** com **Ilustração:**, e perguntas pros Três Amigos | [especificacao.md](especificacao.md) e `features/*.feature` |
+| `qa-testability-audit` | Parecer por elemento com a escada de locator. A interface ganhou papéis e nomes acessíveis | [aderencia.md](aderencia.md) |
+| `qa-test-automation` | Page Objects (`features/support/paginas.mjs`), locators `getByRole → getByLabel → …`, `expect` que espera sozinho, **sem `waitForTimeout`**, uma asserção por **Então**, massa isolada por cenário | `features/steps/passos.mjs` |
+| `qa-test-executor` | **Não executado.** Ele exige o Playwright MCP, que não existe no ambiente de desenvolvimento atual. Rodar no Cursor, contra o app no ar, quando quiser evidência de aceite | — |
+
+Exemplo:
 
 ```gherkin
-Funcionalidade: Registrar tudo num lugar só
+Funcionalidade: Responder os lembretes do dia
 
   Contexto:
-    Dado que sou quem edita no celular
-    E abro o app
-    E vou para "Registrar"
+    Dado que eu posso registrar os cuidados do Odin
+    E há lembretes pendentes para hoje
 
-  Cenário: Comida por unidade vira gramas e calorias
-    Quando toco em "Comida"
-    E escolho "Biscrok Multi" em "Alimento"
-    E preencho "Quanto (g ou unidades)" com "2"
-    E salvo
-    Então fica registrado 2 Biscrok, 20 g e 68 kcal
+  Cenário: Remédio pulado pode ser registrado como dado depois
+    Ilustração: pulado às 09:30, dado às 11:28.
+    Dado que eu pulei um remédio no lembrete da manhã
+    Quando eu informo que dei esse remédio mais tarde
+    Então ele aparece como dado no horário que eu informei
+    E ele não aparece mais como pulado
 ```
 
 | Arquivo | Cobre |
 |---|---|
-| `navegacao.feature` | As 5 seções, barra embaixo no celular, cada painel cabendo na tela, links antigos |
-| `registrar.feature` | Comida por unidade, remédio fora de hora, peso, xixi, agendar consulta |
-| `lembretes.feature` | Água de coco a 95%, bloco dado/pulado, "Dei depois", pular |
-| `notificacoes.feature` | Admin liga decúbito e água e desliga compras |
-| `permissoes.feature` | Só vê sem Registrar; Admin só pra admin (esquema com exemplos) |
-| `medicamentos.feature` | "Já usou" recolhido, pausar e retomar com histórico |
+| `navegacao.feature` | As 5 seções, embaixo no celular e em cima no computador, cada parte cabendo na tela, aviso de lembrete levando pra Hoje |
+| `registrar.feature` | Comida por unidade nas calorias, remédio fora de hora, peso, xixi, consulta no calendário |
+| `lembretes.feature` | Água de coco pela fração de água, bloco dado/pulado, "Dei depois", pular |
+| `notificacoes.feature` | Ligar decúbito e água cria horários; desligar compras fica guardado |
+| `permissoes.feature` | Quem só acompanha não registra; Admin só pra quem administra (esquema) |
+| `medicamentos.feature` | "Já usou" recolhido, pausar com motivo, retomar com histórico |
 
 ### Como rodar
 
 ```bash
-npm run bdd                         # monta o app e roda todos os cenários
-npx cucumber-js features/registrar.feature            # um arquivo
-npx cucumber-js --name "Peso vira uma pesagem"        # um cenário
+npm run bdd                                        # monta o app e roda todos os cenários
+npx cucumber-js features/registrar.feature         # um arquivo
+npx cucumber-js --name "Peso registrado"           # um cenário
 ```
 
-O relatório HTML sai em `relatorios/cenarios.html`. Cenário que falha anexa uma captura de tela.
+O relatório HTML sai em `relatorios/cenarios.html`. Cenário que falha anexa a captura de tela. Erro de JavaScript na página também faz o cenário falhar.
 
 ### Como escrever um cenário novo
 
-1. **Comece pela frase de quem usa**, não pela tela: "Quando respondo o lembrete de Água com 150 mL de Água de coco", e não "Quando clico no botão #rn-s2".
-2. **Um comportamento por cenário.** Se precisar de "e também", provavelmente são dois.
-3. **Reaproveite os passos** que já existem em `features/steps/passos.mjs`. Pra ver os que faltam, rode `npx cucumber-js --dry-run`: ele sugere o esqueleto do passo.
-4. **Confira no dado, não só na tela.** Os passos "Então" leem `window.__store` (o Firebase falso) pra garantir que gravou certo.
-5. **Dado de teste novo** vai em `tests/seed.mjs`, que smoke e cenários compartilham.
-6. Rode `npm run check`. Só com tudo ✓ segue pra commit.
+1. **Especifique antes de automatizar.** Analise o pedido: o que é explícito, o que é derivável (vira *hipótese*) e o que está a investigar (vira pergunta em `especificacao.md`, nunca cenário). Não invente regra.
+2. **Escreva declarativo, em 1ª pessoa, no nível do negócio.** "Quando eu informo que dei esse remédio mais tarde", e nunca "clico em Dei depois e preencho 11:28". Valor que só ilustra vai em `Ilustração:`.
+3. **Um comportamento por cenário.** O nome do cenário diz a regra.
+4. **Automatize pelo Page Object.** Ação nova vira método em `features/support/paginas.mjs`, com locator da escada. Se não houver papel ou nome bom, ajuste a interface (`aria-label`, `role`) e registre em `aderencia.md`.
+5. **Asserção pela tela, com `expect` que espera.** Nada de `waitForTimeout`. O valor esperado vem do catálogo ou da massa, não de número fixo.
+6. **Massa** em `tests/seed.mjs`, compartilhada com o smoke. Cada cenário abre o app do zero.
+7. Rode `npm run bdd` umas 3 vezes pra garantir que não é instável. Depois `npm run check`.
 
 ## Quando algo falha no CI
 

@@ -19,3 +19,12 @@ Cenários em **Gherkin com `# language: pt`** em `features/`, executados por **@
 
 - Mais ~50 s no check. O `npm run check -- --rapido` pula smoke e cenários pra iterações rápidas, nunca pra commit.
 - Os passos conferem o dado gravado (`window.__store`), não só a tela.
+
+## Revisão (18/11/2026): método lunarpass-tests
+
+Os primeiros cenários eram imperativos ("toco em", "preencho … com") e os passos usavam classe CSS e espera fixa. Eles foram refeitos com as skills de QA do método **lunarpass-tests**:
+- Gherkin declarativo em 1ª pessoa, com **Ilustração:**, hipóteses e perguntas pros Três Amigos ([especificacao.md](../especificacao.md));
+- auditoria de aderência com ajustes de acessibilidade na interface ([aderencia.md](../aderencia.md));
+- Page Objects, locators por papel e nome, e `expect` que espera sozinho, sem `waitForTimeout`.
+
+A auditoria achou um bug real: a pausa de remédio parou de salvar o motivo depois do ajuste de acessibilidade. O cenário pegou antes do commit.

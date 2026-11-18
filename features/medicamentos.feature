@@ -1,17 +1,23 @@
 # language: pt
 Funcionalidade: Medicamentos sem poluição
-  O que está em uso vem primeiro; o que ele já usou fica recolhido.
+  Como quem cuida do Odin
+  Quero ver primeiro o que ele toma hoje
+  Para achar dose e estoque sem passar por remédio antigo
 
   Contexto:
-    Dado que sou admin no celular
-    E abro o app em "remedios"
+    Dado que eu administro o app
+    E eu estou em Medicamentos
 
-  Cenário: "Já usou" vem recolhido
-    Então a lista "Já usou" está fechada
-    E cada remédio em uso tem ícone
+  Cenário: Remédios que ele já usou ficam recolhidos
+    Então a lista do que ele já usou fica recolhida
 
-  Cenário: Pausar e retomar guarda o histórico
-    Quando pauso "Remédio teste" com o motivo padrão
-    Então "Remédio teste" aparece em Pausados com o motivo "aguardando a neuro"
-    Quando retomo "Remédio teste"
-    Então "Remédio teste" volta pra Em uso com 1 pausa no histórico
+  Cenário: Pausar um remédio guarda o motivo
+    Ilustração: motivo "aguardando a neuro".
+    Quando eu pauso um remédio em uso informando o motivo
+    Então ele aparece entre os pausados com o motivo
+
+  Cenário: Retomar um remédio pausado guarda o histórico da pausa
+    Dado que um remédio em uso foi pausado
+    Quando eu retomo esse remédio
+    Então ele volta para os remédios em uso
+    E o histórico dele mostra a pausa

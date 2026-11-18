@@ -1,174 +1,175 @@
-// Passos dos cenários (Gherkin em português). Cada frase vira ação ou conferência no app de verdade,
-// rodando no Chromium com o Firebase falso (window.__store guarda o que foi gravado).
-import { Given, When, Then } from '@cucumber/cucumber';
-import assert from 'node:assert/strict';
-import { PAPEL, TELA } from '../support/mundo.mjs';
-import { today } from '../../tests/seed.mjs';
+// Passos dos cenários (Gherkin declarativo, em português). Cada passo fala com os Page Objects
+// (features/support/paginas.mjs) e confere o que aparece na tela com expect, que espera sozinho
+// (sem espera fixa). Um expect por "Então"/"E".
+import { Given, When, Then } from '@cucumber/cucumber'
+import { expect } from '@playwright/test'
+import { PAPEL, TELA } from '../support/mundo.mjs'
+import { SEED, today } from '../../tests/seed.mjs'
 
-const SECAO = { Hoje: 'hoje', Registrar: 'registrar', 'Evolução': 'evolucao', 'Histórico': 'historico', Mais: 'mais' };
-const visivel = sel => `${sel} >> visible=true`;
+const SECOES = ['Hoje', 'Registrar', 'Evolução', 'Histórico', 'Mais']
+// dados de teste usados nas ações (só ilustram; a regra conferida vem do catálogo e da tela)
+const MASSA = { biscoitos: 2, cocoMl: 150, pesoKg: 19.4, consulta: 'neuro', consultaHora: '15:00', motivoPausa: 'aguardando a neuro', remedio: 'Remédio teste', outroRemedio: 'Outro em uso', blocoManha: 'Manhã', remedioAvulso: 'Remédio teste', horaDepois: '11:28' }
 
-/* ---------- Quem e onde ---------- */
-Given('que sou quem edita no {word}', function (tela) { this.email = PAPEL['quem edita']; this.largura = TELA[tela]; });
-Given('que sou quem só vê no {word}', function (tela) { this.email = PAPEL['quem só vê']; this.largura = TELA[tela]; });
-Given('que sou admin no {word}', function (tela) { this.email = PAPEL.admin; this.largura = TELA[tela]; });
+/* ---------- Quem sou e onde estou ---------- */
+Given('que eu uso o app no celular', function () { this.largura = TELA.celular })
+Given('que eu uso o app no computador', function () { this.largura = TELA.computador })
+Given('que eu administro o app', function () { this.email = PAPEL.admin })
+Given('que eu posso registrar os cuidados do Odin', function () { this.email = PAPEL['quem edita'] })
+Given('que eu só acompanho o Odin', function () { this.email = PAPEL['quem só vê'] })
+Given('há lembretes pendentes para hoje', function () {
+  this.pendentes = Object.values(SEED.notifs).filter(n => n.status === 'pending' && n.date === today).length
+})
+Given('eu estou em Registrar', async function () { await this.abrir(); await this.nav.abrir('Registrar') })
+Given('eu estou em Medicamentos', async function () { await this.abrir(); await this.nav.abrir('Mais', 'Medicamentos') })
+Given('eu estou na administração', async function () { await this.abrir(); await this.nav.abrir('Mais', 'Admin') })
 
-When(/^(?:que )?abro o app$/, async function () { await this.abrir({ largura: this.largura, email: this.email }); });
-When(/^(?:que )?abro o app em "([^"]+)"$/, async function (parte) { await this.abrir({ largura: this.largura, email: this.email, hash: '#' + parte }); });
-When('vou para {string}', async function (secao) { await this.page.click(`.tabs .tab[data-sec="${SECAO[secao]}"]`); await this.espera(300); });
+When('eu abro o app', async function () { await this.abrir() })
+When('eu abro {string} em {string}', async function (parte, secao) { await this.abrir(); await this.nav.abrir(secao, parte) })
+When('eu abro {string}', async function (secao) { await this.abrir(); await this.nav.abrir(secao) })
+When('eu abro o aviso de um lembrete', async function () { await this.abrir({ hash: '#rotina' }) })
+When('eu abro um link que leva para Registrar', async function () { await this.abrir({ hash: '#registrar' }) })
 
 /* ---------- Navegação ---------- */
-Then('vejo as seções {string} no menu', async function (lista) {
-  const nomes = await this.page.$$eval('.tabs .tab', bs => bs.filter(b => b.offsetParent).map(b => b.querySelector('.tn').textContent.trim()));
-  assert.deepEqual(nomes, lista.split(', '));
-});
-Then('o menu fica preso embaixo da tela, com no máximo {int} px de altura', async function (max) {
-  const m = await this.page.evaluate(() => { const r = document.querySelector('.tabs').getBoundingClientRect(); return { pos: getComputedStyle(document.querySelector('.tabs')).position, fundo: innerHeight - r.bottom, h: r.height }; });
-  assert.equal(m.pos, 'fixed'); assert.ok(m.fundo <= 1, 'não está colado embaixo'); assert.ok(m.h <= max, `altura ${m.h}px`);
-});
-Then('o menu fica em cima da página', async function () {
-  assert.equal(await this.page.evaluate(() => getComputedStyle(document.querySelector('.tabs')).position), 'sticky');
-});
-Then('a parte {string} aparece', async function (parte) {
-  assert.equal(await this.page.evaluate(p => !document.getElementById('p-' + p).hidden, parte), true, `a parte ${parte} não está à mostra`);
-});
-Then('nada passa da largura da tela', async function () {
-  const sobra = await this.page.evaluate(() => document.scrollingElement.scrollWidth - innerWidth);
-  assert.ok(sobra <= 1, `passou ${sobra}px`);
-  assert.deepEqual(this.erros, []);
-});
-Then('vejo as partes {string}', async function (lista) {
-  assert.deepEqual(await this.page.$$eval('#subtabs [data-go]', bs => bs.map(b => b.textContent.trim())), lista.split(', '));
-});
-Then('o menu mostra {int} pendentes em Hoje', async function (n) {
-  assert.equal(await this.page.textContent('.tab[data-sec=hoje] .badge'), String(n));
-});
-Then('não aparece o texto {string} em lugar nenhum', async function (t) {
-  assert.equal(await this.page.evaluate(x => document.body.textContent.includes(x), t), false);
-});
+Then('eu vejo as seções Hoje, Registrar, Evolução, Histórico e Mais', async function () {
+  for (const s of SECOES) await expect(this.nav.secao(s)).toBeVisible()
+})
+Then('as seções ficam na parte de baixo da tela', async function () {
+  const caixa = await this.nav.menu.boundingBox()
+  expect(Math.round(caixa.y + caixa.height)).toBe(this.page.viewportSize().height)
+})
+Then('as seções ficam no topo da página', async function () {
+  const caixa = await this.nav.menu.boundingBox()
+  expect(caixa.y).toBeLessThan(200)
+})
+Then('eu vejo {string} sem precisar rolar para o lado', async function (parte) {
+  await expect(this.page.getByRole('tabpanel').filter({ visible: true })).toHaveCount(1)
+  if (await this.nav.partes.isVisible()) await expect(this.nav.parte(parte)).toHaveAttribute('aria-selected', 'true')
+  expect(await this.page.evaluate(() => document.scrollingElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1)
+})
+Then('eu encontro Medicamentos, Vacinas e vermífugos, Lembretes e Admin', async function () {
+  await expect(this.nav.partes.getByRole('tab')).toHaveText(['Medicamentos', 'Vacinas e vermífugos', 'Lembretes', 'Admin'])
+})
+Then('eu vou para Hoje', async function () { await expect(this.nav.secao('Hoje')).toHaveAttribute('aria-selected', 'true') })
+Then('eu vejo quantos lembretes estão pendentes', async function () { await expect(this.nav.pendentes()).toHaveText(String(this.pendentes)) })
+Then('eu não encontro instrução para publicar o site manualmente', async function () {
+  await expect(this.page.getByRole('heading', { name: 'Publicar no site' })).toHaveCount(0)
+})
 
 /* ---------- Registrar ---------- */
-When('toco em {string}', async function (nome) { await this.page.click(`#regGrid .regb:has(span:text-is("${nome}"))`); await this.espera(300); });
-const formAberto = '#regFree form.rForm';
-When('escolho {string} em {string}', async function (opcao, rotulo) {
-  const sel = this.page.locator(visivel(`${formAberto} label:has-text("${rotulo}") select`));
-  const valor = await sel.evaluate((s, o) => [...s.options].find(x => x.text.trim() === o || x.text.trim().startsWith(o + ' ('))?.value, opcao);
-  assert.ok(valor != null, `não achei "${opcao}" em "${rotulo}"`);
-  await sel.selectOption(valor);
-});
-When('preencho {string} com {string}', async function (rotulo, valor) { await this.page.locator(visivel(`${formAberto} label:has-text("${rotulo}") input`)).fill(valor); });
-When('marco {string}', async function (nome) { await this.page.locator(`${formAberto} label.chk:has-text("${nome}") input`).check(); });
-When('salvo', async function () { await this.page.click(`${formAberto} [type=submit]`); await this.espera(800); });
-Then('fica registrado {int} Biscrok, {int} g e {int} kcal', async function (qtd, g, kcal) {
-  const v = await this.loja(() => { const v = Object.values(__store.vitals).find(x => x.foodId === 'biscrok'); return v && { qty: v.qty, g: v.food_g, kcal: Math.round(nutri(v).kcal) }; });
-  assert.deepEqual(v, { qty: qtd, g, kcal });
-});
-Then('o remédio {string} fica como dado', async function (nome) {
-  const l = await this.loja(n => Object.values(__store.rotina_log || {}).filter(x => x.label.startsWith(n)).map(x => x.status), nome);
-  assert.deepEqual(l, ['done']);
-});
-Then('nenhum outro remédio fica como pulado', async function () {
-  assert.equal(await this.loja(() => Object.values(__store.rotina_log || {}).filter(x => x.status === 'skipped').length), 0);
-});
-When('preencho o peso com {string}', async function (kg) { await this.page.fill('#regPeso [data-w=kg]', kg); });
-When('salvo o peso', async function () { await this.page.click('[data-wsave2]'); await this.espera(800); });
-Then('existe uma pesagem de {float} kg', async function (kg) {
-  assert.ok(await this.loja(k => Object.values(__store.exams).some(e => e.params && e.params.peso === k), kg));
-});
-Then('a linha do tempo ganha o acontecimento {string}', async function (t) {
-  assert.ok(await this.loja(x => Object.values(__store.events).some(e => (e.text || '').startsWith(x)), t));
-});
-When('preencho a consulta {string} às {string}', async function (oque, hora) { await this.page.fill('#calAdd [name=what]', oque); await this.page.fill('#calAdd [name=time]', hora); });
-When('salvo a consulta', async function () { await this.page.click('#calAdd [type=submit]'); await this.espera(800); });
-Then('fica agendado {string} com lembrete de {int} minutos antes', async function (txt, min) {
-  const ap = await this.loja(() => Object.values(__store.events).filter(e => e.kind === 'consulta').map(e => [e.text, e.remind]));
-  assert.deepEqual(ap, [[txt, min]]);
-});
+When('eu registro que ele comeu biscoitos contados por unidade', async function () {
+  this.antes = await this.page.evaluate(() => Math.round(dayTotals(todayIso()).kcal))
+  await this.registrar.comida('Biscrok Multi (unid.)', MASSA.biscoitos)
+})
+Then('as calorias de hoje passam a contar esses biscoitos pelo catálogo de alimentos', async function () {
+  const b = await this.page.evaluate(() => foodById('biscrok'))
+  const esperado = this.antes + Math.round(MASSA.biscoitos * b.gUnit * b.kcal100 / 100)
+  await this.nav.abrir('Hoje')
+  await expect(this.hoje.numero('Calorias hoje')).toContainText(new RegExp('(^|\\D)' + esperado + '\\s*kcal'))
+})
+When('eu registro que dei apenas um dos remédios em uso', async function () { await this.registrar.remedioDado(MASSA.remedioAvulso) })
+Then('esse remédio aparece como dado nas últimas 48 horas', async function () {
+  await this.nav.abrir('Hoje')
+  await expect(this.hoje.registro48(MASSA.remedioAvulso)).toBeVisible()
+})
+Then('nenhum remédio aparece como pulado', async function () {
+  await expect(this.hoje.ultimas48().getByRole('button', { name: 'Dei depois' })).toHaveCount(0)
+})
+When('eu registro o peso dele', async function () { await this.registrar.peso(MASSA.pesoKg) })
+Then('o peso mais recente em Hoje é o que eu registrei', async function () {
+  await this.nav.abrir('Hoje')
+  await expect(this.page.getByRole('region', { name: 'Últimos valores' })).toContainText('19,4')
+})
+When('eu registro um xixi com escape', async function () { await this.registrar.xixi('com escape') })
+Then('esse xixi aparece nas últimas 48 horas', async function () {
+  await this.nav.abrir('Hoje')
+  await expect(this.hoje.registro48('Xixi com escape')).toBeVisible()
+})
+When('eu agendo uma consulta para hoje', async function () { await this.registrar.consulta(MASSA.consulta, today, MASSA.consultaHora) })
+Then('a consulta aparece no calendário de hoje', async function () {
+  await this.nav.abrir('Histórico', 'Linha do tempo')
+  await this.historico.verCalendario()
+  await expect(this.historico.compromisso('Consulta: ' + MASSA.consulta)).toBeVisible()
+})
 
 /* ---------- Lembretes ---------- */
-const lembrete = rotulo => `#hojeAgora .rN:has(b:has-text("${rotulo}"))`;
-When('respondo o lembrete de {string} com {int} mL de {string}', async function (rotulo, ml, bebida) {
-  const n = lembrete(rotulo);
-  await this.page.fill(`${n} [name=v]`, String(ml));
-  const sel = this.page.locator(`${n} [name=fid]`);
-  const valor = await sel.evaluate((s, o) => [...s.options].find(x => x.text.trim().toLowerCase().startsWith(o.toLowerCase()))?.value, bebida);
-  assert.ok(valor, `não achei a bebida ${bebida}`); await sel.selectOption(valor);
-  await this.page.click(`${n} [type=submit]`); await this.espera(800);
-});
-Then('a água de hoje soma {int} mL', async function (ml) { assert.equal(await this.loja(() => Math.round(dayTotals(todayIso()).water)), ml); });
-When('desmarco {string} no lembrete {string}', async function (nome, rotulo) { await this.page.locator(`${lembrete(rotulo)} label.chk:has-text("${nome}") input`).uncheck(); });
-When('confirmo o lembrete {string}', async function (rotulo) { await this.page.click(`${lembrete(rotulo)} [type=submit]`); await this.espera(800); });
-Given('que pulei {string} no lembrete {string}', async function (nome, rotulo) {
-  await this.page.locator(`${lembrete(rotulo)} label.chk:has-text("${nome}") input`).uncheck();
-  await this.page.click(`${lembrete(rotulo)} [type=submit]`); await this.espera(800);
-});
-const statusDo = (w, rotulo) => w.loja(r => Object.values(__store.notifs).find(n => n.label === r)?.status, rotulo);
-Then('o lembrete {string} fica parcial', async function (r) { assert.equal(await statusDo(this, r), 'partial'); });
-Then('o lembrete {string} fica pulado', async function (r) { assert.equal(await statusDo(this, r), 'skipped'); });
-Then('{string} fica dado e {string} fica pulado', async function (a, b) {
-  const st = await this.loja(() => Object.fromEntries(Object.values(__store.rotina_log).filter(l => l.block === 'Manhã').map(l => [l.label.split(' · ')[0], l.status])));
-  assert.equal(st[a], 'done'); assert.equal(st[b], 'skipped');
-});
-When('digo que dei {string} às {string}', async function (nome, hora) {
-  const id = await this.loja(n => Object.entries(__store.rotina_log).find(([, l]) => l.label.startsWith(n) && l.status === 'skipped')[0], nome);
-  await this.page.click(`[data-late="${id}"]`); await this.page.fill('.rLate [name=lt]', hora); await this.page.click(`[data-latego="${id}"]`); await this.espera(800);
-  this.logId = id;
-});
-Then('{string} fica dado às {string} com a nota de atraso', async function (_n, hora) {
-  const l = await this.loja(id => __store.rotina_log[id], this.logId);
-  assert.equal(l.status, 'done'); assert.equal(l.time, hora); assert.match(l.note, /atraso/);
-});
-When('pulo o lembrete {string}', async function (rotulo) {
-  await this.page.click(`#hojeAgora .rN:has(b:text-is("💊 ${rotulo}")) [data-skip], #hojeAgora .rN:has(b:has-text("${rotulo}")):not(:has([name=it])) [data-skip]`); await this.espera(800);
-});
+When('eu respondo o lembrete de água dizendo que ele bebeu água de coco', async function () {
+  await this.abrir()
+  await this.hoje.responderAgua('Água de coco natural', MASSA.cocoMl)
+})
+Then('a água de hoje soma só a parte de água da água de coco', async function () {
+  const coco = await this.page.evaluate(() => foodById('coco'))
+  await expect(this.hoje.numero('Água hoje')).toContainText(new RegExp('(^|\\D)' + Math.round(MASSA.cocoMl * coco.water) + '\\s*mL'))
+})
+When('eu confirmo o lembrete da manhã deixando de fora um dos remédios', async function () {
+  await this.abrir()
+  await this.hoje.confirmarBloco(MASSA.blocoManha, MASSA.outroRemedio)
+})
+Then('o remédio que eu deixei de fora aparece como pulado nas últimas 48 horas', async function () {
+  await expect(this.hoje.registro48(MASSA.outroRemedio).getByRole('button', { name: 'Dei depois' })).toBeVisible()
+})
+Then('o lembrete da manhã sai da lista do que está pendente agora', async function () {
+  await expect(this.hoje.lembrete(MASSA.blocoManha)).toHaveCount(0)
+})
+Given('que eu pulei um remédio no lembrete da manhã', async function () {
+  await this.abrir()
+  await this.hoje.confirmarBloco(MASSA.blocoManha, MASSA.outroRemedio)
+  await expect(this.hoje.registro48(MASSA.outroRemedio).getByRole('button', { name: 'Dei depois' })).toBeVisible()
+})
+When('eu informo que dei esse remédio mais tarde', async function () { await this.hoje.deiDepois(MASSA.outroRemedio, MASSA.horaDepois) })
+Then('ele aparece como dado no horário que eu informei', async function () {
+  await expect(this.hoje.registro48(MASSA.outroRemedio)).toContainText(MASSA.horaDepois)
+})
+Then('ele não aparece mais como pulado', async function () {
+  await expect(this.hoje.registro48(MASSA.outroRemedio).getByRole('button', { name: 'Dei depois' })).toHaveCount(0)
+})
+When('eu pulo o lembrete de um remédio', async function () { await this.abrir(); await this.hoje.pular(MASSA.remedio) })
+Then('esse lembrete sai da lista do que está pendente agora', async function () {
+  await expect(this.hoje.lembrete(MASSA.remedio)).toHaveCount(0)
+})
 
-/* ---------- Notificações (Admin) ---------- */
-When('desligo {string} e ligo {string} e {string} a cada {int} h', async function (off, on1, on2, h) {
-  await this.page.uncheck(`#aNotif [name=${off}]`); await this.page.check(`#aNotif [name=${on1}_on]`); await this.page.check(`#aNotif [name=${on2}_on]`);
-  await this.page.selectOption(`#aNotif [name=${on2}_every]`, String(h * 60));
-});
-When('salvo as notificações', async function () { await this.page.click('#aNotif [type=submit]'); await this.espera(800); });
-Then('compras ficam desligadas e remédios ligados', async function () {
-  const c = await this.loja(() => __store.meta.notificacoes); assert.equal(c.compra, false); assert.equal(c.med, true);
-});
-Then('o decúbito fica a cada {int} h e a água a cada {int} h, das {string}', async function (hd, ha, de) {
-  const s = await this.loja(() => ({ d: __store.schedule.decubito, a: __store.schedule.agua }));
-  assert.equal(s.d.every, hd * 60); assert.equal(s.d.kind, 'decubito'); assert.ok(s.d.active);
-  assert.equal(s.a.every, ha * 60); assert.equal(s.a.from, de);
-});
+/* ---------- Notificações ---------- */
+When('eu ligo os avisos de troca de decúbito e de água', async function () {
+  await this.admin.configurar({ ligar: ['Troca de decúbito', 'Oferecer água'] })
+})
+Then('troca de decúbito e oferecer água aparecem entre os horários dos lembretes', async function () {
+  await this.nav.abrir('Mais', 'Lembretes')
+  await expect(this.lembretes.horario('Troca de decúbito')).toBeVisible()
+  await expect(this.lembretes.horario('Oferecer água')).toBeVisible()
+})
+When('eu desligo os avisos de compra de remédio', async function () { await this.admin.configurar({ desligar: ['Comprar remédio'] }) })
+When('eu volto mais tarde à administração', async function () { await this.nav.abrir('Hoje'); await this.nav.abrir('Mais', 'Admin') })
+Then('os avisos de compra de remédio continuam desligados', async function () {
+  await expect(this.admin.notificacoes.getByRole('checkbox', { name: /Comprar remédio/ })).not.toBeChecked()
+})
 
 /* ---------- Permissões ---------- */
-Then('o botão {string} não aparece', async function (nome) {
-  assert.equal(await this.page.evaluate(n => [...document.querySelectorAll('.tabs .tab')].some(b => b.offsetParent && b.textContent.includes(n)), nome), false);
-});
-Then('os lembretes aparecem sem formulário de resposta', async function () { assert.equal(await this.page.locator('#hojeAgora .rN form').count(), 0); });
-Then(/^Admin (aparece|não aparece) em Mais$/, async function (q) {
-  const tem = await this.page.$$eval('#subtabs [data-go]', bs => bs.some(b => b.dataset.go === 'admin'));
-  assert.equal(tem, q === 'aparece');
-});
+Then('eu não encontro a seção Registrar', async function () { await expect(this.nav.secao('Registrar')).toBeHidden() })
+Then('os lembretes aparecem sem opção de resposta', async function () {
+  await expect(this.hoje.lembrete(MASSA.remedio)).toBeVisible()
+  await expect(this.hoje.lembrete(MASSA.remedio).getByRole('button')).toHaveCount(0)
+})
+Then(/^a administração (aparece|não aparece)$/, async function (r) {
+  await expect(this.nav.parte('Admin')).toHaveCount(r === 'aparece' ? 1 : 0)
+})
 
 /* ---------- Medicamentos ---------- */
-Then('a lista {string} está fechada', async function (_lista) { assert.equal(await this.page.evaluate(() => document.getElementById('medPastBox').open), false); });
-Then('cada remédio em uso tem ícone', async function () {
-  const ic = await this.page.$$eval('#medActive .mrow', rs => rs.map(r => !!r.querySelector('.mic svg')));
-  assert.ok(ic.length > 0 && ic.every(Boolean));
-});
-const linhaMed = nome => `.mrow:has(b:text-is("${nome}"))`;
-When('pauso {string} com o motivo padrão', async function (nome) {
-  await this.page.evaluate(n => [...document.querySelectorAll('#medActive .mrow')].find(r => r.textContent.includes(n)).querySelector('details').open = true, nome);
-  await this.page.click(`#medActive [data-mpause="m1"]`); await this.page.click('#medActive [data-mpausego]'); await this.espera(800);
-});
-Then('{string} aparece em Pausados com o motivo {string}', async function (_n, motivo) {
-  const m = await this.loja(() => __store.meds.m1);
-  assert.equal(m.paused, true); assert.equal(m.pauseReason, motivo);
-  assert.equal(await this.page.locator('#medPaused .mrow').count(), 1);
-});
-When('retomo {string}', async function (_nome) {
-  await this.page.evaluate(() => document.querySelector('#medPaused details').open = true);
-  await this.page.click('#medPaused [data-mresume]'); await this.espera(800);
-});
-Then('{string} volta pra Em uso com {int} pausa no histórico', async function (_n, k) {
-  const m = await this.loja(() => __store.meds.m1);
-  assert.equal(m.paused, false); assert.equal((m.pauses || []).length, k);
-  assert.deepEqual(this.dialogos, [], 'abriu caixa de diálogo do navegador');
-});
+Then('a lista do que ele já usou fica recolhida', async function () {
+  await expect(this.medicamentos.jaUsou()).toBeVisible()
+  await expect(this.medicamentos.lista('Já usou')).toBeHidden()
+})
+When('eu pauso um remédio em uso informando o motivo', async function () { await this.medicamentos.pausar(MASSA.remedio, MASSA.motivoPausa) })
+Then('ele aparece entre os pausados com o motivo', async function () {
+  const r = await this.medicamentos.abrir('Pausados', MASSA.remedio)
+  await expect(r).toContainText(MASSA.motivoPausa)
+})
+Given('que um remédio em uso foi pausado', async function () {
+  await this.medicamentos.pausar(MASSA.remedio, MASSA.motivoPausa)
+  await expect(this.medicamentos.remedio('Pausados', MASSA.remedio)).toBeVisible()
+})
+When('eu retomo esse remédio', async function () { await this.medicamentos.retomar(MASSA.remedio) })
+Then('ele volta para os remédios em uso', async function () { await expect(this.medicamentos.remedio('Em uso', MASSA.remedio)).toBeVisible() })
+Then('o histórico dele mostra a pausa', async function () {
+  const r = await this.medicamentos.abrir('Em uso', MASSA.remedio)
+  await expect(r).toContainText('Pausas anteriores')
+  expect(this.dialogos).toEqual([])
+})

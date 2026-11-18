@@ -1,41 +1,33 @@
 # language: pt
-Funcionalidade: Registrar tudo num lugar só
-  Qualquer coisa sobre o Odin é lançada em "Registrar".
-  Cada botão abre só o formulário daquele tipo.
+Funcionalidade: Registrar qualquer cuidado num lugar só
+  Como quem cuida do Odin
+  Quero lançar tudo pelo mesmo caminho
+  Para não precisar lembrar em que tela fica cada coisa
 
   Contexto:
-    Dado que sou quem edita no celular
-    E abro o app
-    E vou para "Registrar"
+    Dado que eu posso registrar os cuidados do Odin
+    E eu estou em Registrar
 
-  Cenário: Comida por unidade vira gramas e calorias
-    Quando toco em "Comida"
-    E escolho "Biscrok Multi" em "Alimento"
-    E preencho "Quanto (g ou unidades)" com "2"
-    E salvo
-    Então fica registrado 2 Biscrok, 20 g e 68 kcal
+  Cenário: Comida contada em unidades entra nas calorias do dia
+    Ilustração: 2 Biscrok Multi de 10 g somam 20 g; a 340 kcal/100 g, são 68 kcal.
+    Quando eu registro que ele comeu biscoitos contados por unidade
+    Então as calorias de hoje passam a contar esses biscoitos pelo catálogo de alimentos
 
-  Cenário: Remédio dado fora de hora grava só o que foi marcado
-    Quando toco em "Remédio dado"
-    E marco "Remédio teste"
-    E salvo
-    Então o remédio "Remédio teste" fica como dado
-    E nenhum outro remédio fica como pulado
+  Cenário: Remédio dado fora de hora registra só o que eu marquei
+    Quando eu registro que dei apenas um dos remédios em uso
+    Então esse remédio aparece como dado nas últimas 48 horas
+    E nenhum remédio aparece como pulado
 
-  Cenário: Peso vira uma pesagem nos gráficos
-    Quando toco em "Peso"
-    E preencho o peso com "19.4"
-    E salvo o peso
-    Então existe uma pesagem de 19.4 kg
+  Cenário: Peso registrado vira o peso mais recente
+    Ilustração: 19,4 kg pesado em casa.
+    Quando eu registro o peso dele
+    Então o peso mais recente em Hoje é o que eu registrei
 
-  Cenário: Xixi com escape vira acontecimento
-    Quando toco em "Xixi"
-    E escolho "com escape" em "Como"
-    E salvo
-    Então a linha do tempo ganha o acontecimento "Xixi com escape"
+  Cenário: Xixi com escape vira um registro do dia
+    Quando eu registro um xixi com escape
+    Então esse xixi aparece nas últimas 48 horas
 
-  Cenário: Agendar consulta com lembrete de 1 dia antes
-    Quando toco em "Agendar consulta"
-    E preencho a consulta "neuro" às "15:00"
-    E salvo a consulta
-    Então fica agendado "Consulta: neuro" com lembrete de 1440 minutos antes
+  Cenário: Consulta agendada aparece no calendário
+    Ilustração: consulta com a neuro hoje às 15:00, lembrete 1 dia antes.
+    Quando eu agendo uma consulta para hoje
+    Então a consulta aparece no calendário de hoje
