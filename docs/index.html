@@ -370,8 +370,6 @@ body.ro .wr { display: none !important; }
 .medtools { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; margin: 0 0 12px; }
 @media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tiles > .tile:last-child:nth-child(odd) { grid-column: span 2; } }
 @media (max-width: 600px) {
-  .tabs { flex-wrap: wrap; overflow: visible; gap: 4px; }
-  .tabs .tab { flex: 1 1 30%; text-align: center; padding: 7px 6px; font-size: 13.5px; }
   .tiles { gap: 8px; }
   .tile { padding: 10px 12px; }
   .tile .val { font-size: 21px; }
@@ -386,6 +384,34 @@ body.ro .wr { display: none !important; }
 .vdose .vn { font-weight: 600; color: var(--accent); }
 .vdose .va { color: var(--muted); font-size: 11.5px; }
 .vdose button { padding: 0 6px; }
+.tab .ti { margin-right: 6px; }
+.subtabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 4px; }
+.subtabs[hidden] { display: none; }
+.reggrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.regsub { grid-column: 1 / -1; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-top: 6px; }
+.regb { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 76px; padding: 10px 8px; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; font-size: 22px; line-height: 1; }
+.regb span { font-size: 12.5px; font-weight: 600; line-height: 1.25; text-align: center; }
+.regb:hover, .regb.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+body:not(.app) .app-only { display: none; }
+#toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 60; max-width: calc(100% - 32px); background: var(--ink); color: var(--surface); padding: 10px 16px; border-radius: 12px; font-size: 14px; transition: .2s; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+#toast.err { background: var(--warn); }
+/* Celular: as 5 seções viram uma barra embaixo, ao alcance do polegar */
+@media (max-width: 760px) {
+  header .sub { display: none; }
+  header h1 { font-size: 22px; }
+  header { margin-bottom: 4px; }
+  .reggrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .regb { min-height: 70px; font-size: 20px; }
+  .regb span { font-size: 11.5px; }
+  body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  .tabs { position: fixed; top: auto; bottom: 0; left: 0; right: 0; z-index: 40; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0; padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); border-bottom: 0; border-top: 1px solid var(--line); background: var(--surface); box-shadow: 0 -4px 16px rgba(0,0,0,.08); }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 2px; border-radius: 10px; font-size: 11px; }
+  .tab .ti { margin: 0; font-size: 20px; line-height: 1.1; }
+  .tab[aria-selected="true"] { background: transparent; color: var(--accent); border-color: transparent; }
+  .tab[data-sec="registrar"] .ti { display: grid; place-items: center; width: 40px; height: 40px; margin-top: -18px; border-radius: 50%; background: var(--accent); color: var(--surface); font-size: 26px; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+  #toast { bottom: calc(84px + env(safe-area-inset-bottom)); }
+}
 </style>
 </head>
 <body>
@@ -399,15 +425,16 @@ body.ro .wr { display: none !important; }
   </header>
 
   <nav class="tabs" role="tablist" aria-label="Seções">
-    <button class="tab" role="tab" data-tab="painel">Painel</button>
-    <button class="tab" role="tab" data-tab="exames">Exames</button>
-    <button class="tab" role="tab" data-tab="remedios">Medicamentos</button>
-    <button class="tab" role="tab" data-tab="vacinas">Vacinas e vermífugos</button>
-    <button class="tab" role="tab" data-tab="fotos">Fotos</button>
-    <button class="tab" role="tab" data-tab="linha">Linha do tempo</button>
+    <button class="tab" role="tab" data-sec="hoje"><span class="ti" aria-hidden="true">🏠</span><span class="tn">Hoje</span></button>
+    <button class="tab wr" role="tab" data-sec="registrar"><span class="ti" aria-hidden="true">＋</span><span class="tn">Registrar</span></button>
+    <button class="tab" role="tab" data-sec="evolucao"><span class="ti" aria-hidden="true">📈</span><span class="tn">Evolução</span></button>
+    <button class="tab" role="tab" data-sec="historico"><span class="ti" aria-hidden="true">🗓</span><span class="tn">Histórico</span></button>
+    <button class="tab" role="tab" data-sec="mais"><span class="ti" aria-hidden="true">☰</span><span class="tn">Mais</span></button>
   </nav>
+  <div class="subtabs" id="subtabs" role="tablist" aria-label="Partes da seção"></div>
 
-  <div class="panel" id="p-painel" role="tabpanel">
+  <div class="panel" id="p-hoje" role="tabpanel">
+  <div id="hojeAgora" class="rt"></div>
   <p class="updated" id="updated"></p>
   <section class="tiles" id="tiles" aria-label="Últimos valores"></section>
   <section class="grid2">
@@ -416,7 +443,7 @@ body.ro .wr { display: none !important; }
       <div id="attention" class="list" style="margin-top:6px"></div>
     </div>
     <div class="card">
-      <div class="row between"><h2>Últimos acontecimentos</h2><button class="ghost tiny" data-go="linha">ver linha do tempo</button></div>
+      <div class="row between"><h2>Últimos acontecimentos</h2><button class="ghost tiny" data-go="linha">ver histórico</button></div>
       <div id="recent" class="list" style="margin-top:6px"></div>
     </div>
   </section>
@@ -429,17 +456,35 @@ body.ro .wr { display: none !important; }
 
 
 
+  <div id="hoje48" class="rt"></div>
+  </div>
+
+  <div class="panel wr" id="p-registrar" role="tabpanel" hidden>
   <section class="card">
-    <div class="row between">
-      <h2>Avaliação do quadro</h2>
-      <button id="reBtn" class="ghost wr">Reavaliar com tudo</button>
+    <h2>O que você quer registrar?</h2>
+    <p class="note" style="margin:4px 0 0">Tudo que for lançar sobre o Odin começa aqui.</p>
+    <div class="reggrid" id="regGrid" style="margin-top:10px">
+      <span class="regsub">Do dia a dia</span>
+      <button class="regb app-only" data-free="med">💊<span>Remédio dado</span></button>
+      <button class="regb app-only" data-free="agua">💧<span>Água</span></button>
+      <button class="regb app-only" data-free="comida">🍽<span>Comida</span></button>
+      <button class="regb app-only" data-free="urina">🟡<span>Xixi</span></button>
+      <button class="regb app-only" data-free="fezes">💩<span>Fezes</span></button>
+      <button class="regb app-only" data-free="decubito">🔄<span>Decúbito</span></button>
+      <button class="regb app-only" data-free="temp">🌡<span>Temperatura</span></button>
+      <button class="regb" data-reg="peso">⚖️<span>Peso</span></button>
+      <span class="regsub">Saúde e documentos</span>
+      <button class="regb" data-reg="ia">✨<span>Exame, receita ou texto (leitura automática)</span></button>
+      <button class="regb" data-reg="evento">📝<span>Acontecimento</span></button>
+      <button class="regb" data-reg="foto">📷<span>Foto ou vídeo</span></button>
+      <button class="regb" data-reg="consulta">📅<span>Agendar consulta</span></button>
+      <button class="regb" data-reg="med">➕<span>Medicamento novo</span></button>
+      <button class="regb" data-reg="vacina">💉<span>Vacina ou vermífugo</span></button>
     </div>
-    <div id="analysis" class="analysis"><p class="muted">Carregando…</p></div>
-    <p class="note" id="anMeta"></p>
   </section>
-  <section class="grid2 wr">
-    <div class="card">
-      <h2>Registrar</h2>
+  <div id="regFree" class="rt"></div>
+  <section class="card regbox hidden" data-regbox="ia">
+      <h2>Exame, receita ou texto</h2>
       <p class="note" style="margin:4px 0 0">Manda o que tiver: exame, receita, carteirinha, foto dele, ou fala/escreve o que aconteceu. O sistema separa cada coisa no lugar certo e você confere antes de salvar.</p>
       <div id="drop" class="drop" tabindex="0" role="button" aria-label="Escolher ou soltar arquivos" style="margin-top:12px">
         <strong>Solte arquivos ou fotos aqui</strong><br>
@@ -455,19 +500,7 @@ body.ro .wr { display: none !important; }
         </div>
       </div>
       <div id="status" class="status" aria-live="polite"></div>
-    </div>
-    <div class="card">
-      <h2>Acontecimento rápido</h2>
-      <p class="note" style="margin:4px 0 10px">Se preferir lançar direto, sem a leitura automática.</p>
-      <div style="display:grid; gap:8px">
-        <div class="row" style="gap:8px"><input id="evDate" type="date" aria-label="Data do acontecimento" style="flex:1"><input id="evTime" type="time" aria-label="Hora (opcional)" style="width:110px"></div>
-        <input id="evText" type="text" placeholder="Ex.: tirou a sonda urinária" aria-label="Descrição">
-        <div class="row between">
-          <label class="chk"><input id="evMark" type="checkbox"> Marcar nos gráficos</label>
-          <button id="evBtn">Adicionar</button>
-        </div>
-      </div>
-    </div>
+    
   </section>
   <section id="review" class="card review hidden wr" aria-label="Conferir valores lidos">
     <div class="row between">
@@ -478,21 +511,96 @@ body.ro .wr { display: none !important; }
     <div id="reviewBody"></div>
     <div id="reviewExtra"></div>
   </section>
-    <section class="card wr" id="pubCard">
-      <div class="pubhead"><h2>Publicar no site</h2><button id="pubBtn" class="ghost">Exportar para o site</button></div>
-      <p class="pubtxt">Atualiza o site público <a href="https://elizcarvalho.github.io/odin-cockpit/" target="_blank" rel="noopener">elizcarvalho.github.io/odin-cockpit</a> com tudo que está aqui (exames, remédios, vacinas e fotos). Os dados pessoais são removidos na hora de publicar.</p>
-      <ol class="pubsteps">
-        <li>Clique em <b>Exportar para o site</b>. O arquivo <code>odin-export-AAAA-MM-DD_HHhMM.json</code> vai pra pasta Downloads.</li>
-        <li>No terminal, entre na pasta do repositório: <code>cd ~/Documents/GitHub/odin-cockpit</code></li>
-        <li>Pra conferir antes (opcional): <code>npm run publicar</code> e depois <code>npm run ver</code>, que abre em localhost:4173.</li>
-        <li>Pra publicar: <code>npm run publicar -- --push</code>. O site atualiza em 1 a 2 minutos.</li>
-      </ol>
-      <div id="pubStatus" class="status" aria-live="polite"></div>
-      <p class="note" style="margin:0; max-width:none">Se o script parar avisando que sobrou um nome, inclua esse nome em <code>config/anonimizacao.json</code> e rode de novo. Ou só me peça pra publicar.</p>
-    </section>
+  <section class="card regbox hidden" data-regbox="peso">
+      <h2>Peso</h2>
+      <div class="vform" id="regPeso" style="margin-top:8px">
+        <label>Data<input type="date" data-w="date"></label><label>Hora<input type="time" data-w="time"></label>
+        <label>Peso (kg)<input type="number" step="0.01" min="1" max="80" data-w="kg" placeholder="19,2"></label>
+        <label>Onde<input type="text" data-w="where" list="wPlaces2" placeholder="Em casa"><datalist id="wPlaces2"><option>Em casa</option><option>Rio Vet</option><option>Animalis</option><option>Tododoy</option><option>Vetreabilite (neuro)</option></datalist></label>
+        <button data-wsave2>Salvar</button></div>
+  </section>
+  <section class="card regbox hidden" data-regbox="evento">
+
+      <h2>Acontecimento</h2>
+      <p class="note" style="margin:4px 0 10px">Algo que aconteceu e vale ficar no histórico. Marque "nos gráficos" se for um marco (internação, transfusão, troca de remédio).</p>
+      <div style="display:grid; gap:8px">
+        <div class="row" style="gap:8px"><input id="evDate" type="date" aria-label="Data do acontecimento" style="flex:1"><input id="evTime" type="time" aria-label="Hora (opcional)" style="width:110px"></div>
+        <input id="evText" type="text" placeholder="Ex.: tirou a sonda urinária" aria-label="Descrição">
+        <div class="row between">
+          <label class="chk"><input id="evMark" type="checkbox"> Marcar nos gráficos</label>
+          <button id="evBtn">Adicionar</button>
+        </div>
+      </div>
+    
+  </section>
+  <section class="card regbox hidden" data-regbox="foto">
+
+      <h2>Adicionar fotos ou vídeos</h2>
+      <div class="formgrid" style="margin-top:10px">
+        <label for="fDate">Data<input id="fDate" type="date"></label>
+        <label for="fTime">Hora<input id="fTime" type="time"></label>
+        <label for="fCap" style="grid-column: span 2">Legenda<input id="fCap" type="text" placeholder="Ex.: comendo iogurte com ajuda"></label>
+        <button id="fBtn">Escolher arquivos</button>
+        <input id="fFile" type="file" accept="image/*,video/mp4,video/webm" multiple class="hidden">
+      </div>
+      <p class="note" id="fStatus" style="margin-top:8px"></p>
+    
+  </section>
+  <section class="card regbox hidden" data-regbox="consulta">
+      <h2>Agendar consulta ou compromisso</h2>
+      <form id="calAdd" class="vform" style="margin:8px 0 4px">
+        <label>Tipo<select name="sub"><option>Consulta</option><option>Fisioterapia</option><option>Acupuntura</option><option>Coleta de exame</option><option>Outro</option></select></label>
+        <label>O quê / onde<input type="text" name="what" placeholder="Ex.: neuro na Vetreabilite" required></label>
+        <label>Data<input type="date" name="date" required></label>
+        <label>Hora<input type="time" name="time"></label>
+        <label>Lembrete<select name="remind"><option value="0">sem lembrete</option><option value="1440" selected>1 dia antes</option><option value="120">2 h antes</option><option value="60">1 h antes</option></select></label>
+        <div class="row"><button type="submit">Salvar</button></div>
+      </form>
+
+  </section>
+  <section class="card regbox hidden" data-regbox="med">
+
+      <h2>Adicionar medicamento</h2>
+      <div class="formgrid" style="margin-top:10px">
+        <label for="mName">Nome<input id="mName" type="text" placeholder="Ex.: Gardenal 50 mg"></label>
+        <label for="mPurpose">Para quê<input id="mPurpose" type="text" placeholder="Ex.: convulsões"></label>
+        <label for="mDose">Posologia (dose, frequência, duração)<input id="mDose" type="text" placeholder="Ex.: 1 e 1/4 cp a cada 12h"></label>
+        <label for="mStart">Início<input id="mStart" type="date"></label>
+        <label for="mEnd">Fim (vazio = em uso)<input id="mEnd" type="date"></label>
+        <label for="mClinic">Clínica / quem receitou<input id="mClinic" type="text" list="clinicList" placeholder="Ex.: Rio Vet"><datalist id="clinicList"></datalist></label>
+        <label for="mCompo">Composição (princípio ativo)<input id="mCompo" type="text" placeholder="Ex.: fenobarbital 100 mg"></label>
+        <label for="mComp">Componentes, se for manipulado<input id="mComp" type="text" placeholder="Ex.: ginkgo 40 mg, pentoxifilina 100 mg"></label>
+        <label for="mNotes">Observação<input id="mNotes" type="text" placeholder="Ex.: receita da Rio Vet"></label>
+        <label class="chk" for="mAlg"><input id="mAlg" type="checkbox"> Teve reação/alergia</label>
+        <button id="mBtn">Adicionar</button>
+      </div>
+    
+  </section>
+  <section class="card regbox hidden" data-regbox="vacina">
+
+      <h2>Registrar vacina, vermífugo ou prevenção</h2>
+      <div class="formgrid" style="margin-top:10px">
+        <label for="vKind">Tipo<select id="vKind"><option>Vacina</option><option>Vermífugo</option><option>Antipulgas/carrapatos</option><option>Prevenção de dirofilariose</option><option>Outro</option></select></label>
+        <label for="vProd">Produto<input id="vProd" type="text" placeholder="Ex.: Recombitek C8"></label>
+        <label for="vDate">Data<input id="vDate" type="date"></label>
+        <label for="vNext">Próxima dose<input id="vNext" type="date"></label>
+        <label for="vNotes">Observação<input id="vNotes" type="text" placeholder="Ex.: Dra. Mariana Pitanga"></label>
+        <label class="chk" for="vPlan"><input id="vPlan" type="checkbox"> Ainda não tomou (planejar)</label>
+        <button id="vBtn">Registrar</button>
+      </div>
+    
+  </section>
   </div>
 
   <div class="panel" id="p-exames" role="tabpanel" hidden>
+  <section class="card">
+    <div class="row between">
+      <h2>Avaliação do quadro</h2>
+      <button id="reBtn" class="ghost wr">Reavaliar com tudo</button>
+    </div>
+    <div id="analysis" class="analysis"><p class="muted">Carregando…</p></div>
+    <p class="note" id="anMeta"></p>
+  </section>
   <section class="legend-box" aria-label="Como ler os gráficos">
     <h2>Como ler os gráficos</h2>
     <div class="legend-row"><span class="lgt">Linhas</span><div class="legend-note"><span><i></i>exames próximos</span><span><i class="dash"></i>mais de 6 dias sem exame (não mostra o que aconteceu no meio)</span><span><i class="band"></i>faixa de referência</span><span><i class="ev"></i>acontecimento marcado (internação, transfusão…)</span></div></div>
@@ -513,6 +621,19 @@ body.ro .wr { display: none !important; }
   </div>
 
   <div class="panel" id="p-remedios" role="tabpanel" hidden>
+    <section class="card hidden wr" id="mergeBar" style="border-color: var(--accent)">
+      <h2>Juntar em uma fórmula manipulada</h2>
+      <p class="note" style="margin:4px 0 10px" id="mergeInfo"></p>
+      <div class="formgrid">
+        <label for="mgName">Nome da fórmula<input id="mgName" type="text" placeholder="Ex.: Fórmula neuro (manipulada)"></label>
+        <label for="mgDose">Dose e frequência<input id="mgDose" type="text" placeholder="Ex.: 1 sachê a cada 24h"></label>
+        <button id="mgBtn">Juntar</button>
+        <button id="mgCancel" class="ghost">Cancelar</button>
+      </div>
+    </section>
+    <div class="row wr" style="justify-content:flex-end"><button class="ghost tiny" data-reg="med">＋ Adicionar medicamento</button></div>
+    <section class="card"><h2 id="medActiveH">Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list"></div></section>
+    <section class="card hidden" id="medPausedCard"><h2 id="medPausedH">Pausados</h2><p class="note" style="margin:2px 0 8px">Parados por enquanto: sem lembrete e sem aviso de compra até retomar.</p><div id="medPaused" class="list"></div></section>
     <section class="card">
       <h2>Linha do tempo dos medicamentos</h2>
       <div class="glegend">
@@ -526,67 +647,18 @@ body.ro .wr { display: none !important; }
       <div class="medtools"><div class="chips" id="medChips"></div><div class="chips" id="medRange" aria-label="Período"></div></div>
       <div id="medGantt" class="gantt"></div>
     </section>
-    <section class="card wr">
-      <h2>Adicionar medicamento</h2>
-      <div class="formgrid" style="margin-top:10px">
-        <label for="mName">Nome<input id="mName" type="text" placeholder="Ex.: Gardenal 50 mg"></label>
-        <label for="mPurpose">Para quê<input id="mPurpose" type="text" placeholder="Ex.: convulsões"></label>
-        <label for="mDose">Posologia (dose, frequência, duração)<input id="mDose" type="text" placeholder="Ex.: 1 e 1/4 cp a cada 12h"></label>
-        <label for="mStart">Início<input id="mStart" type="date"></label>
-        <label for="mEnd">Fim (vazio = em uso)<input id="mEnd" type="date"></label>
-        <label for="mClinic">Clínica / quem receitou<input id="mClinic" type="text" list="clinicList" placeholder="Ex.: Rio Vet"><datalist id="clinicList"></datalist></label>
-        <label for="mCompo">Composição (princípio ativo)<input id="mCompo" type="text" placeholder="Ex.: fenobarbital 100 mg"></label>
-        <label for="mComp">Componentes, se for manipulado<input id="mComp" type="text" placeholder="Ex.: ginkgo 40 mg, pentoxifilina 100 mg"></label>
-        <label for="mNotes">Observação<input id="mNotes" type="text" placeholder="Ex.: receita da Rio Vet"></label>
-        <label class="chk" for="mAlg"><input id="mAlg" type="checkbox"> Teve reação/alergia</label>
-        <button id="mBtn">Adicionar</button>
-      </div>
-    </section>
-    <section class="card hidden wr" id="mergeBar" style="border-color: var(--accent)">
-      <h2>Juntar em uma fórmula manipulada</h2>
-      <p class="note" style="margin:4px 0 10px" id="mergeInfo"></p>
-      <div class="formgrid">
-        <label for="mgName">Nome da fórmula<input id="mgName" type="text" placeholder="Ex.: Fórmula neuro (manipulada)"></label>
-        <label for="mgDose">Dose e frequência<input id="mgDose" type="text" placeholder="Ex.: 1 sachê a cada 24h"></label>
-        <button id="mgBtn">Juntar</button>
-        <button id="mgCancel" class="ghost">Cancelar</button>
-      </div>
-    </section>
-    <section class="card"><h2 id="medActiveH">Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list"></div></section>
-    <section class="card hidden" id="medPausedCard"><h2 id="medPausedH">Pausados</h2><p class="note" style="margin:2px 0 8px">Parados por enquanto: sem lembrete e sem aviso de compra até retomar.</p><div id="medPaused" class="list"></div></section>
-    <section class="card"><h2 id="medPastH">Já usou</h2><div id="medPast" class="list"></div></section>
+    <section class="card"><details id="medPastBox"><summary><h2 id="medPastH" style="display:inline">Já usou</h2> <span class="muted" style="font-size:13px">(tocar pra ver)</span></summary><div id="medPast" class="list" style="margin-top:8px"></div></details></section>
   </div>
 
   <div class="panel" id="p-vacinas" role="tabpanel" hidden>
+    <div class="row wr" style="justify-content:flex-end"><button class="ghost tiny" data-reg="vacina">＋ Registrar vacina ou vermífugo</button></div>
     <section class="card"><div class="row between"><h2>Próximas doses</h2></div><div id="vNextList" class="list" style="margin-top:6px"></div></section>
     <section class="card"><h2>Para conversar com a vet</h2><p class="note" style="margin:4px 0 8px">Vacinas e prevenções que ele ainda não tomou. Nada aqui é aplicado sem a vet liberar, ainda mais enquanto ele se recupera.</p><div id="vPlanList" class="list"></div></section>
     <section class="card"><h2>Carteirinha</h2><p class="note" style="margin:4px 0 10px">Cada linha é uma vacina ou produto, com as doses em ordem e a idade dele em cada uma.</p><div id="vSummary"></div><div id="vList" style="margin-top:6px"></div></section>
-    <section class="card wr">
-      <h2>Registrar vacina, vermífugo ou prevenção</h2>
-      <div class="formgrid" style="margin-top:10px">
-        <label for="vKind">Tipo<select id="vKind"><option>Vacina</option><option>Vermífugo</option><option>Antipulgas/carrapatos</option><option>Prevenção de dirofilariose</option><option>Outro</option></select></label>
-        <label for="vProd">Produto<input id="vProd" type="text" placeholder="Ex.: Recombitek C8"></label>
-        <label for="vDate">Data<input id="vDate" type="date"></label>
-        <label for="vNext">Próxima dose<input id="vNext" type="date"></label>
-        <label for="vNotes">Observação<input id="vNotes" type="text" placeholder="Ex.: Dra. Mariana Pitanga"></label>
-        <label class="chk" for="vPlan"><input id="vPlan" type="checkbox"> Ainda não tomou (planejar)</label>
-        <button id="vBtn">Registrar</button>
-      </div>
-    </section>
   </div>
 
   <div class="panel" id="p-fotos" role="tabpanel" hidden>
-    <section class="card wr" id="photoUp">
-      <h2>Adicionar fotos ou vídeos</h2>
-      <div class="formgrid" style="margin-top:10px">
-        <label for="fDate">Data<input id="fDate" type="date"></label>
-        <label for="fTime">Hora<input id="fTime" type="time"></label>
-        <label for="fCap" style="grid-column: span 2">Legenda<input id="fCap" type="text" placeholder="Ex.: comendo iogurte com ajuda"></label>
-        <button id="fBtn">Escolher arquivos</button>
-        <input id="fFile" type="file" accept="image/*,video/mp4,video/webm" multiple class="hidden">
-      </div>
-      <p class="note" id="fStatus" style="margin-top:8px"></p>
-    </section>
+    <div class="row wr" style="justify-content:flex-end"><button class="ghost tiny" data-reg="foto">＋ Adicionar fotos ou vídeos</button></div>
     <div id="photoGrid" style="display:grid; gap:14px"></div>
   </div>
 
@@ -600,16 +672,8 @@ body.ro .wr { display: none !important; }
     <div id="cal" class="hidden" style="margin-top:8px">
       <div class="calbar">
         <div class="row" style="gap:6px"><button class="tiny ghost" data-cnav="-1" aria-label="Anterior">‹</button><button class="tiny ghost" data-cnav="0">Hoje</button><button class="tiny ghost" data-cnav="1" aria-label="Próximo">›</button><b id="calTitle" class="caltitle"></b></div>
-        <div class="row" style="gap:6px"><span class="seg" id="calMode"><button class="chip" data-cmode="mes">Mês</button><button class="chip" data-cmode="sem">7 dias</button><button class="chip on" data-cmode="dia">Dia</button></span><button class="tiny wr" id="calAddBtn">+ Agendar</button></div>
+        <div class="row" style="gap:6px"><span class="seg" id="calMode"><button class="chip" data-cmode="mes">Mês</button><button class="chip" data-cmode="sem">7 dias</button><button class="chip on" data-cmode="dia">Dia</button></span><button class="tiny wr" data-reg="consulta">+ Agendar</button></div>
       </div>
-      <form id="calAdd" class="vform hidden" style="margin:8px 0 4px">
-        <label>Tipo<select name="sub"><option>Consulta</option><option>Fisioterapia</option><option>Acupuntura</option><option>Coleta de exame</option><option>Outro</option></select></label>
-        <label>O quê / onde<input type="text" name="what" placeholder="Ex.: neuro na Vetreabilite" required></label>
-        <label>Data<input type="date" name="date" required></label>
-        <label>Hora<input type="time" name="time"></label>
-        <label>Lembrete<select name="remind"><option value="0">sem lembrete</option><option value="1440" selected>1 dia antes</option><option value="120">2 h antes</option><option value="60">1 h antes</option></select></label>
-        <div class="row"><button type="submit">Salvar</button><button type="button" class="ghost" id="calAddX">cancelar</button></div>
-      </form>
       <div class="chips" id="calCats" style="margin:8px 0"></div>
       <div id="calBody"></div>
     </div>
@@ -670,8 +734,8 @@ const KEY_ORDER = PARAMS.map(p => p.k);
 let db = null, sample = null;
 let exams = [], events = [], analyses = [], meds = [], prevent = [], photos = [], vitals = [], foods = [], goals = null;
 let assets = null;
-const TABS = ['painel','exames','remedios','vacinas','fotos','linha'];
-let activeTab = 'painel';
+const TABS = ['hoje','registrar','exames','remedios','vacinas','fotos','linha'];
+let activeTab = 'hoje';
 const todayIso = () => new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0,10);
 let pending = [], pendingEvents = [], pendingPrev = [], pendingPhotos = [], pendingVitals = [];
 let charts = [];
@@ -710,7 +774,15 @@ function examsByDate() {
 }
 
 /* ---------- Status messages ---------- */
-function say(msg, cls='') { const d = document.createElement('div'); d.className = cls; d.textContent = msg; $('status').prepend(d); return d; }
+function say(msg, cls='') {
+  const d = document.createElement('div'); d.className = cls; d.textContent = msg; $('status').prepend(d);
+  if (!$('status').offsetParent) toast(msg, cls); // o status fica no card da leitura automática; fora dele, aviso flutuante
+  return d;
+}
+function toast(msg, cls = '') {
+  let t = $('toast'); if (!t) { t = document.createElement('div'); t.id = 'toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+  t.textContent = msg; t.className = 'show ' + cls; clearTimeout(toast.h); toast.h = setTimeout(() => { t.className = ''; }, 4000);
+}
 
 /* ---------- Tiles ---------- */
 function lastTemps() {
@@ -894,20 +966,9 @@ function renderCharts() {
       charts.push(makeChart(card.querySelector('canvas'), k, false, ctxC));
     }
     if (G.g === 'clin' && canWrite) {
-      const f = document.createElement('details'); f.className = 'wr inform'; f.style.marginTop = '8px';
-      f.innerHTML = `<summary>Anotar peso</summary><div class="vform">
-        <label>Data<input type="date" data-w="date" value="${todayIso()}"></label><label>Hora<input type="time" data-w="time"></label>
-        <label>Peso (kg)<input type="number" step="0.01" min="1" max="80" data-w="kg" placeholder="19,2"></label>
-        <label>Onde<input type="text" data-w="where" list="wPlaces" placeholder="Em casa"><datalist id="wPlaces"><option>Em casa</option><option>Rio Vet</option><option>Animalis</option><option>Tododoy</option><option>Vetreabilite (neuro)</option></datalist></label>
-        <button data-wsave>Salvar</button></div>`;
-      const pc = sec.querySelector('.chart[data-k="peso"]') || sec; pc.appendChild(f);
-      f.querySelector('[data-wsave]').addEventListener('click', async ev => {
-        const g = k => f.querySelector(`[data-w="${k}"]`).value, kg = num(g('kg')), date = g('date');
-        if (!date || !kg) { say('Preencha a data e o peso.', 'err'); return; }
-        ev.target.disabled = true;
-        try { await db.collection('exams').add({ date, time: g('time') || null, kind: 'Pesagem', lab: g('where').trim() || 'Em casa', params: { peso: kg }, other: [], createdAt: Date.now() }); say('Peso anotado.', 'done'); }
-        catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); ev.target.disabled = false; }
-      });
+      const b = document.createElement('div'); b.className = 'wr'; b.style.marginTop = '8px';
+      b.innerHTML = '<button class="ghost tiny" data-reg="peso">＋ Anotar peso</button>';
+      (sec.querySelector('.chart[data-k="peso"]') || sec).appendChild(b);
     }
   }
   if (!shown) host.innerHTML = '<p class="muted">Nenhum parâmetro fora da faixa no último exame.</p>';
@@ -954,7 +1015,7 @@ function intakeTile(kind) {
   const val = isW ? t.water : t.kcal, goal = isW ? g.water : g.kcal, pct = goal ? Math.round(val / goal * 100) : null;
   const st = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
   const sub = isW ? `bebida ${Math.round(t.drink)} + comida ${Math.round(t.fwater)} mL` : (t.unknown ? `${t.unknown} sem quantidade/alimento` : 'pelo que foi anotado');
-  return `<div class="tile ${st}" data-go="rotina" style="cursor:pointer" title="Ver e registrar na Rotina"><div class="lbl">${isW ? 'Água hoje' : 'Calorias hoje'}${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
+  return `<div class="tile ${st}" data-go="exames" style="cursor:pointer" title="Ver água e calorias por dia"><div class="lbl">${isW ? 'Água hoje' : 'Calorias hoje'}${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
     <div class="val">${fmt(Math.round(val))}<small>${isW ? 'mL' : 'kcal'}</small></div>
     <div class="reft">${goal ? `meta ${fmt(goal)} ${isW ? 'mL' : 'kcal'}${g.set ? '' : ' (sugerida)'}` : 'sem meta (falta o peso)'}</div><div class="meta">${esc(sub)}</div>
     ${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`;
@@ -977,20 +1038,12 @@ function renderHomeTemp(host) {
   sec.innerHTML = `<div class="section-title"><h2>Temperatura</h2><span>${home.length} medições em casa (quadro branco)${clinic.length ? ` + ${clinic.length} na clínica/exame` : ''}</span></div>
     <div class="card"><div style="position:relative;height:240px"><canvas id="tempCv" aria-label="Gráfico de temperatura"></canvas></div>
     <p class="note" style="margin-top:6px">Faixa verde: 37,5 a 39,2 °C · ● em casa · ■ clínica/exame · laranja = acima de 39,2. Com dois termômetros, vale o maior valor. Passe o dedo/mouse nos pontos pra ver hora e anotações.</p>
-    ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar temperatura</summary><div class="vform">
-      <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
-      <label>Temperatura (°C)<input type="number" step="0.1" min="35" max="43" data-v="temp" placeholder="39,2"></label><label>2º termômetro (opcional)<input type="number" step="0.1" min="35" max="43" data-v="temp2"></label>
-      <label class="wide">Anotação<input type="text" data-v="note" placeholder="dipirona, sem ar-condicionado, no chão…"></label><button data-vsave="temp">Salvar</button></div></details>` : ''}</div>
+    ${canWrite ? `<div class="wr" style="margin-top:8px"><button class="ghost tiny app-only" data-free="temp">＋ Anotar temperatura</button></div>` : ''}</div>
     <div class="section-title"><h2>Água e calorias</h2><span>o que foi anotado por dia</span></div>
     <div class="card"><div style="position:relative;height:200px"><canvas id="intakeCv" aria-label="Gráfico de água e comida por dia"></canvas></div>
     <p class="note" style="margin-top:6px">Barras: água do dia em mL (bebida + a água que vem na comida), escala da esquerda. Linha: calorias (escala da direita). Tracejados: metas. O número em cima é quantas vezes ele comeu. Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
     <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água total mL</th><th>kcal</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
-    ${canWrite ? `<details class="wr" style="margin-top:8px"><summary>Anotar água ou comida</summary><div class="vform">
-      <label>Data<input type="date" data-v="date" value="${todayIso()}"></label><label>Hora<input type="time" data-v="time"></label>
-      <label>Bebida<select data-v="drink">${foodList().filter(f => f.kind === 'bebida').map(f => `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('')}</select></label><label>Quanto bebeu (mL)<input type="number" min="0" data-v="water"></label>
-      <label>Alimento<select data-v="foodid"><option value="">—</option>${foodList().filter(f => f.kind === 'comida').map(f => `<option value="${esc(f.id)}">${esc(f.name)}${f.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}</select></label><label>Quanto comeu (g ou unidades)<input type="number" min="0" step="any" data-v="food"></label>
-      <label class="chk vchk"><input type="checkbox" data-v="ate"> comeu (sem medir)</label>
-      <label class="wide">Anotação<input type="text" data-v="note" placeholder="ração pastosa, iogurte, xixi, fezes…"></label><button data-vsave="intake">Salvar</button></div></details>` : ''}</div>`;
+    ${canWrite ? `<div class="wr row" style="margin-top:8px"><button class="ghost tiny app-only" data-free="agua">＋ Anotar água</button><button class="ghost tiny app-only" data-free="comida">＋ Anotar comida</button></div>` : ''}</div>`;
   host.appendChild(sec);
   if (pts.length) {
     const xMin = Math.floor(pts[0].x), xMax = Math.ceil(pts[pts.length - 1].x);
@@ -2214,30 +2267,72 @@ $('cal').addEventListener('click', async ev => {
   if (cc) { const c = cc.dataset.ccat; if (!c) calSel.clear(); else calSel.has(c) ? calSel.delete(c) : calSel.add(c); return renderCalendar(); }
   const im = ev.target.closest('img[data-open]'); if (im) { openLightbox(im.dataset.open, false, im.dataset.cap); return; }
   const dl = ev.target.closest('button[data-evdel]'); if (dl) { if (!armed(dl, 'excluir')) return; dl.disabled = true; try { await db.collection('events').doc(dl.dataset.evdel).delete(); } catch (e) { alertErr(e); } return; }
-  if (ev.target.id === 'calAddBtn') { const f = $('calAdd'); f.classList.toggle('hidden'); f.date.value = calDate >= todayIso() ? calDate : todayIso(); return; }
-  if (ev.target.id === 'calAddX') { $('calAdd').classList.add('hidden'); return; }
 });
 $('calAdd').addEventListener('submit', async ev => {
   ev.preventDefault();
   const f = ev.target, sub = f.sub.value, what = f.what.value.trim(), d = f.date.value;
   try {
     await db.collection('events').add({ kind: 'consulta', sub, date: f.date.value, time: f.time.value || null, text: `${sub}: ${what}`, remind: +f.remind.value || 0, mark: false, source: 'agenda', createdAt: Date.now() });
-    f.reset(); f.classList.add('hidden'); calDate = d || calDate; calMode = 'dia'; renderCalendar();
+    f.reset(); calDate = d || calDate; calMode = 'dia'; renderCalendar(); say('Agendado ✓ Está no calendário, em Histórico.', 'done');
   } catch (e) { alertErr(e); }
 });
 try { if (localStorage.getItem('odinTlView') === 'cal') setTimeout(() => document.querySelector('#tlView [data-view="cal"]').click(), 0); } catch {}
 
-/* ---------- Tabs ---------- */
-function go(tab, push = true) {
-  if (!TABS.includes(tab)) tab = 'painel';
-  activeTab = tab;
-  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
-  TABS.forEach(t => { $('p-' + t).hidden = t !== tab; });
-  if (push && location.hash !== '#' + tab) { try { history.replaceState(null, '', '#' + tab); } catch {} }
+/* ---------- Navegação: 5 seções, cada uma com uma ou mais partes ---------- */
+// Seção = o que a pessoa quer fazer; parte = um painel (p-<id>). O app acrescenta Lembretes e Admin em "Mais".
+const SECTIONS = {
+  hoje: { t: 'Hoje', p: ['hoje'] },
+  registrar: { t: 'Registrar', p: ['registrar'] },
+  evolucao: { t: 'Evolução', p: ['exames'] },
+  historico: { t: 'Histórico', p: ['linha', 'fotos'] },
+  mais: { t: 'Mais', p: ['remedios', 'vacinas'] }
+};
+const PANEL_T = { hoje: 'Hoje', registrar: 'Registrar', exames: 'Exames e gráficos', linha: 'Linha do tempo', fotos: 'Fotos', remedios: 'Medicamentos', vacinas: 'Vacinas e vermífugos' };
+const ALIAS = { painel: 'hoje', rotina: 'hoje', evolucao: 'exames', historico: 'linha', mais: 'remedios' };
+const lastSub = {};
+const panelOk = p => !!$('p-' + p) && !(window.panelHidden && window.panelHidden(p)) && !(p === 'registrar' && !canWrite);
+const secOf = p => Object.keys(SECTIONS).find(k => SECTIONS[k].p.includes(p));
+function go(target, push = true) {
+  let [t, extra] = String(target || '').split('/');
+  if (SECTIONS[t]) t = lastSub[t] && panelOk(lastSub[t]) ? lastSub[t] : SECTIONS[t].p.find(panelOk);
+  else if (!$('p-' + t) && ALIAS[t]) t = ALIAS[t];
+  if (!t || !secOf(t) || !panelOk(t)) t = 'hoje';
+  const sec = secOf(t); lastSub[sec] = t; activeTab = t;
+  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.sec === sec)));
+  document.querySelectorAll('.panel').forEach(el => { el.hidden = el.id !== 'p-' + t; });
+  const subs = SECTIONS[sec].p.filter(panelOk);
+  $('subtabs').innerHTML = subs.length > 1 ? subs.map(p => `<button class="chip${p === t ? ' on' : ''}" role="tab" aria-selected="${p === t}" data-go="${p}">${esc(PANEL_T[p] || p)}</button>`).join('') : '';
+  $('subtabs').hidden = subs.length < 2;
+  if (push && location.hash !== '#' + t) { try { history.replaceState(null, '', '#' + t); } catch {} }
+  if (t === 'registrar' && extra) openReg(extra);
+  if (push) window.scrollTo(0, 0);
   scheduleRender();
 }
-document.querySelector('.tabs').addEventListener('click', ev => { const b = ev.target.closest('.tab'); if (b) go(b.dataset.tab); });
-document.addEventListener('click', ev => { const b = ev.target.closest('[data-go]'); if (b && !ev.target.closest('.info, .tip')) go(b.dataset.go); });
+// Registrar: um botão abre só o formulário daquele tipo
+function openReg(k) {
+  document.querySelectorAll('[data-regbox]').forEach(b => b.classList.toggle('hidden', b.dataset.regbox !== k));
+  document.querySelectorAll('#regGrid .regb').forEach(b => b.classList.toggle('on', b.dataset.reg === k));
+  if (window.rotinaFree) window.rotinaFree(null);
+  const box = document.querySelector(`[data-regbox="${k}"]`); if (!box) return;
+  const today = todayIso();
+  box.querySelectorAll('input[type=date]').forEach(i => { if (!i.value) i.value = today; });
+  setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
+}
+window.openReg = openReg;
+document.addEventListener('click', async ev => {
+  if (!ev.target.matches('[data-wsave2]')) return;
+  const f = $('regPeso'), g = k => f.querySelector(`[data-w="${k}"]`).value, kg = num(g('kg')), date = g('date');
+  if (!date || !kg) { toast('Preencha a data e o peso.', 'err'); return; }
+  ev.target.disabled = true;
+  try { await db.collection('exams').add({ date, time: g('time') || null, kind: 'Pesagem', lab: g('where').trim() || 'Em casa', params: { peso: kg }, other: [], createdAt: Date.now() }); f.querySelector('[data-w="kg"]').value = ''; toast('Peso anotado ✓'); }
+  catch (e) { toast('Não consegui salvar: ' + (e.message || e.code), 'err'); }
+  ev.target.disabled = false;
+});
+document.querySelector('.tabs').addEventListener('click', ev => { const b = ev.target.closest('.tab'); if (b) go(b.dataset.sec); });
+document.addEventListener('click', ev => {
+  const r = ev.target.closest('[data-reg]'); if (r) { if (activeTab !== 'registrar') go('registrar', true); openReg(r.dataset.reg); return; }
+  const b = ev.target.closest('[data-go]'); if (b && !ev.target.closest('.info, .tip')) go(b.dataset.go);
+});
 window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
 /* ---------- Render all ---------- */
@@ -2270,7 +2365,7 @@ async function exportForSite() {
   } catch (e) { st.textContent = 'Não consegui exportar: ' + (e.code === 'declined' ? 'download cancelado.' : (e.message || e.code)); st.className = 'err'; }
   finally { btn.disabled = false; }
 }
-$('pubBtn').addEventListener('click', exportForSite);
+$('pubBtn')?.addEventListener('click', exportForSite);
 
 /* ---------- Última atualização ---------- */
 let lastUpdate = null, touchT = null, rawDb = null;
@@ -2299,7 +2394,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
 
 /* ---------- Boot ---------- */
 (async () => {
-  go(location.hash.slice(1) || 'painel', false);
+  go(location.hash.slice(1) || 'hoje', false);
   renderAll();
   if (STATIC) {
     canWrite = false; document.body.classList.add('ro');
@@ -2319,7 +2414,7 @@ function renderUpdated() { const el = $('updated'); if (!el) return; const ms = 
   if (!assets) $('photoUp').classList.add('hidden');
   if (u) { try { const w = await u.can('data.write'); if (w === false) canWrite = false; } catch {} }
   if (canWrite) use('dictation').then(setupDictation).catch(() => {});
-  if (!canWrite) { document.querySelectorAll('#pubCard, #paste, #drop, #pasteBtn, #evBtn, #saveBtn, #mBtn, #vBtn, #photoUp').forEach(el => el.classList.add('hidden')); }
+  if (!canWrite) { document.body.classList.add('ro'); if (activeTab === 'registrar') go('hoje', false); else go(activeTab, false); }
   if (!db) { $('conn').textContent = 'Entre no claude.ai pra ver os dados'; return; }
   const timer = setTimeout(() => { $('conn').textContent = 'Não consegui carregar os dados ainda'; }, 10000);
   const sub = (col, assign) => db.collection(col).onSnapshot(snap => {
