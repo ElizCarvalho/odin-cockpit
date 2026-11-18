@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-18T20:37:16.687Z",
- "updatedAt": 1795034007438,
+ "exportedAt": "2026-11-18T21:36:29.035Z",
+ "updatedAt": 1795037544252,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -2511,6 +2511,17 @@
    "food": true,
    "food_g": 250,
    "note": "ração úmida hipercalórica Pet Delícia · comeu entre 09:30 e 10:20, junto com os remédios"
+  },
+  {
+   "id": "VjqQMgqaULb5bV4yiBBH",
+   "date": "2026-11-18",
+   "time": "18:00",
+   "food": true,
+   "note": "Biscrok Multi",
+   "foodId": "biscrok",
+   "qty": 6,
+   "unit": "un",
+   "food_g": 60
   },
   {
    "id": "c20261117-0031-petisco",
