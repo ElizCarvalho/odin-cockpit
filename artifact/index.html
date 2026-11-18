@@ -1553,7 +1553,7 @@ function renderReview() {
         `<div class="prow"><span>${esc(P[k].l)} <span class="muted" style="font-size:11px">${esc(P[k].u)}</span></span>
          <input type="number" step="any" data-p="${k}" value="${v}" aria-label="${esc(P[k].l)}"><button class="ghost" data-pdel="${k}" aria-label="Remover ${esc(P[k].l)}">×</button></div>`).join('') || '<span class="muted">Sem valores numéricos.</span>'}</div>
       <label><span class="muted" style="font-size:12px">Achados (um por linha)</span><textarea data-f="other">${esc(e.other.join('\n'))}</textarea></label>
-      ${e.meds.length ? `<div><div class="muted" style="font-size:12px">Medicamentos encontrados (marcados vão para a aba Medicamentos)</div>` + e.meds.map((m, j) =>
+      ${e.meds.length ? `<div><div class="muted" style="font-size:12px">Medicamentos encontrados (marcados vão para Mais → Medicamentos)</div>` + e.meds.map((m, j) =>
         `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-med="${j}" ${m.add ? 'checked' : ''}> ${esc(m.name)}${m.dose ? ' · ' + esc(m.dose) : ''}${m.days ? ' · ' + m.days + ' dias' : ''} <span class="muted">(início ${dm(m.start)})</span></label>`).join('') + '</div>' : ''}
     </div>`;
   }).join('');

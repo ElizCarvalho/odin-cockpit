@@ -53,7 +53,7 @@
       readyResolve(u);
     } catch (e) {
       showGate(e.code === 'permission-denied'
-        ? `A conta ${email} ainda não tem acesso. Peça pra quem já usa o app te adicionar na aba Rotina → Acesso.`
+        ? `A conta ${email} ainda não tem acesso. Peça pra quem já usa o app te adicionar em Mais → Admin → Acesso.`
         : 'Erro ao conferir acesso: ' + (e.message || e.code), true);
     }
   });

@@ -117,7 +117,7 @@
     const note = `<label>Obs.<input type="text" name="note" placeholder="opcional"></label>`;
     let f = '';
     if (n.kind === 'consulta') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}</p><div class="row"><button type="submit">Ok</button></div></form>`;
-    if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque na aba Medicamentos.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
+    if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque em Mais → Medicamentos.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
     if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}"${n.free ? '' : ' checked'}> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
     else if (n.kind === 'agua') f = `<label>Bebida<select name="fid">${foodList().filter(x => x.kind === 'bebida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select></label><label>Quanto (mL)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'comida') f = `<label>Alimento<select name="fid">${foodList().filter(x => x.kind === 'comida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}${x.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}<option value="">outro</option></select></label><label>Quanto (g ou unidades)<input type="text" name="v" inputmode="decimal" required></label>`;
@@ -243,7 +243,7 @@
     <section class="card">
       <h2>Acesso</h2>
       <p class="note" style="margin:4px 0 8px"><b>Admin</b>: tudo, inclusive esta aba. <b>Edita</b>: vê, registra, responde lembretes e mexe nos horários. <b>Só vê</b>: vê tudo, não altera nada.<br>
-      <b>Lembretes</b>: se a pessoa recebe push (ela também precisa ativar no aparelho dela, na aba Rotina).</p>
+      <b>Lembretes</b>: se a pessoa recebe push (ela também precisa ativar no aparelho dela, em Mais → Lembretes).</p>
       <div class="list">${(aclDoc.emails || []).map(e => `<div class="item aRow">
         <span class="aMail">${esc(e)}${e === me() ? ' <span class="muted">(você)</span>' : ''}</span>
         <span class="row">${roleSel(e, (aclDoc.roles || {})[e] || 'view')}
@@ -259,7 +259,7 @@
 
     <section class="card">
       <h2>Notificações</h2>
-      <p class="note" style="margin:4px 0 8px">O que vira lembrete (push pra quem está marcado em "lembretes" acima). Decúbito e água viram horários na Rotina.</p>
+      <p class="note" style="margin:4px 0 8px">O que vira lembrete (push pra quem está marcado em "lembretes" acima). Decúbito e água viram horários em Mais → Lembretes.</p>
       <form id="aNotif" class="vform">
         <label class="chk"><input type="checkbox" name="med"${ncfg.med === false ? '' : ' checked'}> 💊 Remédios</label>
         <label class="chk"><input type="checkbox" name="compra"${ncfg.compra === false ? '' : ' checked'}> 🛒 Comprar remédio (estoque acabando)</label>
