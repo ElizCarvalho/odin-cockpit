@@ -390,6 +390,7 @@ body.ro .wr { display: none !important; }
 .reggrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
 .regsub { grid-column: 1 / -1; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-top: 6px; }
 .regb { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 76px; padding: 10px 8px; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; font-size: 22px; line-height: 1; }
+.regb i { font-style: normal; }
 .regb span { font-size: 12.5px; font-weight: 600; line-height: 1.25; text-align: center; }
 .regb:hover, .regb.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
 body:not(.app) .app-only { display: none; }
@@ -460,30 +461,30 @@ body:not(.app) .app-only { display: none; }
   </div>
 
   <div class="panel wr" id="p-registrar" role="tabpanel" hidden>
-  <section class="card">
+  <section class="card" aria-label="O que você quer registrar?">
     <h2>O que você quer registrar?</h2>
     <p class="note" style="margin:4px 0 0">Tudo que for lançar sobre o Odin começa aqui.</p>
     <div class="reggrid" id="regGrid" style="margin-top:10px">
       <span class="regsub">Do dia a dia</span>
-      <button class="regb app-only" data-free="med">💊<span>Remédio dado</span></button>
-      <button class="regb app-only" data-free="agua">💧<span>Água</span></button>
-      <button class="regb app-only" data-free="comida">🍽<span>Comida</span></button>
-      <button class="regb app-only" data-free="urina">🟡<span>Xixi</span></button>
-      <button class="regb app-only" data-free="fezes">💩<span>Fezes</span></button>
-      <button class="regb app-only" data-free="decubito">🔄<span>Decúbito</span></button>
-      <button class="regb app-only" data-free="temp">🌡<span>Temperatura</span></button>
-      <button class="regb" data-reg="peso">⚖️<span>Peso</span></button>
+      <button class="regb app-only" data-free="med"><i aria-hidden="true">💊</i><span>Remédio dado</span></button>
+      <button class="regb app-only" data-free="agua"><i aria-hidden="true">💧</i><span>Água</span></button>
+      <button class="regb app-only" data-free="comida"><i aria-hidden="true">🍽</i><span>Comida</span></button>
+      <button class="regb app-only" data-free="urina"><i aria-hidden="true">🟡</i><span>Xixi</span></button>
+      <button class="regb app-only" data-free="fezes"><i aria-hidden="true">💩</i><span>Fezes</span></button>
+      <button class="regb app-only" data-free="decubito"><i aria-hidden="true">🔄</i><span>Decúbito</span></button>
+      <button class="regb app-only" data-free="temp"><i aria-hidden="true">🌡</i><span>Temperatura</span></button>
+      <button class="regb" data-reg="peso"><i aria-hidden="true">⚖️</i><span>Peso</span></button>
       <span class="regsub">Saúde e documentos</span>
-      <button class="regb" data-reg="ia">✨<span>Exame, receita ou texto (leitura automática)</span></button>
-      <button class="regb" data-reg="evento">📝<span>Acontecimento</span></button>
-      <button class="regb" data-reg="foto">📷<span>Foto ou vídeo</span></button>
-      <button class="regb" data-reg="consulta">📅<span>Agendar consulta</span></button>
-      <button class="regb" data-reg="med">➕<span>Medicamento novo</span></button>
-      <button class="regb" data-reg="vacina">💉<span>Vacina ou vermífugo</span></button>
+      <button class="regb" data-reg="ia"><i aria-hidden="true">✨</i><span>Exame, receita ou texto (leitura automática)</span></button>
+      <button class="regb" data-reg="evento"><i aria-hidden="true">📝</i><span>Acontecimento</span></button>
+      <button class="regb" data-reg="foto"><i aria-hidden="true">📷</i><span>Foto ou vídeo</span></button>
+      <button class="regb" data-reg="consulta"><i aria-hidden="true">📅</i><span>Agendar consulta</span></button>
+      <button class="regb" data-reg="med"><i aria-hidden="true">➕</i><span>Medicamento novo</span></button>
+      <button class="regb" data-reg="vacina"><i aria-hidden="true">💉</i><span>Vacina ou vermífugo</span></button>
     </div>
   </section>
   <div id="regFree" class="rt"></div>
-  <section class="card regbox hidden" data-regbox="ia">
+  <section class="card regbox hidden" data-regbox="ia" aria-label="Exame, receita ou texto">
       <h2>Exame, receita ou texto</h2>
       <p class="note" style="margin:4px 0 0">Manda o que tiver: exame, receita, carteirinha, foto dele, ou fala/escreve o que aconteceu. O sistema separa cada coisa no lugar certo e você confere antes de salvar.</p>
       <div id="drop" class="drop" tabindex="0" role="button" aria-label="Escolher ou soltar arquivos" style="margin-top:12px">
@@ -511,7 +512,7 @@ body:not(.app) .app-only { display: none; }
     <div id="reviewBody"></div>
     <div id="reviewExtra"></div>
   </section>
-  <section class="card regbox hidden" data-regbox="peso">
+  <section class="card regbox hidden" data-regbox="peso" aria-label="Peso">
       <h2>Peso</h2>
       <div class="vform" id="regPeso" style="margin-top:8px">
         <label>Data<input type="date" data-w="date"></label><label>Hora<input type="time" data-w="time"></label>
@@ -519,7 +520,7 @@ body:not(.app) .app-only { display: none; }
         <label>Onde<input type="text" data-w="where" list="wPlaces2" placeholder="Em casa"><datalist id="wPlaces2"><option>Em casa</option><option>Rio Vet</option><option>Animalis</option><option>Tododoy</option><option>Vetreabilite (neuro)</option></datalist></label>
         <button data-wsave2>Salvar</button></div>
   </section>
-  <section class="card regbox hidden" data-regbox="evento">
+  <section class="card regbox hidden" data-regbox="evento" aria-label="Acontecimento">
 
       <h2>Acontecimento</h2>
       <p class="note" style="margin:4px 0 10px">Algo que aconteceu e vale ficar no histórico. Marque "nos gráficos" se for um marco (internação, transfusão, troca de remédio).</p>
@@ -533,7 +534,7 @@ body:not(.app) .app-only { display: none; }
       </div>
     
   </section>
-  <section class="card regbox hidden" data-regbox="foto">
+  <section class="card regbox hidden" data-regbox="foto" aria-label="Foto ou vídeo">
 
       <h2>Adicionar fotos ou vídeos</h2>
       <div class="formgrid" style="margin-top:10px">
@@ -546,7 +547,7 @@ body:not(.app) .app-only { display: none; }
       <p class="note" id="fStatus" style="margin-top:8px"></p>
     
   </section>
-  <section class="card regbox hidden" data-regbox="consulta">
+  <section class="card regbox hidden" data-regbox="consulta" aria-label="Agendar consulta">
       <h2>Agendar consulta ou compromisso</h2>
       <form id="calAdd" class="vform" style="margin:8px 0 4px">
         <label>Tipo<select name="sub"><option>Consulta</option><option>Fisioterapia</option><option>Acupuntura</option><option>Coleta de exame</option><option>Outro</option></select></label>
@@ -558,7 +559,7 @@ body:not(.app) .app-only { display: none; }
       </form>
 
   </section>
-  <section class="card regbox hidden" data-regbox="med">
+  <section class="card regbox hidden" data-regbox="med" aria-label="Medicamento novo">
 
       <h2>Adicionar medicamento</h2>
       <div class="formgrid" style="margin-top:10px">
@@ -576,7 +577,7 @@ body:not(.app) .app-only { display: none; }
       </div>
     
   </section>
-  <section class="card regbox hidden" data-regbox="vacina">
+  <section class="card regbox hidden" data-regbox="vacina" aria-label="Vacina ou vermífugo">
 
       <h2>Registrar vacina, vermífugo ou prevenção</h2>
       <div class="formgrid" style="margin-top:10px">
@@ -632,8 +633,8 @@ body:not(.app) .app-only { display: none; }
       </div>
     </section>
     <div class="row wr" style="justify-content:flex-end"><button class="ghost tiny" data-reg="med">＋ Adicionar medicamento</button></div>
-    <section class="card"><h2 id="medActiveH">Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list"></div></section>
-    <section class="card hidden" id="medPausedCard"><h2 id="medPausedH">Pausados</h2><p class="note" style="margin:2px 0 8px">Parados por enquanto: sem lembrete e sem aviso de compra até retomar.</p><div id="medPaused" class="list"></div></section>
+    <section class="card"><h2 id="medActiveH">Em uso</h2><p class="note wr" style="margin:2px 0 8px">Pra juntar itens de uma mesma fórmula manipulada, marque as caixinhas deles.</p><div id="medActive" class="list" role="list" aria-label="Em uso"></div></section>
+    <section class="card hidden" id="medPausedCard"><h2 id="medPausedH">Pausados</h2><p class="note" style="margin:2px 0 8px">Parados por enquanto: sem lembrete e sem aviso de compra até retomar.</p><div id="medPaused" class="list" role="list" aria-label="Pausados"></div></section>
     <section class="card">
       <h2>Linha do tempo dos medicamentos</h2>
       <div class="glegend">
@@ -647,7 +648,7 @@ body:not(.app) .app-only { display: none; }
       <div class="medtools"><div class="chips" id="medChips"></div><div class="chips" id="medRange" aria-label="Período"></div></div>
       <div id="medGantt" class="gantt"></div>
     </section>
-    <section class="card"><details id="medPastBox"><summary><h2 id="medPastH" style="display:inline">Já usou</h2> <span class="muted" style="font-size:13px">(tocar pra ver)</span></summary><div id="medPast" class="list" style="margin-top:8px"></div></details></section>
+    <section class="card"><details id="medPastBox" aria-label="Já usou"><summary><h2 id="medPastH" style="display:inline">Já usou</h2> <span class="muted" style="font-size:13px">(tocar pra ver)</span></summary><div id="medPast" class="list" role="list" aria-label="Já usou" style="margin-top:8px"></div></details></section>
   </div>
 
   <div class="panel" id="p-vacinas" role="tabpanel" hidden>
@@ -1015,7 +1016,7 @@ function intakeTile(kind) {
   const val = isW ? t.water : t.kcal, goal = isW ? g.water : g.kcal, pct = goal ? Math.round(val / goal * 100) : null;
   const st = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
   const sub = isW ? `bebida ${Math.round(t.drink)} + comida ${Math.round(t.fwater)} mL` : (t.unknown ? `${t.unknown} sem quantidade/alimento` : 'pelo que foi anotado');
-  return `<div class="tile ${st}" data-go="exames" style="cursor:pointer" title="Ver água e calorias por dia"><div class="lbl">${isW ? 'Água hoje' : 'Calorias hoje'}${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
+  return `<div class="tile ${st}" role="group" aria-label="${isW ? 'Água hoje' : 'Calorias hoje'}" data-go="exames" style="cursor:pointer" title="Ver água e calorias por dia"><div class="lbl">${isW ? 'Água hoje' : 'Calorias hoje'}${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
     <div class="val">${fmt(Math.round(val))}<small>${isW ? 'mL' : 'kcal'}</small></div>
     <div class="reft">${goal ? `meta ${fmt(goal)} ${isW ? 'mL' : 'kcal'}${g.set ? '' : ' (sugerida)'}` : 'sem meta (falta o peso)'}</div><div class="meta">${esc(sub)}</div>
     ${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`;
@@ -1555,7 +1556,7 @@ function renderReview() {
         `<div class="prow"><span>${esc(P[k].l)} <span class="muted" style="font-size:11px">${esc(P[k].u)}</span></span>
          <input type="number" step="any" data-p="${k}" value="${v}" aria-label="${esc(P[k].l)}"><button class="ghost" data-pdel="${k}" aria-label="Remover ${esc(P[k].l)}">×</button></div>`).join('') || '<span class="muted">Sem valores numéricos.</span>'}</div>
       <label><span class="muted" style="font-size:12px">Achados (um por linha)</span><textarea data-f="other">${esc(e.other.join('\n'))}</textarea></label>
-      ${e.meds.length ? `<div><div class="muted" style="font-size:12px">Medicamentos encontrados (marcados vão para a aba Medicamentos)</div>` + e.meds.map((m, j) =>
+      ${e.meds.length ? `<div><div class="muted" style="font-size:12px">Medicamentos encontrados (marcados vão para Mais → Medicamentos)</div>` + e.meds.map((m, j) =>
         `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-med="${j}" ${m.add ? 'checked' : ''}> ${esc(m.name)}${m.dose ? ' · ' + esc(m.dose) : ''}${m.days ? ' · ' + m.days + ' dias' : ''} <span class="muted">(início ${dm(m.start)})</span></label>`).join('') + '</div>' : ''}
     </div>`;
   }).join('');
@@ -1855,7 +1856,7 @@ function medDetail(m) {
 function medPeriod(m) { return `${m.start ? dm(m.start) : '?'} → ${m.end ? dm(m.end) + (m.endEstimated ? '*' : '') : 'em uso'}`; }
 function medLine(m) {
   const comp = Array.isArray(m.components) && m.components.length;
-  return `<div class="mrow">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}
+  return `<div class="mrow" role="listitem" aria-label="${esc(m.name)}" data-mid="${esc(m.id || '')}">${canWrite ? `<input type="checkbox" class="msel" data-msel="${esc(m.id)}" ${mergeSel.has(m.id) ? 'checked' : ''} aria-label="Selecionar ${esc(m.name)} pra juntar">` : ''}
     <details class="mitem"><summary>
       <span class="mname">${medIcon(m)}${esc(m.name)} ${clinicPill(m.clinic)} ${comp ? '<span class="pill">manipulado</span>' : ''} ${m.allergy ? '<span class="pill bad">reação/alergia</span>' : ''} ${isPaused(m) ? `<span class="pill hi">pausado${m.pausedAt ? ' desde ' + dm(m.pausedAt) : ''}</span>` : ''} ${staleOf(m) ? '<span class="pill hi" title="Sem data de fim e sem confirmação há mais de 30 dias">confirmar se continua</span>' : ''}</span>
       <span class="mcat">${esc(catOf(m))}</span><span class="mper num">${medPeriod(m)}</span></summary>
@@ -1883,7 +1884,13 @@ function updateMergeBar() {
   $('mergeBar').classList.toggle('hidden', sel.length < 2);
   if (sel.length >= 2) $('mergeInfo').textContent = `${sel.length} selecionados: ${sel.map(m => m.name).join(', ')}. Vira um item só, com eles listados como componentes.`;
 }
+document.addEventListener('focusout', () => setTimeout(() => { if (renderMeds.dirty) { renderMeds.dirty = false; renderMeds(); } }, 300));
 function renderMeds() {
+  // não redesenha a lista enquanto a pessoa digita nela (motivo da pausa, estoque); e mantém aberto o que estava aberto
+  const ae = document.activeElement, LISTS = '#medActive, #medPaused, #medPast';
+  if (ae && ae.closest && ae.closest(LISTS) && /INPUT|SELECT|TEXTAREA/.test(ae.tagName)) { renderMeds.dirty = true; return; }
+  const abertos = new Set([...document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', '))].filter(r => r.querySelector('details.mitem')?.open).map(r => r.dataset.mid));
+  setTimeout(() => document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', ')).forEach(r => { if (abertos.has(r.dataset.mid)) { const d = r.querySelector('details.mitem'); if (d) d.open = true; } }), 0);
   updateMergeBar();
   $('clinicList').innerHTML = [...new Set(meds.map(m => m.clinic).filter(Boolean))].map(c => `<option value="${esc(c)}">`).join('');
   const cats = ['Todos', ...CATS.map(c => c[0]), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
@@ -1961,14 +1968,14 @@ document.addEventListener('click', async ev => {
   const p1 = ev.target.closest('button[data-mpause]'), r1 = ev.target.closest('button[data-mresume]');
   if (p1) {
     const box = document.createElement('div'); box.className = 'medit';
-    box.innerHTML = `Motivo <input type="text" value="aguardando a neuro" style="width:220px;padding:4px 8px"><button class="tiny" data-mpausego="${esc(p1.dataset.mpause)}">pausar</button><button class="tiny ghost" data-mpausex>cancelar</button>`;
+    box.innerHTML = `<label>Motivo <input type="text" aria-label="Motivo da pausa" value="aguardando a neuro" style="width:220px;padding:4px 8px"></label><button class="tiny" data-mpausego="${esc(p1.dataset.mpause)}">confirmar pausa</button><button class="tiny ghost" data-mpausex>cancelar</button>`;
     p1.closest('.acts').after(box); p1.disabled = true; box.querySelector('input').focus();
     return;
   }
   if (ev.target.closest('button[data-mpausex]')) { scheduleRender(); return; }
   const pg = ev.target.closest('button[data-mpausego]');
   if (pg) {
-    const reason = pg.previousElementSibling.value.trim(); pg.disabled = true;
+    const reason = (pg.parentElement.querySelector('input')?.value || '').trim(); pg.disabled = true;
     try { await db.collection('meds').doc(pg.dataset.mpausego).update({ paused: true, pausedAt: todayIso(), pauseReason: reason }); } catch (e) { alertErr(e); }
     return;
   }
