@@ -38,4 +38,21 @@ const end = h.lastIndexOf('</body>');
 h = h.slice(0, end) + '<script src="/rotina.js"></script>\n' + h.slice(end);
 if (h.includes('/_blob/')) throw new Error('sobrou /_blob/ no app');
 writeFileSync(out + 'index.html', h);
-console.log('app montado em app/public');
+
+// Modo teste (/teste/): o mesmo app, com Firebase falso e os dados de tests/seed.mjs (datas calculadas na hora).
+// Nada daqui fala com o Firebase de verdade. É onde o qa-test-executor roda os cenários com o Playwright MCP.
+const seedSrc = readFileSync(root + 'tests/seed.mjs', 'utf8').replace(/^\/\/.*\n/gm, '').replace(/export const /g, 'const ');
+const fakeSrc = readFileSync(root + 'tests/fakefb.js', 'utf8');
+const teste = h
+  .replace(libs, () => `<script>
+if (!new URLSearchParams(location.search).get('as')) history.replaceState(null, '', '?as=admin%40teste.com' + location.hash);
+window.ODIN_SEED = (() => { ${seedSrc}\n return SEED })();
+</script>
+<script src="/teste/fakefb.js"></script>`)
+  .replace('<head>', '<head>\n<meta name="robots" content="noindex">')
+  .replace('<body>', () => `<body>\n<div role="note" aria-label="Modo teste" style="position:fixed;top:0;left:0;right:0;z-index:99;background:#b45309;color:#fff;font:600 12px system-ui;text-align:center;padding:3px">MODO TESTE · dados de mentira · nada aqui vai pro Odin de verdade · <a style="color:#fff" href="?as=admin%40teste.com">admin</a> · <a style="color:#fff" href="?as=edita%40teste.com">edita</a> · <a style="color:#fff" href="?as=ve%40teste.com">só vê</a></div>`);
+if (teste === h || teste.includes('firebase-app-compat.js')) throw new Error('modo teste: não consegui trocar o Firebase pelo falso');
+mkdirSync(out + 'teste', { recursive: true });
+writeFileSync(out + 'teste/index.html', teste);
+writeFileSync(out + 'teste/fakefb.js', fakeSrc);
+console.log('app montado em app/public (e modo teste em app/public/teste)');

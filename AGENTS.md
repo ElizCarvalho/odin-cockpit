@@ -31,6 +31,7 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
 | Teste de fumaça, Firebase falso e dados de teste | `tests/smoke.mjs`, `tests/fakefb.js`, `tests/seed.mjs` |
 | Cenários de comportamento (Gherkin declarativo, método lunarpass-tests) | `features/*.feature`; Page Objects em `features/support/paginas.mjs`; passos em `features/steps/passos.mjs`; especificação e perguntas em `documentacao/especificacao.md` |
 | Documentação (arquitetura, dados, UX, qualidade, esteira, operação, ADRs) | `documentacao/`. Mudou arquitetura, dado ou navegação? Atualize junto |
+| Modo teste (Firebase falso, dados de `tests/seed.mjs`) pra executar cenários pelo navegador: https://odin-cockpit.web.app/teste/ | gerado por `scripts/build-app.mjs` |
 | Site público anonimizado (GitHub Pages) | `docs/`, gerado pelo Action "Publicar site público" (`scripts/exportar-firestore.mjs` → `scripts/publicar.mjs`). Não editar à mão |
 
 `app/public/` é gerado (está no `.gitignore`). Não edite nele.
