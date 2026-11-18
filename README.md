@@ -1,57 +1,52 @@
 # Odin - Cockpit
 
-Acompanhamento de saúde do Odin (American Bully, nascido em 23/10/2025): exames, remédios, vacinas, fotos e linha do tempo.
+Acompanhamento de saúde do Odin, um American Bully nascido em 23/10/2025 que está tratando cinomose e anemia. O cockpit reúne exames, remédios, rotina de cuidados, vacinas, fotos e linha do tempo.
 
-- **Site público (só leitura):** GitHub Pages, servido da pasta `docs/`.
-- **App (onde se usa e registra):** https://odin-cockpit.web.app — Firebase, login Google, Rotina com push, papéis admin/edita/só vê.
-- **Site público (retrato anonimizado):** gerado de um export e servido da pasta `docs/`.
+Ele também é um projeto de referência de **desenvolvimento assistido por IA**. Tem regras que valem pra qualquer agente, uma esteira automática com testes de comportamento em Gherkin e deploy conferido. A documentação explica cada decisão.
 
-## Desenvolvimento
+| | Endereço | Pra quê |
+|---|---|---|
+| **App** | https://odin-cockpit.web.app | Onde se usa: login Google, lembretes com push, registrar, papéis admin/edita/só vê |
+| **Site público** | https://elizcarvalho.github.io/odin-cockpit/ | Retrato anonimizado, só leitura, atualiza sozinho uns 5 min depois de qualquer mudança |
 
-Regras e esteira em [`AGENTS.md`](AGENTS.md) (valem pro Claude, Cursor ou qualquer agente):
+## Começar
 
 ```bash
-git pull --rebase           # antes de começar
-npm run check               # valida tudo (build, sintaxe, segredos, smoke 390/1440 px)
-git commit && git push      # push na main publica o app sozinho
-npm run deploy:verificar    # espera o Action e confere se o app está no ar com esse commit
+npm ci && npm ci --prefix functions && npx playwright install chromium
+npm run check              # valida tudo: build, sintaxe, segredos, funções, smoke e cenários Gherkin
+npm run bdd                # só os cenários (relatório em relatorios/cenarios.html)
+npm run app:ver            # app local em http://localhost:5050 (Firebase de verdade, precisa logar)
 ```
+
+O fluxo de entrega (pull → check → commit → push → `npm run deploy:verificar`) está em [`AGENTS.md`](AGENTS.md). Ele vale pro Claude, pro Cursor ou pra qualquer agente ou pessoa.
+
+## Documentação
+
+Tudo em [`documentacao/`](documentacao/README.md):
+
+- [Arquitetura](documentacao/arquitetura.md): como as peças se ligam (PWA, Firebase, Functions, Actions, Pages)
+- [Modelo de dados](documentacao/dados.md): coleções do Firestore e o que cada campo significa
+- [UX e navegação](documentacao/ux.md): os princípios e o mapa das 5 seções
+- [Qualidade e testes](documentacao/qualidade.md): a pirâmide de checagens e como escrever um cenário Gherkin
+- [Esteira com IA](documentacao/esteira-ia.md): como o projeto é desenvolvido com agentes e o que aprendemos
+- [Operação](documentacao/operacao.md): segredos, permissões de nuvem e o que fazer quando algo quebra
+- [Decisões (ADRs)](documentacao/decisoes/): por que cada escolha foi feita
 
 ## Estrutura
 
 ```
-artifact/index.html        código do cockpit (o mesmo do artefato)
-docs/                      site publicado (gerado, não editar à mão)
-  index.html               cockpit em modo só leitura
-  data/odin.json           dados já anonimizados
-  data/photos/             fotos
-config/anonimizacao.json   regras do que é removido antes de publicar
-scripts/publicar.mjs       export -> anonimiza -> docs/ -> commit/push
+artifact/index.html        cockpit: fonte única do app e do site público
+app/src/                   ligação com o Firebase (shim.js) e Rotina/Admin (rotina.js)
+app/static/                manifest, ícones, service worker do push
+functions/index.js         lembretes a cada minuto, IA do Registrar, gatilho do site público
+features/                  cenários de comportamento em Gherkin (português) + passos Playwright
+tests/                     smoke, Firebase falso e dados de teste
+scripts/                   build, check, verificação de deploy, export e anonimização
+config/anonimizacao.json   o que é removido antes de publicar
+docs/                      site público gerado (GitHub Pages, não editar à mão)
+documentacao/              documentação do projeto
 ```
-
-## Como atualizar o site
-
-1. No cockpit (artefato), no fim do **Painel**, clique em **Exportar para o site**. Isso baixa `odin-export-AAAA-MM-DD_HHhMM.json` (ex.: `odin-export-2026-11-15_16h20.json`) pra pasta Downloads.
-2. Aqui no repositório:
-
-   ```bash
-   npm run publicar            # gera docs/ pra conferir
-   npm run ver                 # abre em http://localhost:4173
-   npm run publicar -- --push  # commita e publica
-   ```
-
-O export bruto **nunca** entra no git (está no `.gitignore`).
 
 ## Privacidade
 
-`scripts/publicar.mjs` passa todos os textos por `config/anonimizacao.json`:
-
-- troca nomes de pessoas (tutoras, veterinárias) por papéis ("a tutora", "a veterinária");
-- remove CRMV, CPF, telefone, número de microchip e linhas com endereço/responsável;
-- para a publicação se sobrar algo da lista `proibidos`.
-
-Nome novo apareceu? Adicione em `substituir` e em `proibidos`.
-
-## Atualizando o cockpit em si
-
-Mudou o artefato? Copie o HTML novo pra `artifact/index.html` e rode `npm run publicar -- --push`: o site usa exatamente o mesmo código, em modo só leitura.
+O site público passa por `config/anonimizacao.json`. Ele troca nomes de pessoas por papéis ("a tutora", "o veterinário") e remove CRMV, CPF, telefone, e-mail, microchip e endereço. Se sobrar algo da lista `proibidos`, a publicação **para**. Dados reais vivem só no Firestore: export bruto nunca entra no git.

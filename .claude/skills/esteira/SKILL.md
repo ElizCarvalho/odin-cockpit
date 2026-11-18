@@ -10,7 +10,7 @@ As regras do projeto estão em `AGENTS.md`. Esta é a sequência pra qualquer mu
 ## 0. Preparar (uma vez por máquina)
 
 ```bash
-npm install                       # playwright pro smoke
+npm install                       # playwright e cucumber (smoke e cenários)
 npx playwright install chromium   # navegador do smoke
 npm ci --prefix functions         # pra testar as funções
 ```
@@ -27,7 +27,8 @@ git checkout main && git pull --rebase
 - Leia o trecho que vai mudar antes de editar. A tabela "Onde mexer" do `AGENTS.md` diz o arquivo.
 - Mudança no cockpit: `artifact/index.html`. Mudança só do app (Firebase, Rotina, Admin): `app/src/`.
 - Mudou permissão ou coleção: atualize `firestore.rules`/`storage.rules` **e** `tests/smoke.mjs`.
-- Funcionalidade nova com risco de quebrar: acrescente uma checagem no `tests/smoke.mjs`.
+- Comportamento novo ou bug corrigido: escreva o cenário em `features/*.feature` (Gherkin em português; passos em `features/steps/passos.mjs`). Checagem técnica (largura, erro de JS) vai no `tests/smoke.mjs`.
+- Mudou arquitetura, dado ou navegação: atualize `documentacao/` no mesmo commit.
 
 ## 3. Validar
 
@@ -36,7 +37,7 @@ npm run check
 ```
 
 - Tudo precisa dar ✓. Se der ✗, conserte e rode de novo. Não comente nem pule checagem.
-- `npm run check -- --rapido` pula o smoke. Use só no meio do trabalho, nunca antes do commit.
+- `npm run check -- --rapido` pula o smoke e os cenários. Use só no meio do trabalho, nunca antes do commit.
 - Mudou algo visual: confira também a tela de verdade (`npm run app:ver`, ou a screenshot do smoke) em celular (390 px) e desktop.
 
 ## 4. Commitar
