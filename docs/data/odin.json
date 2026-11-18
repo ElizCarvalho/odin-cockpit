@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-18T11:43:07.644Z",
- "updatedAt": 1794968402193,
+ "exportedAt": "2026-11-18T15:12:18.100Z",
+ "updatedAt": 1795014726394,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -88,6 +88,17 @@
     "Animal: Odin, canino, American Bully, macho, 1 ano e 4 dias"
    ],
    "params": {}
+  },
+  {
+   "id": "OinGT8GZgXEiS3gHb73r",
+   "date": "2026-11-18",
+   "time": "09:07",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "params": {
+    "peso": 18.9
+   },
+   "other": []
   },
   {
    "id": "acyqxxzjqhmt4g93h1hz",
@@ -1011,6 +1022,18 @@
    "mark": false,
    "time": "15:56",
    "text": "Parou o sangramento depois da retirada da sonda urinária. Faz xixi só com escape ou quando a bexiga é pressionada (ainda não urina sozinho de forma voluntária)."
+  },
+  {
+   "id": "TgSmr77WI1o9yXyaIxoH",
+   "date": "2026-11-18",
+   "time": "11:04",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "pastosa",
+    "cor": "marrom"
+   },
+   "text": "Fezes pastosa, marrom.",
+   "mark": false
   },
   {
    "id": "VgC86Hxy4AqyJHXP60sV",
@@ -2429,6 +2452,14 @@
    "water_ml": 150
   },
   {
+   "id": "3j19hM4WPfoGj1g3Ncht",
+   "date": "2026-11-18",
+   "time": "11:37",
+   "water_ml": 150,
+   "drinkId": "agua",
+   "note": ""
+  },
+  {
    "id": "FPviRHH8mmyirDw1DFYC",
    "date": "2026-11-17",
    "time": "09:30",
@@ -2516,6 +2547,13 @@
    "temp": 39.4,
    "time": "20:15",
    "water_ml": null
+  },
+  {
+   "id": "mkEWAVbmizqBadpYFv4Z",
+   "date": "2026-11-18",
+   "time": "11:16",
+   "temp": 37,
+   "note": ""
   },
   {
    "id": "o3w8gm13fmp56zvqkmz2",
@@ -3058,6 +3096,15 @@
    "note": "água de coco natural"
   },
   {
+   "id": "qaZpWoNdDKzJbTuKHAKJ",
+   "date": "2026-11-18",
+   "time": "10:00",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
+   "foodId": "racao",
+   "food_g": 75.2
+  },
+  {
    "id": "raZ06IRnhIHth36yqKmP",
    "date": "2026-11-17",
    "time": "14:30",
@@ -3089,6 +3136,15 @@
    "temp": null,
    "time": "20:30",
    "water_ml": null
+  },
+  {
+   "id": "xJR8Zq9IWXcoxG3S9gmo",
+   "date": "2026-11-18",
+   "time": "10:00",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 161.9
   }
  ],
  "foods": [
@@ -3112,7 +3168,8 @@
    "match": "biscrok|biscoito",
    "est": true,
    "src": "kcal: 350 kcal/100g (rótulo, via sites); umidade máx 10%; peso por biscoito estimado (10 g)",
-   "kcal100": 350
+   "kcal100": 350,
+   "updatedAt": 1795014482635
   },
   {
    "id": "cha",
@@ -3215,6 +3272,24 @@
  ],
  "goals": null,
  "photos": [
+  {
+   "id": "2HguEMIyvtcYqt5HgkrS",
+   "assetId": "f3caea23-b41c-4e65-bc8f-bc33c3435e31",
+   "date": "2026-11-18",
+   "time": "09:45",
+   "caption": "Banho e tomando sol",
+   "video": false,
+   "createdAt": 1795012265858
+  },
+  {
+   "id": "3i95jhHhqi1CL7iJVzn5",
+   "assetId": "a130b72a-3605-4816-a71b-bb5e67eb8ab8",
+   "date": "2026-11-18",
+   "time": "09:45",
+   "caption": "Banho e tomando sol",
+   "video": false,
+   "createdAt": 1795012269236
+  },
   {
    "id": "9J8rVYtBVCCPo1baSKNI",
    "assetId": "b02e878c-e91a-4f1d-8b57-23075f4d452f",
