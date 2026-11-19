@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-19T15:55:52.401Z",
+ "exportedAt": "2026-11-19T16:42:44.513Z",
  "updatedAt": 1795100860319,
  "exams": [
   {
@@ -2633,6 +2633,14 @@
    "note": ""
   },
   {
+   "id": "CjaUDPjq5RXeeTa802VV",
+   "date": "2026-11-19",
+   "time": "13:38",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural"
+  },
+  {
    "id": "FPviRHH8mmyirDw1DFYC",
    "date": "2026-11-17",
    "time": "09:30",
@@ -2690,6 +2698,15 @@
    "food_g": 60
   },
   {
+   "id": "Wrv4lH5nN6FXxKbvjQKG",
+   "date": "2026-11-19",
+   "time": "13:30",
+   "food": true,
+   "food_g": 463.2,
+   "foodId": "patepe",
+   "note": "Patê caseiro (cartilagem de pé de galinha, inhame, cenoura)"
+  },
+  {
    "id": "XpZiQNnUJTzKNM28kz1v",
    "date": "2026-11-18",
    "time": "21:43",
@@ -2722,6 +2739,15 @@
    "water_ml": 150,
    "drinkId": "agua",
    "note": ""
+  },
+  {
+   "id": "hNhMrPdokf0dSb1nht4Y",
+   "date": "2026-11-19",
+   "time": "13:30",
+   "food": true,
+   "food_g": 58.2,
+   "foodId": "petdelicia",
+   "note": "Pet Delícia Hipercalórica (úmida) · 37,9 + 20,3 g"
   },
   {
    "id": "k0wik76sjj47vs9hvby8",
@@ -3485,6 +3511,17 @@
    "match": "pat[êe]",
    "src": "estimado",
    "est": true
+  },
+  {
+   "id": "patepe",
+   "name": "Patê caseiro (cartilagem de pé de galinha, inhame, cenoura)",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 115,
+   "water": 0.75,
+   "est": true,
+   "src": "estimativa: pé de galinha cozido ~215, inhame cozido ~97, cenoura cozida ~35 kcal/100 g, partes iguais",
+   "match": "p[ée] de galinha|cartilagem"
   },
   {
    "id": "petdelicia",
