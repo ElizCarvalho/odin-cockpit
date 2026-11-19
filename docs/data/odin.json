@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-18T23:44:54.452Z",
+ "exportedAt": "2026-11-19T00:34:35.682Z",
  "updatedAt": 1795045233247,
  "exams": [
   {
@@ -528,6 +528,63 @@
     "wbc": 14200
    },
    "time": "18:55"
+  },
+  {
+   "id": "e20261118b",
+   "date": "2026-11-18",
+   "kind": "Bioquímica",
+   "lab": "Alpha Labs",
+   "params": {
+    "alt": 112.6,
+    "alp": 275.5,
+    "creat": 1,
+    "urea": 54.2,
+    "glic": 73.2,
+    "k": 5.2,
+    "na": 144,
+    "pt": 7.9,
+    "alb": 2.6,
+    "bili": 0.3
+   },
+   "labInterpretation": "ALT, fosfatase alcalina, proteína total e globulina acima da referência; função renal, glicose e eletrólitos na faixa.",
+   "other": [
+    "Globulina 5,3 g/dL (ref. 2,7–4,4)",
+    "Bilirrubina direta 0,07 e indireta 0,23 mg/dL",
+    "Ferro 28,0 µmol/L (ref. 17,1–47,1)",
+    "Soro hemolisado (+)",
+    "Referências deste laboratório: ALT 21–102 U/L; fosfatase alcalina 20–156 U/L; proteína total 5,4–7,1 g/dL; ureia 21–60 mg/dL; sódio 141–152 mEq/L"
+   ]
+  },
+  {
+   "id": "e20261118h",
+   "date": "2026-11-18",
+   "kind": "Hemograma",
+   "lab": "Alpha Labs",
+   "params": {
+    "rbc": 3.7,
+    "hb": 8.5,
+    "ht": 26,
+    "vcm": 70.3,
+    "chcm": 32.7,
+    "retic": 3.7,
+    "wbc": 17200,
+    "seg": 13588,
+    "bands": 0,
+    "lymph": 2752,
+    "mono": 516,
+    "eos": 344,
+    "plt": 334
+   },
+   "labInterpretation": "Anemia normocítica normocrômica arregenerativa. Leucocitose com neutrofilia absoluta.",
+   "other": [
+    "Reticulócitos 3.700/µL (0,1%), bem abaixo da referência do laboratório (30.000–60.000): medula ainda sem resposta",
+    "Neutrófilos hipersegmentados (++): o laboratório anota que podem ocorrer por corticoide",
+    "Poiquilócitos (++), anisocitose discreta, macroplaquetas (+), linfócitos reativos raros",
+    "Agregados plaquetários (++)",
+    "Hemoparasitas não observados",
+    "Proteínas plasmáticas totais 6,4 g/dL",
+    "Referência de leucócitos deste laboratório: 8.000–16.000/µL"
+   ]
   },
   {
    "id": "ecvpuu9aa8mcsi350pue",
@@ -1092,6 +1149,12 @@
    "text": "Odin coletou sangue para hemograma com contagem de reticulócitos (série vermelha produzida pela medula) e bioquímica.",
    "mark": false,
    "short": ""
+  },
+  {
+   "id": "mpXLIQX0fJFTPSRm0uXo",
+   "date": "2026-11-18",
+   "time": "20:44",
+   "text": "Saiu o resultado do hemograma e da bioquímica coletados hoje (Alpha Labs)"
   },
   {
    "id": "nG3aIx3WOZNjuc9lbgdJ",
