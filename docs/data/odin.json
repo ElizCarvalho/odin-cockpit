@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-19T14:10:17.490Z",
- "updatedAt": 1795097151927,
+ "exportedAt": "2026-11-19T14:20:29.241Z",
+ "updatedAt": 1795097679337,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1073,6 +1073,18 @@
    "short": ""
   },
   {
+   "id": "EGqbIAJDJEYDbtGw1yAU",
+   "date": "2026-11-19",
+   "time": "11:14",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false
+  },
+  {
    "id": "FPswgsfC0C3kChVDcez5",
    "date": "2026-11-17",
    "time": "20:30",
@@ -1510,6 +1522,18 @@
    "short": "",
    "text": "Orientações da vet amiga da família: hemograma sem sinal forte de infecção (segmentados um pouco altos; linfócitos baixos, comum na cinomose) e a amostra teve agregados plaquetários, então parte da queda pode ser da coleta — repetir os exames em casa. Acompanhar a secreção nasal e ocular. Foco em suplementação pra ele recuperar massa; Apevitin não é necessário enquanto ele come sozinho. Preocupação com a bexiga depois de tanto tempo de sonda: perguntar à clínica se o sangramento é esperado; se ele não esvaziar a bexiga, coletar urina pra exame.",
    "time": "21:30"
+  },
+  {
+   "id": "wncAyKauAvcAVW6vkePR",
+   "date": "2026-11-19",
+   "time": "05:30",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false
   },
   {
    "id": "wsklubpunyruo0yfpapf",
