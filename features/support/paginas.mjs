@@ -99,20 +99,27 @@ export class Medicamentos {
   lista(nome) { return this.page.getByRole('list', { name: nome }) }
   remedio(lista, nome) { return this.lista(lista).getByRole('listitem', { name: nome, exact: true }) }
   jaUsou() { return this.page.getByRole('group', { name: 'Já usou' }) }
-  async abrir(lista, nome) {
+  // Abre os detalhes do remédio. A lista pode ser redesenhada quando chega dado novo (e fechar o que estava aberto),
+  // então confere e tenta de novo, até o conteúdo dos detalhes estar visível.
+  async abrir(lista, nome, botao) {
     const r = this.remedio(lista, nome)
     const detalhes = r.getByRole('group').first()
-    if (!(await detalhes.evaluate(d => d.open))) await detalhes.locator(':scope > summary').click()
+    for (let i = 0; i < 8; i++) {
+      if (!(await detalhes.evaluate(d => d.open).catch(() => false))) await detalhes.locator(':scope > summary').click()
+      const alvo = botao ? r.getByRole('button', { name: botao }) : detalhes
+      if (await alvo.isVisible().catch(() => false) && await detalhes.evaluate(d => d.open).catch(() => false)) return r
+      await this.page.waitForLoadState('domcontentloaded')
+    }
     return r
   }
   async pausar(nome, motivo) {
-    const r = await this.abrir('Em uso', nome)
+    const r = await this.abrir('Em uso', nome, 'pausar')
     await r.getByRole('button', { name: 'pausar' }).click()
     await r.getByLabel('Motivo da pausa').fill(motivo)
     await r.getByRole('button', { name: 'confirmar pausa' }).click()
   }
   async retomar(nome) {
-    const r = await this.abrir('Pausados', nome)
+    const r = await this.abrir('Pausados', nome, 'retomar')
     await r.getByRole('button', { name: 'retomar' }).click()
   }
 }

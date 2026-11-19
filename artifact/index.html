@@ -1890,7 +1890,7 @@ function renderMeds() {
   const ae = document.activeElement, LISTS = '#medActive, #medPaused, #medPast';
   if (ae && ae.closest && ae.closest(LISTS) && /INPUT|SELECT|TEXTAREA/.test(ae.tagName)) { renderMeds.dirty = true; return; }
   const abertos = new Set([...document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', '))].filter(r => r.querySelector('details.mitem')?.open).map(r => r.dataset.mid));
-  setTimeout(() => document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', ')).forEach(r => { if (abertos.has(r.dataset.mid)) { const d = r.querySelector('details.mitem'); if (d) d.open = true; } }), 0);
+  queueMicrotask(() => document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', ')).forEach(r => { if (abertos.has(r.dataset.mid)) { const d = r.querySelector('details.mitem'); if (d) d.open = true; } })); // antes de a tela piscar
   updateMergeBar();
   $('clinicList').innerHTML = [...new Set(meds.map(m => m.clinic).filter(Boolean))].map(c => `<option value="${esc(c)}">`).join('');
   const cats = ['Todos', ...CATS.map(c => c[0]), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
