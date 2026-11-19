@@ -34,7 +34,17 @@
     "Giovanna": "a tutora",
     "Elizabeth": "a tutora",
     "Brenda": "a veterinária",
-    "Elis": "a tutora"
+    "Elis": "a tutora",
+    "Dra. Agatha da Silva Souza": "a veterinária",
+    "Dr(a). Agatha da Silva": "a veterinária",
+    "Agatha da Silva Souza": "a veterinária",
+    "Agatha da Silva": "a veterinária",
+    "Dra. Agatha": "a veterinária",
+    "Agatha": "a veterinária",
+    "Beatriz Copelo": "o laboratório",
+    "Marcus Vinicius da Silva Coelho": "o laboratório",
+    "Waldemir Silva de Aguiar": "o laboratório",
+    "Fúlvio Martins Ambrósio": "o laboratório"
   },
   "remover_linhas": [
     "propriet[aá]ri[ao]",
@@ -62,6 +72,11 @@
     "@gmail",
     "@[\\w-]+\\.com",
     "\\bElis\\b",
-    "Viviane"
+    "Viviane",
+    "Agatha",
+    "Copelo",
+    "Marcus Vinicius",
+    "Waldemir",
+    "Fúlvio"
   ]
 }
