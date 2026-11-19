@@ -52,11 +52,12 @@ export class Registrar {
   async escolher(tipo) { await this.opcoes.getByRole('button', { name: tipo, exact: true }).click() }
   formulario(tipo) { return this.page.getByRole('region', { name: 'Registrar ' + tipo }) }
   caixa(nome) { return this.page.getByRole('region', { name: nome }) }
-  async comida(alimento, quanto) {
+  async comida(alimento, quanto, obs) {
     await this.escolher('Comida')
     const f = this.formulario('Comida')
     await f.getByLabel('Alimento').selectOption({ label: alimento })
     await f.getByLabel('Quanto (g ou unidades)').fill(String(quanto))
+    if (obs) await f.getByLabel('Obs.').fill(obs)
     await f.getByRole('button', { name: 'Salvar' }).click()
   }
   async remedioDado(nome) {

@@ -12,6 +12,7 @@ Funcionalidade: Registrar qualquer cuidado num lugar só
     Ilustração: 2 Biscrok Multi de 10 g somam 20 g; a 340 kcal/100 g, são 68 kcal.
     Quando eu registro que ele comeu biscoitos contados por unidade
     Então eu vejo a confirmação de que a comida foi registrada
+    E o formulário fica limpo pra um novo registro
     E as calorias de hoje passam a contar esses biscoitos pelo catálogo de alimentos
 
   Cenário: Remédio dado fora de hora registra só o que eu marquei
@@ -22,7 +23,8 @@ Funcionalidade: Registrar qualquer cuidado num lugar só
   Cenário: Peso registrado vira o peso mais recente
     Ilustração: 19,4 kg pesado em casa.
     Quando eu registro o peso dele
-    Então o peso mais recente em Hoje é o que eu registrei
+    Então o formulário de peso fica limpo pra um novo registro
+    E o peso mais recente em Hoje é o que eu registrei
 
   Cenário: Xixi com escape vira um registro do dia
     Quando eu registro um xixi com escape

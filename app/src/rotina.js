@@ -376,7 +376,11 @@
       if (!f.dataset.n && n.kind === 'med') { n.items = activeMeds().map(m => ({ medId: m.id, name: m.name, dose: '' })); n.label = 'Fora de hora'; }
       const b = f.querySelector('[type=submit]'); b.disabled = true;
       const msg = descreve(n, f);
-      try { await answer(n, f, false); feito(f, '✓ Registrado: ' + msg); if (!f.dataset.n) { [...f.elements].forEach(e => delete e.dataset.touched); f.reset(); } }
+      try {
+        await answer(n, f, false); feito(f, '✓ Registrado: ' + msg);
+        // limpa os campos — inclusive no formulário redesenhado enquanto salvava (o antigo pode já ter saído da tela)
+        if (!f.dataset.n) document.querySelectorAll(`form.rForm[data-n=""][data-kind="${f.dataset.kind}"]`).forEach(x => { [...x.elements].forEach(e => delete e.dataset.touched); x.reset(); });
+      }
       catch (e) { say(f, 'Não salvou: ' + (e.message || e.code)); }
       finally { b.disabled = false; }
     }

@@ -58,7 +58,7 @@ Then('eu não encontro instrução para publicar o site manualmente', async func
 /* ---------- Registrar ---------- */
 When('eu registro que ele comeu biscoitos contados por unidade', async function () {
   this.antes = await this.page.evaluate(() => Math.round(dayTotals(todayIso()).kcal))
-  await this.registrar.comida('Biscrok Multi (unid.)', MASSA.biscoitos)
+  await this.registrar.comida('Biscrok Multi (unid.)', MASSA.biscoitos, 'no lanche')
 })
 Then('as calorias de hoje passam a contar esses biscoitos pelo catálogo de alimentos', async function () {
   const b = await this.page.evaluate(() => foodById('biscrok'))
@@ -94,6 +94,15 @@ Then('a consulta aparece no calendário de hoje', async function () {
 Then(/^eu vejo a confirmação de que (?:a|o) (comida|xixi|água) foi registrad[ao]$/, async function (oque) {
   const marca = { comida: '🍽', xixi: 'Xixi', 'água': '💧' }[oque]
   await expect(this.page.getByRole('status').filter({ hasText: 'Registrado' })).toContainText(marca)
+})
+
+Then('o formulário fica limpo pra um novo registro', async function () {
+  const f = this.registrar.formulario('Comida')
+  await expect(f.getByLabel('Quanto (g ou unidades)')).toHaveValue('')
+  await expect(f.getByLabel('Obs.')).toHaveValue('')
+})
+Then('o formulário de peso fica limpo pra um novo registro', async function () {
+  await expect(this.registrar.caixa('Peso').getByLabel('Peso (kg)')).toHaveValue('')
 })
 
 /* ---------- Lembretes ---------- */
