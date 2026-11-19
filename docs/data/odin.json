@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-19T01:31:49.668Z",
+ "exportedAt": "2026-11-19T01:42:51.385Z",
  "updatedAt": 1795051678596,
  "exams": [
   {
@@ -1895,6 +1895,17 @@
    "notes": "receita da Tododoy de 26/10; ribavirina pode causar anemia: perguntar à vet",
    "purpose": "antiviral",
    "start": "2026-10-26"
+  },
+  {
+   "id": "apevitin20261117",
+   "name": "Apevitin",
+   "kind": "med",
+   "form": "liquido",
+   "dose": "2,5 mL VO 1x ao dia por 10 dias (no jantar)",
+   "purpose": "Apetite",
+   "start": "2026-11-17",
+   "end": "2026-11-26",
+   "notes": "Começou em 17/11, no jantar. 10 dias, até 26/11."
   },
   {
    "id": "axvcf4i02lcaskls9qf8",
