@@ -168,6 +168,10 @@ Then('os avisos de compra de remédio continuam desligados', async function () {
   await expect(this.admin.notificacoes.getByRole('checkbox', { name: /Comprar remédio/ })).not.toBeChecked()
 })
 
+When('eu deixo o alerta de remédios no celular como insistente', async function () { await this.admin.alertaNoCelular('Remédios', 'insistente') })
+Then('o alerta de remédios no celular continua insistente', async function () { await expect(this.admin.alertaCelular('Remédios')).toHaveValue('insistente') })
+Then('o alerta de água no celular continua normal', async function () { await expect(this.admin.alertaCelular('Água')).toHaveValue('normal') })
+
 /* ---------- Permissões ---------- */
 Then('eu não encontro a seção Registrar', async function () { await expect(this.nav.secao('Registrar')).toBeHidden() })
 Then('os lembretes aparecem sem opção de resposta', async function () {

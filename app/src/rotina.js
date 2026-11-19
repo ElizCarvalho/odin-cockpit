@@ -1,4 +1,8 @@
 /* Aba Rotina: horários, notificações push e resposta rápida que vira registro no cockpit. */
+// Pushover (alerta crítico no celular): mesmos padrões de functions/index.js (PUSHOVER_PADRAO)
+const PO_KINDS = [['med', '💊 Remédios'], ['consulta', '📅 Compromissos'], ['decubito', '🔄 Decúbito'], ['agua', '💧 Água'], ['compra', '🛒 Comprar remédio']];
+const PO_PADRAO = { med: 'critico', consulta: 'critico', decubito: 'normal', agua: 'normal', compra: 'normal' };
+const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico', 'crítico'], ['insistente', 'insistente']];
 (function () {
   const css = document.createElement('style');
   css.textContent = `.tab[hidden]{display:none!important}.tab{position:relative}.tab .badge{display:inline-block;margin-left:6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--warn);color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;vertical-align:middle}@media (max-width:760px){.tab .badge{position:absolute;top:2px;right:calc(50% - 24px);margin:0}}.tab .badge[hidden]{display:none}.rt .rItems{grid-column:1/-1;display:grid;gap:6px}.rt .rItems label.chk{align-items:center;gap:8px;font-size:14px;color:var(--ink)}.rt .rItems input{width:20px;height:20px;accent-color:var(--accent)}.rt .rToday{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.rt .rN{display:block}.rt .vform > .row{grid-column:1/-1}.rt .rN .vform{margin-top:4px}
@@ -269,6 +273,8 @@
           return `<fieldset class="nGrp" aria-label="${t.replace(/^\S+ /, '')}"><label class="chk"><input type="checkbox" name="${k}_on"${sc.active ? ' checked' : ''}> <b>${t}</b></label><span class="muted" style="font-size:12px">${sub}</span>
           <label>A cada<select name="${k}_every">${[60, 90, 120, 180, 240, 360].map(m => `<option value="${m}"${m === ev ? ' selected' : ''}>${m === 90 ? '1,5' : m / 60} h</option>`).join('')}</select></label>
           <label>Das<input type="time" name="${k}_from" value="${esc(sc.from || def.from)}"></label><label>Às<input type="time" name="${k}_to" value="${esc(sc.to || def.to)}"></label></fieldset>`; }).join('')}
+        <fieldset class="nGrp" aria-label="Alerta no celular (Pushover)"><b>📣 Alerta no celular (app Pushover)</b><span class="muted" style="font-size:12px">Além do aviso normal. <b>Crítico</b> toca mesmo no silencioso; <b>insistente</b> repete a cada minuto (até 30 min) até você responder aqui no app ou tocar em "Acknowledge".</span>
+          ${PO_KINDS.map(([k, t]) => { const v = (ncfg.pushover || {})[k] || PO_PADRAO[k]; return `<label>${t}<select name="po_${k}">${PO_NIVEIS.map(([o, ot]) => `<option value="${o}"${o === v ? ' selected' : ''}>${ot}</option>`).join('')}</select></label>`; }).join('')}</fieldset>
         <div class="row"><button type="submit">Salvar notificações</button></div>
       </form>
     </section>
@@ -396,7 +402,8 @@
     if (f.id === 'aNotif') {
       ev.preventDefault();
       try {
-        await fb.fs.collection('meta').doc('notificacoes').set({ med: f.med.checked, compra: f.compra.checked, consulta: f.consulta.checked, at: Date.now(), by: me() });
+        await fb.fs.collection('meta').doc('notificacoes').set({ med: f.med.checked, compra: f.compra.checked, consulta: f.consulta.checked,
+          pushover: Object.fromEntries(PO_KINDS.map(([k]) => [k, f['po_' + k].value])), at: Date.now(), by: me() });
         for (const [k, label] of [['decubito', 'Troca de decúbito'], ['agua', 'Oferecer água']]) {
           await fb.fs.collection('schedule').doc(k).set({ kind: k, label, times: [], every: +f[k + '_every'].value, from: f[k + '_from'].value || '08:00', to: f[k + '_to'].value || '22:00', active: f[k + '_on'].checked, by: me(), at: Date.now() }, { merge: true });
         }

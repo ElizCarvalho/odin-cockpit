@@ -130,6 +130,11 @@ export class Admin {
     this.notificacoes = page.getByRole('region', { name: 'Notificações' })
   }
   tipo(nome) { return this.notificacoes.getByRole('group', { name: nome }) }
+  alertaCelular(tipo) { return this.tipo('Alerta no celular (Pushover)').getByRole('combobox', { name: new RegExp(tipo) }) }
+  async alertaNoCelular(tipo, nivel) {
+    await this.alertaCelular(tipo).selectOption({ label: nivel })
+    await this.notificacoes.getByRole('button', { name: 'Salvar notificações' }).click()
+  }
   async configurar({ ligar = [], desligar = [] }) {
     for (const n of desligar) await this.notificacoes.getByRole('checkbox', { name: new RegExp(n) }).uncheck()
     for (const n of ligar) await this.tipo(n).getByRole('checkbox', { name: new RegExp(n) }).check()

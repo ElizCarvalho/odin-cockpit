@@ -7,6 +7,8 @@
 | `FIREBASE_SERVICE_ACCOUNT` | Deploy e export do Firestore | Os dois Actions |
 | `ANTHROPIC_API_KEY` | Leitura automática (função `registrar`) | Escrita em `functions/.env` no deploy |
 | `GH_DISPATCH_TOKEN` | O `tick` dispara a publicação do site. É um token fine-grained, só neste repo, com "Actions: read and write" e validade de 1 ano | Escrita em `functions/.env` no deploy |
+| `PUSHOVER_TOKEN` | Token do application "Odin" no Pushover (alerta crítico no celular) | Escrita em `functions/.env` no deploy |
+| `PUSHOVER_USER` | User key da Elis no Pushover | Escrita em `functions/.env` no deploy |
 
 Nunca colar chave no chat nem em arquivo versionado. O `npm run check` procura vazamentos.
 

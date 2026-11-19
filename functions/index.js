@@ -57,7 +57,46 @@ export function isDue(s, date, hm) {
   return false;
 }
 
-async function push(notifId, n, again) {
+/* ---------- Pushover: alerta crítico no iPhone (passa por cima do silencioso) ---------- */
+// Nível por tipo, escolhido no Admin: desligado · normal · critico (prioridade 1) · insistente (2: repete até tocar em "Acknowledge").
+export const PUSHOVER_PADRAO = { med: 'critico', consulta: 'critico', decubito: 'normal', agua: 'normal', compra: 'normal', temp: 'normal', comida: 'normal', outro: 'normal' };
+export function pushoverPrioridade(kind, cfg = {}) {
+  const lv = (cfg.pushover || {})[kind] || PUSHOVER_PADRAO[kind] || 'normal';
+  const P = { desligado: null, normal: 0, critico: 1, insistente: 2 };
+  return lv in P ? P[lv] : 0;
+}
+export function pushoverMensagem(notifId, n, again, prio) {
+  const k = KIND[n.kind] || KIND.outro;
+  const m = {
+    title: `${k.emoji} ${again ? 'Ainda pendente: ' : ''}${k.title} · ${n.time}`,
+    message: Array.isArray(n.items) && n.items.length ? n.items.map(i => i.name + (i.dose ? ' ' + i.dose : '')).join(' · ') : (n.label || k.title),
+    priority: prio, url: `${APP_URL}/?n=${encodeURIComponent(notifId)}#rotina`, url_title: 'Abrir no Cockpit'
+  };
+  if (prio === 2) Object.assign(m, { retry: 60, expire: 1800, tags: notifId.replace(/[^\w-]/g, '_') }); // repete a cada 1 min por até 30 min
+  return m;
+}
+async function pushover(notifId, n, again, cfg) {
+  const token = process.env.PUSHOVER_TOKEN, user = process.env.PUSHOVER_USER;
+  if (!token || !user) return;
+  const prio = pushoverPrioridade(n.kind || 'outro', cfg);
+  if (prio == null) return;
+  try {
+    const r = await fetch('https://api.pushover.net/1/messages.json', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ token, user, ...pushoverMensagem(notifId, n, again, prio) }) });
+    if (!r.ok) console.error('pushover:', r.status, (await r.text()).slice(0, 200));
+    else if (prio === 2) await db.collection('notifs').doc(notifId).set({ pushoverTag: notifId.replace(/[^\w-]/g, '_') }, { merge: true });
+  } catch (e) { console.error('pushover:', e.message); }
+}
+// Respondeu no app (feito/pulei/visto): para o alarme insistente no celular.
+async function pararPushover(tag) {
+  const token = process.env.PUSHOVER_TOKEN;
+  if (!token || !tag) return;
+  const r = await fetch(`https://api.pushover.net/1/receipts/cancel_by_tag/${encodeURIComponent(tag)}.json`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token }) });
+  if (!r.ok) console.error('pushover cancel:', r.status);
+}
+
+async function push(notifId, n, again, cfg = {}) {
+  await pushover(notifId, n, again, cfg);
   const [toks, acl] = await Promise.all([db.collection('tokens').get(), db.collection('acl').doc('users').get()]);
   const a = acl.data() || {}, emails = a.emails || [], notify = a.notify || {};
   const list = toks.docs.filter(d => { const e = d.data().email; return emails.includes(e) && notify[e] !== false; }).map(d => d.id);
@@ -148,7 +187,7 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     }
     if (n.kind === 'decubito') { n.suggest = proximoLado(await ladosRecentes(date)); n.label = `Troca de decúbito · agora: ${n.suggest}`; }
     try { await db.collection('notifs').doc(id).create(n); } catch { continue; } // já criado
-    await push(id, n, false);
+    await push(id, n, false, cfg);
   }
   // compromissos agendados (consulta, fisioterapia, coleta…): lembrete X minutos antes
   const appts = await db.collection('events').where('kind', '==', 'consulta').get();
@@ -159,7 +198,7 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     const nid = `appt_${doc.id}`, quando = e.date === date ? 'hoje' : 'amanhã';
     const n = { kind: 'consulta', label: e.text, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: true, note: `${quando}${e.time ? ' às ' + e.time : ''}` };
     try { await db.collection('notifs').doc(nid).create(n); } catch { continue; }
-    await push(nid, { ...n, items: [{ name: e.text, dose: '— ' + n.note }] }, false);
+    await push(nid, { ...n, items: [{ name: e.text, dose: '— ' + n.note }] }, false, cfg);
   }
   // estoque: uma vez por dia, avisa quem precisa comprar
   if (hm === '10:00' && cfg.compra !== false) {
@@ -173,7 +212,7 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
         note: left < 0 ? 'o estoque já acabou' : `o estoque acaba por volta de ${dmBr(end)} (${left} dia${left === 1 ? '' : 's'})` };
       try { await db.collection('notifs').doc(nid).create(n); } catch { continue; }
       await db.collection('meds').doc(id).update({ 'stock.alertedFor': end });
-      await push(nid, { ...n, items: [{ name: m.name, dose: '— ' + n.note }] }, false);
+      await push(nid, { ...n, items: [{ name: m.name, dose: '— ' + n.note }] }, false, cfg);
     }
   }
   const limit = Date.now() - RENOTIFY_MIN * 60e3;
@@ -182,7 +221,7 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     const n = doc.data();
     if (n.renotified || !n.sentAt || n.sentAt > limit) continue;
     await doc.ref.update({ renotified: true });
-    await push(doc.id, n, true);
+    await push(doc.id, n, true, cfg);
   }
   try { await publicarSeMudou(); } catch (e) { console.error('publicar site:', e.message); }
 });
@@ -197,6 +236,11 @@ const MIN_GAP_MS = 10 * 60e3; // e no máximo um envio a cada 10 min
 // Toda escrita numa coleção pública marca o site como "desatualizado".
 export const marcarSitePublico = onDocumentWritten({ document: '{col}/{id}', memory: '256MiB' }, async ev => {
   const { col, id } = ev.params;
+  if (col === 'notifs') {
+    const a = ev.data?.before?.data(), b = ev.data?.after?.data();
+    if (a && b && b.pushoverTag && a.status === 'pending' && b.status !== 'pending') await pararPushover(b.pushoverTag).catch(e => console.error(e.message));
+    return;
+  }
   if (!isPublicDoc(col, id)) return;
   await db.doc('meta/publico').set({ dirtyAt: Date.now() }, { merge: true });
 });

@@ -47,10 +47,14 @@ jobs:
         env:
           ANTHROPIC_API_KEY: '${{ secrets.ANTHROPIC_API_KEY }}'
           GH_DISPATCH_TOKEN: '${{ secrets.GH_DISPATCH_TOKEN }}'
+          PUSHOVER_TOKEN: '${{ secrets.PUSHOVER_TOKEN }}'
+          PUSHOVER_USER: '${{ secrets.PUSHOVER_USER }}'
         run: |
           : > functions/.env
           if [ -n "$ANTHROPIC_API_KEY" ]; then printf 'ANTHROPIC_API_KEY=%s\n' "$ANTHROPIC_API_KEY" >> functions/.env; fi
           if [ -n "$GH_DISPATCH_TOKEN" ]; then printf 'GH_DISPATCH_TOKEN=%s\n' "$GH_DISPATCH_TOKEN" >> functions/.env; fi
+          if [ -n "$PUSHOVER_TOKEN" ]; then printf 'PUSHOVER_TOKEN=%s\n' "$PUSHOVER_TOKEN" >> functions/.env; fi
+          if [ -n "$PUSHOVER_USER" ]; then printf 'PUSHOVER_USER=%s\n' "$PUSHOVER_USER" >> functions/.env; fi
       - uses: google-github-actions/auth@v2
         with: { credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' }
       - name: Deploy

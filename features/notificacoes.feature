@@ -17,3 +17,12 @@ Funcionalidade: Escolher o que vira notificação
     Quando eu desligo os avisos de compra de remédio
     E eu volto mais tarde à administração
     Então os avisos de compra de remédio continuam desligados
+
+  Cenário: Escolher quão alto cada aviso toca no celular fica guardado
+    Ilustração: remédio "insistente" (repete até eu responder); água continua "normal".
+    Dado que eu administro o app
+    E eu estou na administração
+    Quando eu deixo o alerta de remédios no celular como insistente
+    E eu volto mais tarde à administração
+    Então o alerta de remédios no celular continua insistente
+    E o alerta de água no celular continua normal
