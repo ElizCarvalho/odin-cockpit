@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-19T02:54:47.204Z",
- "updatedAt": 1795056646411,
+ "exportedAt": "2026-11-19T13:09:16.511Z",
+ "updatedAt": 1795093458799,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -3317,6 +3317,15 @@
    "water_ml": null
   },
   {
+   "id": "wkA6ZhuNYc7jT9I2ppry",
+   "date": "2026-11-19",
+   "time": "10:01",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 187.2
+  },
+  {
    "id": "xJR8Zq9IWXcoxG3S9gmo",
    "date": "2026-11-18",
    "time": "10:00",
@@ -3331,6 +3340,15 @@
    "time": "21:13",
    "temp": 39.4,
    "note": "medida ~30 min antes da das 21:43"
+  },
+  {
+   "id": "ymfnX8q8ZIlQ1w3MnQBO",
+   "date": "2026-11-19",
+   "time": "10:04",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
+   "foodId": "racao",
+   "food_g": 75
   }
  ],
  "foods": [

@@ -1226,7 +1226,7 @@ function tlItems() {
       sub: flags.length ? 'Fora da referência: ' + flags.slice(0, 5).join(', ') + (flags.length > 5 ? ` e mais ${flags.length - 5}` : '') : (e.other || []).join('; ') });
   }
   for (const m of meds) {
-    if (m.start) out.push({ date: m.start, kind: 'Medicamento', med: 'start', name: m.name, allergy: m.allergy });
+    if (m.start && !neverStarted(m)) out.push({ date: m.start, kind: 'Medicamento', med: 'start', name: m.name, allergy: m.allergy });
     if (m.end && m.end <= todayIso()) out.push({ date: m.end, kind: 'Medicamento', med: 'end', name: m.name, allergy: m.allergy });
   }
   for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', text: `${v.kind}: ${v.product}` });
@@ -1836,6 +1836,8 @@ const MKEY = `<div class="mkey"><span><span class="mic med sm"><svg viewBox="0 0
 function catOf(m) { const t = `${m.purpose || ''} ${m.name || ''} ${m.composition || ''}`.toLowerCase(); for (const [c, re] of CATS) if (re.test(t)) return c; return 'Outros'; }
 let medCat = 'Todos', medRange = 'all';
 const medVisible = m => medCat === 'Todos' || catOf(m) === medCat;
+// pausado antes de começar (ex.: aguardando a vet liberar): não entra no histórico como "começou"
+function neverStarted(m) { return !!m.paused && (!m.pausedAt || !m.start || m.pausedAt <= m.start); }
 function staleOf(m) { const base = m.confirmedAt || m.start; return inUse(m) && !m.end && base && dayNum(todayIso()) - dayNum(base) > 30 && !/cont[ií]nu/i.test(m.dose || ''); }
 function medDetail(m) {
   const comp = Array.isArray(m.components) && m.components.length;
@@ -2168,7 +2170,7 @@ function calItems() {
     if (l.kind === 'decubito') add(l.date, l.time, 'Decúbito', 'Troca de decúbito' + (l.side ? ' · ' + l.side : ''));
     else if (l.kind === 'med') add(l.date, l.time, 'Remédio', l.label + (l.status === 'skipped' ? ' (pulou)' : ''), { skip: l.status === 'skipped', log: l });
   }
-  for (const m of meds) { if (m.start) add(m.start, null, 'Remédio', `Começou: ${m.name}`); if (m.end && m.end <= todayIso()) add(m.end, null, 'Remédio', `Terminou: ${m.name}`); }
+  for (const m of meds) { if (m.start && !neverStarted(m)) add(m.start, null, 'Remédio', `Começou: ${m.name}`); if (m.end && m.end <= todayIso()) add(m.end, null, 'Remédio', `Terminou: ${m.name}`); }
   for (const v of prevent) if (!v.planned && v.date) add(v.date, null, 'Vacina', `${v.kind}: ${v.product}`);
   for (const p of photos) add(p.date, p.time, 'Foto', p.caption || 'Foto', { assetId: p.assetId, video: p.video });
   return out;
