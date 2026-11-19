@@ -274,7 +274,8 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
           <label>A cada<select name="${k}_every">${[60, 90, 120, 180, 240, 360].map(m => `<option value="${m}"${m === ev ? ' selected' : ''}>${m === 90 ? '1,5' : m / 60} h</option>`).join('')}</select></label>
           <label>Das<input type="time" name="${k}_from" value="${esc(sc.from || def.from)}"></label><label>Às<input type="time" name="${k}_to" value="${esc(sc.to || def.to)}"></label></fieldset>`; }).join('')}
         <fieldset class="nGrp" aria-label="Alerta no celular (Pushover)"><b>📣 Alerta no celular (app Pushover)</b><span class="muted" style="font-size:12px">Além do aviso normal. <b>Crítico</b> toca mesmo no silencioso; <b>insistente</b> repete a cada minuto (até 30 min) até você responder aqui no app ou tocar em "Acknowledge".</span>
-          ${PO_KINDS.map(([k, t]) => { const v = (ncfg.pushover || {})[k] || PO_PADRAO[k]; return `<label>${t}<select name="po_${k}">${PO_NIVEIS.map(([o, ot]) => `<option value="${o}"${o === v ? ' selected' : ''}>${ot}</option>`).join('')}</select></label>`; }).join('')}</fieldset>
+          ${PO_KINDS.map(([k, t]) => { const v = (ncfg.pushover || {})[k] || PO_PADRAO[k]; return `<label>${t}<select name="po_${k}">${PO_NIVEIS.map(([o, ot]) => `<option value="${o}"${o === v ? ' selected' : ''}>${ot}</option>`).join('')}</select></label>`; }).join('')}
+          <div class="row"><button type="button" class="ghost" data-potest>Testar alerta crítico no celular</button></div></fieldset>
         <div class="row"><button type="submit">Salvar notificações</button></div>
       </form>
     </section>
@@ -464,6 +465,12 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
     if (t.id === 'rPush') enablePush(t);
     if (t.matches('[data-foodseed]')) { t.disabled = true; for (const x of FOOD_DEFAULTS) { const { id, ...d } = x; await fb.fs.collection('foods').doc(id).set(d); } }
     if (t.matches('[data-goalsclr]')) await fb.fs.collection('meta').doc('goals').delete();
+    if (t.matches('[data-potest]')) {
+      const f = t.closest('form'); t.disabled = true;
+      try { if (!fb.fn || !fb.fn.httpsCallable) throw new Error('teste indisponível aqui');
+        await fb.fn.httpsCallable('testarAlerta')({ nivel: 'critico' }); say(f, 'Alerta de teste enviado ✓ — deve tocar no celular em segundos'); }
+      catch (x) { say(f, x.message); } finally { t.disabled = false; }
+    }
   });
 
   /* ---------- Dados ---------- */

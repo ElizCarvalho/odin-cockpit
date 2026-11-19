@@ -274,6 +274,22 @@ async function canEdit(email) {
   return (d.emails || []).includes(e) && ['admin', 'edit'].includes((d.roles || {})[e]);
 }
 
+// Botão "Testar no celular" do Admin: manda um alerta de teste no nível escolhido.
+export const testarAlerta = onCall({ timeoutSeconds: 30, memory: '256MiB' }, async req => {
+  const t = req.auth && req.auth.token;
+  if (!t || !t.email_verified || !(await canEdit(t.email))) throw new HttpsError('permission-denied', 'sem acesso');
+  const token = process.env.PUSHOVER_TOKEN, user = process.env.PUSHOVER_USER;
+  if (!token || !user) throw new HttpsError('failed-precondition', 'Pushover não configurado (faltam PUSHOVER_TOKEN/PUSHOVER_USER)');
+  const nivel = ['normal', 'critico', 'insistente'].includes(req.data && req.data.nivel) ? req.data.nivel : 'critico';
+  const prio = { normal: 0, critico: 1, insistente: 2 }[nivel];
+  const msg = pushoverMensagem('teste_' + Date.now(), { kind: 'outro', time: nowSP().hm, label: `Teste de alerta ${nivel} — se tocou, tá funcionando 💛` }, false, prio);
+  if (prio === 2) msg.expire = 180; // teste insistente: no máximo 3 min
+  const r = await fetch('https://api.pushover.net/1/messages.json', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token, user, ...msg }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new HttpsError('internal', 'Pushover recusou: ' + ((j.errors || []).join('; ') || r.status));
+  return { ok: true, nivel };
+});
+
 // Lê texto/imagens com a IA da Anthropic e devolve o texto da resposta (o app faz o parse do JSON).
 export const registrar = onCall({ timeoutSeconds: 120, memory: '512MiB' }, async req => {
   const t = req.auth && req.auth.token;
