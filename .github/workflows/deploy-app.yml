@@ -24,15 +24,23 @@ concurrency: { group: deploy-app, cancel-in-progress: false }
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
+      - name: Cache dos navegadores do Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Dependências
+        timeout-minutes: 8
         run: |
           npm ci
           npm ci --prefix functions
-          npx playwright install --with-deps chromium webkit
+          npx playwright install chromium webkit
+          npx playwright install-deps chromium webkit
       - name: Validação (mesmo check de antes do commit)
         run: npm run check
       - name: Chaves das funções (se existirem)
