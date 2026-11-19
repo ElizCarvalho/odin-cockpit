@@ -221,3 +221,12 @@ Then('todo o conteúdo da página está dentro do cabeçalho, do menu ou de uma 
     .map(n => (n.textContent || '').trim().slice(0, 40)))
   expect(soltos).toEqual([])
 })
+
+Given('que um suplemento foi pausado antes de começar', async function () {
+  await this.page.evaluate(t => db.collection('meds').doc('m9').set({ name: 'Suplemento em espera', start: t, paused: true, pausedAt: t, pauseReason: 'aguardando a neuro', dose: '8 g' }), today)
+  await expect(this.medicamentos.remedio('Pausados', 'Suplemento em espera')).toBeVisible()
+})
+When('eu abro o histórico', async function () { await this.nav.abrir('Histórico', 'Linha do tempo') })
+Then('ele não aparece no histórico como começado', async function () {
+  await expect(this.page.getByRole('tabpanel').filter({ visible: true })).not.toContainText('Suplemento em espera')
+})

@@ -21,3 +21,9 @@ Funcionalidade: Medicamentos sem poluição
     Quando eu retomo esse remédio
     Então ele volta para os remédios em uso
     E o histórico dele mostra a pausa
+
+  Cenário: Suplemento pausado antes de começar não aparece no histórico como começado
+    Ilustração: Spirulina e Happy Bones, pausados "aguardando a neuro" antes da primeira dose.
+    Dado que um suplemento foi pausado antes de começar
+    Quando eu abro o histórico
+    Então ele não aparece no histórico como começado
