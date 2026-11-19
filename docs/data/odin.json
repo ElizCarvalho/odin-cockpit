@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-19T13:09:16.511Z",
- "updatedAt": 1795093458799,
+ "exportedAt": "2026-11-19T14:10:17.490Z",
+ "updatedAt": 1795097151927,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -97,6 +97,17 @@
    "lab": "Em casa",
    "params": {
     "peso": 18.9
+   },
+   "other": []
+  },
+  {
+   "id": "Qbe9JQAZXghoNGxQC1HA",
+   "date": "2026-11-19",
+   "time": "09:15",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "params": {
+    "peso": 19.4
    },
    "other": []
   },
@@ -2574,6 +2585,14 @@
    "food_g": 388.4
   },
   {
+   "id": "34l1u00X5jnK5qyWeiZN",
+   "date": "2026-11-19",
+   "time": "11:00",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural"
+  },
+  {
    "id": "3j19hM4WPfoGj1g3Ncht",
    "date": "2026-11-18",
    "time": "11:37",
@@ -2594,6 +2613,13 @@
    "date": "2026-11-17",
    "time": "20:30",
    "temp": 39.6,
+   "note": ""
+  },
+  {
+   "id": "IbOTb9sY9DZAjp2rQTzc",
+   "date": "2026-11-19",
+   "time": "08:50",
+   "temp": 39,
    "note": ""
   },
   {
