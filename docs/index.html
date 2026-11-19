@@ -1689,7 +1689,7 @@ $('evBtn').addEventListener('click', async () => {
   const date = $('evDate').value, text = $('evText').value.trim(), time = $('evTime').value || null;
   if (!date || !text) { say('Preencha a data e o que aconteceu.', 'err'); return; }
   $('evBtn').disabled = true;
-  try { await db.collection('events').add({ date, time, text, mark: $('evMark').checked, short: $('evMark').checked ? text.slice(0, 14) : '', createdAt: Date.now() }); $('evText').value = ''; $('evTime').value = ''; $('evMark').checked = false; }
+  try { await db.collection('events').add({ date, time, text, mark: $('evMark').checked, short: $('evMark').checked ? text.slice(0, 14) : '', createdAt: Date.now() }); $('evText').value = ''; $('evTime').value = ''; $('evMark').checked = false; toast('✓ Registrado: acontecimento de ' + date.split('-').reverse().slice(0, 2).join('/')); }
   catch (e) { say('Não consegui salvar: ' + (e.message || e.code), 'err'); }
   finally { $('evBtn').disabled = false; }
 });
@@ -1892,7 +1892,7 @@ function renderMeds() {
   const ae = document.activeElement, LISTS = '#medActive, #medPaused, #medPast';
   if (ae && ae.closest && ae.closest(LISTS) && /INPUT|SELECT|TEXTAREA/.test(ae.tagName)) { renderMeds.dirty = true; return; }
   const abertos = new Set([...document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', '))].filter(r => r.querySelector('details.mitem')?.open).map(r => r.dataset.mid));
-  setTimeout(() => document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', ')).forEach(r => { if (abertos.has(r.dataset.mid)) { const d = r.querySelector('details.mitem'); if (d) d.open = true; } }), 0);
+  queueMicrotask(() => document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', ')).forEach(r => { if (abertos.has(r.dataset.mid)) { const d = r.querySelector('details.mitem'); if (d) d.open = true; } })); // antes de a tela piscar
   updateMergeBar();
   $('clinicList').innerHTML = [...new Set(meds.map(m => m.clinic).filter(Boolean))].map(c => `<option value="${esc(c)}">`).join('');
   const cats = ['Todos', ...CATS.map(c => c[0]), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
@@ -1950,7 +1950,7 @@ $('mBtn').addEventListener('click', async () => {
   try {
     await db.collection('meds').add({ name, purpose: $('mPurpose').value.trim(), dose: $('mDose').value.trim(), start: $('mStart').value || null, end: $('mEnd').value || null,
       notes: $('mNotes').value.trim(), allergy: $('mAlg').checked, clinic: $('mClinic').value.trim(), composition: $('mCompo').value.trim(), components: $('mComp').value.split(/[,;+]/).map(x => x.trim()).filter(Boolean).map(name => ({ name })), createdAt: Date.now() });
-    ['mName','mPurpose','mDose','mEnd','mNotes','mComp','mClinic','mCompo'].forEach(id => $(id).value = ''); $('mAlg').checked = false;
+    ['mName','mPurpose','mDose','mEnd','mNotes','mComp','mClinic','mCompo'].forEach(id => $(id).value = ''); $('mAlg').checked = false; toast('✓ Medicamento cadastrado: ' + name);
   } catch (e) { alertErr(e); } finally { $('mBtn').disabled = false; }
 });
 document.addEventListener('click', async ev => {
@@ -2063,7 +2063,7 @@ $('vBtn').addEventListener('click', async () => {
   $('vBtn').disabled = true;
   const plan = $('vPlan').checked;
   try { await db.collection('prevent').add({ kind: $('vKind').value, product, planned: plan, date: plan ? null : ($('vDate').value || todayIso()), next: $('vNext').value || null, notes: $('vNotes').value.trim(), createdAt: Date.now() });
-    ['vProd','vNext','vNotes'].forEach(id => $(id).value = ''); $('vPlan').checked = false; }
+    ['vProd','vNext','vNotes'].forEach(id => $(id).value = ''); $('vPlan').checked = false; toast('✓ Registrado: ' + product); }
   catch (e) { alertErr(e); } finally { $('vBtn').disabled = false; }
 });
 document.addEventListener('click', async ev => {
@@ -2347,7 +2347,7 @@ document.addEventListener('click', async ev => {
   const f = $('regPeso'), g = k => f.querySelector(`[data-w="${k}"]`).value, kg = num(g('kg')), date = g('date');
   if (!date || !kg) { toast('Preencha a data e o peso.', 'err'); return; }
   ev.target.disabled = true;
-  try { await db.collection('exams').add({ date, time: g('time') || null, kind: 'Pesagem', lab: g('where').trim() || 'Em casa', params: { peso: kg }, other: [], createdAt: Date.now() }); f.querySelector('[data-w="kg"]').value = ''; toast('Peso anotado ✓'); }
+  try { await db.collection('exams').add({ date, time: g('time') || null, kind: 'Pesagem', lab: g('where').trim() || 'Em casa', params: { peso: kg }, other: [], createdAt: Date.now() }); ['kg', 'time', 'where'].forEach(k => { f.querySelector(`[data-w="${k}"]`).value = ''; }); toast('✓ Registrado: peso ' + String(kg).replace('.', ',') + ' kg'); }
   catch (e) { toast('Não consegui salvar: ' + (e.message || e.code), 'err'); }
   ev.target.disabled = false;
 });

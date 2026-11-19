@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-19T02:04:48.733Z",
- "updatedAt": 1795053615567,
+ "exportedAt": "2026-11-19T02:54:47.204Z",
+ "updatedAt": 1795056646411,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1157,6 +1157,18 @@
    "text": "Saiu o resultado do hemograma e da bioquímica coletados hoje (Alpha Labs)"
   },
   {
+   "id": "mugMDEdlAkAD6f2IcVR8",
+   "date": "2026-11-18",
+   "time": "23:04",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "pastosa",
+    "cor": "marrom"
+   },
+   "text": "Fezes pastosa, marrom.",
+   "mark": false
+  },
+  {
    "id": "nG3aIx3WOZNjuc9lbgdJ",
    "date": "2026-11-17",
    "mark": false,
@@ -1539,6 +1551,11 @@
    "id": "9onzngmkdojufprewkue",
    "text": "## O que mudou\n- **Peso: 17,5 kg** (era 18,87 kg na alta, 16/11). Perdeu cerca de 1,4 kg em 1 dia. Pode ser diferença de balança (casa vs. clínica), mas a tendência é de queda contínua: 27 kg em setembro, 21 kg em 08/11, 17,5 kg agora.\n- **Temperatura: 38,1 °C**, normal (ref. 37,5–39,2). Sem febre, o que é bom.\n\n## Tendência geral\n- O peso segue caindo, e isso combina com a perda de massa muscular que você já vinha notando. Mesmo comendo bem, ele ainda está gastando mais do que ganha (a cinomose e a mioclonia aumentam o gasto de energia).\n- A temperatura estável vai na linha do hemograma de 16/11, que não mostrou sinal forte de infecção.\n- O hematócrito (proporção de glóbulos vermelhos no sangue) caiu de 29,8% para 26% entre 14 e 16/11. A clínica falou em nova transfusão se ficar **abaixo de 15%**. Parte da queda pode ser da coleta (agregados de plaquetas), por isso o controle é importante.\n\n## Perguntas pra levar à vet\n- Essa queda de peso é só balança ou preocupa? Precisa ajustar a quantidade de comida ou o suporte nutricional pra recuperar massa?\n- Quando repetir o hemograma? **Vale fazer logo**, já que o hematócrito vinha caindo.\n- O sangramento depois de tirar a sonda urinária é esperado? Ele já está urinando sozinho? Se não esvaziar a bexiga, falar com a clínica logo.\n- Fezes escuras e amolecidas: preciso me preocupar? Quando voltar a ter fezes pretas, avisar na hora.\n- Receita nova do fenobarbital: **ele só tem o comprimido de ontem à noite**, então isso é urgente. Falar com a neurologista hoje pra não ficar sem a dose.\n\nSe ele ficar pálido, muito mole, com fezes pretas ou convulsão, ligue pra clínica na hora.",
    "createdAt": 1794926001604
+  },
+  {
+   "id": "G8XfDnq6ATZnuZLDZUNX",
+   "text": "## O que mudou\n- **Anemia:** o hematócrito (% de sangue ocupado por glóbulos vermelhos) saiu de 12% (08/11) para uns 26% após a transfusão. De 16/11 pra 18/11 ficou parecido, ou seja, segurou.\n- **Reticulócitos** (glóbulos vermelhos novos que a medula produz): estavam altos em 08/11 e agora estão **muito baixos (0,1%)**. A medula não está respondendo agora.\n- **Infecção/inflamação:** leucócitos bem menores que em outubro (50 mil → 17 mil). Linfócitos subiram. A globulina está alta (5,3), o que costuma indicar inflamação crônica.\n- **Fígado, rim e eletrólitos:** sem alarme. Ureia, creatinina, ALT e fosfatase alcalina estão dentro da referência ou perto dela.\n- **Peso:** de 27 kg (22/09) para ~18,9 kg. A perda de massa é grande.\n\n## Tendência geral\n- Está **melhor que na internação**: sem convulsão, comendo sozinho, parâmetros estáveis.\n- O ponto de atenção é a **medula parada**. Pode ter relação com a doença, com o pós-transfusão ou com outra causa. Só a vet pode dizer.\n- Os agregados de plaquetas e a hemólise na amostra atrapalham a leitura de alguns valores.\n- Ainda faltam o **PCR de cinomose** e o **fenobarbital**.\n\n## Perguntas pra levar à vet\n- Reticulócitos tão baixos: vale investigar a medula? Em quanto tempo repetir o hemograma?\n- Quando o hematócrito cai pra precisar de nova transfusão? **Se a gengiva ficar branca, ele ficar mole ou as fezes pretas voltarem, fale com a equipe na hora.**\n- As fezes escuras podem ser do ferro ou precisam de investigação?\n- Como lidar com a bexiga, já que ele ainda não urina sozinho? Precisa de exame de urina?\n- A febre de 17/11 e a dipirona: o que monitorar?\n- Qual a melhor estratégia pra recuperar massa muscular?",
+   "createdAt": 1795056644968
   },
   {
    "id": "MlP4kw2uAoeyk4yLIp28",
