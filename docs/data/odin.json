@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-19T00:34:35.682Z",
+ "exportedAt": "2026-11-19T00:48:05.359Z",
  "updatedAt": 1795045233247,
  "exams": [
   {
@@ -1631,7 +1631,6 @@
    "id": "0brLnf09agm5aXOnef3c",
    "name": "Dipirona líquida",
    "purpose": "Estado febril",
-   "dose": "0,8 mL (líquido, em vez de comprimido, ajustado ao peso)",
    "start": "2026-11-17",
    "end": null,
    "endEstimated": false,
@@ -1639,7 +1638,8 @@
    "allergy": false,
    "clinic": "",
    "composition": "Dipirona",
-   "components": []
+   "components": [],
+   "dose": "0,8 mL VO a cada 12h, só em caso de febre (receita de 17/11)"
   },
   {
    "id": "0v5llg0vglvnd4qo2bsq",
@@ -1910,17 +1910,28 @@
    "start": "2026-10-15"
   },
   {
+   "id": "biosan20261117",
+   "name": "Biosan Flora B12 (probiótico)",
+   "kind": "sup",
+   "purpose": "Probiótico (flora intestinal)",
+   "start": "2026-11-17",
+   "end": "2026-11-23",
+   "dose": "3 g VO (pela seringa) 1x ao dia por 7 dias",
+   "form": "seringa",
+   "notes": "Começou em 17/11. 7 dias, até 23/11. Seringa de 14 g: depois das doses de 17 e 18/11 sobram ~8 g (dá pra 19 e 20/11)."
+  },
+  {
    "id": "bkqynjd32t53e35km2bu",
    "allergy": false,
    "clinic": "Vetreabilite (neuro)",
    "composition": "óleo de peixe (EPA + DHA), cápsula de 1000 mg",
-   "dose": "1 cápsula VO 1x ao dia, uso contínuo",
-   "end": null,
    "endEstimated": false,
    "name": "Ômega 3 1000",
    "notes": "receita da neuro",
    "purpose": "suporte",
-   "start": "2026-11-05"
+   "start": "2026-11-05",
+   "dose": "1 cápsula VO 1x ao dia por 30 dias (receita de 17/11)",
+   "end": "2026-12-16"
   },
   {
    "id": "cino1",
@@ -2012,9 +2023,9 @@
    "name": "Tobramicina colírio",
    "purpose": "olhos (antibiótico)",
    "start": "2026-11-08",
-   "dose": "1 gota em cada olho a cada 12h por 10 dias",
    "notes": "Rio Vet; receita de alta. Recomeçado em 17/11 (não há certeza das aplicações na internação). Frasco novo de 5 mL comprado em 17/11.",
-   "end": "2026-11-26"
+   "dose": "1 gota em cada olho a cada 8h por 7 dias (receita de 17/11; antes era a cada 12h)",
+   "end": "2026-11-23"
   },
   {
    "id": "f3m7ry49y98zd0kwae8z",
@@ -2055,16 +2066,14 @@
    "allergy": false,
    "clinic": "Animalis",
    "composition": "vitamina C (Vetnil)",
-   "dose": "2 mL VO 1x ao dia, uso contínuo",
-   "end": null,
    "endEstimated": false,
    "name": "Vitavet C (vitamina C)",
    "purpose": "anemia",
-   "paused": true,
-   "pauseReason": "aguardando a neuro (muitos suplementos com a mesma função); ainda não começou",
-   "pausedAt": "2026-11-17",
-   "notes": "Orientação da Animalis (04/11); nunca chegou a tomar. Frasco cheio de 30 mL.",
-   "start": "2026-11-18"
+   "dose": "2 mL VO 1x ao dia por 30 dias",
+   "paused": false,
+   "start": "2026-11-17",
+   "end": "2026-12-16",
+   "notes": "Na receita de 17/11: 2 mL 1x/dia por 30 dias. Começou em 17/11 à noite (até 16/12)."
   },
   {
    "id": "gd1n844g7r9nrfr9oha1",
@@ -2284,12 +2293,12 @@
   {
    "id": "promunboost20261118",
    "name": "Promun Defense Boost Dog",
-   "dose": "1 seringa (3 mL) VO 1x por semana, uso contínuo",
    "start": "2026-11-18",
    "clinic": "Tododoy",
    "purpose": "Imunidade",
-   "notes": "Já tinha tomado umas 5 doses antes. Estoque: 1 seringa em 17/11.",
-   "form": "seringa"
+   "form": "seringa",
+   "dose": "3 mL VO 1x ao dia por 3 dias (18, 19 e 20/11); depois 3 mL 1x a cada 7 dias (receita de 17/11)",
+   "notes": "Receita de 17/11: 3 mL por 3 dias e depois 1x (3 mL) a cada 7 dias. 1ª dose em 18/11."
   },
   {
    "id": "qemqhelh6fjm9q6x4mxq",
@@ -2585,6 +2594,12 @@
    "qty": 6,
    "unit": "un",
    "food_g": 60
+  },
+  {
+   "id": "XpZiQNnUJTzKNM28kz1v",
+   "date": "2026-11-18",
+   "time": "21:43",
+   "temp": 39.2
   },
   {
    "id": "c20261117-0031-petisco",
@@ -3265,6 +3280,13 @@
    "note": "Pet Delícia Hipercalórica (úmida)",
    "foodId": "petdelicia",
    "food_g": 161.9
+  },
+  {
+   "id": "yOF1CrtnhjsKEOqemYTS",
+   "date": "2026-11-18",
+   "time": "21:13",
+   "temp": 39.4,
+   "note": "medida ~30 min antes da das 21:43"
   }
  ],
  "foods": [
