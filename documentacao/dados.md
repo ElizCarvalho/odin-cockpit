@@ -8,7 +8,8 @@ Todas as coleções ficam na raiz. A regra geral (`firestore.rules`) é: **membr
 |---|---|---|---|
 | `exams` | sim | Exames e pesagens | `date`, `time`, `kind` (Hemograma, Pesagem…), `lab`, `params{ht, hb, peso, …}`, `other[]` |
 | `events` | sim | Acontecimentos, xixi/fezes, compromissos | `date`, `time`, `text`, `mark` (aparece nos gráficos), `kind` (`fezes`, `urina`, `consulta`), `remind` (min antes) |
-| `meds` | sim (sem estoque) | Medicamentos e suplementos | `name`, `dose`, `start`, `end`, `clinic`, `kind` (`med`/`sup`), `form`, `paused`, `pauseReason`, `pauses[]`, `stock{qty, unit, perDay, countedAt, lead}` |
+| `meds` | sim (sem estoque) | Medicamentos e suplementos | `name`, `dose`, `start`, `end`, `clinic`, `kind` (`med`/`sup`), `form`, `paused`, `pauseReason`, `pauses[]`, `stock{qty, unit, perDay, countedAt, lead, onList}` |
+| `supplies` | não | Estoque de comida e suprimentos (gaze, sonda, seringa, luva…) | `name`, `cat` (`comida`/`suprimento`), `qty`, `unit`, `perDay`, `countedAt`, `lead` (dias de aviso), `onList` (pus na lista), `alertedFor` |
 | `prevent` | sim | Vacinas, vermífugos, prevenção | `kind`, `product`, `date`, `next`, `plan` |
 | `vitals` | sim | Temperatura, água, comida | `date`, `time`, `temp`, `water_ml`, `drinkId`, `food_g`, `foodId`, `qty`, `unit`, `source` (`rotina`, `chat`, `manual`) |
 | `photos` | sim | Fotos e vídeos (arquivo no Storage `blobs/<assetId>`) | `assetId`, `date`, `time`, `caption`, `video` |
@@ -19,7 +20,7 @@ Todas as coleções ficam na raiz. A regra geral (`firestore.rules`) é: **membr
 | `rotina_log` | não | O que foi dado ou feito em resposta (ou fora de hora) | `date`, `time`, `kind`, `label`, `medId`, `status` (`done`/`skipped`), `block`, `side`, `note`, `planned` (quando "dei depois") |
 | `tokens` | não | Aparelhos que recebem push | id = token FCM; `email`, `ua`, `at` |
 | `acl/users` | não | Quem acessa | `emails[]`, `roles{email: admin\|edit\|view}`, `notify{email: bool}` |
-| `meta/*` | parcial | Configurações | `goals{water_ml, kcal}` (público), `status` (público), `notificacoes{med, compra, consulta}`, `publico{dirtyAt, sentAt}`, `usage` |
+| `meta/*` | parcial | Configurações | `goals{water_ml, kcal}` (público), `status` (público), `notificacoes{med, compra, consulta, pushover{tipo: desligado|normal|critico|insistente}}`, `publico{dirtyAt, sentAt}`, `usage` |
 
 ## Regras de negócio que moram no dado
 

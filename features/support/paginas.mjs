@@ -146,3 +146,29 @@ export class Lembretes {
   constructor(page) { this.page = page }
   horario(nome) { return this.page.getByRole('list', { name: 'Horários' }).getByRole('listitem', { name: new RegExp(nome) }) }
 }
+
+export class Estoque {
+  constructor(page) {
+    this.page = page
+    this.compras = page.getByRole('list', { name: 'Pra comprar' })
+  }
+  naLista(nome) { return this.compras.getByRole('listitem', { name: nome }) }
+  item(grupo, nome) { return this.page.getByRole('list', { name: grupo }).getByRole('listitem', { name: nome }) }
+  async contar(grupo, nome, { qtd, porDia }) {
+    const it = this.item(grupo, nome)
+    await it.getByText(/contar/).click()
+    const f = it.getByRole('form', { name: 'Contar ' + nome })
+    await f.getByLabel('Quanto tem agora').fill(String(qtd))
+    if (porDia != null) await f.getByLabel('Gasta por dia').fill(String(porDia))
+    await f.getByRole('button', { name: 'salvar contagem' }).click()
+  }
+  async cadastrar({ nome, tipo, qtd, unidade, porDia }) {
+    const f = this.page.getByRole('form', { name: 'Novo item de estoque' })
+    await f.getByLabel('Nome').fill(nome)
+    await f.getByLabel('Tipo').selectOption(tipo)
+    await f.getByLabel('Quanto tem').fill(String(qtd))
+    await f.getByLabel('Unidade').fill(unidade)
+    await f.getByLabel('Gasta por dia').fill(String(porDia))
+    await f.getByRole('button', { name: 'Adicionar ao estoque' }).click()
+  }
+}

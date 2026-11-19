@@ -26,16 +26,19 @@ swap('<title>Odin - Cockpit</title>', `<title>Odin - Cockpit</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Odin">`);
 swap('\n  <p class="note">Esta página organiza', '\n  <div class="panel rt" id="p-lembretes" role="tabpanel" hidden></div>\n  <div class="panel" id="p-admin" role="tabpanel" hidden></div>\n\n  <p class="note">Esta página organiza');
-swap("mais: { t: 'Mais', p: ['remedios', 'vacinas'] }", "mais: { t: 'Mais', p: ['remedios', 'vacinas', 'lembretes', 'admin'] }");
-swap("remedios: 'Medicamentos', vacinas: 'Vacinas e vermífugos' };", "remedios: 'Medicamentos', vacinas: 'Vacinas e vermífugos', lembretes: 'Lembretes', admin: 'Admin' };");
-swap('renderCalendar(); renderUpdated(); }', 'renderCalendar(); renderUpdated(); if (window.renderRotina) renderRotina(); }');
+swap('\n  <div class="panel" id="p-vacinas"', '\n  <div class="panel" id="p-estoque" role="tabpanel" hidden></div>\n\n  <div class="panel" id="p-vacinas"');
+swap("mais: { t: 'Mais', p: ['remedios', 'vacinas'] }", "mais: { t: 'Mais', p: ['remedios', 'estoque', 'vacinas', 'lembretes', 'admin'] }");
+swap("remedios: 'Medicamentos', vacinas: 'Vacinas e vermífugos' };", "remedios: 'Medicamentos', estoque: 'Estoque', vacinas: 'Vacinas e vermífugos', lembretes: 'Lembretes', admin: 'Admin' };");
+swap('<button class="regb" data-reg="vacina"><i aria-hidden="true">💉</i><span>Vacina ou vermífugo</span></button>', '<button class="regb" data-reg="vacina"><i aria-hidden="true">💉</i><span>Vacina ou vermífugo</span></button>\n      <button class="regb" data-reg="estoque"><i aria-hidden="true">🛒</i><span>Item de estoque</span></button>');
+swap('<div id="regFree" class="rt"></div>', '<div id="regFree" class="rt"></div>\n  <section class="card regbox hidden wr" data-regbox="estoque" aria-label="Item de estoque" id="regEstoque"></section>');
+swap('renderCalendar(); renderUpdated(); }', 'renderCalendar(); renderUpdated(); if (window.renderRotina) renderRotina(); if (window.renderEstoque) renderEstoque(); }');
 swap(": '/_blob/' + encodeURIComponent(id); }", ': blobUrl(id); }');
 swap("await fetch('/_blob/' + encodeURIComponent(p.assetId))", 'await fetch(await blobUrlAsync(p.assetId))');
 const libs = ['app', 'auth', 'firestore', 'storage', 'functions', 'messaging'].map(m => `<script src="${G}firebase-${m}-compat.js"></script>`).join('\n');
 swap('<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>',
   `<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>\n${libs}\n<script src="/config.js"></script>\n<script src="/shim.js"></script>`);
 const end = h.lastIndexOf('</body>');
-h = h.slice(0, end) + '<script src="/rotina.js"></script>\n' + h.slice(end);
+h = h.slice(0, end) + '<script src="/rotina.js"></script>\n<script src="/estoque.js"></script>\n' + h.slice(end);
 if (h.includes('/_blob/')) throw new Error('sobrou /_blob/ no app');
 writeFileSync(out + 'index.html', h);
 

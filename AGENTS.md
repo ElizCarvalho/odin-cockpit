@@ -24,6 +24,7 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
 |---|---|
 | Cockpit (Hoje, Registrar, Evolução, Histórico, Mais; gráficos, remédios, vacinas, fotos, linha do tempo) | `artifact/index.html`, que é a fonte única do app e do site público. A navegação está em `SECTIONS`/`go()`/`openReg()` |
 | Login, ligação com o Firebase (db, fotos, IA, ditado) | `app/src/shim.js` |
+| Estoque (Mais → Estoque: lista de compras; remédio em `meds.stock`, comida e suprimento em `supplies`; o item novo é cadastrado em Registrar) | `app/src/estoque.js` |
 | Rotina: pendentes e últimas 48 h (em Hoje), registro do dia a dia (em Registrar), Lembretes e Admin (em Mais) | `app/src/rotina.js` |
 | Ícones, manifest, service worker do push | `app/static/` |
 | Como o app é montado (injeções no cockpit) | `scripts/build-app.mjs` |

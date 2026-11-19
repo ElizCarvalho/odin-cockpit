@@ -6,7 +6,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { SEED } from '../../tests/seed.mjs';
-import { Navegacao, Hoje, Registrar, Historico, Medicamentos, Admin, Lembretes } from './paginas.mjs';
+import { Navegacao, Hoje, Registrar, Historico, Medicamentos, Admin, Lembretes, Estoque } from './paginas.mjs';
 
 setDefaultTimeout(30_000);
 const root = new URL('../..', import.meta.url).pathname;
@@ -77,7 +77,7 @@ class Mundo extends World {
     await this.page.goto(`${base}/?as=${encodeURIComponent(this.email)}${hash}`)
     await this.page.waitForFunction(() => window.ODIN_FB && document.body.classList.contains('app') && document.querySelector('.tab[data-sec=hoje]'))
     this.nav = new Navegacao(this.page); this.hoje = new Hoje(this.page); this.registrar = new Registrar(this.page)
-    this.historico = new Historico(this.page); this.medicamentos = new Medicamentos(this.page); this.admin = new Admin(this.page); this.lembretes = new Lembretes(this.page)
+    this.historico = new Historico(this.page); this.medicamentos = new Medicamentos(this.page); this.admin = new Admin(this.page); this.lembretes = new Lembretes(this.page); this.estoque = new Estoque(this.page)
   }
 }
 setWorldConstructor(Mundo);

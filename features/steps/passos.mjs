@@ -44,8 +44,8 @@ Then('eu vejo {string} sem precisar rolar para o lado', async function (parte) {
   if (await this.nav.partes.isVisible()) await expect(this.nav.parte(parte)).toHaveAttribute('aria-selected', 'true')
   expect(await this.page.evaluate(() => document.scrollingElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1)
 })
-Then('eu encontro Medicamentos, Vacinas e vermífugos, Lembretes e Admin', async function () {
-  await expect(this.nav.partes.getByRole('tab')).toHaveText(['Medicamentos', 'Vacinas e vermífugos', 'Lembretes', 'Admin'])
+Then('eu encontro Medicamentos, Estoque, Vacinas e vermífugos, Lembretes e Admin', async function () {
+  await expect(this.nav.partes.getByRole('tab')).toHaveText(['Medicamentos', 'Estoque', 'Vacinas e vermífugos', 'Lembretes', 'Admin'])
 })
 Then('eu vou para Hoje', async function () { await expect(this.nav.secao('Hoje')).toHaveAttribute('aria-selected', 'true') })
 Then('eu vejo quantos lembretes estão pendentes', async function () { await expect(this.nav.pendentes()).toHaveText(String(this.pendentes)) })
@@ -233,4 +233,31 @@ Given('que um suplemento foi pausado antes de começar', async function () {
 When('eu abro o histórico', async function () { await this.nav.abrir('Histórico', 'Linha do tempo') })
 Then('ele não aparece no histórico como começado', async function () {
   await expect(this.page.getByRole('tabpanel').filter({ visible: true })).not.toContainText('Suplemento em espera')
+})
+
+/* ---------- Estoque ---------- */
+When('eu abro o estoque', async function () { if (!this.page) await this.abrir(); await this.nav.abrir('Mais', 'Estoque') })
+Then('o remédio e a gaze aparecem na lista de compras', async function () {
+  await expect(this.estoque.naLista(MASSA.outroRemedio)).toBeVisible()
+  await expect(this.estoque.naLista('Gaze')).toBeVisible()
+})
+Then('a luva não aparece na lista de compras', async function () { await expect(this.estoque.naLista('Luva')).toHaveCount(0) })
+When('eu cadastro no estoque uma seringa que dura poucos dias', async function () {
+  await this.registrar.escolher('Item de estoque')
+  await this.estoque.cadastrar({ nome: 'Seringa 20 mL', tipo: 'suprimento', qtd: 6, unidade: 'un', porDia: 2 })
+  await expect(this.page.getByRole('status').filter({ hasText: 'Adicionado ao estoque' })).toBeVisible()
+})
+Then('a seringa aparece nos suprimentos e na lista de compras', async function () {
+  await expect(this.estoque.item('Suprimentos', 'Seringa 20 mL')).toBeVisible()
+  await expect(this.estoque.naLista('Seringa 20 mL')).toBeVisible()
+})
+When('eu conto a gaze depois de comprar mais', async function () { await this.estoque.contar('Suprimentos', 'Gaze', { qtd: 10 }) })
+Then('a gaze sai da lista de compras', async function () {
+  await expect(this.estoque.naLista('Gaze')).toHaveCount(0)
+  await expect(this.estoque.item('Suprimentos', 'Gaze')).toContainText('10 pct')
+})
+Then('eu vejo a lista de compras sem opção de contar', async function () {
+  await expect(this.estoque.naLista('Gaze')).toBeVisible()
+  await expect(this.estoque.item('Suprimentos', 'Gaze').getByRole('button')).toHaveCount(0)
+  await expect(this.page.getByRole('form', { name: 'Contar Gaze' })).toHaveCount(0)
 })

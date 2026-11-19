@@ -214,6 +214,19 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
       await db.collection('meds').doc(id).update({ 'stock.alertedFor': end });
       await push(nid, { ...n, items: [{ name: m.name, dose: '— ' + n.note }] }, false, cfg);
     }
+    // comida e suprimentos (Mais → Estoque)
+    for (const doc of (await db.collection('supplies').get()).docs) {
+      const it = doc.data(), end = stockEnd(it);
+      if (!end) continue;
+      const left = dayNum(end) - dayNum(date), lead = Number(it.lead) || 5;
+      if (left > lead || it.alertedFor === end) continue;
+      const nid = `stock_${doc.id}_${end}`, label = `Comprar ${it.name}`;
+      const n = { kind: 'compra', label, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: true,
+        note: left < 0 ? 'já deve ter acabado' : `acaba por volta de ${dmBr(end)} (${left} dia${left === 1 ? '' : 's'})` };
+      try { await db.collection('notifs').doc(nid).create(n); } catch { continue; }
+      await doc.ref.update({ alertedFor: end });
+      await push(nid, { ...n, items: [{ name: it.name, dose: '— ' + n.note }] }, false, cfg);
+    }
   }
   const limit = Date.now() - RENOTIFY_MIN * 60e3;
   const pend = await db.collection('notifs').where('status', '==', 'pending').get();

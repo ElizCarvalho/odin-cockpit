@@ -37,7 +37,7 @@ Funcionalidade: Encontrar o que preciso pelo que vim fazer
   Cenário: Mais reúne o que eu consulto de vez em quando
     Dado que eu administro o app
     Quando eu abro "Mais"
-    Então eu encontro Medicamentos, Vacinas e vermífugos, Lembretes e Admin
+    Então eu encontro Medicamentos, Estoque, Vacinas e vermífugos, Lembretes e Admin
 
   Cenário: O aviso de um lembrete me leva para o que fazer agora
     Dado que eu posso registrar os cuidados do Odin
