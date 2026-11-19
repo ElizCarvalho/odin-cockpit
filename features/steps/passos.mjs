@@ -11,8 +11,6 @@ const SECOES = ['Hoje', 'Registrar', 'Evolução', 'Histórico', 'Mais']
 const MASSA = { biscoitos: 2, cocoMl: 150, pesoKg: 19.4, consulta: 'neuro', consultaHora: '15:00', motivoPausa: 'aguardando a neuro', remedio: 'Remédio teste', outroRemedio: 'Outro em uso', blocoManha: 'Manhã', remedioAvulso: 'Remédio teste', horaDepois: '11:28' }
 
 /* ---------- Quem sou e onde estou ---------- */
-Given('que eu uso o app no celular', function () { this.largura = TELA.celular })
-Given('que eu uso o app no computador', function () { this.largura = TELA.computador })
 Given('que eu administro o app', function () { this.email = PAPEL.admin })
 Given('que eu posso registrar os cuidados do Odin', function () { this.email = PAPEL['quem edita'] })
 Given('que eu só acompanho o Odin', function () { this.email = PAPEL['quem só vê'] })
@@ -53,6 +51,14 @@ Then('eu vou para Hoje', async function () { await expect(this.nav.secao('Hoje')
 Then('eu vejo quantos lembretes estão pendentes', async function () { await expect(this.nav.pendentes()).toHaveText(String(this.pendentes)) })
 Then('eu não encontro instrução para publicar o site manualmente', async function () {
   await expect(this.page.getByRole('heading', { name: 'Publicar no site' })).toHaveCount(0)
+})
+
+Given('que eu uso o app no {word}', function (aparelho) { this.largura = TELA[aparelho] })
+Then('a contagem não fica por cima do nome da seção', async function () {
+  const b = await this.nav.pendentes().boundingBox()
+  const t = await this.nav.secao('Hoje').locator('.tn').boundingBox()
+  const sobrepoe = b.x < t.x + t.width && t.x < b.x + b.width && b.y < t.y + t.height && t.y < b.y + b.height
+  expect(sobrepoe).toBe(false)
 })
 
 /* ---------- Registrar ---------- */

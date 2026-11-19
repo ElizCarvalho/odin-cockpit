@@ -50,3 +50,16 @@ Funcionalidade: Encontrar o que preciso pelo que vim fazer
     Dado que eu administro o app
     Quando eu abro o app
     Então eu não encontro instrução para publicar o site manualmente
+
+  Esquema do Cenário: A contagem de pendentes não cobre o nome de Hoje
+    Dado que eu posso registrar os cuidados do Odin
+    E há lembretes pendentes para hoje
+    E que eu uso o app no <aparelho>
+    Quando eu abro o app
+    Então eu vejo quantos lembretes estão pendentes
+    E a contagem não fica por cima do nome da seção
+
+    Exemplos:
+      | aparelho   |
+      | celular    |
+      | computador |
