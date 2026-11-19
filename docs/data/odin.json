@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-19T15:05:46.533Z",
- "updatedAt": 1795097679337,
+ "exportedAt": "2026-11-19T15:55:52.401Z",
+ "updatedAt": 1795100860319,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -2598,6 +2598,14 @@
    "temp": null,
    "time": "05:37",
    "water_ml": 150
+  },
+  {
+   "id": "1ulS0Ru6WbysD6EH4Xu8",
+   "date": "2026-11-19",
+   "time": "12:07",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural"
   },
   {
    "id": "2Feuwp3b3WDSm5uXRKvU",
