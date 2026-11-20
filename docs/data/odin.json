@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T13:01:32.431Z",
- "updatedAt": 1795179391471,
+ "exportedAt": "2026-11-20T13:23:52.574Z",
+ "updatedAt": 1795180784000,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -3858,6 +3858,15 @@
    "video": false,
    "createdAt": 1794944408558,
    "time": "14:30"
+  },
+  {
+   "id": "CYjLhf4PV8bb9EPJTs1Z",
+   "assetId": "827d63ee-5a96-4f96-bcd0-26e8d926eab6",
+   "date": "2026-11-20",
+   "time": "09:05",
+   "caption": "Hora do sol",
+   "video": false,
+   "createdAt": 1795180781286
   },
   {
    "id": "FkftI7AE2dcQ5SBum83v",
