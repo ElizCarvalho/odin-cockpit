@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T13:46:01.010Z",
- "updatedAt": 1795182033463,
+ "exportedAt": "2026-11-20T13:59:21.588Z",
+ "updatedAt": 1795182895437,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -3682,6 +3682,14 @@
    "note": "Pet Delícia Hipercalórica (úmida)",
    "foodId": "petdelicia",
    "food_g": 161.9
+  },
+  {
+   "id": "xd7V5Mru1lkg4NMxGKqF",
+   "date": "2026-11-20",
+   "time": "10:48",
+   "water_ml": 150,
+   "drinkId": "agua",
+   "note": ""
   },
   {
    "id": "yDxJc48m6962P8z70SZb",
