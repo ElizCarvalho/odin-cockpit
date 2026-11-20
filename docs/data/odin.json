@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T01:21:39.936Z",
- "updatedAt": 1795137475479,
+ "exportedAt": "2026-11-20T01:58:50.016Z",
+ "updatedAt": 1795139699747,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1191,6 +1191,14 @@
    "time": "08:11"
   },
   {
+   "id": "efW6YbdN4Zbl0m8RQOzq",
+   "date": "2026-11-19",
+   "time": "15:00",
+   "text": "Coletada urina de Odin para urinálise, relação proteína/creatinina urinária e cultura com antibiograma.",
+   "mark": false,
+   "short": ""
+  },
+  {
    "id": "ie8vbffnkcekxc9ugz8z",
    "date": "2026-11-17",
    "mark": false,
@@ -1674,6 +1682,11 @@
    "id": "i1i1cx8gvt5w9et7rjjd",
    "text": "## O que mudou\n\nOs itens novos são o hemograma de 16/10 e as receitas (peso e prescrições). Não são resultados novos de gravidade, mas dão contexto:\n\n- **Hemograma de 16/10** é o primeiro da série: anemia leve (hematócrito 31%), leucócitos altos com muitos neutrófilos jovens (bastonetes e metamielócitos, o chamado \"desvio à esquerda\") e granulações tóxicas, sinais de inflamação/infecção intensa. Linfócitos bem baixos, comum em cinomose e com corticoide. ALT e fosfatase alcalina altas (fígado, e a dexametasona também pode elevar a fosfatase).\n- **Peso: 27 kg (16/10) para 24,75 kg (26/10)**: perda de cerca de 2,2 kg em 10 dias, coerente com a perda de massa muscular que você descreveu.\n- **Receitas de 26 e 27/10** (ribavirina, ginkgo, pentoxifilina, amantadina etc.): mostram o tratamento de suporte/neurológico planejado para a cinomose. Não são exames.\n\n## Tendência geral\n\n- Anemia leve em outubro, **piora forte em 08/11** (hematócrito 12%, regenerativa, ou seja, a medula está reagindo), transfusão e recuperação para cerca de 28–30%, estável em 14/11.\n- Leucócitos subiram até ~50 mil em 22/10, e caíram para 15,6 mil em 14/11: melhora da inflamação.\n- ALT e fosfatase caíram ao longo do tempo.\n- Plaquetas altas em 14/11 (trombocitose): pode ser reação à anemia/inflamação, vale acompanhar.\n- Cinomose confirmada no sangue e no líquor. O quadro neurológico (mioclonia, rigidez) é o ponto mais pesado.\n- Ureia alta em 09/11 com creatinina baixa: pode ter relação com sangramento digestivo (fezes pretas), corticoide ou perda muscular.\n\n## Perguntas pra levar à vet\n\n- A causa da anemia de 08/11 foi sangramento digestivo ou destruição de hemácias? Foi investigado?\n- O hematócrito segue estável sem nova queda? Quando repetir?\n- A ureia alta já foi reavaliada?\n- A trombocitose preocupa?\n- Como está o plano para a mioclonia e a alimentação por sonda?\n- As prescrições de outubro ainda valem na internação atual?\n\nSe notar fezes pretas de novo, gengivas pálidas ou piora súbita, avise a equipe na hora.",
    "createdAt": 1794759272193
+  },
+  {
+   "id": "iXSlFQnfUwr8RLUbEnaN",
+   "text": "## O que mudou\n- **19,4 kg hoje**, contra 18,9 kg ontem e 17,5 kg em 17/11. É o terceiro peso seguido subindo.\n- Cuidado com a leitura: a balança de casa é diferente da da clínica, e **bexiga cheia, hidratação e cocô** mudam o peso. Como ele ainda não urina sozinho, parte desse ganho pode ser urina retida. A subida de 17,5 pra 18,9 em um dia é grande demais pra ser só ganho real.\n\n## Tendência geral\n- Peso ao longo do tempo: 27 kg (22/09) → 24,75 → 23,5 → 21 → 18,6 (15/11). A queda foi grande, de uns **30%**, e veio junto com a perda de massa muscular.\n- Nos últimos dias parece ter **parado de cair** e estabilizado em torno de 18–19 kg. Isso combina com ele comer sozinho agora, mas só dá pra confirmar com mais pesagens.\n- **Anemia (hematócrito ~26%) e reticulócitos muito baixos** (a medula ainda não está produzindo glóbulos vermelhos) continuam sendo o ponto de atenção. Peso não mexe nisso.\n- Ficam pendentes: urinálise e cultura (coletadas hoje), PCR de cinomose e fenobarbital.\n\n## Perguntas pra levar à vet\n- Qual peso-alvo e qual ritmo de ganho são esperados nessa recuperação?\n- Vale pesar sempre no mesmo horário e na mesma balança, de preferência depois de esvaziar a bexiga?\n- Como interpretar o peso enquanto ele ainda não urina sozinho?\n- **Se o hematócrito cair perto de 15% ou ele ficar pálido e mole de novo, falar com a equipe logo.** Qual é o limite pra repetir o hemograma?\n- Com reticulócitos tão baixos, quando avaliar a medula?",
+   "createdAt": 1795139698360
   },
   {
    "id": "l3osjd3qb49ouv6rk02b",
