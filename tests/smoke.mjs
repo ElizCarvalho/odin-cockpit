@@ -132,9 +132,9 @@ try {
     check(await page.evaluate(() => !document.getElementById('medPastBox').open), 'Remédios · "Já usou" vem recolhido');
     const ic = await page.evaluate(() => [...document.querySelectorAll('#medActive .mrow')].map(r => !!r.querySelector('.mic svg')));
     check(ic.length > 0 && ic.every(Boolean), 'Remédios · cada item tem ícone de forma e cor de tipo');
-    await page.evaluate(() => document.querySelector('#medActive details').open = true);
-    await page.click('#medActive [data-mpause]'); await page.waitForTimeout(200);
-    await page.click('#medActive [data-mpausego]'); await page.waitForTimeout(800);
+    await page.evaluate(() => document.querySelector('#medActive .mrow[data-mid="m1"] details').open = true);
+    await page.click('#medActive .mrow[data-mid="m1"] [data-mpause]'); await page.waitForTimeout(200);
+    await page.click('#medActive .mrow[data-mid="m1"] [data-mpausego]'); await page.waitForTimeout(800);
     const p1 = await page.evaluate(() => ({ m: __store.meds.m1, card: !document.getElementById('medPausedCard').classList.contains('hidden'), n: document.querySelectorAll('#medPaused .mrow').length }));
     check(p1.m.paused === true && p1.m.pauseReason === 'aguardando a neuro' && p1.card && p1.n === 1, 'Pausar · remédio vai pra Pausados com o motivo');
     const g = await page.evaluate(() => ({ sep: [...document.querySelectorAll('#medGantt .gsep')].map(x => x.textContent), pz: document.querySelectorAll('#medGantt .bar.pz').length }));

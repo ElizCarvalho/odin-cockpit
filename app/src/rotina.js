@@ -157,7 +157,7 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
     host.querySelectorAll('details').forEach(d => { if (openK.has(d.dataset.k)) d.open = true; });
     if (after) after(host);
   }
-  const activeMeds = () => meds.filter(m => !m.paused && (!m.end || m.end >= todayIso()) && (!m.start || m.start <= todayIso()));
+  const activeMeds = () => meds.filter(m => !m.paused && (!m.end || m.end >= todayIso()) && (!m.start || m.start <= todayIso())).sort((a, b) => (a.name || '').localeCompare(b.name || '', 'pt', { sensitivity: 'base' }));
   function render() {
     if (!fb) return;
     const pend = notifs.filter(n => n.status === 'pending').sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
@@ -198,7 +198,7 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
     paint('p-lembretes', `
     <section class="card">
       <h2>Horários</h2>
-      <div class="list" role="list" aria-label="Horários" style="margin-top:6px">${scheds.sort((a, b) => ((a.times || [])[0] || a.from || '').localeCompare((b.times || [])[0] || b.from || '') || (a.label || '').localeCompare(b.label || '')).map(s => `
+      <div class="list" role="list" aria-label="Horários" style="margin-top:6px">${scheds.sort((a, b) => (a.label || '').localeCompare(b.label || '', 'pt', { sensitivity: 'base' })).map(s => `
         <div class="item row between" role="listitem" aria-label="${esc(s.label)}">
           <span>${ic(s)}<b>${esc(s.label)}</b><br><span class="muted">${s.every ? `a cada ${s.every >= 60 && s.every % 60 === 0 ? s.every / 60 + ' h' : s.every + ' min'}, das ${esc(s.from)} às ${esc(s.to)}` : esc((s.times || []).join(' · '))}${schedDays(s)}${s.until ? ' · até ' + dm(s.until) : ''}${Array.isArray(s.items) && s.items.length ? '<br>' + s.items.map(i => { const m = meds.find(x => x.id === i.medId); const off = m && (m.paused || (m.end && m.end < todayIso())); return off ? `<s>${esc(i.name)}</s> <span class="pill hi">${m.paused ? 'pausado' : 'terminou'}</span>` : esc(i.name + (i.dose ? ' ' + i.dose : '')); }).join(' · ') : ''}</span></span>
           <span class="row"${canEdit() ? '' : ' hidden'}><button class="ghost tiny" data-tog="${esc(s.id)}">${s.active ? 'Pausar' : 'Ativar'}</button><button class="tiny danger" data-del="${esc(s.id)}">Apagar</button></span>
@@ -207,12 +207,13 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
         <form id="rNew" class="vform">
           <label>Tipo<select name="kind">${Object.entries(KIND).filter(([k]) => !['compra', 'consulta'].includes(k)).map(([k, v]) => `<option value="${k}">${v.e} ${v.t}</option>`).join('')}</select></label>
           <label>Nome<input type="text" name="label" placeholder="ex.: Gardenal 1 comp." required></label>
-          <label>Remédio da lista<select name="medId"><option value="">—</option>${meds.filter(m => !m.end || m.end >= today).map(m => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join('')}</select></label>
+          <label>Remédio da lista<select name="medId"><option value="">—</option>${meds.filter(m => !m.end || m.end >= today).sort((a, b) => (a.name || '').localeCompare(b.name || '', 'pt', { sensitivity: 'base' })).map(m => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join('')}</select></label>
           <label>Horários fixos<input type="text" name="times" placeholder="08:00, 20:00"></label>
           <label>ou a cada (min)<input type="text" name="every" inputmode="numeric" placeholder="120"></label>
           <label>das<input type="time" name="from" value="08:00"></label>
           <label>até<input type="time" name="to" value="22:00"></label>
           <label>Termina em<input type="date" name="until"></label>
+          <label class="chk"><input type="checkbox" name="mover" checked> Se o remédio já está em outro horário, tirar de lá (mudar de horário)</label>
           <div><button type="submit">Criar</button></div>
         </form>
       </details>
@@ -397,8 +398,13 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
       const times = (d.times || '').split(/[,; ]+/).map(x => x.trim()).filter(x => /^\d{1,2}:\d{2}$/.test(x)).map(x => x.padStart(5, '0'));
       const every = parseInt(d.every, 10) || null;
       if (!times.length && !every) { say(f, 'Diga os horários (08:00, 20:00) ou o intervalo em minutos.'); return; }
-      await fb.fs.collection('schedule').add({ kind: d.kind, label: d.label.trim(), medId: d.medId || null, times, every, from: d.from || '00:00', to: d.to || '23:59',
+      const med = d.medId ? meds.find(m => m.id === d.medId) : null;
+      if (med && d.mover) for (const o of scheds.filter(x => Array.isArray(x.items) && x.items.some(i => i.medId === med.id)))
+        await fb.fs.collection('schedule').doc(o.id).update({ items: o.items.filter(i => i.medId !== med.id) });
+      await fb.fs.collection('schedule').add({ kind: d.kind, label: d.label.trim(), medId: d.medId || null, items: med ? [{ medId: med.id, name: med.name, dose: med.dose || '' }] : [], times, every, from: d.from || '00:00', to: d.to || '23:59',
         until: d.until || null, active: true, createdAt: Date.now(), by: me() });
+      f.reset(); const dt = f.closest('details'); if (dt) dt.open = false;
+      feito(f, '✓ Horário criado: ' + d.label.trim());
     }
     if (f.id === 'aNotif') {
       ev.preventDefault();

@@ -261,3 +261,26 @@ Then('eu vejo a lista de compras sem opção de contar', async function () {
   await expect(this.estoque.item('Suprimentos', 'Gaze').getByRole('button')).toHaveCount(0)
   await expect(this.page.getByRole('form', { name: 'Contar Gaze' })).toHaveCount(0)
 })
+
+/* ---------- Horários e ordem ---------- */
+const emOrdem = xs => [...xs].sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }))
+When('eu passo um remédio do horário da manhã para um horário próprio às 17:00', async function () {
+  await this.abrir(); await this.nav.abrir('Mais', 'Lembretes')
+  await this.lembretes.novoHorario({ nome: 'Outro em uso 17h', remedio: MASSA.outroRemedio, horarios: '17:00' })
+})
+Then('eu vejo a confirmação de que o horário foi criado', async function () { await expect(this.page.getByRole('status').filter({ hasText: 'Horário criado' })).toBeVisible() })
+Then('o horário novo aparece na lista de horários', async function () { await expect(this.lembretes.horario('Outro em uso 17h')).toContainText('17:00') })
+Then('o remédio não aparece mais no horário da manhã', async function () { await expect(this.lembretes.horario('^Manhã$')).not.toContainText(MASSA.outroRemedio) })
+Then('os horários aparecem em ordem alfabética', async function () {
+  const nomes = await this.page.getByRole('list', { name: 'Horários' }).getByRole('listitem').evaluateAll(xs => xs.map(x => x.getAttribute('aria-label')))
+  expect(nomes.length).toBeGreaterThan(1); expect(nomes).toEqual(emOrdem(nomes))
+})
+Then('os remédios em uso aparecem em ordem alfabética', async function () {
+  const nomes = await this.page.getByRole('list', { name: 'Em uso' }).getByRole('listitem').evaluateAll(xs => xs.map(x => x.getAttribute('aria-label')))
+  expect(nomes.length).toBeGreaterThan(1); expect(nomes).toEqual(emOrdem(nomes))
+})
+When('eu amplio o gráfico de temperatura', async function () { await this.page.getByRole('button', { name: 'Ampliar temperatura' }).click() })
+Then('eu vejo a temperatura ampliada', async function () {
+  const d = this.page.getByRole('dialog', { name: 'Temperatura' })
+  await expect(d).toBeVisible(); await expect(d.getByRole('img', { name: /ampliado/ }).or(d.locator('canvas'))).toBeVisible()
+})

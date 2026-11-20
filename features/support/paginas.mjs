@@ -145,6 +145,14 @@ export class Admin {
 export class Lembretes {
   constructor(page) { this.page = page }
   horario(nome) { return this.page.getByRole('list', { name: 'Horários' }).getByRole('listitem', { name: new RegExp(nome) }) }
+  async novoHorario({ nome, remedio, horarios }) {
+    await this.page.getByText('Novo horário').click()
+    const f = this.page.locator('#rNew')
+    await f.getByLabel('Nome').fill(nome)
+    await f.getByLabel('Remédio da lista').selectOption({ label: remedio })
+    await f.getByLabel('Horários fixos').fill(horarios)
+    await f.getByRole('button', { name: 'Criar' }).click()
+  }
 }
 
 export class Estoque {

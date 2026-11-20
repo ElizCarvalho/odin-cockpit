@@ -243,7 +243,8 @@ body.ro .wr { display: none !important; }
 .extools .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font-size: 12.5px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--line); background: transparent; color: var(--ink); }
 .chip.on { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.chart[data-k] { cursor: zoom-in; transition: border-color .15s; }
+.chart[data-k], .card[data-bigcv] { cursor: zoom-in; transition: border-color .15s; }
+.card[data-bigcv]:hover, .card[data-bigcv]:focus-visible { border-color: var(--accent); outline: none; }
 .chart[data-k]:hover, .chart[data-k]:focus-visible { border-color: var(--accent); outline: none; }
 .chart.single .one { font-size: 12px; color: var(--muted); padding: 10px 0 6px; }
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.72); display: grid; place-items: center; z-index: 60; padding: 18px; }
@@ -1034,14 +1035,14 @@ function renderHomeTemp(host) {
   const intake = d => { const l = vitals.filter(v => v.date === d), T = dayTotals(d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_g || 0), 0), meals: l.filter(ate).length, drink: Math.round(T.drink), fwater: Math.round(T.fwater), total: Math.round(T.water), kcal: Math.round(T.kcal) }; };
   const rows = [...new Set([...byDay.keys(), ...days])].sort().reverse().map(d => { const l = byDay.get(d) || [], ys = l.map(p => p.y), I = intake(d);
     const mx = ys.length ? Math.max(...ys) : null, mn = ys.length ? Math.min(...ys) : null, hot = ys.filter(y => y > 39.2).length;
-    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.total || ''}</td><td class="num">${I.kcal || ''}</td><td class="num">${I.food || ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
+    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.total || ''}</td><td class="num">${I.kcal || ''}</td><td class="num">${I.food ? Math.round(I.food) : ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
   const sec = document.createElement('section'); sec.style.display = 'grid'; sec.style.gap = '12px';
   sec.innerHTML = `<div class="section-title"><h2>Temperatura</h2><span>${home.length} medições em casa (quadro branco)${clinic.length ? ` + ${clinic.length} na clínica/exame` : ''}</span></div>
-    <div class="card"><div style="position:relative;height:240px"><canvas id="tempCv" aria-label="Gráfico de temperatura"></canvas></div>
+    <div class="card" data-bigcv="tempCv" data-title="Temperatura" role="button" tabindex="0" aria-label="Ampliar temperatura"><div style="position:relative;height:240px"><canvas id="tempCv" aria-label="Gráfico de temperatura"></canvas></div>
     <p class="note" style="margin-top:6px">Faixa verde: 37,5 a 39,2 °C · ● em casa · ■ clínica/exame · laranja = acima de 39,2. Com dois termômetros, vale o maior valor. Passe o dedo/mouse nos pontos pra ver hora e anotações.</p>
     ${canWrite ? `<div class="wr" style="margin-top:8px"><button class="ghost tiny app-only" data-free="temp">＋ Anotar temperatura</button></div>` : ''}</div>
     <div class="section-title"><h2>Água e calorias</h2><span>o que foi anotado por dia</span></div>
-    <div class="card"><div style="position:relative;height:200px"><canvas id="intakeCv" aria-label="Gráfico de água e comida por dia"></canvas></div>
+    <div class="card" data-bigcv="intakeCv" data-title="Água e calorias" role="button" tabindex="0" aria-label="Ampliar água e calorias"><div style="position:relative;height:200px"><canvas id="intakeCv" aria-label="Gráfico de água e comida por dia"></canvas></div>
     <p class="note" style="margin-top:6px">Barras: água do dia em mL (bebida + a água que vem na comida), escala da esquerda. Linha: calorias (escala da direita). Tracejados: metas. O número em cima é quantas vezes ele comeu. Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
     <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água total mL</th><th>kcal</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     ${canWrite ? `<div class="wr row" style="margin-top:8px"><button class="ghost tiny app-only" data-free="agua">＋ Anotar água</button><button class="ghost tiny app-only" data-free="comida">＋ Anotar comida</button></div>` : ''}</div>`;
@@ -1060,7 +1061,7 @@ function renderHomeTemp(host) {
           evlines: { events: events.filter(e => e.mark && e.date).map(e => ({ x: dayNum(e.date), short: e.short || '' })), color: muted, labels: true },
           tooltip: { backgroundColor: ink, titleColor: surface, bodyColor: surface, displayColors: false,
             callbacks: { title: it => dmy(it[0].raw.v.date) + (it[0].raw.v.time ? ' · ' + it[0].raw.v.time + (it[0].raw.v.approx ? ' (aprox.)' : '') : '') + (it[0].raw.src === 'clinica' ? ' · clínica/exame' : ''),
-              label: it => { const v = it.raw.v; return `${fmt(v.temp)}${v.temp2 ? ' / ' + fmt(v.temp2) : ''} °C${v.water_ml ? ' · água ' + v.water_ml + ' mL' : ''}${v.food_g ? ' · comida ' + v.food_g + ' g' : ''}${v.note ? ' · ' + v.note : ''}`; } } } } } }));
+              label: it => { const v = it.raw.v; return `${fmt(v.temp)}${v.temp2 ? ' / ' + fmt(v.temp2) : ''} °C${v.water_ml ? ' · água ' + v.water_ml + ' mL' : ''}${v.food_g ? ' · comida ' + fmt(Math.round(v.food_g * 10) / 10) + ' g' : ''}${v.note ? ' · ' + v.note : ''}`; } } } } } }));
   }
   if (days.length) {
     const lab = days.map(d => dm(d)), I = days.map(intake);
@@ -1125,6 +1126,24 @@ function closeBig(keep) {
   document.querySelectorAll('.modal').forEach(m => m.remove());
   if (!keep) { document.body.style.overflow = ''; bigKey = null; }
 }
+// Temperatura e água/calorias: mesmo comportamento dos gráficos de exame (clicar amplia).
+function openBigCv(card) {
+  const cv = card.querySelector('canvas'), ch = cv && Chart.getChart(cv); if (!ch) return;
+  closeBig(true);
+  const raw = ch.config._config, note = card.querySelector('p.note'), tbl = card.querySelector('details table');
+  const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', card.dataset.title);
+  box.innerHTML = `<div class="mbox"><div class="mhead"><div><h2>${esc(card.dataset.title)}</h2></div>
+      <div class="row mnav"><button class="ghost tiny" data-close aria-label="Fechar">✕</button></div></div>
+    <div style="position:relative;height:min(58vh,460px)"><canvas aria-label="Gráfico ampliado de ${esc(card.dataset.title)}"></canvas></div>
+    ${note ? `<p class="note" style="margin-top:8px">${note.innerHTML}</p>` : ''}
+    ${tbl ? `<div class="tablewrap" style="margin-top:12px"><table class="mtable">${tbl.innerHTML}</table></div>` : ''}</div>`;
+  document.body.appendChild(box); document.body.style.overflow = 'hidden';
+  bigChart = new Chart(box.querySelector('canvas'), { type: raw.type, plugins: raw.plugins,
+    data: { labels: raw.data.labels ? [...raw.data.labels] : undefined, datasets: raw.data.datasets.map(d => ({ ...d, data: [...d.data] })) }, options: raw.options });
+  box.querySelector('[data-close]').focus();
+}
+document.addEventListener('click', ev => { const c = ev.target.closest('[data-bigcv]'); if (!c || ev.target.closest('button, a, details, input, select, label')) return; openBigCv(c); });
+document.addEventListener('keydown', ev => { const c = ev.target.closest && ev.target.closest('[data-bigcv]'); if (c && ev.target === c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openBigCv(c); } });
 function moveBig(d) { const ks = visibleKeys(); const i = ks.indexOf(bigKey); if (i < 0) return; openBig(ks[(i + d + ks.length) % ks.length]); }
 $('chartSections').addEventListener('click', ev => {
   if (ev.target.closest('.info, .tip, .inform')) return;
@@ -1237,7 +1256,7 @@ function tlItems() {
     const mx = ts.reduce((a, b) => b.t > a.t ? b : a, ts[0] || { t: null }), mn = ts.reduce((a, b) => b.t < a.t ? b : a, ts[0] || { t: null });
     const fever = ts.filter(x => x.t > 39.2).length;
     out.push({ date: d, kind: 'Temperatura', text: ts.length ? `${ts.length} ${ts.length === 1 ? 'medição' : 'medições'} em casa · máx ${fmt(mx.t)} °C${mx.h ? ' (' + mx.h + ')' : ''} · mín ${fmt(mn.t)} °C${fever ? ` · ${fever} acima de 39,2` : ''}` : 'Anotações de casa',
-      sub: [water && `água/líquido ${water} mL`, list.reduce((a, v) => a + (v.food_g || 0), 0) && `comida ${list.reduce((a, v) => a + (v.food_g || 0), 0)} g`, list.filter(ate).length && `comeu ${list.filter(ate).length}x`].filter(Boolean).join(' · ') });
+      sub: [water && `água/líquido ${water} mL`, list.reduce((a, v) => a + (v.food_g || 0), 0) && `comida ${fmt(Math.round(list.reduce((a, v) => a + (v.food_g || 0), 0)))} g`, list.filter(ate).length && `comeu ${list.filter(ate).length}x`].filter(Boolean).join(' · ') });
   }
   for (const p of photos) if (p.date) out.push({ date: p.date, time: p.time, kind: 'Foto', text: p.caption || 'Foto', assetId: p.assetId, video: p.video, createdAt: p.createdAt || 0 });
   return out.filter(i => i.date);
@@ -1898,7 +1917,8 @@ function renderMeds() {
   const cats = ['Todos', ...CATS.map(c => c[0]), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
   $('medChips').innerHTML = cats.map(c => `<button class="chip${medCat === c ? ' on' : ''}" data-mcat="${esc(c)}">${esc(c)} <span class="cnt">${c === 'Todos' ? meds.length : meds.filter(m => catOf(m) === c).length}</span></button>`).join('');
   const sorted = [...meds].filter(medVisible).sort((a,b) => (a.start || '') < (b.start || '') ? 1 : -1);
-  const act = sorted.filter(inUse), paused = sorted.filter(isPaused), past = sorted.filter(m => !isActive(m)).sort((a, b) => (a.end || '') < (b.end || '') ? 1 : -1);
+  const byName = (a, b) => (a.name || '').localeCompare(b.name || '', 'pt', { sensitivity: 'base' });
+  const act = sorted.filter(inUse).sort(byName), paused = sorted.filter(isPaused).sort(byName), past = sorted.filter(m => !isActive(m)).sort((a, b) => (a.end || '') < (b.end || '') ? 1 : -1);
   $('medPausedCard').classList.toggle('hidden', !paused.length); $('medPausedH').textContent = `Pausados (${paused.length})`;
   $('medPaused').innerHTML = paused.map(medLine).join('');
   $('medActiveH').textContent = `Em uso (${act.length})`; $('medPastH').textContent = `Já usou (${past.length})`;
@@ -1928,7 +1948,7 @@ function renderMeds() {
   for (const m of withStart) { const k = keyOf(m); let row = rows.find(x => x.k === k); if (!row) rows.push(row = { k, name: nameOf(m), items: [] }); row.items.push(m); }
   // grupos: 0 já terminou · 1 pausado · 2 em uso agora
   for (const row of rows) { row.active = row.items.some(inUse) ? 2 : row.items.some(isPaused) ? 1 : 0; row.first = row.items[0].start; row.last = row.items.map(m => m.end || '9999').sort().slice(-1)[0]; }
-  rows.sort((x, y) => (x.active - y.active) || (x.active ? (x.first < y.first ? -1 : 1) : (x.last < y.last ? -1 : x.last > y.last ? 1 : (x.first < y.first ? -1 : 1))));
+  rows.sort((x, y) => (x.active - y.active) || x.name.localeCompare(y.name, 'pt', { sensitivity: 'base' })); // cada grupo em ordem alfabética
   const firstActive = rows.findIndex(r => r.active === 2), firstPaused = rows.findIndex(r => r.active === 1);
   $('medGantt').innerHTML = `<div class="grow"><div></div><div class="gaxis">${ticks}</div></div>` + rows.map((row, i) => {
     const comps = row.items.find(m => Array.isArray(m.components) && m.components.length)?.components || [];
