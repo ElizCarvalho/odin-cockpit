@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T01:58:50.016Z",
- "updatedAt": 1795139699747,
+ "exportedAt": "2026-11-20T04:48:19.105Z",
+ "updatedAt": 1795149816049,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -90,6 +90,21 @@
    "params": {}
   },
   {
+   "id": "ECvd1yEtLsPcsUx9z2Q8",
+   "date": "2026-11-19",
+   "lab": "Alphalabs",
+   "kind": "EAS (urina)",
+   "params": {},
+   "other": [
+    "Aspecto turvo",
+    "Cor amarelo escuro",
+    "Cristais: oxalato de cálcio (raros)",
+    "Células vesicais raras",
+    "Forma de coleta não informada"
+   ],
+   "labInterpretation": ""
+  },
+  {
    "id": "OinGT8GZgXEiS3gHb73r",
    "date": "2026-11-18",
    "time": "09:07",
@@ -110,6 +125,20 @@
     "peso": 19.4
    },
    "other": []
+  },
+  {
+   "id": "RL3nR5AyTFY12lQoHFeC",
+   "date": "2026-11-19",
+   "lab": "Alpha Labs",
+   "kind": "Bioquímica urinária (relação proteína/creatinina)",
+   "params": {},
+   "other": [
+    "Amostra: urina",
+    "Proteína urinária 17,5 mg/dL (ref. 10,0 a 40,0)",
+    "Creatinina urinária 198,0 mg/dL (ref. 53,0 a 276,0)",
+    "Relação PU/CU 0,09 (ref. 0,00 a 0,50), dentro da referência"
+   ],
+   "labInterpretation": "Valores de PU/CU < 0,5 são considerados normais; entre 0,5 e 1,0 é questionável para proteinúria renal; valores > 1,0 indicam proteinúria renal."
   },
   {
    "id": "acyqxxzjqhmt4g93h1hz",
@@ -775,6 +804,24 @@
    "params": {}
   },
   {
+   "id": "mnFZuN2pfXwS6yMSvpcK",
+   "date": "2026-11-19",
+   "lab": "Alphalabs",
+   "kind": "EAS (urina)",
+   "params": {},
+   "other": [
+    "Aspecto límpido",
+    "Cor amarela",
+    "pH 6,0",
+    "Densidade 1.025",
+    "Cristais: oxalato de cálcio (raros)",
+    "Células vesicais raras",
+    "Cilindros ausentes",
+    "Forma de coleta não informada"
+   ],
+   "labInterpretation": ""
+  },
+  {
    "id": "nijn6ayxqxbt740xhobo",
    "date": "2026-10-26",
    "kind": "Receita de controle especial (sem exame laboratorial)",
@@ -1128,6 +1175,14 @@
    },
    "text": "Xixi na sonda, clarinho, bastante.",
    "mark": false
+  },
+  {
+   "id": "QMN1DQP9o7ZXJ2e3l2vB",
+   "date": "2026-11-19",
+   "time": null,
+   "text": "Urina coletada por alívio com sonda uretral.",
+   "mark": false,
+   "short": ""
   },
   {
    "id": "QhnB9mCJhC3L9I036rVw",
@@ -1609,6 +1664,11 @@
    "createdAt": 1794763631920
   },
   {
+   "id": "46ifdRf80MTdtvryVuFa",
+   "text": "## O que mudou\n\n- **Proteína na urina normal:** relação proteína/creatinina de 0,09 (referência até 0,50). Os rins não estão \"vazando\" proteína. Isso também sugere que a albumina baixa-limite do sangue (2,6) não vem da urina.\n- **Urina concentrando bem** (densidade 1.025), o que é um bom sinal pros rins.\n- **Cristais de oxalato de cálcio raros e células da bexiga raras:** achado pequeno, comum, sem peso isolado.\n- **Atenção:** há **dois EAS (exame de urina) no mesmo dia, com aparências diferentes** (um turvo e amarelo escuro, outro límpido e amarelo). Não dá pra saber se são duas amostras ou um erro de laudo. Os laudos também não dizem como a urina foi coletada.\n- **Peso 19,4 kg**, subindo desde 17,5 kg (17/11). Balanças diferentes variam, então vale olhar a tendência nos próximos dias.\n\n## Tendência geral\n\n- **Rins e bexiga:** sem sinal de problema nesses resultados, o que é tranquilizador depois da cistite e da sonda. A cultura com antibiograma ainda está pendente e é ela que descarta infecção.\n- **A anemia continua sendo o ponto principal.** O hematócrito está estável (26% em 16 e 18/11), mas os reticulócitos de 18/11 estavam muito baixos. Ou seja, a medula ainda não responde.\n- **Peso:** a queda grande (27 → ~18 kg) parece estar se estabilizando.\n\n## Perguntas pra levar à vet\n\n- Qual dos dois EAS vale? A urina foi coletada como (xixi espontâneo, pressão na bexiga ou punção)?\n- Os laudos não citam sangue, leucócitos nem bactérias na urina. Isso foi avaliado?\n- Quando sai a cultura, e o que fazer se vier positiva?\n- Os reticulócitos baixos justificam investigar a medula?\n- Quando repetir o hemograma?\n\nSe ele ficar pálido, muito mole, com fezes pretas ou febre alta, fala com a equipe logo.",
+   "createdAt": 1795149683553
+  },
+  {
    "id": "5kfl03w8ji0jf52e8j6c",
    "text": "## O que mudou\n\n- **Anemia piorou muito até 08/11**: hematócrito (proporção de glóbulos vermelhos) foi de 37% (22/09) para 23% (24/10) e **12,2% (08/11)**. Com reticulócitos altos (200 mil), o corpo está tentando repor sangue: anemia \"regenerativa\", que pode ser perda ou destruição de células. O aparelho levantou a possibilidade de hemólise (destruição). Depois da transfusão (09/11), subiu para ~28–30% e se manteve em 14/11.\n- **Fezes pretas** (08/11) podem indicar sangramento digestivo, então vale a equipe avaliar essa possibilidade.\n- **Cinomose ativa**: PCR no sangue detectado (17/10) e também no líquor (28/10). O líquor mostra mais células e proteína que o normal, sinal de inflamação no sistema nervoso.\n- **Fígado**: ALT e fosfatase alcalina dispararam em 16/10 e depois caíram. Em 09/11, a fosfatase seguia alta.\n- **Ureia alta (110) com creatinina baixa** em 09/11: pode ter relação com sangramento digestivo, perda de massa muscular ou alimentação, mas é a equipe que interpreta.\n- **Leucócitos** muito altos (até 50 mil em 22/10), caindo para 15,6 mil em 14/11.\n- **Plaquetas** subiram para 692 mil (14/11).\n- **Ultrassom 02/11**: bexiga muito cheia (compatível com bexiga neurogênica), baço e fígado aumentados.\n\n## Tendência geral\n\n- Infecção e inflamação parecem estar diminuindo (leucócitos, fígado), mas a **anemia exigiu transfusão** e a parte neurológica segue pesada.\n- Os dados desta semana ainda não mostram a causa da anemia.\n\n## Perguntas pra levar à vet\n\n- Qual a causa da anemia? Estão investigando hemólise, sangramento digestivo ou doença do baço?\n- O hematócrito está sendo monitorado depois da transfusão? Com que frequência?\n- As fezes pretas ainda preocupam?\n- A ureia alta e a fosfatase alcalina ainda alta precisam de acompanhamento?\n- O aumento das plaquetas importa?\n- A sonda nasogástrica e a sonda urinária têm prazo previsto?\n- Há plano para os olhos (mancha nova, névoa)?\n\nSe notar gengivas bem pálidas, fraqueza súbita ou novas fezes pretas, avise a equipe na hora.",
    "createdAt": 1794759958306
@@ -1652,6 +1712,11 @@
    "id": "SttyZbGXtSOAnWCCXSwi",
    "text": "## O que mudou\n- **Peso: 17,5 kg** em casa, contra 18,87 kg na alta da Rio Vet (16/11). Balanças diferentes, então não dá pra cravar a queda de 1,4 kg em um dia. Mas ela bate com a perda de massa muscular que a equipe já vinha vendo.\n- **Temperatura: 38,1 °C**, normal e sem febre. Está um pouco abaixo das últimas medidas (38,4 em 14/11; 38,8 em 07/11).\n\n## Tendência geral\n- **O peso segue caindo** desde setembro (27 kg → 24,75 → 23,5 → ~19 → 17,5). É a perda de músculo da doença somada a dias de pouca comida.\n- A temperatura normal é um bom sinal, mas não descarta infecção. Os leucócitos seguem altos, e a diarreia e a secreção nos olhos e no nariz continuam.\n- **Ponto de atenção:** em 17/11 ele teve diarreia líquida duas vezes, fez pouco xixi e já vinha com fezes bem escuras (16/11) e anemia (Ht 26% em 16/11, abaixo do 29,8% de 14/11). Diarreia líquida repetida pode desidratar e derrubar ainda mais o peso. **Vale avisar a Rio Vet ou a neuro hoje**, sem esperar o próximo exame.\n\n## Perguntas pra levar à vet\n- Essa diarreia líquida precisa de exame de fezes ou de reavaliação? Fezes escuras junto com anemia merecem checagem?\n- Quando repetir o hemograma? A queda do hematócrito foi real ou efeito dos agregados de plaquetas?\n- Como ver se ele está desidratado e quanto ele precisa comer por dia pra parar de perder peso?\n- Vale pesar de novo na mesma balança, pra comparar certinho?\n- Como confirmar que a bexiga esvazia por completo, já que ele ainda não urina sozinho? Precisa de exame de urina?\n- Quando saem o PCR de cinomose e o fenobarbital, coletados em 16/11?",
    "createdAt": 1794960591480
+  },
+  {
+   "id": "Y5PAQuNBLuANeUXaIzOM",
+   "text": "## O que mudou\n- **Urina (EAS):** vieram dois laudos no mesmo dia. Um com urina turva e amarelo-escura, outro límpida e amarela (pH 6,0, densidade 1.025). Em ambos há só **oxalato de cálcio raro** (cristal; em pouca quantidade costuma ser achado sem importância) e células da bexiga raras (esperado com coleta por sonda). Cilindros ausentes.\n- **Proteína/creatinina urinária (0,09):** normal. Os rins não estão perdendo proteína.\n- **Densidade 1.025:** o rim está conseguindo concentrar a urina.\n- **Peso:** 19,4 kg, subindo um pouco desde 17,5 kg (17/11).\n- **Cultura com antibiograma:** ainda não saiu. Ela é que vai dizer se há infecção urinária, e o EAS sozinho não descarta.\n\n## Tendência geral\n- O quadro urinário está **mais tranquilo** do que o ultrassom de 08/11 (cistite acentuada) fazia temer, mas ele ainda não urina sozinho de forma voluntária.\n- A anemia segue **estável em ~26%**, porém com reticulócitos (a \"produção nova\" de glóbulos vermelhos) ainda quase zerados em 18/11. A medula continua sem responder.\n- O peso reagindo é um bom sinal, em linha com ele comer sozinho.\n- Ainda faltam os resultados do PCR de cinomose e do fenobarbital (coletados em 16/11, previsão ~7 dias).\n\n## Perguntas pra levar à vet\n- Por que vieram **dois EAS** diferentes no mesmo dia? Foram duas amostras ou um laudo é duplicado/errado?\n- Quando sai a **cultura**? Se a urina já está limpa, ele precisa de mais acompanhamento da bexiga?\n- Como fazer ele esvaziar a bexiga, e até quando manter a massagem e a pressão manual?\n- Com reticulócitos tão baixos, vale investigar a medula? Quando repetir o hemograma?\n- **Fale com a equipe logo** se a gengiva ficar branca, ele ficar muito mole ou voltar a ter fezes pretas. Foi assim que a anemia piorou antes.",
+   "createdAt": 1795149814529
   },
   {
    "id": "a01",
