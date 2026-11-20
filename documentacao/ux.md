@@ -53,3 +53,12 @@ flowchart TB
 - O app acrescenta Lembretes e Admin em "Mais" no build (`scripts/build-app.mjs`), e `window.panelHidden` esconde Admin pra quem não é admin.
 
 Os cenários que garantem tudo isso estão em [`features/navegacao.feature`](../features/navegacao.feature) e [`features/permissoes.feature`](../features/permissoes.feature).
+
+
+## Ordem das listas
+
+Lista de coisas é alfabética (remédios, horários, estoque, opções). Lista do que aconteceu segue o tempo, mais recente primeiro (histórico, últimas 48 h, registros). Grupos ficam separados e a ordem vale dentro de cada um.
+
+## Metas de água e comida
+
+A água pode seguir uma regra por hora (mL por kg por hora, ex.: 5): cada lembrete de água pede `mL/kg/h × peso × intervalo do lembrete` e a meta do dia é isso × nº de lembretes (das 08 às 22, a cada 2 h = 8). A conta soma bebida + água da comida e usa o último peso. A comida tem meta em gramas (soma de tudo que ele comeu); as calorias saem do catálogo de alimentos (kcal/100 g de cada um).

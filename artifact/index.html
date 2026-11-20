@@ -806,7 +806,7 @@ function tempTile() {
 }
 function renderTiles() {
   const keys = ['ht','wbc','plt','peso'];
-  $('tiles').innerHTML = tempTile() + intakeTile('water') + intakeTile('kcal') + keys.map(k => {
+  $('tiles').innerHTML = tempTile() + intakeTile('water') + intakeTile('kcal') + intakeTile('food') + keys.map(k => {
 
     const s = series(k); const p = P[k];
     const info = `<button class="info" type="button" aria-label="O que ${esc(p.l)} avalia" aria-expanded="false">?</button>`;
@@ -1010,16 +1010,28 @@ function latestWeight() { const w = [...exams].filter(e => typeof e.params?.peso
 function goalsNow() {
   const w = latestWeight(), kg = w ? w.kg : null;
   const sug = kg ? { water: Math.round(kg * 50 / 10) * 10, kcal: Math.round(1.6 * 70 * Math.pow(kg, 0.75) / 10) * 10 } : { water: null, kcal: null };
-  return { water: goals?.water_ml || sug.water, kcal: goals?.kcal || sug.kcal, sugWater: sug.water, sugKcal: sug.kcal, set: !!(goals?.water_ml || goals?.kcal), kg, wDate: w?.date };
+  // Regra da água por hora (ex.: 5 mL/kg/h), distribuída nos lembretes de água: cada lembrete cobre o intervalo até o próximo.
+  const r = goals?.water_rule, per = r && r.mlkgh && kg && r.every ? Math.round(r.mlkgh * kg * r.every / 60 / 10) * 10 : null;
+  const water = per && r.n ? per * r.n : goals?.water_ml || sug.water;
+  return { water, waterPer: per, waterRule: per ? r : null, kcal: goals?.kcal || sug.kcal, food: goals?.food_g || null, sugWater: sug.water, sugKcal: sug.kcal,
+    set: !!(per || goals?.water_ml || goals?.kcal), kg, wDate: w?.date };
 }
 function intakeTile(kind) {
   const t = dayTotals(todayIso()), g = goalsNow(), isW = kind === 'water';
+  if (kind === 'food') {
+    const val = vitals.filter(v => v.date === todayIso()).reduce((a, v) => a + (v.food_g || 0), 0), goal = g.food, pct = goal ? Math.round(val / goal * 100) : null;
+    const st = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
+    return `<div class="tile ${st}" role="group" aria-label="Comida hoje" data-go="exames" style="cursor:pointer" title="Ver água e calorias por dia"><div class="lbl">Comida hoje${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
+      <div class="val">${fmt(Math.round(val))}<small>g</small></div>
+      <div class="reft">${goal ? `meta ${fmt(goal)} g` : 'sem meta de gramas'}</div><div class="meta">${goal ? 'soma de tudo que ele comeu' : 'defina em Mais → Admin → Metas'}</div>
+      ${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`;
+  }
   const val = isW ? t.water : t.kcal, goal = isW ? g.water : g.kcal, pct = goal ? Math.round(val / goal * 100) : null;
   const st = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
   const sub = isW ? `bebida ${Math.round(t.drink)} + comida ${Math.round(t.fwater)} mL` : (t.unknown ? `${t.unknown} sem quantidade/alimento` : 'pelo que foi anotado');
   return `<div class="tile ${st}" role="group" aria-label="${isW ? 'Água hoje' : 'Calorias hoje'}" data-go="exames" style="cursor:pointer" title="Ver água e calorias por dia"><div class="lbl">${isW ? 'Água hoje' : 'Calorias hoje'}${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
     <div class="val">${fmt(Math.round(val))}<small>${isW ? 'mL' : 'kcal'}</small></div>
-    <div class="reft">${goal ? `meta ${fmt(goal)} ${isW ? 'mL' : 'kcal'}${g.set ? '' : ' (sugerida)'}` : 'sem meta (falta o peso)'}</div><div class="meta">${esc(sub)}</div>
+    <div class="reft">${goal ? `meta ${fmt(goal)} ${isW ? 'mL' : 'kcal'}${isW && g.waterPer ? ` · ~${fmt(g.waterPer)} mL por lembrete` : g.set ? '' : ' (sugerida)'}` : 'sem meta (falta o peso)'}</div><div class="meta">${esc(sub)}</div>
     ${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`;
 }
 const ate = v => !!(v.food || v.food_g || /comid|comeu|ração|racao|quiabo|iogurte|recovery/i.test(v.note || ''));

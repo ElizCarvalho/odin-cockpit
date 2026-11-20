@@ -1,4 +1,6 @@
 /* Aba Rotina: horários, notificações push e resposta rápida que vira registro no cockpit. */
+// mesma conta de functions/index.js (lembretesNoDia)
+const lembretesNoDia = (every, from = '08:00', to = '22:00') => { const m = t => +t.slice(0, 2) * 60 + +t.slice(3, 5); return every > 0 ? Math.floor((m(to) - m(from)) / every) + 1 : 0; };
 // Pushover (alerta crítico no celular): mesmos padrões de functions/index.js (PUSHOVER_PADRAO)
 const PO_KINDS = [['med', '💊 Remédios'], ['consulta', '📅 Compromissos'], ['decubito', '🔄 Decúbito'], ['agua', '💧 Água'], ['compra', '🛒 Comprar remédio']];
 const PO_PADRAO = { med: 'critico', consulta: 'critico', decubito: 'normal', agua: 'normal', compra: 'normal' };
@@ -282,9 +284,12 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
     </section>
 
     <section class="card">
-      <h2>Metas de água e calorias</h2>
+      <h2>Metas de água, comida e calorias</h2>
       <p class="note" style="margin:4px 0 8px">Sugestão pelo peso ${G.kg ? `(${fmt(G.kg)} kg em ${dm(G.wDate)})` : ''}: água ${G.sugWater ? fmt(G.sugWater) + ' mL/dia (50 mL/kg, somando bebida e a água da comida)' : '—'} · calorias ${G.sugKcal ? fmt(G.sugKcal) + ' kcal/dia (1,6 × 70 × peso^0,75)' : '—'}. <b>Confirme os números com a veterinária</b>; como ele precisa ganhar peso, ela pode querer mais.</p>
-      <form id="aGoals" class="vform"><label>Meta de água (mL/dia)<input type="text" inputmode="numeric" name="water" value="${goals?.water_ml || ''}" placeholder="${G.sugWater || ''}"></label>
+      <form id="aGoals" class="vform" aria-label="Metas"><label>Água por hora (mL por kg)<input type="text" inputmode="decimal" name="mlkgh" value="${goals?.water_rule?.mlkgh || ''}" placeholder="ex.: 5"></label>
+        <p class="note wide" style="margin:0">Com mL/kg/h preenchido, a meta é dividida nos lembretes de água: cada lembrete pede o que corresponde ao intervalo até o próximo${G.waterPer ? ` (hoje: <b>~${fmt(G.waterPer)} mL por lembrete</b> × ${G.waterRule.n} lembretes = <b>${fmt(G.water)} mL/dia</b>, com ${fmt(G.kg)} kg)` : ''}. A conta usa o último peso e soma bebida + água da comida.</p>
+        <label>ou meta fixa de água (mL/dia)<input type="text" inputmode="numeric" name="water" value="${goals?.water_ml || ''}" placeholder="${G.sugWater || ''}"></label>
+        <label>Meta de comida (g/dia)<input type="text" inputmode="numeric" name="food" value="${goals?.food_g || ''}"></label>
         <label>Meta de calorias (kcal/dia)<input type="text" inputmode="numeric" name="kcal" value="${goals?.kcal || ''}" placeholder="${G.sugKcal || ''}"></label>
         <div class="row"><button type="submit">Salvar metas</button>${goals ? '<button type="button" class="ghost" data-goalsclr>voltar pra sugestão</button>' : ''}</div></form>
     </section>
@@ -414,14 +419,18 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
         for (const [k, label] of [['decubito', 'Troca de decúbito'], ['agua', 'Oferecer água']]) {
           await fb.fs.collection('schedule').doc(k).set({ kind: k, label, times: [], every: +f[k + '_every'].value, from: f[k + '_from'].value || '08:00', to: f[k + '_to'].value || '22:00', active: f[k + '_on'].checked, by: me(), at: Date.now() }, { merge: true });
         }
+        if (goals?.water_rule) { const ev = +f.agua_every.value; await fb.fs.collection('meta').doc('goals').update({ water_rule: { ...goals.water_rule, every: ev, n: lembretesNoDia(ev, f.agua_from.value || '08:00', f.agua_to.value || '22:00') } }); }
         say(f, 'Notificações salvas ✓');
       } catch (x) { say(f, x.message); }
       return;
     }
     if (f.id === 'aGoals') {
       ev.preventDefault();
-      const w = parseFloat((f.water.value || '').replace(',', '.')) || null, k = parseFloat((f.kcal.value || '').replace(',', '.')) || null;
-      await fb.fs.collection('meta').doc('goals').set({ water_ml: w, kcal: k, at: Date.now(), by: me() }).catch(x => say(f, x.message)); say(f, 'Metas salvas ✓'); return;
+      const nv = x => parseFloat((x || '').replace(',', '.')) || null;
+      const ag = scheds.find(x => x.id === 'agua') || { every: 120, from: '08:00', to: '22:00' }, mlkgh = nv(f.mlkgh.value);
+      const water_rule = mlkgh ? { mlkgh, every: ag.every || 120, n: lembretesNoDia(ag.every || 120, ag.from, ag.to) } : null;
+      try { await fb.fs.collection('meta').doc('goals').set({ water_ml: nv(f.water.value), kcal: nv(f.kcal.value), food_g: nv(f.food.value), water_rule, at: Date.now(), by: me() }); feito(f, '✓ Metas salvas'); }
+      catch (x) { say(f, x.message); } return;
     }
     if (f.classList.contains('aFood')) {
       ev.preventDefault();

@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test'
 // Page Objects do cockpit. Um por área da tela; os passos só falam com eles.
 // Locators na ordem: getByRole → getByLabel → getByPlaceholder → getByTestId (sem classe CSS, XPath ou getByText).
 // Page Object não tem dado de teste nem asserção (asserção fica nos passos).
@@ -130,6 +131,12 @@ export class Admin {
     this.notificacoes = page.getByRole('region', { name: 'Notificações' })
   }
   tipo(nome) { return this.notificacoes.getByRole('group', { name: nome }) }
+  async metas(campos) {
+    const f = this.page.getByRole('form', { name: 'Metas' })
+    for (const [rotulo, valor] of Object.entries(campos)) await f.getByLabel(rotulo).fill(String(valor))
+    await f.getByRole('button', { name: 'Salvar metas' }).click()
+    await expect(this.page.getByRole('status').filter({ hasText: 'Metas salvas' })).toBeVisible()
+  }
   alertaCelular(tipo) { return this.tipo('Alerta no celular (Pushover)').getByRole('combobox', { name: new RegExp(tipo) }) }
   async alertaNoCelular(tipo, nivel) {
     await this.alertaCelular(tipo).selectOption({ label: nivel })

@@ -20,7 +20,7 @@ Todas as coleções ficam na raiz. A regra geral (`firestore.rules`) é: **membr
 | `rotina_log` | não | O que foi dado ou feito em resposta (ou fora de hora) | `date`, `time`, `kind`, `label`, `medId`, `status` (`done`/`skipped`), `block`, `side`, `note`, `planned` (quando "dei depois") |
 | `tokens` | não | Aparelhos que recebem push | id = token FCM; `email`, `ua`, `at` |
 | `acl/users` | não | Quem acessa | `emails[]`, `roles{email: admin\|edit\|view}`, `notify{email: bool}` |
-| `meta/*` | parcial | Configurações | `goals{water_ml, kcal}` (público), `status` (público), `notificacoes{med, compra, consulta, pushover{tipo: desligado|normal|critico|insistente}}`, `publico{dirtyAt, sentAt}`, `usage` |
+| `meta/*` | parcial | Configurações | `goals{water_ml, kcal, food_g, water_rule{mlkgh, every, n}}` (público), `status` (público), `notificacoes{med, compra, consulta, pushover{tipo: desligado|normal|critico|insistente}}`, `publico{dirtyAt, sentAt}`, `usage` |
 
 ## Regras de negócio que moram no dado
 

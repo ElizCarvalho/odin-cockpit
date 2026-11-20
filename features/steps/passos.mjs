@@ -284,3 +284,12 @@ Then('eu vejo a temperatura ampliada', async function () {
   const d = this.page.getByRole('dialog', { name: 'Temperatura' })
   await expect(d).toBeVisible(); await expect(d.getByRole('img', { name: /ampliado/ }).or(d.locator('canvas'))).toBeVisible()
 })
+
+/* ---------- Metas ---------- */
+When('eu defino a água em 5 mL por kg por hora', async function () { await this.admin.metas({ 'Água por hora (mL por kg)': 5 }) })
+When('eu defino a meta de comida em 680 g', async function () { await this.admin.metas({ 'Meta de comida (g/dia)': 680 }) })
+Then('a meta de água de hoje é 1.600 mL com uns 200 mL por lembrete', async function () {
+  await expect(this.page.getByRole('group', { name: 'Água hoje' })).toContainText('meta 1.600 mL · ~200 mL por lembrete')
+})
+Then('eu vejo quanto ele comeu hoje contra a meta de 680 g', async function () { await expect(this.page.getByRole('group', { name: 'Comida hoje' })).toContainText('meta 680 g') })
+When('eu volto para Hoje', async function () { await this.nav.abrir('Hoje') })

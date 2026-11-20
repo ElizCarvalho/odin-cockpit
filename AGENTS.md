@@ -40,6 +40,8 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
 
 ## Regras que não se quebram
 
+- **Ordem das listas:** lista de coisas (remédios, horários, estoque, opções de select) é **alfabética** (`localeCompare(..., 'pt', { sensitivity: 'base' })`). Lista que conta o que aconteceu no tempo (histórico, linha do tempo de eventos, últimas 48 h, registros do dia) segue a **ordem do tempo**, mais recente primeiro. Grupos (em uso / pausados / já usou) continuam separados; a ordem vale dentro de cada grupo.
+
 - **Formulário novo mora em Registrar.** Nas outras telas, só atalho (`data-reg`/`data-free`). Nada de `prompt`/`confirm`/`alert` (ADR 0005).
 
 - **Dados reais do Odin vivem no Firestore**, não no repositório. Nunca commitar export bruto (`exports/`, `odin-export-*.json`).

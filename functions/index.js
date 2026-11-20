@@ -153,12 +153,19 @@ export function aguaDoDia(vitals, foods) {
 async function aguaHoje(date) {
   const [v, f, g, ex] = await Promise.all([db.collection('vitals').where('date', '==', date).get(), db.collection('foods').get(), db.doc('meta/goals').get(), db.collection('exams').get()]);
   const water = aguaDoDia(v.docs.map(d => d.data()), f.docs.map(d => ({ id: d.id, ...d.data() })));
-  let goal = (g.data() || {}).water_ml || null;
-  if (!goal) {
-    const w = ex.docs.map(d => d.data()).filter(e => e.params && typeof e.params.peso === 'number').sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || ''))).pop();
-    if (w) goal = Math.round(w.params.peso * 50 / 10) * 10;
-  }
-  return { water, goal };
+  const w = ex.docs.map(d => d.data()).filter(e => e.params && typeof e.params.peso === 'number').sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || ''))).pop();
+  return { water, ...metaAgua(g.data() || {}, w ? w.params.peso : null) };
+}
+// Meta de água: regra por hora (mL/kg/h × intervalo do lembrete × nº de lembretes) > meta fixa > 50 mL/kg.
+export function metaAgua(goals, kg) {
+  const r = goals.water_rule, per = r && r.mlkgh && kg && r.every ? Math.round(r.mlkgh * kg * r.every / 60 / 10) * 10 : null;
+  if (per && r.n) return { goal: per * r.n, per };
+  return { goal: goals.water_ml || (kg ? Math.round(kg * 50 / 10) * 10 : null), per: null };
+}
+// Quantos lembretes cabem entre from e to, a cada "every" minutos (os dois extremos contam).
+export function lembretesNoDia(every, from = '08:00', to = '22:00') {
+  const m = t => +t.slice(0, 2) * 60 + +t.slice(3, 5);
+  return every > 0 ? Math.floor((m(to) - m(from)) / every) + 1 : 0;
 }
 
 export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount: 0, memory: '256MiB' }, async () => {
@@ -183,7 +190,7 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     if (n.kind === 'agua') {
       const a = await aguaHoje(date);
       if (a.goal && a.water >= a.goal) continue; // meta batida: não incomoda
-      n.label = a.goal ? `Oferecer água · faltam ${Math.max(0, Math.round((a.goal - a.water) / 10) * 10)} mL (${a.water} de ${a.goal})` : 'Oferecer água';
+      n.label = a.goal ? `Oferecer ${a.per ? `~${a.per} mL de` : ''} água · faltam ${Math.max(0, Math.round((a.goal - a.water) / 10) * 10)} mL (${a.water} de ${a.goal})`.replace('Oferecer  ', 'Oferecer ') : 'Oferecer água';
     }
     if (n.kind === 'decubito') { n.suggest = proximoLado(await ladosRecentes(date)); n.label = `Troca de decúbito · agora: ${n.suggest}`; }
     try { await db.collection('notifs').doc(id).create(n); } catch { continue; } // já criado
