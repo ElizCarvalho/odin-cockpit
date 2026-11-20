@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T22:53:51.075Z",
- "updatedAt": 1795212061704,
+ "exportedAt": "2026-11-20T23:08:16.249Z",
+ "updatedAt": 1795215798564,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -2133,14 +2133,14 @@
      "dose": "10 mg/kg/dose"
     }
    ],
-   "paused": true,
    "notes": "Receita da Tododoy de 26/10 (sequelas pós-traumáticas). Mandado manipular em 17/11; entrega prevista 19/11. Começa quando chegar.",
    "form": "snack",
-   "pauseReason": "aguardando a farmácia de manipulação (entrega prevista 19/11)",
    "kind": "sup",
    "start": "2026-11-19",
    "end": "2026-12-18",
-   "pausedAt": "2026-11-17"
+   "paused": false,
+   "pauseReason": null,
+   "pausedAt": null
   },
   {
    "id": "OukwV2A2JGYqzpuVWiK8",
