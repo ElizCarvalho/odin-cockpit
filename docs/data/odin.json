@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T17:35:14.133Z",
- "updatedAt": 1795195817680,
+ "exportedAt": "2026-11-20T18:07:52.874Z",
+ "updatedAt": 1795197775513,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1164,6 +1164,19 @@
    "short": ""
   },
   {
+   "id": "Bf3WmafOhl9ZLJOGpxwO",
+   "date": "2026-11-20",
+   "time": "13:25",
+   "kind": "urina",
+   "details": {
+    "como": "ao pressionar a bexiga",
+    "cor": "clarinho",
+    "quantidade": "normal"
+   },
+   "text": "Xixi ao pressionar a bexiga, clarinho, normal.",
+   "mark": false
+  },
+  {
    "id": "EGqbIAJDJEYDbtGw1yAU",
    "date": "2026-11-19",
    "time": "11:14",
@@ -1348,6 +1361,18 @@
    "text": "Odin tomou dipirona líquida 0,8 mL por causa da febre.",
    "mark": false,
    "short": ""
+  },
+  {
+   "id": "rxAX4zCFvInsPp9xUGDQ",
+   "date": "2026-11-20",
+   "time": "13:20",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false
   },
   {
    "id": "s70ws29424u743c1pb3m",
@@ -3062,6 +3087,13 @@
    "note": ""
   },
   {
+   "id": "jJFkmBlFI4P8O5fK5U2g",
+   "date": "2026-11-20",
+   "time": "15:01",
+   "temp": 38.3,
+   "note": ""
+  },
+  {
    "id": "k0wik76sjj47vs9hvby8",
    "date": "2026-11-17",
    "food": false,
@@ -3798,6 +3830,14 @@
    "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
    "foodId": "racao",
    "food_g": 75
+  },
+  {
+   "id": "zYnwLsfQ5NKywePq2ldP",
+   "date": "2026-11-20",
+   "time": "14:53",
+   "water_ml": 150,
+   "drinkId": "agua",
+   "note": ""
   }
  ],
  "foods": [
