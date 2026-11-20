@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T17:08:35.717Z",
- "updatedAt": 1795194232691,
+ "exportedAt": "2026-11-20T17:35:14.133Z",
+ "updatedAt": 1795195817680,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -2848,6 +2848,15 @@
    "water_ml": 150,
    "drinkId": "agua",
    "note": ""
+  },
+  {
+   "id": "9K7marenvXbftWqMWRr1",
+   "date": "2026-11-20",
+   "time": "14:29",
+   "food": true,
+   "note": "Patê caseiro (fígado, inhame, cenoura) · Pate de moela + inhame + batata doce",
+   "foodId": "pate",
+   "food_g": 542.1
   },
   {
    "id": "ChRJykMN8lMAO3gQcOSA",
