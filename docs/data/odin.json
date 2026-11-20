@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-20T22:05:12.794Z",
+ "exportedAt": "2026-11-20T22:53:51.075Z",
  "updatedAt": 1795212061704,
  "exams": [
   {
@@ -1300,6 +1300,16 @@
    "text": "Odin teve a secreção ocular limpa.",
    "mark": false,
    "short": ""
+  },
+  {
+   "id": "WBoAddCHeIFxYVf0ggCp",
+   "kind": "consulta",
+   "sub": "Consulta",
+   "date": "2026-11-24",
+   "time": "15:00",
+   "text": "Consulta: Neuro",
+   "remind": 1440,
+   "mark": false
   },
   {
    "id": "XNY4YZrYwngHlOjuQ1Wk",
