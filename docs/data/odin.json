@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T21:42:46.578Z",
- "updatedAt": 1795210738675,
+ "exportedAt": "2026-11-20T22:05:12.794Z",
+ "updatedAt": 1795212061704,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1233,6 +1233,14 @@
    "mark": false
   },
   {
+   "id": "MWQHpqB1qQUQznHd21pm",
+   "date": "2026-11-20",
+   "time": null,
+   "text": "Odin recebeu dipirona 0,8 ml por causa da febre.",
+   "mark": false,
+   "short": ""
+  },
+  {
    "id": "PnTIo6xQME8iJYNtJL7p",
    "date": "2026-11-18",
    "time": "17:32",
@@ -1813,6 +1821,11 @@
    "createdAt": 1794960591480
   },
   {
+   "id": "XLcC3rZNNIssCFDfC49L",
+   "text": "## O que mudou\n- **20,1 kg hoje (em casa).** Foi o 4º dia seguido subindo: 17,5 → 18,9 → 19,4 → 20,1 kg.\n- Ele já tinha caído de 27 kg (set) para ~18–19 kg na internação, com perda de massa muscular. Então a subida, em si, é boa notícia.\n- Mas **~2,6 kg em 3 dias é rápido demais pra ser só músculo ou gordura**. O 17,5 kg pode ter sido erro de balança ou de jeito de pesar. Balança de casa e de clínica não se comparam direto.\n\n## Tendência geral\n- Ele está comendo sozinho, as fezes firmaram e a febre vem sendo controlada. Isso combina com recuperação de peso.\n- Parte do ganho pode ser comida, água e bexiga cheia, já que ele ainda não urina sozinho. Também pode ser retenção de líquido, e é isso que vale checar. Ele já teve a barriga inchada, e a albumina estava no limite baixo (2,6) no último exame de sangue.\n- O hematócrito ficou estável (26%) nos últimos hemogramas, mas os reticulócitos seguem muito baixos (a medula ainda não reage). O peso não diz nada sobre isso.\n- **Fale com a clínica logo** se aparecer barriga mais inchada, inchaço nas patas ou no rosto, respiração mais pesada ou xixi diminuindo.\n\n## Perguntas pra levar à vet\n- Esse ganho de peso é esperado ou preciso investigar retenção de líquido?\n- A bexiga está esvaziando bem? Ela pode estar pesando na balança?\n- Como padronizar a pesagem em casa (mesma balança, mesmo horário, mesmo método)?\n- Com o peso mudando, os medicamentos que dependem dele precisam de reavaliação? (a decisão é dela)\n- Vale repetir albumina e proteínas no próximo exame de sangue?",
+   "createdAt": 1795212060171
+  },
+  {
    "id": "Y5PAQuNBLuANeUXaIzOM",
    "text": "## O que mudou\n- **Urina (EAS):** vieram dois laudos no mesmo dia. Um com urina turva e amarelo-escura, outro límpida e amarela (pH 6,0, densidade 1.025). Em ambos há só **oxalato de cálcio raro** (cristal; em pouca quantidade costuma ser achado sem importância) e células da bexiga raras (esperado com coleta por sonda). Cilindros ausentes.\n- **Proteína/creatinina urinária (0,09):** normal. Os rins não estão perdendo proteína.\n- **Densidade 1.025:** o rim está conseguindo concentrar a urina.\n- **Peso:** 19,4 kg, subindo um pouco desde 17,5 kg (17/11).\n- **Cultura com antibiograma:** ainda não saiu. Ela é que vai dizer se há infecção urinária, e o EAS sozinho não descarta.\n\n## Tendência geral\n- O quadro urinário está **mais tranquilo** do que o ultrassom de 08/11 (cistite acentuada) fazia temer, mas ele ainda não urina sozinho de forma voluntária.\n- A anemia segue **estável em ~26%**, porém com reticulócitos (a \"produção nova\" de glóbulos vermelhos) ainda quase zerados em 18/11. A medula continua sem responder.\n- O peso reagindo é um bom sinal, em linha com ele comer sozinho.\n- Ainda faltam os resultados do PCR de cinomose e do fenobarbital (coletados em 16/11, previsão ~7 dias).\n\n## Perguntas pra levar à vet\n- Por que vieram **dois EAS** diferentes no mesmo dia? Foram duas amostras ou um laudo é duplicado/errado?\n- Quando sai a **cultura**? Se a urina já está limpa, ele precisa de mais acompanhamento da bexiga?\n- Como fazer ele esvaziar a bexiga, e até quando manter a massagem e a pressão manual?\n- Com reticulócitos tão baixos, vale investigar a medula? Quando repetir o hemograma?\n- **Fale com a equipe logo** se a gengiva ficar branca, ele ficar muito mole ou voltar a ter fezes pretas. Foi assim que a anemia piorou antes.",
    "createdAt": 1795149814529
@@ -2224,6 +2237,20 @@
    "notes": "fim exato não registrado; marcado na alta da Tododoy (28/10)",
    "purpose": "vitaminas do complexo B (neurológico)",
    "start": "2026-10-15"
+  },
+  {
+   "id": "bOH3FUrTX2hiZEkJFXOR",
+   "name": "Dipirona",
+   "purpose": "febre",
+   "dose": "0,8 ml",
+   "start": "2026-11-20",
+   "end": null,
+   "endEstimated": false,
+   "notes": "da receita: relato",
+   "allergy": false,
+   "clinic": "",
+   "composition": "",
+   "components": []
   },
   {
    "id": "biosan20261117",
@@ -3185,6 +3212,13 @@
    "date": "2026-11-18",
    "time": "11:16",
    "temp": 37,
+   "note": ""
+  },
+  {
+   "id": "nR4rPPlu1GGDj211jMKF",
+   "date": "2026-11-20",
+   "time": "18:58",
+   "temp": 40.1,
    "note": ""
   },
   {
