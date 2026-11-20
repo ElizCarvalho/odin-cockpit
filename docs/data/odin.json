@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T00:56:43.968Z",
- "updatedAt": 1795135926849,
+ "exportedAt": "2026-11-20T01:21:39.936Z",
+ "updatedAt": 1795137475479,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1130,6 +1130,18 @@
    "mark": false
   },
   {
+   "id": "QhnB9mCJhC3L9I036rVw",
+   "date": "2026-11-19",
+   "time": "21:01",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false
+  },
+  {
    "id": "TgSmr77WI1o9yXyaIxoH",
    "date": "2026-11-18",
    "time": "11:04",
@@ -1607,6 +1619,11 @@
    "id": "9onzngmkdojufprewkue",
    "text": "## O que mudou\n- **Peso: 17,5 kg** (era 18,87 kg na alta, 16/11). Perdeu cerca de 1,4 kg em 1 dia. Pode ser diferença de balança (casa vs. clínica), mas a tendência é de queda contínua: 27 kg em setembro, 21 kg em 08/11, 17,5 kg agora.\n- **Temperatura: 38,1 °C**, normal (ref. 37,5–39,2). Sem febre, o que é bom.\n\n## Tendência geral\n- O peso segue caindo, e isso combina com a perda de massa muscular que você já vinha notando. Mesmo comendo bem, ele ainda está gastando mais do que ganha (a cinomose e a mioclonia aumentam o gasto de energia).\n- A temperatura estável vai na linha do hemograma de 16/11, que não mostrou sinal forte de infecção.\n- O hematócrito (proporção de glóbulos vermelhos no sangue) caiu de 29,8% para 26% entre 14 e 16/11. A clínica falou em nova transfusão se ficar **abaixo de 15%**. Parte da queda pode ser da coleta (agregados de plaquetas), por isso o controle é importante.\n\n## Perguntas pra levar à vet\n- Essa queda de peso é só balança ou preocupa? Precisa ajustar a quantidade de comida ou o suporte nutricional pra recuperar massa?\n- Quando repetir o hemograma? **Vale fazer logo**, já que o hematócrito vinha caindo.\n- O sangramento depois de tirar a sonda urinária é esperado? Ele já está urinando sozinho? Se não esvaziar a bexiga, falar com a clínica logo.\n- Fezes escuras e amolecidas: preciso me preocupar? Quando voltar a ter fezes pretas, avisar na hora.\n- Receita nova do fenobarbital: **ele só tem o comprimido de ontem à noite**, então isso é urgente. Falar com a neurologista hoje pra não ficar sem a dose.\n\nSe ele ficar pálido, muito mole, com fezes pretas ou convulsão, ligue pra clínica na hora.",
    "createdAt": 1794926001604
+  },
+  {
+   "id": "CJL5Oj9TyaaUq5J4uANm",
+   "text": "## O que mudou\n- **Anemia:** o hematócrito (% de sangue ocupado por glóbulos vermelhos) estava em 12% em 08/11 e subiu com a transfusão. Depois foi caindo devagar: **~30% (14/11) → 26% (16 e 18/11)**.\n- **Reticulócitos** (células novas que a medula fabrica): em 18/11 estavam **muito baixos**, ou seja, a medula ainda não está respondendo. Isso explica por que a anemia não melhora sozinha.\n- **Infecção/inflamação:** os leucócitos caíram de 50 mil (22/10) para ~17 mil. Houve melhora, mas ainda há leve neutrofilia.\n- **Fígado:** ALT e fosfatase alcalina baixaram bem desde outubro. A ALT ainda está levemente alta.\n- **Proteínas:** globulina alta (5,3) e albumina no limite inferior.\n- **Rim:** creatinina normal. A ureia estava em 110 em 09/11 e agora está normal.\n- **Peso:** de 27 kg para ~19 kg, mas os últimos dias subiram (17,5 → 19,4).\n- **Fezes** voltaram a ficar firmes. Ele come sozinho.\n\n## Tendência geral\n- O quadro geral está **mais estável**, com fezes, apetite, peso e inflamação melhorando.\n- A **anemia sem resposta da medula** continua sendo o ponto de atenção.\n- A **febre em 17/11** e a dipirona de novo em 19/11 merecem atenção, porque a dipirona pode esconder a febre.\n- **Fale logo com a equipe** se a gengiva ficar branca, ele ficar mais mole ou a febre voltar.\n- A clínica indicava nova transfusão se o Ht ficasse abaixo de 15%.\n\n## Perguntas pra levar à vet\n- Como investigar a medula, já que os reticulócitos seguem baixos?\n- A dipirona está ok com a febre recorrente? Quando devo acionar vocês?\n- Ele ainda não urina sozinho. Vale coletar urina pra exame, por causa do tempo de sonda?\n- O resultado do **PCR de cinomose e do fenobarbital** (coletados em 16/11) sai por volta de 23/11. Quem vai avaliar com a neuro?\n- Em quanto tempo repetimos o hemograma para ver se o Ht segue caindo?",
+   "createdAt": 1795137298466
   },
   {
    "id": "G8XfDnq6ATZnuZLDZUNX",
@@ -3491,6 +3508,20 @@
    "water_ml": 150,
    "drinkId": "coco",
    "note": "água de coco natural"
+  },
+  {
+   "id": "tGXAWrjOJ7A3TY3fZhPn",
+   "date": "2026-11-19",
+   "time": "22:17",
+   "temp": 39,
+   "note": ""
+  },
+  {
+   "id": "tGcsOolWxNDIEAt4us8v",
+   "date": "2026-11-19",
+   "time": "22:17",
+   "temp": 39,
+   "note": ""
   },
   {
    "id": "vujdj5fxku1wd8m71nzg",
