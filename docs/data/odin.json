@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T15:32:41.423Z",
- "updatedAt": 1795185587265,
+ "exportedAt": "2026-11-20T15:45:33.270Z",
+ "updatedAt": 1795189197179,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1135,6 +1135,14 @@
    "mark": false
   },
   {
+   "id": "3nV6PUarekD19VWqDmsi",
+   "date": "2026-11-20",
+   "time": null,
+   "text": "Odin fez nebulização com 10 mL de soro fisiológico.",
+   "mark": false,
+   "short": ""
+  },
+  {
    "id": "8O68wpwK1WfPmqIHHUUS",
    "date": "2026-11-19",
    "time": "14:20",
@@ -1838,6 +1846,11 @@
    "id": "xyuowyvqajfycud0zk27",
    "text": "## O que mudou\n- **Cinomose confirmada** no sangue (17/10) e no líquor (28/10). O líquor mostrou inflamação (mais células e proteína que o normal), compatível com o sistema nervoso afetado, o que combina com convulsões, mioclonia e rigidez.\n- **Infecção/inflamação forte** no início: leucócitos subiram de ~26 mil para ~50 mil (16 a 22/10), com neutrófilos jovens (bastonetes e metamielócitos). Depois caiu para ~15 mil em 14/11, o que é uma melhora clara.\n- **Fígado** (ALT e fosfatase) caiu bastante desde outubro, mas a ultrassom mostrou fígado e baço aumentados.\n- **Anemia grave em 08/11** (hematócrito 12%), com reticulócitos altos (a medula tentou repor sangue, \"regenerativa\"). Isso, somado às fezes pretas, pede investigação de perda de sangue ou destruição das hemácias. Após a transfusão, ficou ~28–30% e estável em 14/11, ainda abaixo do normal.\n- **Ureia alta (110) com creatinina baixa** em 09/11, que pode ter relação com sangramento digestivo, desidratação ou perda de massa muscular. Vale confirmar se foi repetida.\n- **Plaquetas** subiram em 14/11 (trombocitose), comum em recuperação de anemia/inflamação.\n\n## Tendência geral\n- Sinais de infecção e fígado **melhorando**; sangue **estabilizou** depois da transfusão.\n- A parte **neurológica e o quadro clínico** (mioclonia, perda de muscular, bexiga que não esvazia, olhos) continuam sendo o ponto mais delicado, e exames de sangue não mostram isso.\n- Se aparecerem fezes pretas de novo, gengivas pálidas ou fraqueza súbita, avise a equipe na hora.\n\n## Perguntas pra levar à vet\n- Qual foi a causa da anemia: sangramento, hemólise ou outra? Fizeram teste de Coombs ou pesquisa de parasitas?\n- O hematócrito será repetido? Com que frequência?\n- A ureia alta foi reavaliada? E o estômago, pelas fezes pretas?\n- Como estão a ureia e a creatinina após a hidratação e a sonda?\n- O que fazer para os olhos (mancha nova, névoa)? Dá pra ter avaliação oftalmológica?\n- Qual o plano para a mioclonia e a bexiga? E qual o prognóstico neurológico?",
    "createdAt": 1794758756358
+  },
+  {
+   "id": "zzA37XsjEltscowpRVle",
+   "text": "## O que mudou\n- **Peso 20,1 kg** hoje. Nos últimos 4 dias, nas pesagens em casa: 17,5 → 18,9 → 19,4 → **20,1 kg**. É a primeira vez que o peso sobe, depois de semanas só caindo (27 kg em setembro, 18,6 kg na internação).\n- Ele come sozinho e comeu bem esses dias, o que combina com ganho de peso.\n\n## Tendência geral\n- Ganho de **2,6 kg em 3 dias é rápido demais** pra ser só músculo. Pode ter influência de balança diferente, comida e água no corpo, bexiga cheia (ele ainda não esvazia sozinho) ou líquido retido.\n- A pesagem de 17,5 kg pode ter sido erro de balança, já que a clínica pesou 18,87 kg um dia antes. Isso exagera a subida.\n- Ele continua cerca de **7 kg abaixo** do peso de setembro. A perda de massa muscular ainda é real.\n- Peso subindo não mostra que a anemia melhorou. No último hemograma (18/11), os reticulócitos (as células novas que a medula produz) ainda estavam bem baixos.\n- **Fique atenta** se a barriga voltar a inchar (como em 02/11), se aparecer inchaço nas patas ou se ele não conseguir esvaziar a bexiga. Nesses casos, fale com a equipe logo.\n\n## Perguntas pra levar à vet\n- Dá pra pesar sempre na **mesma balança e no mesmo horário**, de preferência depois de esvaziar a bexiga? Assim a gente compara certo.\n- Esse ganho rápido pode ser líquido (a albumina estava no limite baixo e a globulina alta) ou só alimentação e bexiga cheia?\n- Vale reavaliar a barriga e a bexiga, já que ele ainda não faz xixi voluntário?\n- Qual meta de peso e de alimentação vocês querem pra ele recuperar massa muscular?\n- Quando repetir o hemograma com reticulócitos pra ver se a medula começou a responder?",
+   "createdAt": 1795189195678
   }
  ],
  "meds": [
@@ -2062,6 +2075,20 @@
    "purpose": "",
    "dose": "0,8 mL, dose única às 15:50",
    "start": "2026-11-19",
+   "end": null,
+   "endEstimated": false,
+   "notes": "da receita: relato",
+   "allergy": false,
+   "clinic": "",
+   "composition": "",
+   "components": []
+  },
+  {
+   "id": "WgFONdJ2SsFMbRpqA3Xp",
+   "name": "Soro fisiológico",
+   "purpose": "",
+   "dose": "10 mL, nebulização, agora",
+   "start": "2026-11-20",
    "end": null,
    "endEstimated": false,
    "notes": "da receita: relato",
@@ -2853,6 +2880,14 @@
    "time": "20:30",
    "temp": 39.6,
    "note": ""
+  },
+  {
+   "id": "HbM9VrZPqg1mb6jh7I8d",
+   "date": "2026-11-20",
+   "time": "12:38",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural"
   },
   {
    "id": "IbOTb9sY9DZAjp2rQTzc",
