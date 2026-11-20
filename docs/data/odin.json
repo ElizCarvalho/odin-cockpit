@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-20T23:18:45.125Z",
+ "exportedAt": "2026-11-20T23:51:50.607Z",
  "updatedAt": 1795216412592,
  "exams": [
   {
@@ -4057,7 +4057,10 @@
    "est": true
   }
  ],
- "goals": null,
+ "goals": {
+  "water_ml": null,
+  "kcal": null
+ },
  "photos": [
   {
    "id": "2HguEMIyvtcYqt5HgkrS",
