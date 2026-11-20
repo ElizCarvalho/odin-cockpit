@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T15:45:33.270Z",
- "updatedAt": 1795189197179,
+ "exportedAt": "2026-11-20T17:08:35.717Z",
+ "updatedAt": 1795194232691,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -2865,6 +2865,15 @@
    "water_ml": 150,
    "drinkId": "coco",
    "note": "água de coco natural"
+  },
+  {
+   "id": "FMnszeHDKiToPbJGKkWp",
+   "date": "2026-11-20",
+   "time": "14:03",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 80.2
   },
   {
    "id": "FPviRHH8mmyirDw1DFYC",
