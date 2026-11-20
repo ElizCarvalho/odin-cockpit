@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T04:48:19.105Z",
- "updatedAt": 1795149816049,
+ "exportedAt": "2026-11-20T12:10:54.244Z",
+ "updatedAt": 1795176412843,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1086,6 +1086,18 @@
   }
  ],
  "events": [
+  {
+   "id": "0MoOLhq6Dz2GhD7hu42I",
+   "date": "2026-11-20",
+   "time": "06:06",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false
+  },
   {
    "id": "127LEqftJdMdhzFVp6W8",
    "date": "2026-11-17",
@@ -2813,6 +2825,13 @@
    "note": ""
   },
   {
+   "id": "PdpiPFLnVmsfOo7MWoCk",
+   "date": "2026-11-20",
+   "time": "06:06",
+   "temp": 38.9,
+   "note": ""
+  },
+  {
    "id": "QQGGX2enbyp90hiZtjpH",
    "date": "2026-11-18",
    "time": "23:00",
@@ -2912,6 +2931,13 @@
    "time": "16:57",
    "water_ml": 150,
    "drinkId": "agua",
+   "note": ""
+  },
+  {
+   "id": "gxisG2PkCsm0sdCbDbCI",
+   "date": "2026-11-20",
+   "time": "09:06",
+   "temp": 38.5,
    "note": ""
   },
   {
