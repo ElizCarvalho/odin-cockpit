@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T13:59:21.588Z",
- "updatedAt": 1795182895437,
+ "exportedAt": "2026-11-20T14:08:57.953Z",
+ "updatedAt": 1795183190632,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1730,6 +1730,11 @@
    "id": "QdLRERuQ3b1pmpREaJfS",
    "text": "## O que mudou\n\n- **Peso 17,5 kg** em casa, contra 18,87 kg na alta da Rio Vet (16/11). São ~1,4 kg a menos em 1 dia. Balanças diferentes (casa x clínica) exageram a diferença, então não dá pra cravar o tamanho da queda. Pode ter influência de diarreia e de menos soro (ele saiu da fluidoterapia).\n- **Temperatura 38,1 °C:** normal, **sem febre**. É bom sinal, já que ele teve febre várias vezes antes.\n\n## Tendência geral\n\n- **O peso vem caindo sem parar**: 27 kg (22/09) → 23,5 (04/11) → 21 (08/11) → ~18,6 (15/11) → 17,5 agora. É cerca de 35% a menos desde setembro, o que bate com a perda de massa muscular que você já viu.\n- Ele está comendo bem pela boca, o que é um ponto positivo. Mas a diarreia de hoje (líquida em alguns momentos) atrapalha a recuperação do peso e pode piorar a desidratação.\n- O hematócrito (% de glóbulos vermelhos) estava em 26% em 16/11, abaixo dos 29,8% de 14/11. A vet amiga acha que parte da queda pode ser da coleta. O hemograma de hoje, com reticulócitos (células novas que a medula produz), vai esclarecer isso.\n\n## Perguntas pra levar à vet\n\n- A queda de peso é real ou diferença de balança? Vale **pesar sempre na mesma balança**.\n- A diarreia de hoje preocupa? Precisa de exame de fezes ou ajuste na alimentação?\n- Quantas calorias por dia ele precisa pra recuperar massa, e o que está faltando?\n- O que o hemograma de hoje mostrou, e a anemia está estável?\n- Quando saem o PCR de cinomose e o fenobarbital?\n\n**Fale com a equipe logo** se vier fezes pretas ou com sangue, gengiva branca, moleza forte, febre, diarreia que não para ou se ele continuar sem fazer xixi.",
    "createdAt": 1794960721295
+  },
+  {
+   "id": "Qux7v0fL4sTZGxZvtpka",
+   "text": "## O que mudou\n- **Hematócrito (% de sangue ocupado por glóbulos vermelhos) estável:** 28–29% após a transfusão, 26% em 16/11 e 26% em 18/11. É melhor que os 12% de 08/11, mas ainda abaixo do normal.\n- **Reticulócitos (glóbulos vermelhos novos que a medula produz) quase zerados em 18/11.** Em 08/11 estavam altos. Ou seja, a medula não está respondendo agora.\n- **Infecção/inflamação mais calma:** os leucócitos caíram de ~50 mil (outubro) para 17 mil, e os linfócitos voltaram ao normal.\n- **Fígado e urina melhores:** a fosfatase alcalina caiu bastante, a ALT está próxima do limite, e a relação proteína/creatinina da urina está normal.\n- **Peso voltando:** 17,5 kg (17/11) para 20,1 kg (20/11).\n- **Fezes firmes** desde 19/11.\n\n## Tendência geral\n- Melhora clínica: comendo sozinho, fezes normais, urina e rins sem alarme.\n- O ponto de atenção é a **anemia sem resposta da medula**. Isso já tinha aparecido em 31/10.\n- Globulinas altas (5,3) são comuns em inflamação crônica.\n- Plaquetas agregadas deixam a contagem pouco confiável.\n- Pendentes: **PCR de cinomose** (~23/11), **fenobarbital** e **cultura da urina**.\n- **Fale com a equipe logo** se voltar mucosa branca, moleza forte, fezes pretas ou febre persistente. Na internação, o limite para nova transfusão era hematócrito abaixo de 15%.\n\n## Perguntas pra levar à vet\n- Por que a medula não responde? Vale investigar mais (medula, outros exames)?\n- Quando repetir hemograma e reticulócitos?\n- A febre de 17/11 preocupa? De onde pode vir?\n- Ele já urina sozinho? O que fazer enquanto a cultura não sai?\n- A ALT levemente alta e a globulina alta precisam de acompanhamento?\n- Com o fenobarbital pendente, a neuro mantém a dose?",
+   "createdAt": 1795183189105
   },
   {
    "id": "SttyZbGXtSOAnWCCXSwi",
