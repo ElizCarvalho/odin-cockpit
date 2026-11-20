@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T18:07:52.874Z",
- "updatedAt": 1795197775513,
+ "exportedAt": "2026-11-20T21:42:46.578Z",
+ "updatedAt": 1795210738675,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1122,6 +1122,19 @@
    "mark": false
   },
   {
+   "id": "1qKOyz0OudLSnOfarO5h",
+   "date": "2026-11-20",
+   "time": "18:38",
+   "kind": "urina",
+   "details": {
+    "como": "na sonda",
+    "cor": "clarinho",
+    "quantidade": "bastante"
+   },
+   "text": "Xixi na sonda, clarinho, bastante.",
+   "mark": false
+  },
+  {
    "id": "34j9RuJK1qbeWpmjflFB",
    "date": "2026-11-17",
    "time": "17:22",
@@ -1206,6 +1219,18 @@
    "mark": false,
    "time": "15:56",
    "text": "Parou o sangramento depois da retirada da sonda urinária. Faz xixi só com escape ou quando a bexiga é pressionada (ainda não urina sozinho de forma voluntária)."
+  },
+  {
+   "id": "II5xaiFI1MrowxaF9dqa",
+   "date": "2026-11-20",
+   "time": "18:38",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false
   },
   {
    "id": "PnTIo6xQME8iJYNtJL7p",
