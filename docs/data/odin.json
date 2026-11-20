@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T00:40:20.313Z",
- "updatedAt": 1795130760399,
+ "exportedAt": "2026-11-20T00:56:43.968Z",
+ "updatedAt": 1795135926849,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -2726,6 +2726,15 @@
    "note": "água de coco natural"
   },
   {
+   "id": "RAOgCOAaWZHASBZGcIk2",
+   "date": "2026-11-19",
+   "time": "21:50",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 181.8
+  },
+  {
    "id": "TJ8PtwISGSWZJbtv6oql",
    "date": "2026-11-17",
    "time": "09:30",
@@ -2772,6 +2781,15 @@
    "date": "2026-11-18",
    "time": "21:43",
    "temp": 39.2
+  },
+  {
+   "id": "YtHjBTOw8NZYCTKQBZKt",
+   "date": "2026-11-19",
+   "time": "21:51",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
+   "foodId": "racao",
+   "food_g": 70
   },
   {
    "id": "c20261117-0031-petisco",
