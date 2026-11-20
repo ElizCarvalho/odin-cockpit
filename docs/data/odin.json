@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T13:23:52.574Z",
- "updatedAt": 1795180784000,
+ "exportedAt": "2026-11-20T13:46:01.010Z",
+ "updatedAt": 1795182033463,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -932,6 +932,17 @@
     "Receita emitida em 05/11/2026; peso registrado em 28/10/2026"
    ],
    "params": {}
+  },
+  {
+   "id": "uelCupbhvJxsQm2ZRgQx",
+   "date": "2026-11-20",
+   "time": "10:40",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "params": {
+    "peso": 20.1
+   },
+   "other": []
   },
   {
    "id": "va07cr3pjeynkhsj6vkf",
