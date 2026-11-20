@@ -44,7 +44,15 @@
     "Beatriz Copelo": "o laboratório",
     "Marcus Vinicius da Silva Coelho": "o laboratório",
     "Waldemir Silva de Aguiar": "o laboratório",
-    "Fúlvio Martins Ambrósio": "o laboratório"
+    "Fúlvio Martins Ambrósio": "o laboratório",
+    "Dra. Lidia Raquel Felisardo da Conceição": "a veterinária",
+    "Dr(a). Lidia Raquel Felisardo da Conceição": "a veterinária",
+    "Lidia Raquel Felisardo da Conceição": "a veterinária",
+    "Lidia Raquel Felisardo da Conceiçã": "a veterinária",
+    "Lidia Raquel": "a veterinária",
+    "Lídia Raquel": "a veterinária",
+    "RENAN C M DE MELLO": "o laboratório",
+    "Renan C M de Mello": "o laboratório"
   },
   "remover_linhas": [
     "propriet[aá]ri[ao]",
@@ -77,6 +85,11 @@
     "Copelo",
     "Marcus Vinicius",
     "Waldemir",
-    "Fúlvio"
+    "Fúlvio",
+    "Felisardo",
+    "Lidia Raquel",
+    "Lídia Raquel",
+    "RENAN C M",
+    "Renan C M"
   ]
 }
