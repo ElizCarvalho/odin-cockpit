@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-20T14:08:57.953Z",
- "updatedAt": 1795183190632,
+ "exportedAt": "2026-11-20T14:44:09.838Z",
+ "updatedAt": 1795185587265,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1232,6 +1232,14 @@
    "mark": false
   },
   {
+   "id": "TxjoPkGTpZaUyLccrFJE",
+   "date": "2026-11-19",
+   "time": null,
+   "text": "a veterinária deu uma dose de Engystol (2 mL) ao Odin.",
+   "mark": false,
+   "short": ""
+  },
+  {
    "id": "VgC86Hxy4AqyJHXP60sV",
    "date": "2026-11-17",
    "time": "20:00",
@@ -1710,6 +1718,11 @@
    "id": "9onzngmkdojufprewkue",
    "text": "## O que mudou\n- **Peso: 17,5 kg** (era 18,87 kg na alta, 16/11). Perdeu cerca de 1,4 kg em 1 dia. Pode ser diferença de balança (casa vs. clínica), mas a tendência é de queda contínua: 27 kg em setembro, 21 kg em 08/11, 17,5 kg agora.\n- **Temperatura: 38,1 °C**, normal (ref. 37,5–39,2). Sem febre, o que é bom.\n\n## Tendência geral\n- O peso segue caindo, e isso combina com a perda de massa muscular que você já vinha notando. Mesmo comendo bem, ele ainda está gastando mais do que ganha (a cinomose e a mioclonia aumentam o gasto de energia).\n- A temperatura estável vai na linha do hemograma de 16/11, que não mostrou sinal forte de infecção.\n- O hematócrito (proporção de glóbulos vermelhos no sangue) caiu de 29,8% para 26% entre 14 e 16/11. A clínica falou em nova transfusão se ficar **abaixo de 15%**. Parte da queda pode ser da coleta (agregados de plaquetas), por isso o controle é importante.\n\n## Perguntas pra levar à vet\n- Essa queda de peso é só balança ou preocupa? Precisa ajustar a quantidade de comida ou o suporte nutricional pra recuperar massa?\n- Quando repetir o hemograma? **Vale fazer logo**, já que o hematócrito vinha caindo.\n- O sangramento depois de tirar a sonda urinária é esperado? Ele já está urinando sozinho? Se não esvaziar a bexiga, falar com a clínica logo.\n- Fezes escuras e amolecidas: preciso me preocupar? Quando voltar a ter fezes pretas, avisar na hora.\n- Receita nova do fenobarbital: **ele só tem o comprimido de ontem à noite**, então isso é urgente. Falar com a neurologista hoje pra não ficar sem a dose.\n\nSe ele ficar pálido, muito mole, com fezes pretas ou convulsão, ligue pra clínica na hora.",
    "createdAt": 1794926001604
+  },
+  {
+   "id": "BaYUOmbuGUs1TzYv02Eo",
+   "text": "## O que mudou\n- **Urina (EAS)**: apareceram dois laudos do mesmo dia que não batem. Um diz turvo e amarelo escuro; o outro, límpido, amarelo, pH 6,0 e densidade 1.025. Os dois mostram só cristais raros de oxalato de cálcio (comuns, sem importância isolada) e células da bexiga raras. Nenhum cita bactérias, sangue ou células de pus, e **a coleta não foi informada**.\n- **Proteína na urina (PU/CU 0,09)**: normal. Isso indica que o rim não está perdendo proteína, o que é bom.\n- **Cultura com antibiograma**: ainda sem resultado. Até sair, **não dá pra descartar infecção na bexiga**, principalmente depois do ultrassom de 08/11 (cistite acentuada) e de tanto tempo de sonda.\n- **Peso**: 17,5 → 18,9 → 19,4 → 20,1 kg em 4 dias. Está subindo, mas a balança de casa pode variar.\n\n## Tendência geral\n- A **função renal** parece tranquila: sem perda de proteína e creatinina normal nos últimos exames.\n- A **anemia** continua sendo o ponto de atenção. O hemograma de 18/11 mostrou a medula ainda sem resposta (reticulócitos muito baixos), e nada nos exames novos muda isso.\n- Ficam pendentes o **PCR de cinomose** e o **fenobarbital**, coletados em 16/11.\n\n## Perguntas pra levar à vet\n- Por que os dois laudos de urina estão diferentes? Dá pra pedir ao laboratório pra confirmar qual é de qual amostra?\n- A cultura sai quando? Enquanto isso, o aspecto turvo/escuro muda alguma conduta?\n- Ele ainda não urina sozinho: como seguir com o esvaziamento da bexiga e quando coletar nova urina?\n- Quando repetir hemograma e reticulócitos pra acompanhar a medula?\n- Como fica o fenobarbital até a neuro avaliar o resultado?\n\n**Fale com a equipe logo** se ele ficar pálido, com gengiva branca, fezes pretas, febre alta ou parar de urinar.",
+   "createdAt": 1795185585741
   },
   {
    "id": "CJL5Oj9TyaaUq5J4uANm",
@@ -2538,6 +2551,20 @@
    "notes": "Rio Vet; usado na internação e mantido na receita de alta de 16/11. Contagem dos 30 dias a partir de 15/11.",
    "start": "2026-11-15",
    "end": "2026-12-14"
+  },
+  {
+   "id": "rMcNJuEPfHjasssgUU1m",
+   "name": "Engystol",
+   "purpose": "",
+   "dose": "2 mL, dose única, dada por a veterinária",
+   "start": "2026-11-19",
+   "end": "2026-11-20",
+   "endEstimated": true,
+   "notes": "da receita: relato",
+   "allergy": false,
+   "clinic": "",
+   "composition": "",
+   "components": []
   },
   {
    "id": "rdr0b2duqyj48wqcbdan",
