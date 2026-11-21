@@ -343,6 +343,7 @@ body.ro .wr { display: none !important; }
 @media (max-width: 560px) { .hgrid.week .gev { font-size: 0; padding: 0; height: 6px; border-left-width: 0; background: var(--cc); margin: 2px 0; } .hgrid.week thead th { font-size: 10.5px; } .hgrid .hl { width: 38px; } }
 .citem.skip { opacity: .55; } .citem.fut { background: color-mix(in srgb, var(--cc) 10%, transparent); border-radius: 0 6px 6px 0; }
 @media (max-width: 560px) { .calgrid .cd { min-height: 54px; } .calgrid .cev { display: none; } .calgrid .cdots { display: flex; } .calgrid .more { display: none; } }
+form:not(:has(select[name=fid] option[value="__caseira"]:checked)) label:has(> textarea[name=desc]) { display: none; }
 .pbar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 6px; display: flex; } .pbar i + i { border-radius: 0 99px 99px 0; } .pbar i.food { background: var(--ok) !important; opacity: .75; } .pkey { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin: 0 3px 0 0; vertical-align: 0; } .pkey.d { background: var(--accent); } .pkey.f { background: var(--ok); opacity: .75; } .pbar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; } .tile.ok .pbar i { background: var(--ok); } .tile.lo .pbar i { background: var(--warn); }
 .chip .cnt { opacity: .7; font-size: 11px; margin-left: 2px; }
 .mrow { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 0 10px; border-bottom: 1px solid var(--line); }
