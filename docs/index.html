@@ -280,6 +280,7 @@ body.ro .wr { display: none !important; }
 .mdesc { font-size: 13.5px; color: var(--muted); margin: 0 0 10px; }
 .mtable td, .mtable th { padding: 6px 12px 6px 0; text-align: left; }
 #evo th:first-child, #evo td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 1; }
+.legend-box > summary { cursor: pointer; list-style: none; } .legend-box > summary::-webkit-details-marker { display: none; } .legend-box > summary::before { content: '▸ '; color: var(--muted); } .legend-box[open] > summary::before { content: '▾ '; } .legend-box[open] > summary { margin-bottom: 8px; }
 .legend-box { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 8px; }
 .legend-box h2 { font-size: 14px; margin: 0; }
 .legend-row { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: baseline; }
@@ -608,12 +609,12 @@ body:not(.app) .app-only { display: none; }
     <div id="analysis" class="analysis"><p class="muted">Carregando…</p></div>
     <p class="note" id="anMeta"></p>
   </section>
-  <section class="legend-box" aria-label="Como ler os gráficos">
-    <h2>Como ler os gráficos</h2>
+  <details class="legend-box" aria-label="Como ler os gráficos">
+    <summary><h2 style="display:inline">Como ler os gráficos</h2> <span class="muted" style="font-size:12.5px">toque pra abrir</span></summary>
     <div class="legend-row"><span class="lgt">Linhas</span><div class="legend-note"><span><i></i>exames próximos</span><span><i class="dash"></i>mais de 6 dias sem exame (não mostra o que aconteceu no meio)</span><span><i class="band"></i>faixa de referência</span><span><i class="ev"></i>acontecimento marcado (internação, transfusão…)</span></div></div>
     <div class="legend-row"><span class="lgt">Status</span><div class="legend-note"><span><span class="pill ok">na faixa</span> dentro da referência</span><span><span class="pill lo">abaixo</span> / <span class="pill hi">acima</span> fora da referência</span><span>nos cards do Painel: <b style="color:var(--ok)">▲▼ verde</b> = voltando pra faixa, <b style="color:var(--warn)">▲▼ laranja</b> = se afastando</span></div></div>
     <div class="legend-row"><span class="lgt">Dicas</span><div class="legend-note"><span>toque no <b>?</b> pra ver o que cada exame avalia</span><span>clique no gráfico pra ampliar e ver todos os valores</span></div></div>
-  </section>
+  </details>
   <div class="extools" role="toolbar" aria-label="Filtrar gráficos">
     <div class="chips" id="exChips"></div>
     <label class="chk"><input type="checkbox" id="exOut"> Só o que está fora da faixa</label>
@@ -949,7 +950,7 @@ function renderCharts() {
   const all = sortedExams().filter(hasParams);
   if (!all.length) return;
   const ctxC = chartCtx();
-  $('exChips').innerHTML = [{g:'all', t:'Todos'}, ...GROUPS.filter(G => PARAMS.some(p => p.g === G.g && series(p.k).length))].map(G =>
+  $('exChips').innerHTML = [{g:'all', t:'Todos'}, ...GROUPS.filter(G => PARAMS.some(p => p.g === G.g && series(p.k).length)).sort((a, b) => a.t.localeCompare(b.t, 'pt', { sensitivity: 'base' }))].map(G =>
     `<button class="chip${exGroup === G.g ? ' on' : ''}" data-exg="${G.g}">${esc(G.t)}</button>`).join('');
   let shown = 0;
   const homeOn = (vitals.length || exams.some(e => typeof e.params?.temp === 'number')) && (exGroup === 'all' || exGroup === 'clin') && !exOnlyOut;
@@ -1255,7 +1256,7 @@ const CLINIC_FIXED = { 'animalis': '#5cc98a', 'tododoy': '#e5675f', 'vetreabilit
 const stayOf = iso => STAYS.find(s => iso >= s.from && (!s.to || iso <= s.to));
 const daysBetween = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 864e5);
 let tlFilter = 'Tudo', tlAsc = false, tlMarks = false, tlOpen = new Set();
-const TL_KINDS = ['Tudo', 'Remédio', 'Comida e água', 'Temperatura', 'Xixi e fezes', 'Decúbito', 'Acontecimento', 'Exame', 'Receita', 'Medicamento', 'Vacina/vermífugo', 'Foto'];
+const TL_KINDS = ['Tudo', ...['Remédio', 'Comida e água', 'Temperatura', 'Xixi e fezes', 'Decúbito', 'Acontecimento', 'Exame', 'Receita', 'Medicamento', 'Vacina/vermífugo', 'Foto'].sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }))];
 // Tudo o que aconteceu, um item por registro, com hora: o Histórico mostra o dia inteiro (não só os acontecimentos).
 function tlItems() {
   const out = [], hoje = todayIso();
@@ -1390,7 +1391,16 @@ function historyText(highlightDates = []) {
   }).join('\n');
   const ev = [...events].sort((a,b) => a.date < b.date ? -1 : 1).map(e => `- ${e.date}: ${e.text}`).join('\n');
   const refs = PARAMS.map(p => `${p.l}: ${refTxt(p)} ${p.u}`).join('; ');
-  return `ACONTECIMENTOS:\n${ev || '(nenhum)'}\n\nEXAMES (ordem cronológica):\n${ex}\n\nReferências aproximadas (variam por laboratório): ${refs}`;
+  // últimos 7 dias em casa: temperatura, água, calorias, remédios dados/pulados
+  const g = goalsNow(), casa = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = dayIso(dayNum(todayIso()) - i), T = dayTotals(d), ts = vitals.filter(v => v.date === d && typeof v.temp === 'number').map(v => Math.max(v.temp, v.temp2 || 0));
+    const dl = rlogs.filter(l => l.date === d && l.kind === 'med'), dado = dl.filter(l => l.status === 'done').length;
+    if (!ts.length && !T.water && !T.kcal && !dl.length) continue;
+    casa.push(`- ${d}: ${ts.length ? `temp máx ${Math.max(...ts)} °C (${ts.filter(t => t > 39.2).length} acima de 39,2)` : 'sem temperatura'} · água ${Math.round(T.water)} mL (bebida ${Math.round(T.drink)}) · ${Math.round(T.kcal)} kcal${dl.length ? ` · remédios ${dado} dados, ${dl.length - dado} pulados` : ''}`);
+  }
+  const emUso = meds.filter(m => inUse(m)).map(m => m.name).join(', ');
+  return `ACONTECIMENTOS:\n${ev || '(nenhum)'}\n\nEXAMES (ordem cronológica):\n${ex}\n\nEM CASA, ÚLTIMOS 7 DIAS (metas: água ${g.water || '?'} mL, ${g.kcal || '?'} kcal):\n${casa.join('\n') || '(nada anotado)'}\n\nREMÉDIOS EM USO: ${emUso || '(nenhum)'}\n\nReferências aproximadas (variam por laboratório): ${refs}`;
 }
 
 async function runAnalysis(newDates = []) {
@@ -1403,9 +1413,13 @@ ${historyText(newDates)}
 
 ${newDates.length ? `Os exames marcados [NOVO] acabaram de ser adicionados. Foque no que eles mudam em relação ao histórico.` : 'Faça uma avaliação geral da evolução até agora.'}
 
-Escreva no máximo ~250 palavras, nesta estrutura (use exatamente esses títulos com "## "):
+Escreva no máximo ~350 palavras, nesta estrutura (use exatamente esses títulos com "## "):
+## ✅ Pontos positivos
+(o que está melhorando ou indo bem: exames voltando pra faixa, peso, apetite, febre, água e calorias batendo a meta, remédios em dia)
+## ⚠️ Pontos de preocupação
+(do mais importante pro menos; em cada um, o que ela pode observar em casa e quando chamar a clínica)
 ## O que mudou
-## Tendência geral
+(desde os exames ou dias anteriores, em poucas linhas)
 ## Perguntas pra levar à vet
 Use listas com "- " e **negrito** só no essencial. Compare tendências, não números exatos entre laboratórios diferentes. Explique termos técnicos rapidinho. Não dê diagnóstico fechado, não sugira remédios nem doses. Se algo parecer urgente (ex.: queda forte do hematócrito), diga pra falar com a equipe logo.`;
   try {
@@ -1957,7 +1971,7 @@ function renderMeds() {
   queueMicrotask(() => document.querySelectorAll(LISTS.split(', ').map(x => x + ' .mrow').join(', ')).forEach(r => { if (abertos.has(r.dataset.mid)) { const d = r.querySelector('details.mitem'); if (d) d.open = true; } })); // antes de a tela piscar
   updateMergeBar();
   $('clinicList').innerHTML = [...new Set(meds.map(m => m.clinic).filter(Boolean))].map(c => `<option value="${esc(c)}">`).join('');
-  const cats = ['Todos', ...CATS.map(c => c[0]), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
+  const cats = ['Todos', ...CATS.map(c => c[0]).sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' })), 'Outros'].filter(c => c === 'Todos' || meds.some(m => catOf(m) === c));
   $('medChips').innerHTML = cats.map(c => `<button class="chip${medCat === c ? ' on' : ''}" data-mcat="${esc(c)}">${esc(c)} <span class="cnt">${c === 'Todos' ? meds.length : meds.filter(m => catOf(m) === c).length}</span></button>`).join('');
   const sorted = [...meds].filter(medVisible).sort((a,b) => (a.start || '') < (b.start || '') ? 1 : -1);
   const byName = (a, b) => (a.name || '').localeCompare(b.name || '', 'pt', { sensitivity: 'base' });
