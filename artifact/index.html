@@ -278,6 +278,7 @@ body.ro .wr { display: none !important; }
 .mdesc { font-size: 13.5px; color: var(--muted); margin: 0 0 10px; }
 .mtable td, .mtable th { padding: 6px 12px 6px 0; text-align: left; }
 #evo th:first-child, #evo td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 1; }
+.legend-box > summary { cursor: pointer; list-style: none; } .legend-box > summary::-webkit-details-marker { display: none; } .legend-box > summary::before { content: '▸ '; color: var(--muted); } .legend-box[open] > summary::before { content: '▾ '; } .legend-box[open] > summary { margin-bottom: 8px; }
 .legend-box { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 8px; }
 .legend-box h2 { font-size: 14px; margin: 0; }
 .legend-row { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: baseline; }
@@ -606,12 +607,12 @@ body:not(.app) .app-only { display: none; }
     <div id="analysis" class="analysis"><p class="muted">Carregando…</p></div>
     <p class="note" id="anMeta"></p>
   </section>
-  <section class="legend-box" aria-label="Como ler os gráficos">
-    <h2>Como ler os gráficos</h2>
+  <details class="legend-box" aria-label="Como ler os gráficos">
+    <summary><h2 style="display:inline">Como ler os gráficos</h2> <span class="muted" style="font-size:12.5px">toque pra abrir</span></summary>
     <div class="legend-row"><span class="lgt">Linhas</span><div class="legend-note"><span><i></i>exames próximos</span><span><i class="dash"></i>mais de 6 dias sem exame (não mostra o que aconteceu no meio)</span><span><i class="band"></i>faixa de referência</span><span><i class="ev"></i>acontecimento marcado (internação, transfusão…)</span></div></div>
     <div class="legend-row"><span class="lgt">Status</span><div class="legend-note"><span><span class="pill ok">na faixa</span> dentro da referência</span><span><span class="pill lo">abaixo</span> / <span class="pill hi">acima</span> fora da referência</span><span>nos cards do Painel: <b style="color:var(--ok)">▲▼ verde</b> = voltando pra faixa, <b style="color:var(--warn)">▲▼ laranja</b> = se afastando</span></div></div>
     <div class="legend-row"><span class="lgt">Dicas</span><div class="legend-note"><span>toque no <b>?</b> pra ver o que cada exame avalia</span><span>clique no gráfico pra ampliar e ver todos os valores</span></div></div>
-  </section>
+  </details>
   <div class="extools" role="toolbar" aria-label="Filtrar gráficos">
     <div class="chips" id="exChips"></div>
     <label class="chk"><input type="checkbox" id="exOut"> Só o que está fora da faixa</label>
