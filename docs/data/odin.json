@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-21T22:20:44.921Z",
- "updatedAt": 1795299367610,
+ "exportedAt": "2026-11-21T22:31:53.811Z",
+ "updatedAt": 1795299998913,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1358,6 +1358,22 @@
    "_byName": "a tutora"
   },
   {
+   "id": "5JXOVHcvSDjvi86dUlVq",
+   "date": "2026-11-21",
+   "time": "15:25",
+   "kind": "urina",
+   "details": {
+    "como": "ao pressionar a bexiga",
+    "cor": "amarelo",
+    "quantidade": "pouco"
+   },
+   "text": "Xixi ao pressionar a bexiga, amarelo, pouco.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795299971399
+  },
+  {
    "id": "6iOQdBvBVT8Tx33C9QPi",
    "date": "2026-11-21",
    "time": null,
@@ -1683,6 +1699,22 @@
    "_byName": "a tutora"
   },
   {
+   "id": "lOsEkLTy2XyVQdXITnop",
+   "date": "2026-11-21",
+   "time": "16:26",
+   "kind": "urina",
+   "details": {
+    "como": "com escape",
+    "cor": "amarelo",
+    "quantidade": "bastante"
+   },
+   "text": "Xixi com escape, amarelo, bastante.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795299996664
+  },
+  {
    "id": "mpXLIQX0fJFTPSRm0uXo",
    "date": "2026-11-18",
    "time": "20:44",
@@ -1737,6 +1769,21 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "rvrqUoRKCKQQ07GI956A",
+   "date": "2026-11-21",
+   "time": "19:25",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795299943023
   },
   {
    "id": "rxAX4zCFvInsPp9xUGDQ",
