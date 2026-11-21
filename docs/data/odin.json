@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-21T13:15:57.962Z",
- "updatedAt": 1795266683606,
+ "exportedAt": "2026-11-21T13:29:02.028Z",
+ "updatedAt": 1795267493855,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -3728,6 +3728,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "H8RMkFZ2o8ox4FqJdiU9",
+   "date": "2026-11-21",
+   "time": "10:23",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 77.6,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795267421368
+  },
+  {
    "id": "HbM9VrZPqg1mb6jh7I8d",
    "date": "2026-11-20",
    "time": "12:38",
@@ -3846,6 +3858,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "UW8O33BzYj0IpKuxuQKY",
+   "date": "2026-11-21",
+   "time": "10:23",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
+   "foodId": "racao",
+   "food_g": 75.2,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795267412894
   },
   {
    "id": "VEURvov3n0TlPJbxXS7o",
@@ -5009,6 +5033,16 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "xbD64J0G5fs3gycJhma7",
+   "date": "2026-11-21",
+   "time": "10:24",
+   "temp": 39.4,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795267492519
   },
   {
    "id": "xd7V5Mru1lkg4NMxGKqF",
