@@ -5,12 +5,12 @@ Funcionalidade: Metas de água e comida
   Para saber quanto oferecer em cada lembrete e se ele comeu o suficiente
 
   Cenário: Meta de água por hora vira quanto oferecer em cada lembrete
-    Ilustração: 5 mL por kg por hora, Odin com 20 kg, lembrete de água a cada 2 h das 08 às 22 (8 lembretes) = 200 mL por lembrete, 1.600 mL no dia.
+    Ilustração: 5 mL por kg por hora, Odin com 20 kg, lembrete de água a cada 2 h das 08 às 22 (8 lembretes) = 1.600 mL no dia; cada lembrete pede o que falta dividido pelos lembretes que ainda vêm.
     Dado que eu administro o app
     E eu estou na administração
     Quando eu defino a água em 5 mL por kg por hora
     E eu volto para Hoje
-    Então a meta de água de hoje é 1.600 mL com uns 200 mL por lembrete
+    Então a meta de água de hoje é 1.600 mL e mostra quanto falta beber
 
   Cenário: Meta de gramas de comida aparece em Hoje
     Ilustração: meta de 680 g de comida por dia.
