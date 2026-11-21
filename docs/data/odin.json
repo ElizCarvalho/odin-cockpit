@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-21T16:41:43.668Z",
- "updatedAt": 1795278799833,
+ "exportedAt": "2026-11-21T17:07:44.868Z",
+ "updatedAt": 1795280621924,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -3709,6 +3709,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "98wWXznqdEsA68Q1roNE",
+   "date": "2026-11-21",
+   "time": "14:02",
+   "food": true,
+   "note": "Patê caseiro (fígado de frango, cenoura, batata-doce, inhame)",
+   "foodId": "caseira_mwqnq5ty",
+   "food_g": 333.2,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795280619804
+  },
+  {
    "id": "9K7marenvXbftWqMWRr1",
    "date": "2026-11-20",
    "time": "14:29",
@@ -5243,6 +5255,20 @@
    "_by": "[removido]",
    "_at": 1795228836221,
    "_byName": "a tutora"
+  },
+  {
+   "id": "caseira_mwqnq5ty",
+   "name": "Patê caseiro (fígado de frango, cenoura, batata-doce, inhame)",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 115.6,
+   "water": 0.72,
+   "est": true,
+   "src": "estimado pela IA: Patê de fígado de frango cozido 300 g/501 kcal · Cenoura média cozida 80 g/25 kcal · Batata-doce média cozida 150 g/115 kcal · Inhame médio cozido 150 g/145 kcal",
+   "receita": "pate de fígado de frango (300g) + 1 cenoura media + 1 batata doce media + 1 inhame medio",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795280617223
   },
   {
    "id": "cha",

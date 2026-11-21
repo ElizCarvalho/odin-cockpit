@@ -78,9 +78,17 @@ header { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wr
 .drop strong { font-family: var(--font-display); font-size: 17px; }
 .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
 @media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
-textarea, input[type=text], input[type=date], input[type=number], input[type=time] {
+textarea, input[type=text], input[type=date], input[type=number], input[type=time], input[type=email], select {
   font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%;
+  box-sizing: border-box;
 }
+/* todos os campos com a mesma altura; 16 px no celular evita o zoom do iPhone ao tocar no campo */
+input[type=text], input[type=date], input[type=number], input[type=time], input[type=email], select { min-height: 42px; line-height: 1.25; font-family: inherit; }
+input[type=time], input[type=date] { -webkit-appearance: none; appearance: none; display: flex; align-items: center; }
+select { -webkit-appearance: none; appearance: none; padding-right: 30px; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+select:invalid, select option[value=""] { color: var(--muted); }
+::placeholder { color: var(--muted); opacity: .8; }
+@media (max-width: 760px) { textarea, input[type=text], input[type=date], input[type=number], input[type=time], input[type=email], select { font-size: 16px; } }
 textarea { min-height: 84px; resize: vertical; }
 button { font: inherit; font-weight: 600; border-radius: 8px; padding: 8px 14px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
 button.ghost { background: transparent; color: var(--accent); }
@@ -182,7 +190,6 @@ label.chk { display: flex; gap: 6px; align-items: center; font-size: 13.5px; col
 .panel[hidden] { display: none; }
 .formgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; align-items: end; }
 .formgrid label { display: grid; gap: 3px; font-size: 12.5px; color: var(--muted); }
-select { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; }
 .list { display: grid; gap: 0; }
 .item { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: start; }
 .item .t { font-weight: 600; }
@@ -523,7 +530,7 @@ body:not(.app) .app-only { display: none; }
       <h2>Peso</h2>
       <div class="vform" id="regPeso" style="margin-top:8px">
         <label>Data<input type="date" data-w="date"></label><label>Hora<input type="time" data-w="time"></label>
-        <label>Peso (kg)<input type="number" step="0.01" min="1" max="80" data-w="kg" placeholder="19,2"></label>
+        <label>Peso (kg)<input type="number" inputmode="decimal" step="0.01" min="1" max="80" data-w="kg" placeholder="19,2"></label>
         <label>Onde<input type="text" data-w="where" list="wPlaces2" placeholder="Em casa"><datalist id="wPlaces2"><option>Em casa</option><option>Rio Vet</option><option>Animalis</option><option>Tododoy</option><option>Vetreabilite (neuro)</option></datalist></label>
         <button data-wsave2>Salvar</button></div>
   </section>
@@ -1633,7 +1640,7 @@ function renderReview() {
       <div class="muted" style="font-size:12px">de ${esc(e.source)}</div>
       <div class="pgrid">${Object.entries(e.params).sort((a,b) => KEY_ORDER.indexOf(a[0]) - KEY_ORDER.indexOf(b[0])).map(([k, v]) =>
         `<div class="prow"><span>${esc(P[k].l)} <span class="muted" style="font-size:11px">${esc(P[k].u)}</span></span>
-         <input type="number" step="any" data-p="${k}" value="${v}" aria-label="${esc(P[k].l)}"><button class="ghost" data-pdel="${k}" aria-label="Remover ${esc(P[k].l)}">×</button></div>`).join('') || '<span class="muted">Sem valores numéricos.</span>'}</div>
+         <input type="number" inputmode="decimal" step="any" data-p="${k}" value="${v}" aria-label="${esc(P[k].l)}"><button class="ghost" data-pdel="${k}" aria-label="Remover ${esc(P[k].l)}">×</button></div>`).join('') || '<span class="muted">Sem valores numéricos.</span>'}</div>
       <label><span class="muted" style="font-size:12px">Achados (um por linha)</span><textarea data-f="other">${esc(e.other.join('\n'))}</textarea></label>
       ${e.meds.length ? `<div><div class="muted" style="font-size:12px">Medicamentos encontrados (marcados vão para Mais → Medicamentos)</div>` + e.meds.map((m, j) =>
         `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-med="${j}" ${m.add ? 'checked' : ''}> ${esc(m.name)}${m.dose ? ' · ' + esc(m.dose) : ''}${m.days ? ' · ' + m.days + ' dias' : ''} <span class="muted">(início ${dm(m.start)})${m.add ? "" : " · já está na lista de remédios"}</span></label>`).join('') + '</div>' : ''}
@@ -1927,9 +1934,9 @@ function medDetail(m) {
       Forma <select data-mform="${esc(m.id)}">${Object.entries(FORMS).map(([k, v]) => `<option value="${k}"${formOf(m) === k ? ' selected' : ''}>${v[0]}</option>`).join('')}</select></div>` : ''}
     ${m.stock ? `<div class="s"><b>Estoque:</b> ${fmt(m.stock.qty)} ${esc(m.stock.unit || 'un.')} em ${dm(m.stock.countedAt)}, gasta ${fmt(m.stock.perDay)}/dia${stockEnd(m.stock) ? ` → dura até <b>${dm(stockEnd(m.stock))}</b>` : ''}${needsBuy(m) ? ' <span class="pill hi">comprar antes</span>' : m.end && stockEnd(m.stock) ? ' <span class="pill ok">dá até o fim</span>' : ''}</div>` : ''}
     ${canWrite && m.id ? `<details class="mstock"><summary class="muted" style="cursor:pointer;font-size:12.5px">${m.stock ? 'atualizar estoque' : 'informar estoque'}</summary>
-      <div class="medit"><input type="number" step="any" min="0" data-sq="${esc(m.id)}" value="${m.stock ? m.stock.qty : ''}" placeholder="quantidade" style="width:100px">
+      <div class="medit"><input type="number" inputmode="decimal" step="any" min="0" data-sq="${esc(m.id)}" value="${m.stock ? m.stock.qty : ''}" placeholder="quantidade" style="width:100px">
       <input type="text" data-su="${esc(m.id)}" value="${esc(m.stock ? m.stock.unit || '' : '')}" placeholder="unidade (comp., mL, g…)" style="width:150px">
-      <input type="number" step="any" min="0" data-sp="${esc(m.id)}" value="${m.stock ? m.stock.perDay : ''}" placeholder="gasta por dia" style="width:110px">
+      <input type="number" inputmode="decimal" step="any" min="0" data-sp="${esc(m.id)}" value="${m.stock ? m.stock.perDay : ''}" placeholder="gasta por dia" style="width:110px">
       <button class="tiny" data-msave="${esc(m.id)}">salvar (contado hoje)</button></div></details>` : ''}
     ${isPaused(m) && m.pauseReason ? `<div class="s"><b>Pausado:</b> ${esc(m.pauseReason)}</div>` : ''}
     ${Array.isArray(m.pauses) && m.pauses.length ? `<div class="s"><b>Pausas anteriores:</b> ${m.pauses.map(p => `${dm(p.from)}–${dm(p.to)}${p.reason ? ' (' + esc(p.reason) + ')' : ''}`).join(' · ')}</div>` : ''}`;
