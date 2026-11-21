@@ -254,10 +254,29 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
     </section>
 `);
   }
-  window.renderRotina = () => { render(); renderAdmin(); };
+  // Atividade (só admin): quem criou, editou ou apagou cada registro
+  let aud = [], audSub = null, audQuem = 'Todos';
+  const COL_T = { vitals: 'Água/comida/temperatura', rotina_log: 'Lembrete respondido', events: 'Acontecimento', exams: 'Exame', meds: 'Remédio', schedule: 'Horário', notifs: 'Lembrete', supplies: 'Estoque', foods: 'Alimento', photos: 'Foto', prevent: 'Vacina/vermífugo', meta: 'Configuração', analyses: 'Avaliação', acl: 'Acesso' };
+  function renderAtividade() {
+    const host = document.getElementById('p-atividade');
+    if (!host || host.hidden || !fb || role() !== 'admin') return;
+    if (!audSub) audSub = fb.fs.collection('auditoria').where('at', '>=', Date.now() - 7 * 864e5).onSnapshot(sn => { aud = sn.docs.map(d => ({ id: d.id, ...d.data() })); renderAtividade(); }, e => { host.innerHTML = `<section class="card"><p class="muted">Não consegui carregar: ${esc(e.message || e.code)}</p></section>`; });
+    const nome = a => a.byName || (a.by || '?').split('@')[0];
+    const pessoas = ['Todos', ...[...new Set(aud.map(nome))].sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }))];
+    const lista = aud.filter(a => audQuem === 'Todos' || nome(a) === audQuem).sort((a, b) => b.at - a.at);
+    const dias = new Map(); for (const a of lista) { const d = new Date(a.at).toLocaleDateString('sv', { timeZone: 'America/Sao_Paulo' }); if (!dias.has(d)) dias.set(d, []); dias.get(d).push(a); }
+    const verbo = { criou: '＋', editou: '✎', apagou: '🗑' };
+    host.innerHTML = `<section class="card"><h2>Atividade</h2>
+      <p class="note" style="margin:4px 0 8px">Quem lançou, mudou ou apagou cada coisa nos últimos 7 dias. Só admin vê. Registros de antes de 20/11 não têm autor.</p>
+      <div class="chips" role="group" aria-label="Filtrar por pessoa">${pessoas.map(p => `<button class="chip${p === audQuem ? ' on' : ''}" data-audq="${esc(p)}" aria-pressed="${p === audQuem}">${esc(p)}</button>`).join('')}</div>
+      ${[...dias].map(([d, xs]) => `<h3 style="margin:14px 0 4px;font-size:14px">${dm(d)}</h3><div class="list" role="list" aria-label="Atividade de ${dm(d)}">${xs.map(a => `<div class="item" role="listitem"><span><span class="hh num">${new Date(a.at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })}</span> <b>${esc(nome(a))}</b> ${verbo[a.acao] || ''} ${esc(a.acao)} <span class="muted">${esc(COL_T[a.col] || a.col)}</span><br><span>${esc(a.resumo || '')}</span>${a.acao === 'editou' && a.campos && a.campos.length ? ` <span class="muted">(${esc(a.campos.join(', '))})</span>` : ''}</span></div>`).join('')}</div>`).join('') || '<p class="muted">Nada nos últimos 7 dias.</p>'}
+    </section>`;
+  }
+  document.addEventListener('click', ev => { const b = ev.target.closest('[data-audq]'); if (b) { audQuem = b.dataset.audq; renderAtividade(); } });
+  window.renderRotina = () => { render(); renderAdmin(); renderAtividade(); };
   window.rotinaFree = k => { freeKind = k || null; render(); };
   // "Mais": Lembretes pra todo mundo do app; Admin só pra admin
-  window.panelHidden = p => p === 'admin' && role() !== 'admin';
+  window.panelHidden = p => ['admin', 'atividade'].includes(p) && role() !== 'admin';
   document.body.classList.add('app');
 
   /* ---------- Admin ---------- */

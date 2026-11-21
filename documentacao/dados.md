@@ -18,6 +18,7 @@ Todas as coleções ficam na raiz. A regra geral (`firestore.rules`) é: **membr
 | `schedule` | não | Horários de lembrete | `kind`, `label`, `times[]` **ou** `every` + `from`/`to`, `days[]`, `everyDays` + `anchor`, `from_date`, `until`, `items[{medId, name, dose}]`, `active` |
 | `notifs` | não | Um lembrete de um horário: `notifs/{schedId}_{AAAA-MM-DD}_{HHMM}` | `kind`, `label`, `items`, `date`, `time`, `status` (`pending`/`done`/`partial`/`skipped`), `suggest` (decúbito), `renotified` |
 | `rotina_log` | não | O que foi dado ou feito em resposta (ou fora de hora) | `date`, `time`, `kind`, `label`, `medId`, `status` (`done`/`skipped`), `block`, `side`, `note`, `planned` (quando "dei depois") |
+| `auditoria` | não (só admin lê) | Quem criou, editou ou apagou cada registro | `acao` (`criou`/`editou`/`apagou`), `col`, `docId`, `by`, `byName`, `at`, `resumo`, `campos[]` |
 | `tokens` | não | Aparelhos que recebem push | id = token FCM; `email`, `ua`, `at` |
 | `acl/users` | não | Quem acessa | `emails[]`, `roles{email: admin\|edit\|view}`, `notify{email: bool}` |
 | `meta/*` | parcial | Configurações | `goals{water_ml, kcal, food_g, water_rule{mlkgh, every, n}}` (público), `status` (público), `notificacoes{med, compra, consulta, pushover{tipo: desligado|normal|critico|insistente}}`, `publico{dirtyAt, sentAt}`, `usage` |
@@ -33,3 +34,8 @@ Todas as coleções ficam na raiz. A regra geral (`firestore.rules`) é: **membr
 ## Fora do repositório
 
 Dados reais vivem só no Firestore e no Storage. `exports/` e `odin-export-*.json` estão no `.gitignore`, e o `npm run check` para se encontrar export bruto versionado.
+
+
+## Quem fez
+
+Toda escrita feita pelo app leva `_by` (e-mail), `_byName` (primeiro nome) e `_at` (shim.js). A função `marcarSitePublico` grava em `auditoria` cada criação e edição carimbada; o app grava as exclusões (com o resumo do que foi apagado). Só admin lê `auditoria`, em Mais → Atividade.

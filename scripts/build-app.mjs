@@ -25,10 +25,10 @@ swap('<title>Odin - Cockpit</title>', `<title>Odin - Cockpit</title>
 <meta name="theme-color" content="#2b6c7d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Odin">`);
-swap('\n  <p class="note">Esta página organiza', '\n  <div class="panel rt" id="p-lembretes" role="tabpanel" hidden></div>\n  <div class="panel" id="p-admin" role="tabpanel" hidden></div>\n\n  <p class="note">Esta página organiza');
+swap('\n  <p class="note">Esta página organiza', '\n  <div class="panel rt" id="p-lembretes" role="tabpanel" hidden></div>\n  <div class="panel" id="p-admin" role="tabpanel" hidden></div>\n  <div class="panel" id="p-atividade" role="tabpanel" hidden></div>\n\n  <p class="note">Esta página organiza');
 swap('\n  <div class="panel" id="p-vacinas"', '\n  <div class="panel" id="p-estoque" role="tabpanel" hidden></div>\n\n  <div class="panel" id="p-vacinas"');
-swap("mais: { t: 'Mais', p: ['remedios', 'vacinas'] }", "mais: { t: 'Mais', p: ['remedios', 'estoque', 'vacinas', 'lembretes', 'admin'] }");
-swap("remedios: 'Medicamentos', vacinas: 'Vacinas e vermífugos' };", "remedios: 'Medicamentos', estoque: 'Estoque', vacinas: 'Vacinas e vermífugos', lembretes: 'Lembretes', admin: 'Admin' };");
+swap("mais: { t: 'Mais', p: ['remedios', 'vacinas'] }", "mais: { t: 'Mais', p: ['remedios', 'estoque', 'vacinas', 'lembretes', 'admin', 'atividade'] }");
+swap("remedios: 'Medicamentos', vacinas: 'Vacinas e vermífugos' };", "remedios: 'Medicamentos', estoque: 'Estoque', vacinas: 'Vacinas e vermífugos', lembretes: 'Lembretes', admin: 'Admin', atividade: 'Atividade' };");
 swap('<button class="regb" data-reg="vacina"><i aria-hidden="true">💉</i><span>Vacina ou vermífugo</span></button>', '<button class="regb" data-reg="vacina"><i aria-hidden="true">💉</i><span>Vacina ou vermífugo</span></button>\n      <button class="regb" data-reg="estoque"><i aria-hidden="true">🛒</i><span>Item de estoque</span></button>');
 swap('<div id="regFree" class="rt"></div>', '<div id="regFree" class="rt"></div>\n  <section class="card regbox hidden wr" data-regbox="estoque" aria-label="Item de estoque" id="regEstoque"></section>');
 swap('renderCalendar(); renderUpdated(); }', 'renderCalendar(); renderUpdated(); if (window.renderRotina) renderRotina(); if (window.renderEstoque) renderEstoque(); }');

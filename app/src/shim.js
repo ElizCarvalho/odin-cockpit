@@ -9,6 +9,39 @@
   const fn = app.functions('southamerica-east1');
   window.ODIN_FB = { app, auth, fs, st, fn, vapidKey: cfg.vapidKey };
 
+  /* ---------- Quem fez: toda escrita leva _by/_byName/_at (as regras exigem) e toda exclusão deixa rastro em "auditoria" ---------- */
+  const SEM_CARIMBO = ['tokens', 'auditoria'];
+  const quem = () => { const u = window.ODIN_USER || {}; return { _by: u.email || '', _byName: (u.name || u.email || '').split(' ')[0], _at: Date.now() }; };
+  const colDe = ref => (ref.parent && ref.parent.id) || ref.id;
+  const carimba = (col, data) => SEM_CARIMBO.includes(col) || !data || typeof data !== 'object' || !window.ODIN_USER ? data : { ...data, ...quem() };
+  const F = firebase.firestore;
+  if (F.CollectionReference && F.DocumentReference && F.WriteBatch) {
+  const add0 = F.CollectionReference.prototype.add, set0 = F.DocumentReference.prototype.set, upd0 = F.DocumentReference.prototype.update, del0 = F.DocumentReference.prototype.delete;
+  const bset0 = F.WriteBatch.prototype.set, bupd0 = F.WriteBatch.prototype.update;
+  F.CollectionReference.prototype.add = function (d) { return add0.call(this, carimba(this.id, d)); };
+  F.DocumentReference.prototype.set = function (d, o) { return set0.call(this, carimba(colDe(this), d), o); };
+  F.DocumentReference.prototype.update = function (d, ...r) { return upd0.call(this, typeof d === 'object' && !r.length ? carimba(colDe(this), d) : d, ...r); };
+  F.WriteBatch.prototype.set = function (ref, d, o) { return bset0.call(this, ref, carimba(colDe(ref), d), o); };
+  F.WriteBatch.prototype.update = function (ref, d, ...r) { return bupd0.call(this, ref, typeof d === 'object' && !r.length ? carimba(colDe(ref), d) : d, ...r); };
+  F.DocumentReference.prototype.delete = async function () {
+    const col = colDe(this);
+    if (!SEM_CARIMBO.includes(col) && window.ODIN_USER) {
+      let antes = null; try { const x = await this.get(); antes = x.exists ? x.data() : null; } catch {}
+      if (antes) await fs.collection('auditoria').add({ acao: 'apagou', col, docId: this.id, by: window.ODIN_USER.email, byName: quem()._byName, at: Date.now(), resumo: resumoDoc(col, antes) }).catch(() => {});
+    }
+    return del0.call(this);
+  };
+  }
+  // mesmo resumo de functions/index.js (resumoDoc)
+  function resumoDoc(col, d) {
+    const t = x => String(x == null ? '' : x).slice(0, 140);
+    if (col === 'vitals') return t([d.temp && `${d.temp} °C`, d.water_ml && `${d.water_ml} mL`, d.food_g && `${Math.round(d.food_g)} g de comida`, d.note].filter(Boolean).join(' · ') || 'anotação');
+    if (col === 'rotina_log') return t(`${d.status === 'done' ? 'deu' : 'pulou'} ${d.label || d.kind}`);
+    if (col === 'events') return t(d.text);
+    if (col === 'exams') return t(`${d.kind || 'exame'} de ${d.date}`);
+    return t(d.name || d.label || d.text || d.caption || d.product || d.kind || '');
+  }
+
   /* ---------- Login + lista de acesso ---------- */
   const gate = document.createElement('div');
   gate.id = 'gate';

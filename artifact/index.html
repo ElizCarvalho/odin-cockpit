@@ -1256,12 +1256,13 @@ const daysBetween = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a
 let tlFilter = 'Tudo', tlAsc = false, tlMarks = false, tlOpen = new Set();
 const TL_KINDS = ['Tudo', ...['Remédio', 'Comida e água', 'Temperatura', 'Xixi e fezes', 'Decúbito', 'Acontecimento', 'Exame', 'Receita', 'Medicamento', 'Vacina/vermífugo', 'Foto'].sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }))];
 // Tudo o que aconteceu, um item por registro, com hora: o Histórico mostra o dia inteiro (não só os acontecimentos).
+const quemFez = x => x && (x._byName || (typeof x.by === 'string' && x.by.includes('@') ? x.by.split('@')[0] : ''));
 function tlItems() {
   const out = [], hoje = todayIso();
   for (const e of events) {
     if (!e.date || e.date > hoje) continue; // compromisso futuro fica no calendário
     const k = ['fezes', 'urina'].includes(e.kind) ? 'Xixi e fezes' : 'Acontecimento';
-    out.push({ date: e.date, time: e.time, kind: k, text: e.text, short: e.short, mark: e.mark, id: e.id, ev: true, ic: e.kind === 'fezes' ? '💩' : e.kind === 'urina' ? '🟡' : e.kind === 'consulta' ? '📅' : '' });
+    out.push({ date: e.date, time: e.time, kind: k, text: e.text, short: e.short, mark: e.mark, id: e.id, ev: true, who: quemFez(e), ic: e.kind === 'fezes' ? '💩' : e.kind === 'urina' ? '🟡' : e.kind === 'consulta' ? '📅' : '' });
   }
   for (const e of exams) {
     const rx = /receit|solicita/i.test(e.kind || '');
@@ -1278,15 +1279,15 @@ function tlItems() {
   for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', ic: '💉', text: `${v.kind}: ${v.product}` });
   for (const v of vitals) {
     if (!v.date) continue;
-    if (typeof v.temp === 'number') { const t = Math.max(v.temp, v.temp2 || 0); out.push({ date: v.date, time: v.time, kind: 'Temperatura', ic: '🌡', text: `${fmt(t)} °C${v.temp2 ? ` (${fmt(v.temp)} / ${fmt(v.temp2)})` : ''}`, hot: t > 39.2, sub: v.note || '' }); }
+    if (typeof v.temp === 'number') { const t = Math.max(v.temp, v.temp2 || 0); out.push({ date: v.date, time: v.time, who: quemFez(v), kind: 'Temperatura', ic: '🌡', text: `${fmt(t)} °C${v.temp2 ? ` (${fmt(v.temp)} / ${fmt(v.temp2)})` : ''}`, hot: t > 39.2, sub: v.note || '' }); }
     const n = nutri(v);
-    if (v.water_ml) { const d = foodById(v.drinkId); out.push({ date: v.date, time: v.time, kind: 'Comida e água', ic: '💧', text: `${fmt(v.water_ml)} mL de ${d ? d.name.toLowerCase() : 'água'}`, sub: v.note && (!d || !v.note.toLowerCase().includes(d.name.toLowerCase())) ? v.note : '' }); }
-    if (v.food_g || (v.food && !v.water_ml && typeof v.temp !== 'number')) { const f = foodById(v.foodId); out.push({ date: v.date, time: v.time, kind: 'Comida e água', ic: '🍽', text: v.food_g ? `${fmt(Math.round(v.food_g))} g de ${f ? f.name : (v.note || 'comida')}${n.kcal ? ` · ${fmt(Math.round(n.kcal))} kcal` : ''}` : `Comeu${v.note ? ': ' + v.note : ''}` }); }
+    if (v.water_ml) { const d = foodById(v.drinkId); out.push({ date: v.date, time: v.time, who: quemFez(v), kind: 'Comida e água', ic: '💧', text: `${fmt(v.water_ml)} mL de ${d ? d.name.toLowerCase() : 'água'}`, sub: v.note && (!d || !v.note.toLowerCase().includes(d.name.toLowerCase())) ? v.note : '' }); }
+    if (v.food_g || (v.food && !v.water_ml && typeof v.temp !== 'number')) { const f = foodById(v.foodId); out.push({ date: v.date, time: v.time, who: quemFez(v), kind: 'Comida e água', ic: '🍽', text: v.food_g ? `${fmt(Math.round(v.food_g))} g de ${f ? f.name : (v.note || 'comida')}${n.kcal ? ` · ${fmt(Math.round(n.kcal))} kcal` : ''}` : `Comeu${v.note ? ': ' + v.note : ''}` }); }
   }
   for (const l of rlogs) {
     if (!l.date) continue;
-    if (l.kind === 'med') out.push({ date: l.date, time: l.time, kind: 'Remédio', ic: l.status === 'done' ? '💊' : '⏭', text: `${l.status === 'done' ? 'Deu' : 'Pulou'} ${l.label || ''}`, skip: l.status !== 'done', sub: [l.block, l.note].filter(Boolean).join(' · ') });
-    else if (l.kind === 'decubito') out.push({ date: l.date, time: l.time, kind: 'Decúbito', ic: '🔄', text: l.status === 'done' ? `Virou${l.side ? ' pro ' + l.side : ''}` : 'Pulou a troca de decúbito', skip: l.status !== 'done' });
+    if (l.kind === 'med') out.push({ date: l.date, time: l.time, who: quemFez(l), kind: 'Remédio', ic: l.status === 'done' ? '💊' : '⏭', text: `${l.status === 'done' ? 'Deu' : 'Pulou'} ${l.label || ''}`, skip: l.status !== 'done', sub: [l.block, l.note].filter(Boolean).join(' · ') });
+    else if (l.kind === 'decubito') out.push({ date: l.date, time: l.time, who: quemFez(l), kind: 'Decúbito', ic: '🔄', text: l.status === 'done' ? `Virou${l.side ? ' pro ' + l.side : ''}` : 'Pulou a troca de decúbito', skip: l.status !== 'done' });
   }
   for (const p of photos) if (p.date) out.push({ date: p.date, time: p.time, kind: 'Foto', text: p.caption || 'Foto', assetId: p.assetId, video: p.video, createdAt: p.createdAt || 0 });
   return out.filter(i => i.date);
@@ -1329,7 +1330,7 @@ function renderTimeline() {
     const starts = list.filter(i => i.med === 'start'), ends = list.filter(i => i.med === 'end');
     if (starts.length) body += `<div class="tli"><span class="k">Começou</span> ${medTxt(starts)}</div>`;
     if (ends.length) body += `<div class="tli"><span class="k">Terminou</span> ${medTxt(ends)}</div>`;
-    for (const o of list.filter(i => !i.med && i.kind !== 'Foto').sort(byTime)) body += `<div class="tli ${o.ev ? 'ev' : ''} ${o.mark ? 'mk' : ''} ${o.skip ? 'skip' : ''} ${o.hot ? 'hot' : ''}" role="listitem">${hh(o.time)}${o.ic ? `<span aria-hidden="true">${o.ic}</span> ` : ''}${o.mark && o.short ? `<span class="pill mkp">${esc(o.short)}</span> ` : ''}${['Exame', 'Receita', 'Vacina/vermífugo'].includes(o.kind) ? `<span class="k">${o.kind}</span> ` : ''}${esc(o.text)}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}${o.ev && canWrite ? ` <button class="tiny ghost" data-evdel="${esc(o.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`;
+    for (const o of list.filter(i => !i.med && i.kind !== 'Foto').sort(byTime)) body += `<div class="tli ${o.ev ? 'ev' : ''} ${o.mark ? 'mk' : ''} ${o.skip ? 'skip' : ''} ${o.hot ? 'hot' : ''}" role="listitem">${hh(o.time)}${o.ic ? `<span aria-hidden="true">${o.ic}</span> ` : ''}${o.mark && o.short ? `<span class="pill mkp">${esc(o.short)}</span> ` : ''}${['Exame', 'Receita', 'Vacina/vermífugo'].includes(o.kind) ? `<span class="k">${o.kind}</span> ` : ''}${esc(o.text)}${o.who ? ` <span class="muted" style="font-size:12px">· ${esc(o.who)}</span>` : ''}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}${o.ev && canWrite ? ` <button class="tiny ghost" data-evdel="${esc(o.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`;
     if (pics.length) body += `<div class="tlpics">` + pics.map(p => p.video
       ? `<button class="tlp vid" data-open="${esc(p.assetId)}" data-video="1" title="${esc(p.text)}">▶</button>`
       : `<img class="tlp" src="${esc(photoSrc(p.assetId))}" alt="${esc(p.text)}" title="${esc((p.time ? p.time + ' · ' : '') + p.text)}" loading="lazy" data-open="${esc(p.assetId)}" data-cap="${esc(p.text)}">`).join('') + `</div>`

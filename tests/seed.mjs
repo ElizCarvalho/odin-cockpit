@@ -9,6 +9,7 @@ export const SEED = {
   photos: { p1: { assetId: 'a1', date: today, caption: 'Foto teste', createdAt: 1 } },
   vitals: { t1: { date: today, time: '07:00', temp: 38.4 } },
   schedule: { s1: { kind: 'med', label: 'Remédio teste', times: ['09:00'], active: true }, s3: { kind: 'med', label: 'Manhã', times: ['09:30'], active: true, items: [{ medId: 'm1', name: 'Remédio teste', dose: '1 comp.' }, { medId: 'm2', name: 'Outro em uso', dose: '1 comp.' }] }, s2: { kind: 'agua', label: 'Água', every: 120, from: '08:00', to: '22:00', active: true } },
+  auditoria: { a1: { acao: 'criou', col: 'vitals', docId: 'v9', by: 'admin@teste.com', byName: 'Elis', at: Date.now() - 3600e3, resumo: '150 mL · água de coco' }, a2: { acao: 'apagou', col: 'events', docId: 'e9', by: 'edita@teste.com', byName: 'Brenda', at: Date.now() - 1800e3, resumo: 'Evento repetido' } },
   rotina_log: { r1: { date: today, time: '06:30', kind: 'med', label: 'Vitamina teste · 1 gota', medId: null, status: 'done', block: 'Madrugada' } },
   notifs: {
     [`s1_${today}_0900`]: { schedId: 's1', kind: 'med', label: 'Remédio teste', date: today, time: '09:00', status: 'pending', sentAt: 1 },

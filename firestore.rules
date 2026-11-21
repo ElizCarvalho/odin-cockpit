@@ -26,9 +26,16 @@ service cloud.firestore {
       allow delete: if member();
       allow read: if isAdmin();
     }
+    // registro de quem fez o quê: só admin lê; ninguém edita nem apaga (as funções gravam criação/edição; o app grava as exclusões)
+    match /auditoria/{id} {
+      allow read: if isAdmin();
+      allow create: if canEdit() && request.resource.data.by == me() && request.resource.data.acao == 'apagou';
+    }
     match /{col}/{id} {
-      allow read: if member() && col != 'acl';
-      allow write: if canEdit() && !(col in ['acl', 'tokens']);
+      allow read: if member() && col != 'acl' && col != 'auditoria';
+      // o app carimba _by/_byName/_at em toda escrita (shim.js) e a função grava a trilha em "auditoria"
+      allow create, update: if canEdit() && !(col in ['acl', 'tokens', 'auditoria']);
+      allow delete: if canEdit() && !(col in ['acl', 'tokens', 'auditoria']);
     }
   }
 }

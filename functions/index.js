@@ -261,8 +261,30 @@ const QUIET_MS = 3 * 60e3;   // espera 3 min sem mudança (junta várias ediçõ
 const MIN_GAP_MS = 10 * 60e3; // e no máximo um envio a cada 10 min
 
 // Toda escrita numa coleção pública marca o site como "desatualizado".
+// Resumo de um registro pra trilha de auditoria (mesmo texto do app em shim.js)
+export function resumoDoc(col, d) {
+  const t = x => String(x == null ? '' : x).slice(0, 140);
+  if (col === 'vitals') return t([d.temp && `${d.temp} °C`, d.water_ml && `${d.water_ml} mL`, d.food_g && `${Math.round(d.food_g)} g de comida`, d.note].filter(Boolean).join(' · ') || 'anotação');
+  if (col === 'rotina_log') return t(`${d.status === 'done' ? 'deu' : 'pulou'} ${d.label || d.kind}`);
+  if (col === 'events') return t(d.text);
+  if (col === 'exams') return t(`${d.kind || 'exame'} de ${d.date}`);
+  if (col === 'notifs') return t(`${d.label || d.kind} (${d.time}) → ${d.status}`);
+  return t(d.name || d.label || d.text || d.caption || d.product || d.kind || '');
+}
+// Quem fez o quê: toda criação/edição feita por alguém logado (o app carimba _by; as regras exigem).
+const SEM_AUDITORIA = ['auditoria', 'tokens'];
+export function entradaAuditoria(col, id, antes, depois) {
+  if (SEM_AUDITORIA.includes(col) || !depois || !depois._by) return null;
+  if (antes && antes._at === depois._at && antes._by === depois._by) return null; // escrita sem carimbo novo (ex.: função atualizando)
+  const ign = ['_by', '_byName', '_at', 'at', 'by', 'createdAt', 'updatedAt'];
+  const campos = antes ? Object.keys({ ...antes, ...depois }).filter(k => !ign.includes(k) && JSON.stringify(antes[k]) !== JSON.stringify(depois[k])) : [];
+  return { acao: antes ? 'editou' : 'criou', col, docId: id, by: depois._by, byName: depois._byName || '', at: depois._at || Date.now(), resumo: resumoDoc(col, depois), campos: campos.slice(0, 12) };
+}
+
 export const marcarSitePublico = onDocumentWritten({ document: '{col}/{id}', memory: '256MiB' }, async ev => {
   const { col, id } = ev.params;
+  const aud = entradaAuditoria(col, id, ev.data?.before?.data(), ev.data?.after?.data());
+  if (aud) await db.collection('auditoria').add(aud).catch(e => console.error('auditoria:', e.message));
   if (col === 'notifs') {
     const a = ev.data?.before?.data(), b = ev.data?.after?.data();
     if (a && b && b.pushoverTag && a.status === 'pending' && b.status !== 'pending') await pararPushover(b.pushoverTag).catch(e => console.error(e.message));

@@ -44,8 +44,8 @@ Then('eu vejo {string} sem precisar rolar para o lado', async function (parte) {
   if (await this.nav.partes.isVisible()) await expect(this.nav.parte(parte)).toHaveAttribute('aria-selected', 'true')
   expect(await this.page.evaluate(() => document.scrollingElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1)
 })
-Then('eu encontro Medicamentos, Estoque, Vacinas e vermífugos, Lembretes e Admin', async function () {
-  await expect(this.nav.partes.getByRole('tab')).toHaveText(['Medicamentos', 'Estoque', 'Vacinas e vermífugos', 'Lembretes', 'Admin'])
+Then('eu encontro Medicamentos, Estoque, Vacinas e vermífugos, Lembretes, Admin e Atividade', async function () {
+  await expect(this.nav.partes.getByRole('tab')).toHaveText(['Medicamentos', 'Estoque', 'Vacinas e vermífugos', 'Lembretes', 'Admin', 'Atividade'])
 })
 Then('eu vou para Hoje', async function () { await expect(this.nav.secao('Hoje')).toHaveAttribute('aria-selected', 'true') })
 Then('eu vejo quantos lembretes estão pendentes', async function () { await expect(this.nav.pendentes()).toHaveText(String(this.pendentes)) })
@@ -320,3 +320,15 @@ Then('só aparecem registros de remédio', async function () {
   expect(textos.length).toBeGreaterThan(0); for (const t of textos) expect(t).toMatch(/Deu|Pulou/)
 })
 Then('eu não vejo a seção de últimos acontecimentos', async function () { await expect(this.page.getByRole('heading', { name: 'Últimos acontecimentos' })).toHaveCount(0) })
+
+/* ---------- Atividade ---------- */
+const itensAtividade = page => page.getByRole('list', { name: /^Atividade de / }).getByRole('listitem')
+Then('eu vejo que a Elis lançou a água de coco e a Brenda apagou o evento', async function () {
+  await expect(itensAtividade(this.page).filter({ hasText: 'Elis' })).toContainText('água de coco')
+  await expect(itensAtividade(this.page).filter({ hasText: 'Brenda' })).toContainText('apagou')
+})
+When('eu filtro a atividade pela Brenda', async function () { await this.page.getByRole('group', { name: 'Filtrar por pessoa' }).getByRole('button', { name: 'Brenda' }).click() })
+Then('só aparece o que a Brenda fez', async function () {
+  await expect(itensAtividade(this.page)).toHaveCount(1); await expect(itensAtividade(this.page)).toContainText('Brenda')
+})
+Then('eu não encontro a parte de atividade', async function () { await expect(this.nav.partes.getByRole('tab', { name: 'Atividade' })).toHaveCount(0) })

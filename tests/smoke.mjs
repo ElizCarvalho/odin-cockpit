@@ -56,7 +56,7 @@ try {
     if (width === 390) check(nav.pos === 'fixed' && nav.bottom <= 1 && nav.h <= 80, `390px · menu é uma barra embaixo, baixa (${nav.h}px)`);
     else check(nav.pos === 'sticky', '1440px · menu fica em cima');
     await page.evaluate(() => go('mais')); await page.waitForTimeout(200);
-    check(await page.evaluate(() => [...document.querySelectorAll('#subtabs [data-go]')].map(b => b.dataset.go).join()) === 'remedios,estoque,vacinas,lembretes,admin', `${width}px · Mais mostra Medicamentos, Estoque, Vacinas, Lembretes e Admin pro admin`);
+    check(await page.evaluate(() => [...document.querySelectorAll('#subtabs [data-go]')].map(b => b.dataset.go).join()) === 'remedios,estoque,vacinas,lembretes,admin,atividade', `${width}px · Mais mostra Medicamentos, Estoque, Vacinas, Lembretes, Admin e Atividade pro admin`);
     await page.evaluate(() => go('rotina')); await page.waitForTimeout(200);
     check(await page.evaluate(() => !document.getElementById('p-hoje').hidden), `${width}px · link antigo #rotina (do push) cai em Hoje`);
     if (width === 390) check(await page.evaluate(() => /Comprar logo/.test(document.getElementById('p-hoje').textContent)), 'Hoje · avisa remédio que precisa comprar');
