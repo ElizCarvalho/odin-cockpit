@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-21T00:38:15.463Z",
+ "exportedAt": "2026-11-21T00:49:11.733Z",
  "updatedAt": 1795220291662,
  "exams": [
   {
@@ -2146,13 +2146,14 @@
    "purpose": "",
    "dose": "0,8 mL, dose única às 15:50",
    "start": "2026-11-19",
-   "end": null,
    "endEstimated": false,
-   "notes": "da receita: relato",
    "allergy": false,
    "clinic": "",
    "composition": "",
-   "components": []
+   "components": [],
+   "notes": "Duplicado: era só uma dose de febre (já está no Histórico). O remédio é a \"Dipirona líquida\".",
+   "end": "2026-11-19",
+   "dup": true
   },
   {
    "id": "WgFONdJ2SsFMbRpqA3Xp",
@@ -2252,13 +2253,14 @@
    "purpose": "febre",
    "dose": "0,8 ml",
    "start": "2026-11-20",
-   "end": null,
    "endEstimated": false,
-   "notes": "da receita: relato",
    "allergy": false,
    "clinic": "",
    "composition": "",
-   "components": []
+   "components": [],
+   "notes": "Duplicado: era só uma dose de febre (já está no Histórico). O remédio é a \"Dipirona líquida\".",
+   "end": "2026-11-20",
+   "dup": true
   },
   {
    "id": "biosan20261117",
