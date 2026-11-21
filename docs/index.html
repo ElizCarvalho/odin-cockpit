@@ -721,6 +721,11 @@ const PARAMS = [
   {k:'csf_prot', l:'Líquor: proteína', u:'mg/dL', g:'csf', lo:null, hi:30, d:'Proteína no líquor. Alta indica inflamação ou lesão no sistema nervoso.'},
   {k:'fenob', l:'Fenobarbital (Gardenal) no sangue', u:'mcg/mL', g:'drug', lo:15, hi:45, d:'Quanto do Gardenal está circulando no sangue. Abaixo da faixa a proteção contra convulsões pode ser insuficiente; acima, risco de efeito tóxico (sonolência, fígado). Serve pra ajustar a dose.'},
   {k:'csf_glic', l:'Líquor: glicose', u:'mg/dL', g:'csf', lo:53, hi:104, d:'Açúcar no líquor. Muito baixo pode indicar infecção bacteriana no sistema nervoso.'},
+  {k:'udens', l:'Urina: densidade', u:'', g:'urine', lo:1.025, hi:1.045, d:'O quanto a urina está concentrada. Baixa: o rim não está concentrando ou ele está bebendo/recebendo muito líquido. Alta: pouca água.'},
+  {k:'uph', l:'Urina: pH', u:'', g:'urine', lo:6, hi:7, d:'Acidez da urina. Fora da faixa favorece cristais e algumas infecções.'},
+  {k:'upcr', l:'Urina: proteína/creatinina (PU/CU)', u:'', g:'urine', lo:0, hi:0.5, d:'Mostra se o rim está perdendo proteína. Abaixo de 0,5 é normal; acima de 1,0 indica perda de proteína pelo rim.'},
+  {k:'uprot', l:'Urina: proteína', u:'mg/dL', g:'urine', lo:10, hi:40, d:'Proteína na urina. Sozinha varia com a concentração da urina; o PU/CU é o número que importa.'},
+  {k:'ucreat', l:'Urina: creatinina', u:'mg/dL', g:'urine', lo:53, hi:276, d:'Creatinina na urina; serve de base pro cálculo do PU/CU.'},
 ];
 const GROUPS = [
   {g:'clin', t:'Clínico', d:'peso e temperatura'},
@@ -731,6 +736,7 @@ const GROUPS = [
   {g:'virus', t:'Carga viral', d:'compare só com o mesmo tipo de amostra'},
   {g:'csf', t:'Líquor', d:''},
   {g:'drug', t:'Remédios no sangue', d:'nível do remédio na circulação'},
+  {g:'urine', t:'Urina', d:'urinálise (EAS) e PU/CU'},
 ];
 const P = Object.fromEntries(PARAMS.map(p => [p.k, p]));
 const KEY_ORDER = PARAMS.map(p => p.k);
@@ -1459,6 +1465,7 @@ Primeiro classifique o que recebeu e coloque cada informação no lugar certo:
 - Foto do próprio cachorro (não é documento) → "photo" com uma legenda curta e descritiva em português.
 - Medições de casa com hora (temperatura, água em mL ou comida em gramas que ele ingeriu, inclusive fotos de quadro/anotação com várias linhas) → "vitals", um item por horário; não duplique essas medições em "exams" nem em "events".
 - Relato escrito ou falado (sintomas, o que ele comeu, procedimento, alta, visita etc.) → "events", um item por acontecimento, em frases curtas na 3ª pessoa. Peso ou temperatura citados no relato também entram em "exams" (kind "Pesagem" ou "Temperatura", params peso ou temp). Remédio novo citado no relato entra em "meds" de um item de "exams" sem params (kind "Relato").
+Se o conteúdo não tiver relação com a saúde ou a rotina do Odin (conta de matemática, pergunta geral, piada, ofensa, texto aleatório), não responda o pedido: devolva só {"fora_do_tema":true}.
 Responda SOMENTE com JSON válido, sem texto antes ou depois, neste formato (deixe vazio o que não se aplica):
 {"vitals":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","temp":numero_ou_null,"water_ml":numero_ou_null,"food_g":gramas_ou_null,"food":true_se_comeu_sem_quantidade,"note":"xixi, fezes, remédio etc."}],"events":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
 
@@ -1479,6 +1486,9 @@ Regras:
 - Confira o ano: os documentos são de 2026 (vacinas e vermífugos podem ser de 2025). Data de nascimento do cão (23/10/2025) não é data de exame.
 - Não invente nada. Omita o que não estiver no documento. Use ponto como separador decimal no JSON.
 - Em "other", inclua observações relevantes do laudo (ex.: fibrina na amostra, policromasia, hemoparasitas não observados, metamielócitos).
+- Tabelas com colunas "Resultado" e "Referência": leia SEMPRE a coluna do resultado do Odin, nunca a de referência. Em "other", liste TODO resultado qualitativo fora da referência, no formato "Leucócitos: incontáveis (ref. 6/campo)".
+- Urina (EAS/urinálise): densidade → udens (1.030 vira 1.03), pH → uph; PU/CU → upcr, proteína urinária → uprot, creatinina urinária → ucreat. Cor, aspecto, odor, volume, sedimento (leucócitos, hemácias, bactérias, cristais, cilindros, células) e química qualitativa vão em "other" com o resultado e a referência.
+- Um laudo vira UM item em "exams" (não divida o mesmo laudo em dois).
 
 Arquivo: ${name}
 ${hasImages ? 'O documento está nas imagens anexadas.' : ''}
@@ -1501,7 +1511,7 @@ function cleanExam(e, name) {
     dose: String(m.dose || '').slice(0, 200), composition: String(m.composition || '').slice(0, 120), start: /^\d{4}-\d{2}-\d{2}$/.test(m.start || '') ? m.start : date, days: Number.isFinite(+m.days) && +m.days > 0 ? Math.round(+m.days) : null,
     components: Array.isArray(m.components) ? m.components.filter(c => c && c.name).slice(0, 20).map(c => ({ name: String(c.name).slice(0, 80), dose: String(c.dose || '').slice(0, 60) })) : [], add: true })) : [];
   return { meds: medsIn, date, lab: String(e.lab || '').slice(0, 80), kind: String(e.kind || 'Exame').slice(0, 80), params,
-    other: Array.isArray(e.other) ? e.other.map(String).slice(0, 20) : [], labInterpretation: String(e.lab_interpretation || '').slice(0, 1500), source: name };
+    other: Array.isArray(e.other) ? e.other.map(String).slice(0, 30) : [], labInterpretation: String(e.lab_interpretation || '').slice(0, 1500), source: name };
 }
 
 const num = v => { const n = typeof v === 'string' ? parseFloat(v.replace(',', '.')) : v; return typeof n === 'number' && isFinite(n) && n > 0 ? n : null; };
@@ -1518,9 +1528,11 @@ async function extract(name, text, images) {
     val = parseJsonLoose((await sample(prompt, opts)).text);
   }
   val = parseJsonLoose(val);
+  if (val && val.fora_do_tema) { const e = new Error('Isso não parece um registro do Odin, então não foi salvo. Escreva o que aconteceu com ele (ex.: "comeu 200 g de patê às 13h") ou envie um laudo.'); e.code = 'fora_do_tema'; throw e; }
   const isoOk = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '');
   return {
-    exams: (val.exams || []).map(e => cleanExam(e, name)).filter(e => Object.keys(e.params).length || e.other.length || e.meds.length),
+    exams: (val.exams || []).map(e => cleanExam(e, name)).filter(e => Object.keys(e.params).length || e.other.length || e.meds.length)
+      .reduce((acc, e) => { const o = acc.find(x => x.date === e.date && x.kind === e.kind); if (!o) acc.push(e); else { Object.assign(o.params, e.params); o.other = [...new Set([...o.other, ...e.other])].slice(0, 30); o.meds.push(...e.meds); } return acc; }, []),
     vitals: (Array.isArray(val.vitals) ? val.vitals : []).filter(x => x && isoOk(x.date) && (num(x.temp) || num(x.water_ml) || num(x.food_g) || x.food)).slice(0, 80).map(x => ({ date: x.date, time: /^\d{2}:\d{2}$/.test(x.time || '') ? x.time : null, temp: num(x.temp), water_ml: num(x.water_ml), food_g: num(x.food_g), food: !!x.food || !!num(x.food_g), note: String(x.note || '').slice(0, 120), add: true })),
     events: (Array.isArray(val.events) ? val.events : []).filter(x => x && x.text).slice(0, 20).map(x => ({ date: isoOk(x.date) ? x.date : todayIso(), time: x.time || null, text: String(x.text).slice(0, 300), mark: false, add: true, source: name })),
     prevent: (Array.isArray(val.prevent) ? val.prevent : []).filter(x => x && x.product && isoOk(x.date)).slice(0, 30).map(x => ({ kind: String(x.kind || 'Outro').slice(0, 40), product: String(x.product).slice(0, 100), date: x.date, next: isoOk(x.next) ? x.next : null, notes: String(x.notes || '').slice(0, 200), add: true })),
