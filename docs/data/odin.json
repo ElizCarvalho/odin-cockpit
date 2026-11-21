@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-21T13:29:02.028Z",
- "updatedAt": 1795267493855,
+ "exportedAt": "2026-11-21T16:17:21.044Z",
+ "updatedAt": 1795277562064,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -3276,14 +3276,15 @@
    "start": "2026-11-19",
    "end": "2026-11-20",
    "endEstimated": true,
-   "notes": "da receita: relato",
    "allergy": false,
    "clinic": "",
    "composition": "",
    "components": [],
    "_by": "[removido]",
-   "_at": 1795228835366,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795277415555,
+   "notes": "Duplicado: era só a dose de 19/11 dada pela veterinária (está no Histórico). O remédio é o \"Engystol\" de uso contínuo.",
+   "dup": true
   },
   {
    "id": "rdr0b2duqyj48wqcbdan",
@@ -3695,6 +3696,17 @@
    "_byName": "a tutora"
   },
   {
+   "id": "E7zO3M9laowyoUxVHaBX",
+   "date": "2026-11-21",
+   "time": "13:12",
+   "water_ml": 150,
+   "drinkId": "agua",
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795277542300
+  },
+  {
    "id": "FMnszeHDKiToPbJGKkWp",
    "date": "2026-11-20",
    "time": "14:03",
@@ -4038,6 +4050,17 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "jm3TLtyhVpUVMYwGuAOa",
+   "date": "2026-11-21",
+   "time": "13:12",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795277560743
   },
   {
    "id": "k0wik76sjj47vs9hvby8",
