@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-21T00:49:11.733Z",
- "updatedAt": 1795220291662,
+ "exportedAt": "2026-11-21T01:03:49.701Z",
+ "updatedAt": 1795222788454,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -3055,6 +3055,15 @@
    "food_g": 181.8
   },
   {
+   "id": "SDyHSTrh8YhlvSnZEgUE",
+   "date": "2026-11-20",
+   "time": "21:56",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "foodId": "fnrecup",
+   "food_g": 55.6
+  },
+  {
    "id": "TJ8PtwISGSWZJbtv6oql",
    "date": "2026-11-17",
    "time": "09:30",
@@ -3145,6 +3154,15 @@
    "water_ml": 150,
    "drinkId": "agua",
    "note": ""
+  },
+  {
+   "id": "g7be7hMaRLjk0sIPSZDJ",
+   "date": "2026-11-20",
+   "time": "21:58",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "foodId": "fnrecup",
+   "food_g": 56.5
   },
   {
    "id": "gxisG2PkCsm0sdCbDbCI",
@@ -3897,6 +3915,15 @@
    "water_ml": 150,
    "drinkId": "agua",
    "note": ""
+  },
+  {
+   "id": "xhegIMWgsPxZJb1pJwho",
+   "date": "2026-11-20",
+   "time": "21:58",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
+   "foodId": "racao",
+   "food_g": 30
   },
   {
    "id": "yDxJc48m6962P8z70SZb",
