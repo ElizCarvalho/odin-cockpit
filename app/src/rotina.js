@@ -296,7 +296,7 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
       <p class="note" style="margin:4px 0 8px"><b>Admin</b>: tudo, inclusive esta aba. <b>Edita</b>: vê, registra, responde lembretes e mexe nos horários. <b>Só vê</b>: vê tudo, não altera nada.<br>
       <b>Lembretes</b>: se a pessoa recebe push (ela também precisa ativar no aparelho dela, em Mais → Lembretes).</p>
       <div class="list">${(aclDoc.emails || []).map(e => `<div class="item aRow">
-        <span class="aMail">${esc(e)}${e === me() ? ' <span class="muted">(você)</span>' : ''}</span>
+        <span class="aMail">${esc(e)}${e === me() ? ' <span class="muted">(você)</span>' : ''}<br><input type="text" class="tiny" data-aname="${esc(e)}" value="${esc((aclDoc.names || {})[e] || '')}" placeholder="nome que aparece" aria-label="Nome de ${esc(e)}" style="max-width:160px;margin-top:4px"></span>
         <span class="row">${roleSel(e, (aclDoc.roles || {})[e] || 'view')}
           <label class="chk"><input type="checkbox" data-notify="${esc(e)}"${(aclDoc.notify || {})[e] === false ? '' : ' checked'}> lembretes</label>
           ${e !== me() ? `<button class="tiny danger" data-rmacl="${esc(e)}">Tirar</button>` : ''}</span></div>`).join('')}</div>
@@ -367,6 +367,11 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
     </section>`;
     host.querySelectorAll('details').forEach(d => { if (openK.has(d.dataset.k)) d.open = true; });
   }
+  document.addEventListener('change', async ev => {
+    const t = ev.target; if (!t.matches || !t.matches('[data-aname]')) return;
+    try { await fb.fs.collection('acl').doc('users').update(new firebase.firestore.FieldPath('names', t.dataset.aname), t.value.trim()); window.toast('✓ Nome salvo. Vale pros próximos registros dessa pessoa.'); }
+    catch (x) { window.toast(x.message, 'err'); }
+  });
   document.addEventListener('focusout', () => setTimeout(() => { if (renderAdmin.dirty) { renderAdmin.dirty = false; renderAdmin(); } }, 300));
   const aclRef = () => fb.fs.collection('acl').doc('users');
   document.addEventListener('change', async ev => {

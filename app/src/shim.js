@@ -82,7 +82,7 @@
       if (!snap.data().roles) { await ref.update({ roles: { [email]: 'admin' }, notify: { [email]: true } }); snap = await ref.get(); }
       const role = (snap.data().roles || {})[email] || 'view';
       gate.remove();
-      window.ODIN_USER = { email, name: u.displayName || email, role };
+      window.ODIN_USER = { email, name: (snap.data().names || {})[email] || u.displayName || email, role };
       readyResolve(u);
     } catch (e) {
       showGate(e.code === 'permission-denied'
