@@ -17,6 +17,7 @@ const V = '10.14.1', G = `https://www.gstatic.com/firebasejs/${V}/`;
 
 let build = process.env.GITHUB_SHA || '';
 try { build = build || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(); } catch {}
+swap("if (!use) { $('conn').textContent = 'Abra pelo claude.ai pra ver os dados'; return; }", "if (!use) { const c = $('conn'); c.textContent = 'Não consegui iniciar o app (internet fraca?). Toque aqui pra tentar de novo.'; c.style.cursor = 'pointer'; c.onclick = () => location.reload(); if (!sessionStorage.getItem('odinRetry')) { sessionStorage.setItem('odinRetry', '1'); setTimeout(() => location.reload(), 2500); } return; }");
 swap('<title>Odin - Cockpit</title>', `<title>Odin - Cockpit</title>
 <meta name="odin-build" content="${build}">
 <link rel="manifest" href="/manifest.webmanifest">

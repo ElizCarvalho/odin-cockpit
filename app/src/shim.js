@@ -8,6 +8,7 @@
   const st = firebase.storage();
   const fn = app.functions('southamerica-east1');
   window.ODIN_FB = { app, auth, fs, st, fn, vapidKey: cfg.vapidKey };
+  try { sessionStorage.removeItem('odinRetry'); } catch {}
 
   /* ---------- Quem fez: toda escrita leva _by/_byName/_at (as regras exigem) e toda exclusão deixa rastro em "auditoria" ---------- */
   const SEM_CARIMBO = ['tokens', 'auditoria'];
