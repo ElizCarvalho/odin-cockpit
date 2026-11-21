@@ -123,7 +123,13 @@ td.lo, td.hi { color: var(--warn); font-weight: 600; }
 td .arr { font-size: 11px; margin-left: 2px; }
 .refcol { color: var(--muted); font-size: 12px; }
 .timeline { display: grid; gap: 0; }
-.tl { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 10px 0 10px 10px; border-bottom: 1px solid var(--line); align-items: start; border-left: 3px solid transparent; }
+.tl { display: block; padding: 10px 0 10px 10px; border-bottom: 1px solid var(--line); border-left: 3px solid transparent; }
+.tl > summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.tl > summary::-webkit-details-marker { display: none; }
+.tl > summary::before { content: '▸'; color: var(--muted); } .tl[open] > summary::before { content: '▾'; }
+.tl .tlsum { font-family: var(--font-body, inherit); font-size: 12.5px; color: var(--muted); flex-basis: 100%; padding-left: 14px; }
+.tl .tlb { margin-top: 8px; padding-left: 14px; }
+.tli.skip { color: var(--muted); } .tli.hot { color: var(--warn); }
 .tl.instay { border-left-color: var(--clc); background: color-mix(in srgb, var(--clc) 5%, transparent); }
 .tl .where { font-family: var(--font-body, inherit); font-size: 11px; color: var(--clc); margin-top: 2px; }
 .tlb { display: grid; gap: 6px; min-width: 0; }
@@ -152,7 +158,7 @@ td .arr { font-size: 11px; margin-left: 2px; }
 .lbcap { position: fixed; left: 0; right: 0; bottom: 16px; text-align: center; color: #fff; font-size: 14px; padding: 0 20px; text-shadow: 0 1px 3px #000; }
 .tl .d { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
 .tl.mark .d { color: var(--accent); font-weight: 500; }
-@media (max-width: 600px) { .tl { grid-template-columns: 1fr; gap: 4px; } .tl .d { display: flex; gap: 8px; align-items: baseline; } .tl .where { margin: 0; } }
+@media (max-width: 600px) { .tl .where { margin: 0; } }
 .review { border: 2px solid var(--accent); }
 .review .exam { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; display: grid; gap: 10px; }
 .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px 14px; }
@@ -440,14 +446,10 @@ body:not(.app) .app-only { display: none; }
   <div id="hojeAgora" class="rt"></div>
   <p class="updated" id="updated"></p>
   <section class="tiles" id="tiles" aria-label="Últimos valores"></section>
-  <section class="grid2">
+  <section>
     <div class="card">
       <h2>Pontos de atenção</h2>
       <div id="attention" class="list" style="margin-top:6px"></div>
-    </div>
-    <div class="card">
-      <div class="row between"><h2>Últimos acontecimentos</h2><button class="ghost tiny" data-go="linha">ver histórico</button></div>
-      <div id="recent" class="list" style="margin-top:6px"></div>
     </div>
   </section>
   <section class="card hidden wr" id="seedCard" style="border-color: var(--accent)">
@@ -1250,51 +1252,67 @@ const STAYS = [
 const CLINIC_FIXED = { 'animalis': '#5cc98a', 'tododoy': '#e5675f', 'vetreabilite (neuro)': '#5b9cf0', 'rio vet': '#e8c547' };
 const stayOf = iso => STAYS.find(s => iso >= s.from && (!s.to || iso <= s.to));
 const daysBetween = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 864e5);
-let tlFilter = 'Tudo', tlAsc = false, tlMarks = false;
+let tlFilter = 'Tudo', tlAsc = false, tlMarks = false, tlOpen = new Set();
+const TL_KINDS = ['Tudo', 'Remédio', 'Comida e água', 'Temperatura', 'Xixi e fezes', 'Decúbito', 'Acontecimento', 'Exame', 'Receita', 'Medicamento', 'Vacina/vermífugo', 'Foto'];
+// Tudo o que aconteceu, um item por registro, com hora: o Histórico mostra o dia inteiro (não só os acontecimentos).
 function tlItems() {
-  const out = [];
-  for (const e of events) out.push({ date: e.date, time: e.time, kind: 'Acontecimento', text: e.text, short: e.short, mark: e.mark, id: e.id, ev: true });
+  const out = [], hoje = todayIso();
+  for (const e of events) {
+    if (!e.date || e.date > hoje) continue; // compromisso futuro fica no calendário
+    const k = ['fezes', 'urina'].includes(e.kind) ? 'Xixi e fezes' : 'Acontecimento';
+    out.push({ date: e.date, time: e.time, kind: k, text: e.text, short: e.short, mark: e.mark, id: e.id, ev: true, ic: e.kind === 'fezes' ? '💩' : e.kind === 'urina' ? '🟡' : e.kind === 'consulta' ? '📅' : '' });
+  }
   for (const e of exams) {
     const rx = /receit|solicita/i.test(e.kind || '');
-    const flags = Object.entries(e.params || {}).filter(([k, v]) => typeof v === 'number' && ['lo', 'hi'].includes(statusOf(k, v)))
+    const flags = Object.entries(e.params || {}).filter(([k, v]) => P[k] && typeof v === 'number' && ['lo', 'hi'].includes(statusOf(k, v)))
       .map(([k, v]) => `${P[k].l} ${fmt(v)}${statusOf(k, v) === 'lo' ? '▼' : '▲'}`);
-    out.push({ date: e.date, time: e.time, kind: rx ? 'Receita' : 'Exame', text: `${e.kind || 'Exame'}${e.lab ? ' · ' + e.lab : ''}`,
+    const peso = e.kind === 'Pesagem' && typeof e.params?.peso === 'number';
+    out.push({ date: e.date, time: e.time, kind: rx ? 'Receita' : 'Exame', ic: peso ? '⚖️' : rx ? '📄' : '🧪', text: peso ? `Peso ${fmt(e.params.peso)} kg${e.lab ? ' · ' + e.lab : ''}` : `${e.kind || 'Exame'}${e.lab ? ' · ' + e.lab : ''}`,
       sub: flags.length ? 'Fora da referência: ' + flags.slice(0, 5).join(', ') + (flags.length > 5 ? ` e mais ${flags.length - 5}` : '') : (e.other || []).join('; ') });
   }
   for (const m of meds) {
-    if (m.start && !neverStarted(m)) out.push({ date: m.start, kind: 'Medicamento', med: 'start', name: m.name, allergy: m.allergy });
-    if (m.end && m.end <= todayIso()) out.push({ date: m.end, kind: 'Medicamento', med: 'end', name: m.name, allergy: m.allergy });
+    if (m.start && !neverStarted(m) && m.start <= hoje) out.push({ date: m.start, kind: 'Medicamento', med: 'start', name: m.name, allergy: m.allergy });
+    if (m.end && m.end <= hoje) out.push({ date: m.end, kind: 'Medicamento', med: 'end', name: m.name, allergy: m.allergy });
   }
-  for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', text: `${v.kind}: ${v.product}` });
-  const vByDay = new Map();
-  for (const v of vitals) if (v.date) { if (!vByDay.has(v.date)) vByDay.set(v.date, []); vByDay.get(v.date).push(v); }
-  for (const [d, list] of vByDay) {
-    const ts = list.filter(v => typeof v.temp === 'number').map(v => ({ t: Math.max(v.temp, v.temp2 || 0), h: v.time }));
-    const water = list.reduce((a, v) => a + (v.water_ml || 0), 0);
-    if (!ts.length && !water && !list.some(ate)) continue;
-    const mx = ts.reduce((a, b) => b.t > a.t ? b : a, ts[0] || { t: null }), mn = ts.reduce((a, b) => b.t < a.t ? b : a, ts[0] || { t: null });
-    const fever = ts.filter(x => x.t > 39.2).length;
-    out.push({ date: d, kind: 'Temperatura', text: ts.length ? `${ts.length} ${ts.length === 1 ? 'medição' : 'medições'} em casa · máx ${fmt(mx.t)} °C${mx.h ? ' (' + mx.h + ')' : ''} · mín ${fmt(mn.t)} °C${fever ? ` · ${fever} acima de 39,2` : ''}` : 'Anotações de casa',
-      sub: [water && `água/líquido ${water} mL`, list.reduce((a, v) => a + (v.food_g || 0), 0) && `comida ${fmt(Math.round(list.reduce((a, v) => a + (v.food_g || 0), 0)))} g`, list.filter(ate).length && `comeu ${list.filter(ate).length}x`].filter(Boolean).join(' · ') });
+  for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', ic: '💉', text: `${v.kind}: ${v.product}` });
+  for (const v of vitals) {
+    if (!v.date) continue;
+    if (typeof v.temp === 'number') { const t = Math.max(v.temp, v.temp2 || 0); out.push({ date: v.date, time: v.time, kind: 'Temperatura', ic: '🌡', text: `${fmt(t)} °C${v.temp2 ? ` (${fmt(v.temp)} / ${fmt(v.temp2)})` : ''}`, hot: t > 39.2, sub: v.note || '' }); }
+    const n = nutri(v);
+    if (v.water_ml) { const d = foodById(v.drinkId); out.push({ date: v.date, time: v.time, kind: 'Comida e água', ic: '💧', text: `${fmt(v.water_ml)} mL de ${d ? d.name.toLowerCase() : 'água'}`, sub: v.note && (!d || !v.note.toLowerCase().includes(d.name.toLowerCase())) ? v.note : '' }); }
+    if (v.food_g || (v.food && !v.water_ml && typeof v.temp !== 'number')) { const f = foodById(v.foodId); out.push({ date: v.date, time: v.time, kind: 'Comida e água', ic: '🍽', text: v.food_g ? `${fmt(Math.round(v.food_g))} g de ${f ? f.name : (v.note || 'comida')}${n.kcal ? ` · ${fmt(Math.round(n.kcal))} kcal` : ''}` : `Comeu${v.note ? ': ' + v.note : ''}` }); }
+  }
+  for (const l of rlogs) {
+    if (!l.date) continue;
+    if (l.kind === 'med') out.push({ date: l.date, time: l.time, kind: 'Remédio', ic: l.status === 'done' ? '💊' : '⏭', text: `${l.status === 'done' ? 'Deu' : 'Pulou'} ${l.label || ''}`, skip: l.status !== 'done', sub: [l.block, l.note].filter(Boolean).join(' · ') });
+    else if (l.kind === 'decubito') out.push({ date: l.date, time: l.time, kind: 'Decúbito', ic: '🔄', text: l.status === 'done' ? `Virou${l.side ? ' pro ' + l.side : ''}` : 'Pulou a troca de decúbito', skip: l.status !== 'done' });
   }
   for (const p of photos) if (p.date) out.push({ date: p.date, time: p.time, kind: 'Foto', text: p.caption || 'Foto', assetId: p.assetId, video: p.video, createdAt: p.createdAt || 0 });
   return out.filter(i => i.date);
 }
+function tlDaySummary(d, list) {
+  const temps = list.filter(i => i.kind === 'Temperatura').map(i => parseFloat(i.text.replace(',', '.')));
+  const T = dayTotals(d), dados = list.filter(i => i.kind === 'Remédio' && !i.skip).length, pulos = list.filter(i => i.kind === 'Remédio' && i.skip).length;
+  return [temps.length && `🌡 máx ${fmt(Math.max(...temps))} °C`, T.water && `💧 ${fmt(Math.round(T.water))} mL`, T.kcal && `🍽 ${fmt(Math.round(T.kcal))} kcal`,
+    (dados || pulos) && `💊 ${dados} dado${dados === 1 ? '' : 's'}${pulos ? ` · ${pulos} pulado${pulos === 1 ? '' : 's'}` : ''}`].filter(Boolean).join(' · ');
+}
 function renderTimeline() {
   const all = tlItems();
-  const kinds = ['Tudo', 'Acontecimento', 'Exame', 'Receita', 'Temperatura', 'Medicamento', 'Vacina/vermífugo', 'Foto'];
   const count = k => k === 'Tudo' ? all.length : all.filter(i => i.kind === k).length;
-  $('tlFilters').innerHTML = kinds.filter(k => count(k)).map(k => `<button class="tiny ${k === tlFilter ? '' : 'ghost'}" data-f="${k}">${k} <span class="muted">${count(k)}</span></button>`).join('')
+  $('tlFilters').innerHTML = TL_KINDS.filter(k => count(k)).map(k => `<button class="tiny ${k === tlFilter ? '' : 'ghost'}" data-f="${k}" aria-pressed="${k === tlFilter}">${k} <span class="muted">${count(k)}</span></button>`).join('')
     + `<span style="flex:1"></span><label class="chk"><input type="checkbox" id="tlMarks" ${tlMarks ? 'checked' : ''}> só os marcos</label>`
-    + `<button class="tiny ghost" id="tlOrder">${tlAsc ? 'Do começo ↓' : 'Mais recentes ↑'}</button>`;
+    + `<button class="tiny ghost" id="tlOrder">${tlAsc ? 'Mais antigos primeiro' : 'Mais recentes primeiro'}</button>`;
   let shown = all.filter(i => tlFilter === 'Tudo' || i.kind === tlFilter);
   if (tlMarks) shown = shown.filter(i => i.mark);
-  // group: month -> day
   const byDay = new Map();
   for (const i of shown) { if (!byDay.has(i.date)) byDay.set(i.date, []); byDay.get(i.date).push(i); }
   const days = [...byDay.keys()].sort((a, b) => tlAsc ? (a < b ? -1 : 1) : (a < b ? 1 : -1));
+  // dentro do dia segue a mesma direção: mais recente primeiro; o que não tem hora vai pro fim
+  const byTime = (a, b) => { const x = a.time || '', y = b.time || ''; if (!x || !y) return x ? -1 : y ? 1 : 0; return tlAsc ? x.localeCompare(y) : y.localeCompare(x); };
   let html = '', month = '', staySeen = new Set();
-  for (const d of days) {
+  const hh = t => t ? `<span class="hh">${esc(t)}</span>` : '';
+  const cut = t => t.length > 150 ? t.slice(0, 150).replace(/\s+\S*$/, '') + '…' : t;
+  days.forEach((d, idx) => {
     const m = d.slice(0, 7);
     if (m !== month) { month = m; html += `<div class="monthh tlm">${esc(monthName(m + '-15'))}</div>`; }
     const st = stayOf(d);
@@ -1303,31 +1321,24 @@ function renderTimeline() {
       const end = st.to || todayIso(), n = daysBetween(st.from, end);
       html += `<div class="stayband" style="--clc:${CLINIC_FIXED[st.clinic.toLowerCase()] || 'var(--accent)'}">🏥 ${esc(st.label)} na <b>${esc(st.clinic)}</b> · ${dm(st.from)} → ${st.to ? dm(st.to) : 'hoje'} (${n} ${n === 1 ? 'dia' : 'dias'}${st.to ? '' : ', em andamento'})</div>`;
     }
-    const list = byDay.get(d);
-    const marks = list.filter(i => i.mark);
-    const byTime = (a, b) => (a.time || '99') < (b.time || '99') ? -1 : (a.time || '99') > (b.time || '99') ? 1 : 0;
-    const evs = list.filter(i => i.kind === 'Acontecimento').sort((a, b) => (b.mark ? 1 : 0) - (a.mark ? 1 : 0) || byTime(a, b));
-    const others = list.filter(i => ['Exame', 'Receita', 'Temperatura', 'Vacina/vermífugo'].includes(i.kind));
-    const starts = list.filter(i => i.med === 'start'), ends = list.filter(i => i.med === 'end');
-    const pics = list.filter(i => i.kind === 'Foto').sort((a, b) => byTime(a, b) || a.createdAt - b.createdAt);
-    let body = '';
-    const hh = t => t ? `<span class="hh">${esc(t)}</span>` : '';
-    const cut = t => t.length > 150 ? t.slice(0, 150).replace(/\s+\S*$/, '') + '…' : t;
-    // tudo do dia na ordem da hora; o que não tem hora fica no fim
-    for (const o of [...evs, ...others].sort(byTime)) body += o.kind === 'Acontecimento'
-      ? `<div class="tli ev ${o.mark ? 'mk' : ''}">${hh(o.time)}${o.mark && o.short ? `<span class="pill mkp">${esc(o.short)}</span> ` : ''}${esc(o.text)}
-      ${canWrite ? ` <button class="tiny ghost" data-evdel="${esc(o.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`
-      : `<div class="tli">${hh(o.time)}<span class="k">${o.kind}</span> ${esc(o.text)}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}</div>`;
+    const list = byDay.get(d), marks = list.filter(i => i.mark);
+    const pics = list.filter(i => i.kind === 'Foto').sort(byTime);
     const medTxt = arr => arr.map(x => esc(x.name) + (x.allergy ? ' <span class="warnt">(teve reação)</span>' : '')).join(' · ');
+    let body = '';
+    const starts = list.filter(i => i.med === 'start'), ends = list.filter(i => i.med === 'end');
     if (starts.length) body += `<div class="tli"><span class="k">Começou</span> ${medTxt(starts)}</div>`;
     if (ends.length) body += `<div class="tli"><span class="k">Terminou</span> ${medTxt(ends)}</div>`;
+    for (const o of list.filter(i => !i.med && i.kind !== 'Foto').sort(byTime)) body += `<div class="tli ${o.ev ? 'ev' : ''} ${o.mark ? 'mk' : ''} ${o.skip ? 'skip' : ''} ${o.hot ? 'hot' : ''}" role="listitem">${hh(o.time)}${o.ic ? `<span aria-hidden="true">${o.ic}</span> ` : ''}${o.mark && o.short ? `<span class="pill mkp">${esc(o.short)}</span> ` : ''}${['Exame', 'Receita', 'Vacina/vermífugo'].includes(o.kind) ? `<span class="k">${o.kind}</span> ` : ''}${esc(o.text)}${o.sub ? `<div class="muted sub" title="${esc(o.sub)}">${esc(cut(o.sub))}</div>` : ''}${o.ev && canWrite ? ` <button class="tiny ghost" data-evdel="${esc(o.id)}" aria-label="Excluir acontecimento">excluir</button>` : ''}</div>`;
     if (pics.length) body += `<div class="tlpics">` + pics.map(p => p.video
       ? `<button class="tlp vid" data-open="${esc(p.assetId)}" data-video="1" title="${esc(p.text)}">▶</button>`
       : `<img class="tlp" src="${esc(photoSrc(p.assetId))}" alt="${esc(p.text)}" title="${esc((p.time ? p.time + ' · ' : '') + p.text)}" loading="lazy" data-open="${esc(p.assetId)}" data-cap="${esc(p.text)}">`).join('') + `</div>`
       + (pics.length === 1 || tlFilter === 'Foto' ? `<div class="muted sub">${pics.map(p => (p.time ? p.time + ' ' : '') + esc(p.text)).join(' · ')}</div>` : '');
-    html += `<div class="tl ${marks.length ? 'mark' : ''} ${st ? 'instay' : ''}" ${st ? `style="--clc:${CLINIC_FIXED[st.clinic.toLowerCase()] || 'var(--accent)'}"` : ''}>
-      <div class="d">${dmy(d)}${st ? `<div class="where">${esc(st.clinic)}</div>` : ''}</div><div class="tlb">${body}</div></div>`;
-  }
+    const open = tlOpen.has(d) || (!tlOpen.has('!' + d) && idx < 2);
+    const sum = tlFilter === 'Tudo' ? tlDaySummary(d, list) : '';
+    html += `<details class="tl ${marks.length ? 'mark' : ''} ${st ? 'instay' : ''}" data-day="${d}" ${open ? 'open' : ''} ${st ? `style="--clc:${CLINIC_FIXED[st.clinic.toLowerCase()] || 'var(--accent)'}"` : ''}>
+      <summary class="d"><b>${dmy(d)}</b> <span class="muted">${ago(d)}</span>${st ? `<span class="where">${esc(st.clinic)}</span>` : ''} <span class="tlsum">${sum || `${list.length} registro${list.length === 1 ? '' : 's'}`}</span></summary>
+      <div class="tlb" role="list" aria-label="Registros de ${dmy(d)}">${body}</div></details>`;
+  });
   $('timeline').innerHTML = html || '<p class="muted">Nada registrado ainda.</p>';
 }
 function openLightbox(id, video, cap) {
@@ -1341,6 +1352,7 @@ $('tlFilters').addEventListener('click', ev => {
   const b = ev.target.closest('button[data-f]'); if (b) { tlFilter = b.dataset.f; renderTimeline(); return; }
   if (ev.target.closest('#tlOrder')) { tlAsc = !tlAsc; renderTimeline(); }
 });
+$('timeline').addEventListener('toggle', ev => { const d = ev.target.dataset && ev.target.dataset.day; if (!d) return; if (ev.target.open) { tlOpen.add(d); tlOpen.delete('!' + d); } else { tlOpen.delete(d); tlOpen.add('!' + d); } }, true);
 $('tlFilters').addEventListener('change', ev => { if (ev.target.id === 'tlMarks') { tlMarks = ev.target.checked; renderTimeline(); } });
 $('timeline').addEventListener('click', async ev => {
   const o = ev.target.closest('[data-open]'); if (o) { openLightbox(o.dataset.open, !!o.dataset.video, o.dataset.cap || o.title); return; }
@@ -2404,7 +2416,7 @@ document.addEventListener('click', ev => {
 window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
 /* ---------- Render all ---------- */
-function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderRecent(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); renderCalendar(); renderUpdated(); }
+function renderAll() { checkSeed(); renderTiles(); renderAttention(); renderCharts(); renderTable(); renderTimeline(); renderAnalysis(); renderMeds(); renderPrev(); renderPhotos(); renderCalendar(); renderUpdated(); }
 let rt = null; const scheduleRender = () => { clearTimeout(rt); rt = setTimeout(renderAll, 60); };
 new MutationObserver(scheduleRender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', scheduleRender); } catch {}

@@ -230,7 +230,7 @@ Given('que um suplemento foi pausado antes de começar', async function () {
   await this.page.evaluate(t => db.collection('meds').doc('m9').set({ name: 'Suplemento em espera', start: t, paused: true, pausedAt: t, pauseReason: 'aguardando a neuro', dose: '8 g' }), today)
   await expect(this.medicamentos.remedio('Pausados', 'Suplemento em espera')).toBeVisible()
 })
-When('eu abro o histórico', async function () { await this.nav.abrir('Histórico', 'Linha do tempo') })
+When('eu abro o histórico', async function () { if (!this.page) await this.abrir(); await this.nav.abrir('Histórico', 'Linha do tempo') })
 Then('ele não aparece no histórico como começado', async function () {
   await expect(this.page.getByRole('tabpanel').filter({ visible: true })).not.toContainText('Suplemento em espera')
 })
@@ -303,3 +303,20 @@ When('eu vou anotar uma comida caseira', async function () {
 When('eu vou anotar uma comida do catálogo', async function () { await this.registrar.escolher('Comida') })
 Then('o app pede a receita da comida caseira', async function () { await expect(formComida(this.page).getByLabel('Receita da comida caseira')).toBeVisible() })
 Then('o app não pede receita', async function () { await expect(formComida(this.page).getByLabel('Receita da comida caseira')).toBeHidden() })
+
+/* ---------- Histórico ---------- */
+const diaDeHoje = page => page.getByRole('list', { name: /^Registros de / }).first()
+Then('o dia de hoje mostra o remédio dado e a temperatura', async function () {
+  await expect(diaDeHoje(this.page)).toContainText('Deu Vitamina teste')
+  await expect(diaDeHoje(this.page)).toContainText('38,4 °C')
+})
+Then('o registro mais recente aparece primeiro', async function () {
+  const horas = await diaDeHoje(this.page).getByRole('listitem').evaluateAll(xs => xs.map(x => (x.querySelector('.hh') || {}).textContent).filter(Boolean))
+  expect(horas.length).toBeGreaterThan(1); expect(horas).toEqual([...horas].sort().reverse())
+})
+When('eu filtro o histórico por remédio', async function () { await this.page.getByRole('button', { name: /^Remédio \d/ }).click() })
+Then('só aparecem registros de remédio', async function () {
+  const textos = await diaDeHoje(this.page).getByRole('listitem').allTextContents()
+  expect(textos.length).toBeGreaterThan(0); for (const t of textos) expect(t).toMatch(/Deu|Pulou/)
+})
+Then('eu não vejo a seção de últimos acontecimentos', async function () { await expect(this.page.getByRole('heading', { name: 'Últimos acontecimentos' })).toHaveCount(0) })
