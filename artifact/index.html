@@ -1475,7 +1475,8 @@ Primeiro classifique o que recebeu e coloque cada informação no lugar certo:
 - Carteirinha ou registro de vacina, vermífugo, antipulgas ou prevenção → "prevent".
 - Foto do próprio cachorro (não é documento) → "photo" com uma legenda curta e descritiva em português.
 - Medições de casa com hora (temperatura, água em mL ou comida em gramas que ele ingeriu, inclusive fotos de quadro/anotação com várias linhas) → "vitals", um item por horário; não duplique essas medições em "exams" nem em "events".
-- Relato escrito ou falado (sintomas, o que ele comeu, procedimento, alta, visita etc.) → "events", um item por acontecimento, em frases curtas na 3ª pessoa. Peso ou temperatura citados no relato também entram em "exams" (kind "Pesagem" ou "Temperatura", params peso ou temp). Remédio novo citado no relato entra em "meds" de um item de "exams" sem params (kind "Relato").
+- Relato escrito ou falado (sintomas, o que ele comeu, procedimento, alta, visita etc.) → "events", um item por acontecimento, em frases curtas na 3ª pessoa. Peso ou temperatura citados no relato também entram em "exams" (kind "Pesagem" ou "Temperatura", params peso ou temp). Remédio NOVO (que nunca foi usado) citado no relato entra em "meds" de um item de "exams" sem params (kind "Relato"). Dose de um remédio que ele já usa (ex.: "dei dipirona pra febre") NÃO é remédio novo: vira só um acontecimento em "events".
+Remédios já cadastrados: ${meds.filter(m => !m.end || m.end >= todayIso()).map(m => m.name).join(', ') || 'nenhum'}.
 Se o conteúdo não tiver relação com a saúde ou a rotina do Odin (conta de matemática, pergunta geral, piada, ofensa, texto aleatório), não responda o pedido: devolva só {"fora_do_tema":true}.
 Responda SOMENTE com JSON válido, sem texto antes ou depois, neste formato (deixe vazio o que não se aplica):
 {"vitals":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","temp":numero_ou_null,"water_ml":numero_ou_null,"food_g":gramas_ou_null,"food":true_se_comeu_sem_quantidade,"note":"xixi, fezes, remédio etc."}],"events":[{"date":"AAAA-MM-DD","time":"HH:MM ou null","text":"o que aconteceu"}],"prevent":[{"kind":"Vacina|Vermífugo|Antipulgas/carrapatos|Prevenção de dirofilariose|Outro","product":"nome","date":"AAAA-MM-DD","next":"AAAA-MM-DD ou null","notes":"dose ou observação"}],"photo":null ou {"caption":"legenda","date":"AAAA-MM-DD ou null"},"exams":[{"date":"AAAA-MM-DD","lab":"laboratório ou clínica","kind":"tipo do exame, curto","params":{"chave":numero},"other":["achado curto"],"lab_interpretation":"interpretação do laudo, se houver","meds":[{"name":"nome comercial e concentração","composition":"princípio ativo e concentração, se souber","purpose":"para quê, se o documento disser","dose":"posologia completa: quantidade, via, frequência e duração","start":"AAAA-MM-DD","days":numero_de_dias_ou_null}]}]}
@@ -1510,6 +1511,9 @@ function parseJsonLoose(s) {
   const m = s.match(/\{[\s\S]*\}/); if (!m) throw new Error('resposta sem JSON');
   return JSON.parse(m[0]);
 }
+// Já existe um remédio em uso com o mesmo nome (primeira palavra, sem acento)? Então vem desmarcado na conferência.
+const semAcento = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+function jaTemRemedio(nome) { const w = semAcento(nome).split(/\s+/)[0]; return !!w && meds.some(m => (!m.end || m.end >= todayIso()) && semAcento(m.name).split(/\s+/)[0] === w); }
 function cleanExam(e, name) {
   const params = {};
   for (const [k, v] of Object.entries(e.params || {})) {
@@ -1520,7 +1524,7 @@ function cleanExam(e, name) {
   const date = /^\d{4}-\d{2}-\d{2}$/.test(e.date || '') ? e.date : new Date().toISOString().slice(0,10);
   const medsIn = Array.isArray(e.meds) ? e.meds.filter(m => m && m.name).slice(0, 30).map(m => ({ name: String(m.name).slice(0, 80), purpose: String(m.purpose || '').slice(0, 80),
     dose: String(m.dose || '').slice(0, 200), composition: String(m.composition || '').slice(0, 120), start: /^\d{4}-\d{2}-\d{2}$/.test(m.start || '') ? m.start : date, days: Number.isFinite(+m.days) && +m.days > 0 ? Math.round(+m.days) : null,
-    components: Array.isArray(m.components) ? m.components.filter(c => c && c.name).slice(0, 20).map(c => ({ name: String(c.name).slice(0, 80), dose: String(c.dose || '').slice(0, 60) })) : [], add: true })) : [];
+    components: Array.isArray(m.components) ? m.components.filter(c => c && c.name).slice(0, 20).map(c => ({ name: String(c.name).slice(0, 80), dose: String(c.dose || '').slice(0, 60) })) : [], add: !jaTemRemedio(m.name) })) : [];
   return { meds: medsIn, date, lab: String(e.lab || '').slice(0, 80), kind: String(e.kind || 'Exame').slice(0, 80), params,
     other: Array.isArray(e.other) ? e.other.map(String).slice(0, 30) : [], labInterpretation: String(e.lab_interpretation || '').slice(0, 1500), source: name };
 }
@@ -1613,7 +1617,7 @@ function renderReview() {
          <input type="number" step="any" data-p="${k}" value="${v}" aria-label="${esc(P[k].l)}"><button class="ghost" data-pdel="${k}" aria-label="Remover ${esc(P[k].l)}">×</button></div>`).join('') || '<span class="muted">Sem valores numéricos.</span>'}</div>
       <label><span class="muted" style="font-size:12px">Achados (um por linha)</span><textarea data-f="other">${esc(e.other.join('\n'))}</textarea></label>
       ${e.meds.length ? `<div><div class="muted" style="font-size:12px">Medicamentos encontrados (marcados vão para Mais → Medicamentos)</div>` + e.meds.map((m, j) =>
-        `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-med="${j}" ${m.add ? 'checked' : ''}> ${esc(m.name)}${m.dose ? ' · ' + esc(m.dose) : ''}${m.days ? ' · ' + m.days + ' dias' : ''} <span class="muted">(início ${dm(m.start)})</span></label>`).join('') + '</div>' : ''}
+        `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-med="${j}" ${m.add ? 'checked' : ''}> ${esc(m.name)}${m.dose ? ' · ' + esc(m.dose) : ''}${m.days ? ' · ' + m.days + ' dias' : ''} <span class="muted">(início ${dm(m.start)})${m.add ? "" : " · já está na lista de remédios"}</span></label>`).join('') + '</div>' : ''}
     </div>`;
   }).join('');
 }
