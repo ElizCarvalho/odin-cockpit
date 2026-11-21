@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-21T22:31:53.811Z",
- "updatedAt": 1795299998913,
+ "exportedAt": "2026-11-21T23:02:59.633Z",
+ "updatedAt": 1795301895380,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -3765,6 +3765,16 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795293130589
+  },
+  {
+   "id": "5Ea4HhLqx75Rxo8fCmiN",
+   "date": "2026-11-21",
+   "time": "19:58",
+   "temp": 38.9,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795301893251
   },
   {
    "id": "6LonfiZRm483a",
