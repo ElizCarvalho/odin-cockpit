@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-21T00:00:51.454Z",
+ "exportedAt": "2026-11-21T00:10:26.714Z",
  "updatedAt": 1795216412592,
  "exams": [
   {
@@ -92,17 +92,29 @@
   {
    "id": "ECvd1yEtLsPcsUx9z2Q8",
    "date": "2026-11-19",
-   "lab": "Alphalabs",
    "kind": "EAS (urina)",
-   "params": {},
+   "labInterpretation": "",
    "other": [
-    "Aspecto turvo",
-    "Cor amarelo escuro",
+    "Volume: 70 mL",
+    "Cor: amarelo escuro (ref. amarelo)",
+    "Aspecto: turvo (ref. límpido)",
+    "Odor: alterado (ref. sui generis)",
+    "Proteína: traços (ref. negativo)",
+    "Leucócitos: incontáveis (ref. 6/campo 400x)",
+    "Bactérias: (+++) (com sonda espera-se (+); por cistocentese (-))",
+    "Espermatozoides: presentes",
     "Cristais: oxalato de cálcio (raros)",
-    "Células vesicais raras",
-    "Forma de coleta não informada"
+    "Células vesicais (raras)",
+    "Eritrócitos, cilindros, muco, nitrito, sangue oculto, glicose, bilirrubina e corpos cetônicos: ausentes/negativos",
+    "Forma de coleta não informada no laudo (coletada por sonda uretral, segundo o registro do dia)"
    ],
-   "labInterpretation": ""
+   "fixedAt": 1795219547084,
+   "fixedBy": "conferido com o PDF",
+   "lab": "Alpha Labs",
+   "params": {
+    "udens": 1.03,
+    "uph": 6
+   }
   },
   {
    "id": "OinGT8GZgXEiS3gHb73r",
@@ -130,15 +142,19 @@
    "id": "RL3nR5AyTFY12lQoHFeC",
    "date": "2026-11-19",
    "lab": "Alpha Labs",
-   "kind": "Bioquímica urinária (relação proteína/creatinina)",
-   "params": {},
    "other": [
     "Amostra: urina",
     "Proteína urinária 17,5 mg/dL (ref. 10,0 a 40,0)",
     "Creatinina urinária 198,0 mg/dL (ref. 53,0 a 276,0)",
     "Relação PU/CU 0,09 (ref. 0,00 a 0,50), dentro da referência"
    ],
-   "labInterpretation": "Valores de PU/CU < 0,5 são considerados normais; entre 0,5 e 1,0 é questionável para proteinúria renal; valores > 1,0 indicam proteinúria renal."
+   "labInterpretation": "Valores de PU/CU < 0,5 são considerados normais; entre 0,5 e 1,0 é questionável para proteinúria renal; valores > 1,0 indicam proteinúria renal.",
+   "kind": "Bioquímica urinária (PU/CU)",
+   "params": {
+    "upcr": 0.09,
+    "uprot": 17.5,
+    "ucreat": 198
+   }
   },
   {
    "id": "acyqxxzjqhmt4g93h1hz",
@@ -3966,6 +3982,16 @@
    "water": 0.95,
    "match": "coco",
    "src": "TACO"
+  },
+  {
+   "id": "fnrecup",
+   "name": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 130,
+   "water": 0.73,
+   "match": "f[óo]rmula natural.*recupera|vet care|recupera[çc][ãa]o",
+   "src": "rótulo: energia metabolizável 1.300 kcal/kg, umidade 73%"
   },
   {
    "id": "iogquiabo",

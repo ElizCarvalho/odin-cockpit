@@ -343,7 +343,7 @@ body.ro .wr { display: none !important; }
 @media (max-width: 560px) { .hgrid.week .gev { font-size: 0; padding: 0; height: 6px; border-left-width: 0; background: var(--cc); margin: 2px 0; } .hgrid.week thead th { font-size: 10.5px; } .hgrid .hl { width: 38px; } }
 .citem.skip { opacity: .55; } .citem.fut { background: color-mix(in srgb, var(--cc) 10%, transparent); border-radius: 0 6px 6px 0; }
 @media (max-width: 560px) { .calgrid .cd { min-height: 54px; } .calgrid .cev { display: none; } .calgrid .cdots { display: flex; } .calgrid .more { display: none; } }
-.pbar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 6px; } .pbar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; } .tile.ok .pbar i { background: var(--ok); } .tile.lo .pbar i { background: var(--warn); }
+.pbar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 6px; display: flex; } .pbar i + i { border-radius: 0 99px 99px 0; } .pbar i.food { background: var(--ok) !important; opacity: .75; } .pkey { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin: 0 3px 0 0; vertical-align: 0; } .pkey.d { background: var(--accent); } .pkey.f { background: var(--ok); opacity: .75; } .pbar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; } .tile.ok .pbar i { background: var(--ok); } .tile.lo .pbar i { background: var(--warn); }
 .chip .cnt { opacity: .7; font-size: 11px; margin-left: 2px; }
 .mrow { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 0 10px; border-bottom: 1px solid var(--line); }
 .mrow:not(:has(.msel)) { grid-template-columns: minmax(0,1fr); }
@@ -807,7 +807,7 @@ function tempTile() {
   const last = all[all.length - 1], st = statusOf('temp', last.y);
   const day = all.filter(x => x.ts > last.ts - 864e5), mx = Math.max(...day.map(x => x.y)), hot = day.filter(x => x.y > 39.2).length;
   const iv = vitals.filter(v => v.date === last.date), water = iv.reduce((a, v) => a + (v.water_ml || 0), 0), meals = iv.filter(ate).length;
-  const extra = [day.length > 1 && `máx 24h ${fmt(mx)}${hot ? ` (${hot}× febre)` : ''}`, water && `água ${water} mL`, meals && `comeu ${meals}×`].filter(Boolean).join(' · ');
+  const extra = [day.length > 1 && `máx 24h ${fmt(mx)}${hot ? ` (${hot}× febre)` : ''}`].filter(Boolean).join(' · ');
   return `<div class="tile ${st}" data-go="exames" style="cursor:pointer" title="Ver gráficos de temperatura, água e comida"><div class="lbl">Temperatura ${info} <span class="pill ${st}">${statusTxt(st)}</span></div>${tipBox}
     <div class="val">${fmt(last.y)}<small>°C</small></div><div class="reft">${extra || 'ref. ' + refTxt(p) + ' °C'}</div>
     <div class="meta">${dm(last.date)}${last.time ? ' ' + esc(last.time) : ''} · ${esc(last.where)}</div></div>`;
@@ -1036,11 +1036,11 @@ function intakeTile(kind) {
   }
   const val = isW ? t.water : t.kcal, goal = isW ? g.water : g.kcal, pct = goal ? Math.round(val / goal * 100) : null;
   const st = pct == null ? '' : pct >= 90 ? 'ok' : new Date().getHours() >= 18 && pct < 60 ? 'lo' : '';
-  const sub = isW ? `bebida ${Math.round(t.drink)} + comida ${Math.round(t.fwater)} mL` : (t.unknown ? `${t.unknown} sem quantidade/alimento` : 'pelo que foi anotado');
+  const sub = isW ? `<span class="pkey d"></span>bebida ${Math.round(t.drink)} + <span class="pkey f"></span>comida ${Math.round(t.fwater)} mL` : esc(t.unknown ? `${t.unknown} sem quantidade/alimento` : 'pelo que foi anotado');
   return `<div class="tile ${st}" role="group" aria-label="${isW ? 'Água hoje' : 'Calorias hoje'}" data-go="exames" style="cursor:pointer" title="Ver água e calorias por dia"><div class="lbl">${isW ? 'Água hoje' : 'Calorias hoje'}${pct != null ? ` <span class="pill ${st}">${pct}%</span>` : ''}</div>
     <div class="val">${fmt(Math.round(val))}<small>${isW ? 'mL' : 'kcal'}</small></div>
-    <div class="reft">${goal ? `meta ${fmt(goal)} ${isW ? 'mL' : 'kcal'}${isW && g.waterPer ? ` · ~${fmt(g.waterPer)} mL por lembrete` : g.set ? '' : ' (sugerida)'}` : 'sem meta (falta o peso)'}</div><div class="meta">${esc(sub)}</div>
-    ${goal ? `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>` : ''}</div>`;
+    <div class="reft">${goal ? `meta ${fmt(goal)} ${isW ? 'mL' : 'kcal'}${isW && goal > val ? ` · falta beber ${fmt(Math.round((goal - val) / 10) * 10)} mL` : g.set ? '' : ' (sugerida)'}` : 'sem meta (falta o peso)'}</div><div class="meta">${sub}</div>
+    ${goal ? (isW ? `<div class="pbar" aria-label="Bebida e água da comida"><i style="width:${Math.min(100, t.drink / goal * 100)}%"></i><i class="food" style="width:${Math.max(0, Math.min(100 - t.drink / goal * 100, t.fwater / goal * 100))}%"></i></div>` : `<div class="pbar"><i style="width:${Math.min(100, pct)}%"></i></div>`) : ''}</div>`;
 }
 const ate = v => !!(v.food || v.food_g || /comid|comeu|ração|racao|quiabo|iogurte|recovery/i.test(v.note || ''));
 function renderHomeTemp(host) {
