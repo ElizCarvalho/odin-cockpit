@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-21T02:21:53.061Z",
- "updatedAt": 1795226332189,
+ "exportedAt": "2026-11-21T02:33:14.688Z",
+ "updatedAt": 1795227830093,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -13,7 +13,10 @@
     "Paciente: Odin, canino, American Bully, macho, 11 meses e 2 dias",
     "Prescrição: Gardenal 50 mg (humano), via oral, 1 e 1/4 de comprimido a cada 12 horas durante 3 meses"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "5r7jccawo3bmmqtp43r4",
@@ -27,7 +30,10 @@
     "Positivo para cinomose, em tratamento e respondendo bem",
     "Leve ruído no lado esquerdo à ausculta"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "6pzs0ikyyemju3nhoj70",
@@ -59,7 +65,10 @@
     "seg": 16324,
     "vcm": 76.67,
     "wbc": 21200
-   }
+   },
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "6vqgltkf560vnu2bvadl",
@@ -74,7 +83,10 @@
     "Receita emitida em 2026-11-05; peso registrado em 28/10/2026",
     "Uso adjuvante nutricional, sujeito a reavaliação clínica"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "8mzgk0rqnphsl036cv8k",
@@ -87,7 +99,10 @@
     "Prescrição: Mantidan (cloridrato de amantadina) 100 mg, 30 comprimidos, 1 comprimido 1x ao dia por 30 dias",
     "Animal: Odin, canino, American Bully, macho, 1 ano e 4 dias"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ECvd1yEtLsPcsUx9z2Q8",
@@ -114,7 +129,10 @@
    "params": {
     "udens": 1.03,
     "uph": 6
-   }
+   },
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "OinGT8GZgXEiS3gHb73r",
@@ -125,7 +143,10 @@
    "params": {
     "peso": 18.9
    },
-   "other": []
+   "other": [],
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "Qbe9JQAZXghoNGxQC1HA",
@@ -136,7 +157,10 @@
    "params": {
     "peso": 19.4
    },
-   "other": []
+   "other": [],
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "RL3nR5AyTFY12lQoHFeC",
@@ -154,7 +178,10 @@
     "upcr": 0.09,
     "uprot": 17.5,
     "ucreat": 198
-   }
+   },
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "acyqxxzjqhmt4g93h1hz",
@@ -168,7 +195,10 @@
     "Paciente: Odin, canino, American Bully, macho, 11 meses e 22 dias",
     "Orientação: retornar a cada 6 meses para nova consulta"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115419,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "c5zx0l1q9o417texjmwi",
@@ -179,7 +209,10 @@
    "params": {
     "peso": 17.5
    },
-   "time": "08:37"
+   "time": "08:37",
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "cxfk6hny6616mgkndjml",
@@ -192,7 +225,10 @@
     "Prescrição de uso oftálmico: Ciprovet colírio, 1 gota em cada olho a cada 12 horas durante 10 dias",
     "Retorno a cada 6 meses para nova consulta"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20260915",
@@ -203,7 +239,10 @@
    "other": [
     "Cinomose DETECTADO no sangue, Ct 18,72 (quanto menor o Ct, mais vírus; o do Cappuccino foi 10,33)"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20260922",
@@ -237,7 +276,10 @@
     "urea": 55.9,
     "vcm": 75.51,
     "wbc": 9100
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261008",
@@ -248,7 +290,10 @@
    "other": [
     "Bronquite, com risco de evoluir para pneumonia"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261016",
@@ -280,7 +325,10 @@
     "urea": 40.9,
     "vcm": 75.61,
     "wbc": 25800
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261017",
@@ -293,7 +341,10 @@
    ],
    "params": {
     "cdv": 362.19
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261019",
@@ -328,7 +379,10 @@
     "urea": 58.2,
     "vcm": 76.92,
     "wbc": 45700
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261022",
@@ -359,7 +413,10 @@
     "urea": 51.8,
     "vcm": 73.81,
     "wbc": 50800
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261028",
@@ -377,7 +434,10 @@
     "csf_glic": 69,
     "csf_prot": 64.88,
     "csf_wbc": 15
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261031",
@@ -405,7 +465,10 @@
     "seg": 12994,
     "vcm": 69.4,
     "wbc": 14600
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261102us",
@@ -420,7 +483,10 @@
     "Estômago e intestinos com gases, paredes de espessura normal, sem alteração visível",
     "Rins, próstata e testículos normais"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261108",
@@ -445,7 +511,10 @@
     "seg": 21280,
     "vcm": 79.8,
     "wbc": 26230
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261108us",
@@ -458,7 +527,10 @@
     "Colite",
     "Baço aumentado; congestão no fígado"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261109",
@@ -478,7 +550,10 @@
     "na": 145,
     "phos": 4.62,
     "urea": 110.22
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261110",
@@ -504,7 +579,10 @@
     "seg": 29892,
     "vcm": 74.8,
     "wbc": 31800
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261112",
@@ -529,7 +607,10 @@
     "seg": 13366,
     "vcm": 72.75,
     "wbc": 16300
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261114",
@@ -554,7 +635,10 @@
     "seg": 14196,
     "vcm": 75,
     "wbc": 15600
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261116",
@@ -583,7 +667,10 @@
     "vcm": 76.47,
     "wbc": 14200
    },
-   "time": "18:55"
+   "time": "18:55",
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261118b",
@@ -609,7 +696,10 @@
     "Ferro 28,0 µmol/L (ref. 17,1–47,1)",
     "Soro hemolisado (+)",
     "Referências deste laboratório: ALT 21–102 U/L; fosfatase alcalina 20–156 U/L; proteína total 5,4–7,1 g/dL; ureia 21–60 mg/dL; sódio 141–152 mEq/L"
-   ]
+   ],
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "e20261118h",
@@ -640,7 +730,10 @@
     "Hemoparasitas não observados",
     "Proteínas plasmáticas totais 6,4 g/dL",
     "Referência de leucócitos deste laboratório: 8.000–16.000/µL"
-   ]
+   ],
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ecvpuu9aa8mcsi350pue",
@@ -651,7 +744,10 @@
    "params": {
     "peso": 18.6
    },
-   "time": "19:01"
+   "time": "19:01",
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "eq4inr9xpdeo1dmzuivp",
@@ -667,7 +763,10 @@
     "4Dx Plus: Erlichia sp. negativo",
     "Giardia, Parvovirose, cPL e Leishmania: campos riscados, sem resultado marcado"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fhee15fqsuo3sd40oh0d",
@@ -700,7 +799,10 @@
     "seg": 21280,
     "vcm": 79.8,
     "wbc": 26230
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "hxxhn6c8yqi3cps7jrlk",
@@ -713,7 +815,10 @@
     "Prescrição: tobramicina colírio, aplicar nos olhos, 2x ao dia, durante 10 dias",
     "Data aproximada: o documento estava lido como 2025"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ibe26nqafv7cxm4qbjbw",
@@ -726,7 +831,10 @@
     "Prescrição: Diempax 10 mg (humano), administrar 1 e 1/4 comprimido em caso de pós-convulsão ou quando passar muito tempo sozinho",
     "Animal: Odin, canino, American Bully, macho, 11 meses e 2 dias"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "idhf2zcq7baupyoc3rao",
@@ -741,7 +849,10 @@
     "Uso tópico: Hyabak 0,15% ou Lacrifilm, 1 gota em ambos os olhos a cada 12 h por 10 dias",
     "Tobramicina colírio (uso humano): 1 gota em ambos os olhos a cada 12 h por 10 dias"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "jsh2uigr3mmarb931ql6",
@@ -754,7 +865,10 @@
     "Receita emitida em 05/11/2026 pela neurologista",
     "Prescrição: creatina monohidratada 1 g (1/3 do scoop de 3 g) SID por 30 dias; Sarcopen Pet 1 sachê SID por 30 dias; Ômega 3 1000 1 cápsula ao dia, uso contínuo"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ktdgbttuab1pdvpzdei0",
@@ -770,7 +884,10 @@
     "Recomendado PCR quantitativa para cinomose para acompanhamento",
     "Prescrito: Hemolitan Gold (anemia), Promun Defense Dog (imunidade), Pró-Rim, antiviral manipulado (ribavirina, DMSO, vitamina C, vitamina E, famotidina), Trissulfin (antibiótico)"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "m2w14cvnx3ej9izwky6r",
@@ -788,7 +905,10 @@
    "params": {
     "k": 4.4,
     "na": 147.2
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "m4dlwq46cfh68ukxfyes",
@@ -801,7 +921,10 @@
     "Documento é uma receita manuscrita, sem resultados de exames",
     "Uso oral",
     "Item 4: Ad-til oral (farmácia), dar 5,4 mL a cada 24 horas durante 15 dias (lido na foto da receita em 17/11)"
-   ]
+   ],
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "main0nmpat01zyb03nbk",
@@ -817,7 +940,10 @@
     "Silhueta hepática dentro dos limites do gradil costal",
     "Exame realizado sem sedação"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "nijn6ayxqxbt740xhobo",
@@ -830,7 +956,10 @@
     "Prescrição para sequelas pós-traumáticas: ginkgo biloba 10 mg/kg/dose, pentoxifilina 5 mg/kg/dose, vitamina B12 200 mcg/animal/dose, vitamina E 10 mg/kg/dose",
     "Posologia: 1 biscoito a cada 24 horas por 30 dias"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "oh3a5par15oajfx5loe5",
@@ -841,7 +970,10 @@
    "other": [],
    "params": {
     "temp": 38.1
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "omgrztjdmv3rvebyo394",
@@ -854,7 +986,10 @@
     "Exame solicitado: coleta, análise e painel neurológico do líquor (LCR)",
     "Solicitado pela neurologista (Neurologia Veterinária e Reabilitação)"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "osdtrtmy5n3b151uf3dn",
@@ -875,7 +1010,10 @@
     "ast": 72.1,
     "creat": 0.8,
     "urea": 25.6
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "p043f6hifrgl84h9et2q",
@@ -887,7 +1025,10 @@
     "Não é laudo laboratorial: documento é receita com prescrições (Gardenal, Imunes snacks, Hemolitan Gold, Dipirona, Celesporin, Mantidan, Vetaglos, Prednisolona, Ciprovet colírio, Systane/Hyabak, Lufal)",
     "Cão Odin, American Bully, macho, 1 ano"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "sewerbu9ckfuqlvt3gng",
@@ -900,7 +1041,10 @@
     "Documento sem resultados laboratoriais",
     "Paciente: Odin, canino, Pit Bull, macho, nascimento 23/10/2025"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "u8rjsjs92a7oefvmdrtp",
@@ -916,7 +1060,10 @@
     "Método: ELISA; material: soro",
     "Detecta IgM contra Babesia canis vogeli e Babesia canis canis; sem reação contra B. canis rossi e B. gibsoni"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "u8wa1rzl2qrhg1lul2l0",
@@ -929,7 +1076,10 @@
     "Exames solicitados: hemograma completo, ureia, creatinina, proteínas totais e frações, FA, GGT, ALT, reticulócitos, glicose, bilirrubina total, direta e indireta",
     "Receita emitida em 05/11/2026; peso registrado em 28/10/2026"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "uelCupbhvJxsQm2ZRgQx",
@@ -940,7 +1090,10 @@
    "params": {
     "peso": 20.1
    },
-   "other": []
+   "other": [],
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "va07cr3pjeynkhsj6vkf",
@@ -954,7 +1107,10 @@
     "Prescrição magistral: ribavirina 30 mg/kg/dose, DMSO 20 mg/kg/dose, vitamina C 500 mg/animal/dose, vitamina E 10 mg/kg/dose, famotidina 1 mg/kg/dose",
     "Suspensão q.s.p. 15 doses, via oral, 1 dose a cada 24 horas por 15 dias"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w1e4p3m4k8f3k8des2dj",
@@ -970,7 +1126,10 @@
     "TGI com moderada quantidade de conteúdo (alimentar, gás e fezes), peristaltismo preservado",
     "Cão não castrado"
    ],
-   "params": {}
+   "params": {},
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20260922",
@@ -981,7 +1140,10 @@
    "other": [],
    "params": {
     "peso": 27
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20261028",
@@ -992,7 +1154,10 @@
    "other": [],
    "params": {
     "peso": 24.75
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20261104",
@@ -1005,7 +1170,10 @@
    ],
    "params": {
     "peso": 23.5
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20261107",
@@ -1016,7 +1184,10 @@
    "other": [],
    "params": {
     "temp": 38.8
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20261108",
@@ -1029,7 +1200,10 @@
    ],
    "params": {
     "peso": 21
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20261111",
@@ -1040,7 +1214,10 @@
    "other": [],
    "params": {
     "peso": 20
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20261113",
@@ -1051,7 +1228,10 @@
    "other": [],
    "params": {
     "peso": 19
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20261114",
@@ -1062,7 +1242,10 @@
    "other": [],
    "params": {
     "temp": 38.4
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "w20261116",
@@ -1074,7 +1257,10 @@
    ],
    "params": {
     "peso": 18.87
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "zyc0e7w2ia304ufwgscw",
@@ -1091,7 +1277,10 @@
    ],
    "params": {
     "fenob": 21.2
-   }
+   },
+   "_at": 1795228115420,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   }
  ],
  "events": [
@@ -1105,7 +1294,10 @@
     "cor": "marrom"
    },
    "text": "Fezes normal (firme), marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115212,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "127LEqftJdMdhzFVp6W8",
@@ -1117,7 +1309,10 @@
     "cor": "marrom"
    },
    "text": "Fezes líquida (diarreia), marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "1qKOyz0OudLSnOfarO5h",
@@ -1130,7 +1325,10 @@
     "quantidade": "bastante"
    },
    "text": "Xixi na sonda, clarinho, bastante.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "34j9RuJK1qbeWpmjflFB",
@@ -1143,7 +1341,10 @@
     "quantidade": "pouco"
    },
    "text": "Xixi ao pressionar a bexiga, clarinho, pouco.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "3nV6PUarekD19VWqDmsi",
@@ -1151,7 +1352,10 @@
    "time": null,
    "text": "Odin fez nebulização com 10 mL de soro fisiológico.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "8O68wpwK1WfPmqIHHUUS",
@@ -1164,7 +1368,10 @@
     "quantidade": "bastante"
    },
    "text": "Xixi na sonda, clarinho, bastante.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "96Et8Otc9qlWi0kZDz1g",
@@ -1172,7 +1379,10 @@
    "time": null,
    "text": "Ausculta limpa, verificada pela veterinária.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "Bf3WmafOhl9ZLJOGpxwO",
@@ -1185,7 +1395,10 @@
     "quantidade": "normal"
    },
    "text": "Xixi ao pressionar a bexiga, clarinho, normal.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "EGqbIAJDJEYDbtGw1yAU",
@@ -1197,7 +1410,10 @@
     "cor": "marrom"
    },
    "text": "Fezes normal (firme), marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "FPswgsfC0C3kChVDcez5",
@@ -1209,14 +1425,20 @@
     "cor": "marrom"
    },
    "text": "Fezes pastosa, marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "H5YowW5eMMTNaT7zftpy",
    "date": "2026-11-17",
    "mark": false,
    "time": "15:56",
-   "text": "Parou o sangramento depois da retirada da sonda urinária. Faz xixi só com escape ou quando a bexiga é pressionada (ainda não urina sozinho de forma voluntária)."
+   "text": "Parou o sangramento depois da retirada da sonda urinária. Faz xixi só com escape ou quando a bexiga é pressionada (ainda não urina sozinho de forma voluntária).",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "II5xaiFI1MrowxaF9dqa",
@@ -1228,7 +1450,10 @@
     "cor": "marrom"
    },
    "text": "Fezes normal (firme), marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "MWQHpqB1qQUQznHd21pm",
@@ -1236,7 +1461,10 @@
    "time": null,
    "text": "Odin recebeu dipirona 0,8 ml por causa da febre.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "PnTIo6xQME8iJYNtJL7p",
@@ -1249,7 +1477,10 @@
     "quantidade": "bastante"
    },
    "text": "Xixi na sonda, clarinho, bastante.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "QMN1DQP9o7ZXJ2e3l2vB",
@@ -1257,7 +1488,10 @@
    "time": null,
    "text": "Urina coletada por alívio com sonda uretral.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "QhnB9mCJhC3L9I036rVw",
@@ -1269,7 +1503,10 @@
     "cor": "marrom"
    },
    "text": "Fezes normal (firme), marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "TgSmr77WI1o9yXyaIxoH",
@@ -1281,7 +1518,10 @@
     "cor": "marrom"
    },
    "text": "Fezes pastosa, marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "TxjoPkGTpZaUyLccrFJE",
@@ -1289,7 +1529,10 @@
    "time": null,
    "text": "a veterinária deu uma dose de Engystol (2 mL) ao Odin.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "VgC86Hxy4AqyJHXP60sV",
@@ -1297,7 +1540,10 @@
    "time": "20:00",
    "text": "Odin teve a secreção ocular limpa.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "WBoAddCHeIFxYVf0ggCp",
@@ -1307,7 +1553,10 @@
    "time": "15:00",
    "text": "Consulta: Neuro",
    "remind": 1440,
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "XNY4YZrYwngHlOjuQ1Wk",
@@ -1315,7 +1564,10 @@
    "time": "15:50",
    "text": "Odin tomou dipirona 0,8 mL.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "cWCvPIujG2Zla7zx2JAK",
@@ -1328,7 +1580,10 @@
     "quantidade": "normal"
    },
    "text": "Xixi ao pressionar a bexiga, clarinho, normal. a veterinária fez a massagem",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "dhtmgia51hfrtcfpqzs3",
@@ -1336,7 +1591,10 @@
    "mark": false,
    "short": "",
    "text": "Odin fez fezes de consistência pastosa e coloração marrom.",
-   "time": "08:11"
+   "time": "08:11",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "efW6YbdN4Zbl0m8RQOzq",
@@ -1344,7 +1602,10 @@
    "time": "15:00",
    "text": "Coletada urina de Odin para urinálise, relação proteína/creatinina urinária e cultura com antibiograma.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ie8vbffnkcekxc9ugz8z",
@@ -1352,7 +1613,10 @@
    "mark": false,
    "short": "",
    "text": "Temperatura de Odin foi verificada e estava em 38,1 °C.",
-   "time": "10:14"
+   "time": "10:14",
+   "_at": 1795228115213,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "jJSHtCVslaMkbw1vG8Yg",
@@ -1360,13 +1624,19 @@
    "time": null,
    "text": "Odin coletou sangue para hemograma com contagem de reticulócitos (série vermelha produzida pela medula) e bioquímica.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "mpXLIQX0fJFTPSRm0uXo",
    "date": "2026-11-18",
    "time": "20:44",
-   "text": "Saiu o resultado do hemograma e da bioquímica coletados hoje (Alpha Labs)"
+   "text": "Saiu o resultado do hemograma e da bioquímica coletados hoje (Alpha Labs)",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "mugMDEdlAkAD6f2IcVR8",
@@ -1378,14 +1648,20 @@
     "cor": "marrom"
    },
    "text": "Fezes pastosa, marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "nG3aIx3WOZNjuc9lbgdJ",
    "date": "2026-11-17",
    "mark": false,
    "time": "15:56",
-   "text": "Gardenal: estoque resolvido, tutora conseguiu comprar (89 comprimidos de 100 mg)."
+   "text": "Gardenal: estoque resolvido, tutora conseguiu comprar (89 comprimidos de 100 mg).",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ntiSqkbaIhvRJBBUfogg",
@@ -1393,7 +1669,10 @@
    "time": null,
    "text": "A dipirona, que era em comprimido, passou a ser dada em forma líquida (0,8 mL) conforme o peso dele.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "oo96nYuxIiaYV4eWBJIu",
@@ -1401,7 +1680,10 @@
    "time": null,
    "text": "Odin tomou dipirona líquida 0,8 mL por causa da febre.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "rxAX4zCFvInsPp9xUGDQ",
@@ -1413,7 +1695,10 @@
     "cor": "marrom"
    },
    "text": "Fezes normal (firme), marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "s70ws29424u743c1pb3m",
@@ -1421,7 +1706,10 @@
    "mark": false,
    "short": "",
    "text": "Foi feita a limpeza da secreção ocular. O olho direito estava grudado por causa da remela.",
-   "time": "05:35"
+   "time": "05:35",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "tvSKSAxLbnJCp21otwVL",
@@ -1429,196 +1717,280 @@
    "time": "20:30",
    "text": "Odin estava com estado febril.",
    "mark": false,
-   "short": ""
+   "short": "",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v01",
    "date": "2026-09-09",
    "mark": false,
    "short": "",
-   "text": "Tosse (no mesmo dia em que o irmão Cappuccino, com cinomose confirmada desde 07/09, piorava). Olho com secreção nos dias seguintes; em 20/09 névoa no olho."
+   "text": "Tosse (no mesmo dia em que o irmão Cappuccino, com cinomose confirmada desde 07/09, piorava). Olho com secreção nos dias seguintes; em 20/09 névoa no olho.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v02",
    "date": "2026-09-20",
    "mark": false,
    "short": "",
-   "text": "Cappuccino (o Pingo), irmão do Odin, faleceu de cinomose."
+   "text": "Cappuccino (o Pingo), irmão do Odin, faleceu de cinomose.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v03",
    "date": "2026-09-20",
    "mark": true,
    "short": "Convulsões",
-   "text": "Levado à clínica: raio-x com pulmões comprometidos, furosemida, Trissulfin e soro; teve a PRIMEIRA convulsão lá. Em casa, pela primeira vez não conseguiu ficar em pé. Mais convulsões em 21/09 (03:40 e 21:00) e 22/09 (01:10, 02:20, 05:51, 08:59, ~09:50), todas com menos de 1 min; internado na Tododoy em 22/09."
+   "text": "Levado à clínica: raio-x com pulmões comprometidos, furosemida, Trissulfin e soro; teve a PRIMEIRA convulsão lá. Em casa, pela primeira vez não conseguiu ficar em pé. Mais convulsões em 21/09 (03:40 e 21:00) e 22/09 (01:10, 02:20, 05:51, 08:59, ~09:50), todas com menos de 1 min; internado na Tododoy em 22/09.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v04",
    "date": "2026-10-13",
    "mark": true,
    "short": "Internação",
-   "text": "Piorou (ronco, mucosa muito branca, urinando no colo, mole) e internou na Tododoy até 28/10. Receita de 13/10: doxiciclina, prednisolona 20 mg (½ a cada 12h por 5 dias) e omeprazol. Antibióticos na internação: ceftriaxona (~15 dias) e doxiciclina; colírios Ciprovet e Tobrex."
+   "text": "Piorou (ronco, mucosa muito branca, urinando no colo, mole) e internou na Tododoy até 28/10. Receita de 13/10: doxiciclina, prednisolona 20 mg (½ a cada 12h por 5 dias) e omeprazol. Antibióticos na internação: ceftriaxona (~15 dias) e doxiciclina; colírios Ciprovet e Tobrex.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v05",
    "date": "2026-10-28",
    "mark": true,
    "short": "Alta",
-   "text": "Alta a pedido da família, para continuar o cuidado em casa. Coleta de líquor no mesmo dia."
+   "text": "Alta a pedido da família, para continuar o cuidado em casa. Coleta de líquor no mesmo dia.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v06",
    "date": "2026-11-09",
    "mark": true,
    "short": "Transfusão",
-   "text": "Transfusão de sangue."
+   "text": "Transfusão de sangue.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v07",
    "date": "2026-11-15",
    "mark": false,
    "short": "",
-   "text": "Internado no Rio Vet Center: mudança de decúbito lateral a cada 4h, sonda nasogástrica por causa da mioclonia, sonda urinária (dificuldade de esvaziar a bexiga). Equipe testando alimentação por seringa (Recovery); engoliu bem a água oferecida pela tutora."
+   "text": "Internado no Rio Vet Center: mudança de decúbito lateral a cada 4h, sonda nasogástrica por causa da mioclonia, sonda urinária (dificuldade de esvaziar a bexiga). Equipe testando alimentação por seringa (Recovery); engoliu bem a água oferecida pela tutora.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v08",
    "date": "2026-11-08",
    "mark": true,
    "short": "Fezes pretas",
-   "text": "Fezes pretas no carro, a caminho da internação atual, e mais um episódio no hospital; depois não repetiu. Nenhum vômito. (data aproximada)"
+   "text": "Fezes pretas no carro, a caminho da internação atual, e mais um episódio no hospital; depois não repetiu. Nenhum vômito. (data aproximada)",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v09",
    "date": "2026-11-02",
    "mark": false,
    "short": "",
-   "text": "Abdômen bem inchado, com veias aparentes; motivo do pedido de ultrassom."
+   "text": "Abdômen bem inchado, com veias aparentes; motivo do pedido de ultrassom.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v10",
    "date": "2026-11-03",
    "mark": false,
    "short": "",
-   "text": "Em casa: comendo iogurte natural zero lactose com quiabo, com ajuda de colher, lambendo e engolindo."
+   "text": "Em casa: comendo iogurte natural zero lactose com quiabo, com ajuda de colher, lambendo e engolindo.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v11",
    "date": "2026-11-13",
    "mark": false,
    "short": "",
-   "text": "Mancha nova no olho esquerdo. Olho direito com névoa (parece não enxergar bem dele; fica incomodado quando esse olho fica pra cima). Grande perda de massa muscular; mioclonia na cabeça parece repuxar os olhos pra trás."
+   "text": "Mancha nova no olho esquerdo. Olho direito com névoa (parece não enxergar bem dele; fica incomodado quando esse olho fica pra cima). Grande perda de massa muscular; mioclonia na cabeça parece repuxar os olhos pra trás.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v12",
    "date": "2026-09-25",
    "mark": false,
    "short": "",
-   "text": "Alta com receita: Hemolitan Gold, Promun Defense, Pró-Rim, antiviral manipulado (ribavirina 610 mg + DMSO + vit. C + vit. E + famotidina, 1x/dia por 15 dias), Trissulfin e Gardenal a cada 12h. Peso 27 kg em 22/09. Vet da Animalis recomendou neurologista e dosagem de fenobarbital."
+   "text": "Alta com receita: Hemolitan Gold, Promun Defense, Pró-Rim, antiviral manipulado (ribavirina 610 mg + DMSO + vit. C + vit. E + famotidina, 1x/dia por 15 dias), Trissulfin e Gardenal a cada 12h. Peso 27 kg em 22/09. Vet da Animalis recomendou neurologista e dosagem de fenobarbital.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v13",
    "date": "2026-10-09",
    "mark": false,
    "short": "",
-   "text": "Bronquite no raio-x. Iniciado Silmox CL (amoxicilina + clavulanato) 300 mg a cada 12h. Depois teve reação alérgica a ele. Também vitamina A, colírio/pomada e Engystol (aplicações)."
+   "text": "Bronquite no raio-x. Iniciado Silmox CL (amoxicilina + clavulanato) 300 mg a cada 12h. Depois teve reação alérgica a ele. Também vitamina A, colírio/pomada e Engystol (aplicações).",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v14",
    "date": "2026-10-14",
    "mark": false,
    "short": "",
-   "text": "Febre (também em 16/10, com glicose baixa; 24/10 na internação; 30/10 de madrugada em casa)."
+   "text": "Febre (também em 16/10, com glicose baixa; 24/10 na internação; 30/10 de madrugada em casa).",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v15",
    "date": "2026-10-18",
    "mark": true,
    "short": "Mioclonia",
-   "text": "De madrugada na internação (e de novo em 19/10) a equipe da Tododoy achou que fosse convulsão, mas não era: era a mioclonia fazendo os dentes baterem."
+   "text": "De madrugada na internação (e de novo em 19/10) a equipe da Tododoy achou que fosse convulsão, mas não era: era a mioclonia fazendo os dentes baterem.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v16",
    "date": "2026-11-04",
    "mark": false,
    "short": "",
-   "text": "Em casa, 23–24 kg. Anemia piorando apesar do Hemolitan desde o início; vet da Animalis sugeriu spirulina e vitamina C e avaliar a medula."
+   "text": "Em casa, 23–24 kg. Anemia piorando apesar do Hemolitan desde o início; vet da Animalis sugeriu spirulina e vitamina C e avaliar a medula.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v17",
    "date": "2026-11-07",
    "mark": false,
    "short": "",
-   "text": "À noite: Hemolitan tinha acabado e faltou luz (sem ar-condicionado). Esquentou, mucosa branca, letárgico, boca travando. Emergência na Saúde Animal, estabilizou e voltou pra casa (temp. 38,8 °C)."
+   "text": "À noite: Hemolitan tinha acabado e faltou luz (sem ar-condicionado). Esquentou, mucosa branca, letárgico, boca travando. Emergência na Saúde Animal, estabilizou e voltou pra casa (temp. 38,8 °C).",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v18",
    "date": "2026-11-08",
    "mark": true,
    "short": "Rio Vet",
-   "text": "Pálido e letárgico de novo: internado na Rio Vet. Desidratado (fluidoterapia), bexiga cheia (sonda urinária), Ht 12,2%. Recebeu ferro enquanto esperava a bolsa de sangue."
+   "text": "Pálido e letárgico de novo: internado na Rio Vet. Desidratado (fluidoterapia), bexiga cheia (sonda urinária), Ht 12,2%. Recebeu ferro enquanto esperava a bolsa de sangue.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v19",
    "date": "2026-11-10",
    "mark": false,
    "short": "",
-   "text": "Febre e hipoglicemia na internação, corrigidas. Fezes pastosas, cor marrom."
+   "text": "Febre e hipoglicemia na internação, corrigidas. Fezes pastosas, cor marrom.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v20",
    "date": "2026-11-11",
    "mark": false,
    "short": "",
-   "text": "Antibiótico trocado para ceftriaxona. Sonda nasogástrica por causa da mioclonia. Diarreia marrom sem sangue. Urina escura (normalizou em 12/11)."
+   "text": "Antibiótico trocado para ceftriaxona. Sonda nasogástrica por causa da mioclonia. Diarreia marrom sem sangue. Urina escura (normalizou em 12/11).",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v21",
    "date": "2026-11-13",
    "mark": false,
    "short": "",
-   "text": "Espasmos menores. Ferro injetável e Eritrós (suplemento para anemia). Bebia ~2 L de água/dia em casa."
+   "text": "Espasmos menores. Ferro injetável e Eritrós (suplemento para anemia). Bebia ~2 L de água/dia em casa.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v22",
    "date": "2026-11-14",
    "mark": false,
    "short": "",
-   "text": "Neuro: tetraparesia com reflexos espinhais e consciência preservados, sem novas convulsões, estabilizando. Reavaliação e neurorreabilitação após a alta."
+   "text": "Neuro: tetraparesia com reflexos espinhais e consciência preservados, sem novas convulsões, estabilizando. Reavaliação e neurorreabilitação após a alta.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v23",
    "date": "2026-11-15",
    "mark": false,
    "short": "",
-   "text": "Rio Vet oferece alta quando a família quiser; antes testam se ele urina sem sonda. Já usam colírio lubrificante e antibiótico (muita secreção ocular). Eritrós continua em casa."
+   "text": "Rio Vet oferece alta quando a família quiser; antes testam se ele urina sem sonda. Já usam colírio lubrificante e antibiótico (muita secreção ocular). Eritrós continua em casa.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v24",
    "date": "2026-11-04",
    "mark": false,
    "short": "",
-   "text": "Sem movimento nas quatro patas; mexe o pescoço às vezes; engole e responde a estímulos. Consulta com a neuro a neurologista."
+   "text": "Sem movimento nas quatro patas; mexe o pescoço às vezes; engole e responde a estímulos. Consulta com a neuro a neurologista.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v25",
    "date": "2026-09-24",
    "mark": false,
    "short": "",
-   "text": "Na internação, não deixava a auxiliar nem a veterinária encostarem nele; a clínica pediu pra tutora ir ajudar na coleta do exame."
+   "text": "Na internação, não deixava a auxiliar nem a veterinária encostarem nele; a clínica pediu pra tutora ir ajudar na coleta do exame.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v26",
    "date": "2026-10-16",
    "mark": false,
    "short": "",
-   "text": "Na internação: comeu sozinho de madrugada e arrancou a sonda urinária. Não precisou de oxigênio. Descoberta a alergia a um antibiótico."
+   "text": "Na internação: comeu sozinho de madrugada e arrancou a sonda urinária. Não precisou de oxigênio. Descoberta a alergia a um antibiótico.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v27",
    "date": "2026-10-30",
    "mark": false,
    "short": "",
-   "text": "Em casa, sem movimento nas patas: apoio improvisado embaixo das patinhas pra evitar edema."
+   "text": "Em casa, sem movimento nas patas: apoio improvisado embaixo das patinhas pra evitar edema.",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v28",
@@ -1626,7 +1998,10 @@
    "mark": false,
    "short": "",
    "text": "Boletim da noite (Rio Vet): sem intercorrências; temperatura, pressão e glicemia normais. Alimentação pela sonda a cada 4h, fluidoterapia e medicação mantidas. Ainda com bastante espasmo, mas bem menos do que quando entrou.",
-   "time": "07:36"
+   "time": "07:36",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v29",
@@ -1634,7 +2009,10 @@
    "mark": false,
    "short": "",
    "text": "Fezes um pouco amolecidas no plantão anterior. Segue fazendo o antibiótico (ceftriaxona). A equipe acompanha o hematócrito; abaixo de 15% a indicação seria nova transfusão.",
-   "time": "11:41"
+   "time": "11:41",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v30",
@@ -1642,7 +2020,10 @@
    "mark": false,
    "short": "",
    "text": "A clínica não libera pra casa com sonda urinária; antes precisam ver se ele urina sozinho. Hemograma de controle marcado pra 16/11 de manhã.",
-   "time": "11:48"
+   "time": "11:48",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v31",
@@ -1650,7 +2031,10 @@
    "mark": false,
    "short": "",
    "text": "Tutora pediu pra avaliar incluir nos próximos exames a carga viral de cinomose (último quantitativo: 362) e a dosagem de fenobarbital no sangue.",
-   "time": "12:55"
+   "time": "12:55",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v32",
@@ -1658,7 +2042,10 @@
    "mark": false,
    "short": "",
    "text": "Boletim da tarde (Rio Vet): parâmetros clínicos normais, atento quando se aproximam e reclama em alguns momentos. Segue com fluidoterapia, mudança de decúbito e antibiótico. Dependendo do hemograma de 16/11, pode ter alta pra continuar o tratamento em casa.",
-   "time": "19:14"
+   "time": "19:14",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v33",
@@ -1666,7 +2053,10 @@
    "mark": false,
    "short": "",
    "text": "Autorizados pra coleta de 16/11, junto com o hemograma: PCR quantitativo de cinomose (resultado em cerca de 7 dias) e dosagem de fenobarbital no sangue (já passou dos 21 dias pedidos pela neuro).",
-   "time": "22:48"
+   "time": "22:48",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v34",
@@ -1674,7 +2064,10 @@
    "mark": false,
    "short": "",
    "text": "Boletim da noite (Rio Vet): sem intercorrências, mesmo quadro. Espasmos musculares continuam, mas bem menores do que na entrada. Bastante secreção nasal e ocular: limpeza e colírios. Sonda urinária com bastante urina, fluidoterapia, suplementos e medicações mantidos. Sangue coletado pros exames.",
-   "time": "07:05"
+   "time": "07:05",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v35",
@@ -1682,7 +2075,10 @@
    "mark": false,
    "short": "",
    "text": "Boletim do dia (Rio Vet): sem mudança no quadro, parâmetros normais e sem convulsão. Comendo bem e com apetite, pela boca (sem precisar da sonda); já acabaram as latas de Recovery. Fezes um pouco amolecidas e bem escuras.",
-   "time": "18:44"
+   "time": "18:44",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v36",
@@ -1690,7 +2086,10 @@
    "mark": true,
    "short": "Alta Rio Vet",
    "text": "Alta da Rio Vet pra continuar o tratamento em casa. Tiraram a sonda urinária na saída e sangrou um pouco. Gengiva rosada; a tutora fez o teste dos 2 segundos (tempo de preenchimento capilar).",
-   "time": "19:10"
+   "time": "19:10",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v37",
@@ -1698,7 +2097,10 @@
    "mark": false,
    "short": "",
    "text": "Em casa: comeu ½ petisco de traqueia bovina com boa mastigação e 2 biscoitos Biscrok. Soltando pum fedido. Fez um pouco de xixi clarinho quando a barriga foi pressionada ao ajustá-lo pra posição de esfinge (primeiro xixi registrado depois de tirar a sonda).",
-   "time": "00:31"
+   "time": "00:31",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v38",
@@ -1706,7 +2108,10 @@
    "mark": false,
    "short": "",
    "text": "Chegou em casa. Peso na receita de alta: 18,87 kg. Receita de alta da Rio Vet: Eritros Dog tabs 1 tablete/dia, Macrogard Stick 1 e 1/2 por dia e Organoneuro Cerebral 2 comprimidos/dia, todos por 30 dias. Comeu sozinho na tigela.",
-   "time": "19:59"
+   "time": "19:59",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v39",
@@ -1714,7 +2119,10 @@
    "mark": false,
    "short": "",
    "text": "Fenobarbital: a clínica só tinha 1 comprimido e não avisou; deu só pra dose desta noite. Precisa de receita nova (controlada); a decisão de manter a dose ou fazer desmame fica com a neuro. Ribavirina não volta (a neuro não recomenda). Engystol continua (ampola já comprada).",
-   "time": "21:16"
+   "time": "21:16",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "v40",
@@ -1722,7 +2130,10 @@
    "mark": false,
    "short": "",
    "text": "Orientações da vet amiga da família: hemograma sem sinal forte de infecção (segmentados um pouco altos; linfócitos baixos, comum na cinomose) e a amostra teve agregados plaquetários, então parte da queda pode ser da coleta — repetir os exames em casa. Acompanhar a secreção nasal e ocular. Foco em suplementação pra ele recuperar massa; Apevitin não é necessário enquanto ele come sozinho. Preocupação com a bexiga depois de tanto tempo de sonda: perguntar à clínica se o sangramento é esperado; se ele não esvaziar a bexiga, coletar urina pra exame.",
-   "time": "21:30"
+   "time": "21:30",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wncAyKauAvcAVW6vkePR",
@@ -1734,7 +2145,10 @@
     "cor": "marrom"
    },
    "text": "Fezes normal (firme), marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wsklubpunyruo0yfpapf",
@@ -1742,7 +2156,10 @@
    "mark": false,
    "short": "",
    "text": "Odin teve o decúbito lateral trocado.",
-   "time": "05:30"
+   "time": "05:30",
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "yEvn0FcKbzPfosYzKgEa",
@@ -1754,7 +2171,10 @@
     "cor": "marrom"
    },
    "text": "Fezes líquida (diarreia), marrom.",
-   "mark": false
+   "mark": false,
+   "_at": 1795228115214,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   }
  ],
  "analyses": [
@@ -1947,7 +2367,10 @@
    "clinic": "",
    "composition": "Dipirona",
    "components": [],
-   "dose": "0,8 mL VO a cada 12h, só em caso de febre (receita de 17/11)"
+   "dose": "0,8 mL VO a cada 12h, só em caso de febre (receita de 17/11)",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "0v5llg0vglvnd4qo2bsq",
@@ -1960,7 +2383,10 @@
    "purpose": "neurológico / dor",
    "notes": "Indicado pela neuro; receita de controle especial saiu pela Tododoy em 27/10. Começou em 29/10. Pulou dias na internação da Rio Vet (13 comprimidos em 19 dias); seguindo até completar os 30 comprimidos.",
    "start": "2026-10-29",
-   "end": "2026-12-03"
+   "end": "2026-12-03",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "3ukkpfalfdfz5w71ha4l",
@@ -1994,7 +2420,10 @@
    "name": "Antiviral manipulado (1º ciclo)",
    "notes": "doses calculadas pra 27 kg; ribavirina pode causar anemia: perguntar à vet",
    "purpose": "antiviral",
-   "start": "2026-09-25"
+   "start": "2026-09-25",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "4xy0bjkzri1aky03f6ea",
@@ -2007,7 +2436,10 @@
    "name": "Silmox CL 300 mg",
    "notes": "teve reação alérgica",
    "purpose": "antibiótico (bronquite)",
-   "start": "2026-10-09"
+   "start": "2026-10-09",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "5y05g81cn2bzatkjpe4t",
@@ -2019,7 +2451,10 @@
    "name": "Promun Defense Dog",
    "notes": "",
    "purpose": "imunidade",
-   "start": "2026-09-25"
+   "start": "2026-09-25",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "64qysagx4g3zpn89a670",
@@ -2032,7 +2467,10 @@
    "name": "Celesporin 600 mg",
    "notes": "receita de alta da Tododoy; previsto até 13/11, mas foi trocado por ceftriaxona na Rio Vet em 11/11",
    "purpose": "antibiótico",
-   "start": "2026-10-29"
+   "start": "2026-10-29",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "78fwenijjd7jwbo2uafk",
@@ -2045,7 +2483,10 @@
    "name": "Doxiciclina 100 mg",
    "notes": "também usada na internação da Tododoy",
    "purpose": "antibiótico",
-   "start": "2026-10-13"
+   "start": "2026-10-13",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "79r9bep3ddtnuqz988jj",
@@ -2058,7 +2499,10 @@
    "name": "Ciprovet colírio",
    "notes": "",
    "purpose": "olhos (antibiótico)",
-   "start": "2026-10-16"
+   "start": "2026-10-16",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "7dezsyjn0k3lset3d9yf",
@@ -2070,7 +2514,10 @@
    "name": "Ferro injetável",
    "notes": "Rio Vet",
    "purpose": "anemia",
-   "start": "2026-11-08"
+   "start": "2026-11-08",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "7uf2f7srqcmr4umks5s5",
@@ -2083,7 +2530,10 @@
    "name": "Hemolitan Gold",
    "notes": "",
    "purpose": "anemia",
-   "start": "2026-09-25"
+   "start": "2026-09-25",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "8ieuxw1bwi2rghrm1285",
@@ -2099,7 +2549,10 @@
    "pausedAt": "2026-11-17",
    "dose": "8 g VO 1x ao dia, uso contínuo",
    "notes": "Orientação da Animalis (04/11); nunca chegou a tomar. Pote cheio de 250 g.",
-   "start": "2026-11-18"
+   "start": "2026-11-18",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "9yrs0iz5nrbp1mpofmky",
@@ -2112,7 +2565,10 @@
    "purpose": "vitaminas",
    "start": "2026-10-09",
    "dose": "5,4 mL VO a cada 24h por 15 dias (receita Roxo Por Patas, 08/10)",
-   "notes": "Receita de 08/10 da Roxo Por Patas: \"Ad-til oral, dar 5,4 mL a cada 24 horas durante 15 dias\". É a \"vitamina A líquida\" que a Animalis também indicou em 09/10. Em 08/11 a Rio Vet passou outra dose: 30 gotas/dia por 30 dias."
+   "notes": "Receita de 08/10 da Roxo Por Patas: \"Ad-til oral, dar 5,4 mL a cada 24 horas durante 15 dias\". É a \"vitamina A líquida\" que a Animalis também indicou em 09/10. Em 08/11 a Rio Vet passou outra dose: 30 gotas/dia por 30 dias.",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "OoTTL77IVrZn15dkWPqx",
@@ -2148,7 +2604,10 @@
    "end": "2026-12-18",
    "paused": false,
    "pauseReason": null,
-   "pausedAt": null
+   "pausedAt": null,
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "OukwV2A2JGYqzpuVWiK8",
@@ -2163,7 +2622,10 @@
    "components": [],
    "notes": "Duplicado: era só uma dose de febre (já está no Histórico). O remédio é a \"Dipirona líquida\".",
    "end": "2026-11-19",
-   "dup": true
+   "dup": true,
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "WgFONdJ2SsFMbRpqA3Xp",
@@ -2177,7 +2639,10 @@
    "allergy": false,
    "clinic": "",
    "composition": "",
-   "components": []
+   "components": [],
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "aig1",
@@ -2188,7 +2653,10 @@
    "endEstimated": true,
    "clinic": "Animalis",
    "purpose": "Suplemento (imunidade)",
-   "notes": "1º período: ~15 dias na época da 1ª internação na Tododoy (datas aproximadas)."
+   "notes": "1º período: ~15 dias na época da 1ª internação na Tododoy (datas aproximadas).",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "aig2",
@@ -2197,7 +2665,10 @@
    "start": "2026-11-17",
    "clinic": "Animalis",
    "purpose": "Suplemento (imunidade)",
-   "notes": "Voltou a dar em 17/11 (pode ter tomado alguns na internação)."
+   "notes": "Voltou a dar em 17/11 (pode ter tomado alguns na internação).",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "antiviral2",
@@ -2231,7 +2702,10 @@
    "name": "Antiviral manipulado (2º ciclo)",
    "notes": "receita da Tododoy de 26/10; ribavirina pode causar anemia: perguntar à vet",
    "purpose": "antiviral",
-   "start": "2026-10-26"
+   "start": "2026-10-26",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "apevitin20261117",
@@ -2242,7 +2716,10 @@
    "purpose": "Apetite",
    "start": "2026-11-17",
    "end": "2026-11-26",
-   "notes": "Começou em 17/11, no jantar. 10 dias, até 26/11."
+   "notes": "Começou em 17/11, no jantar. 10 dias, até 26/11.",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "axvcf4i02lcaskls9qf8",
@@ -2255,7 +2732,10 @@
    "name": "Citoneurin 5000",
    "notes": "fim exato não registrado; marcado na alta da Tododoy (28/10)",
    "purpose": "vitaminas do complexo B (neurológico)",
-   "start": "2026-10-15"
+   "start": "2026-10-15",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "bOH3FUrTX2hiZEkJFXOR",
@@ -2270,7 +2750,10 @@
    "components": [],
    "notes": "Duplicado: era só uma dose de febre (já está no Histórico). O remédio é a \"Dipirona líquida\".",
    "end": "2026-11-20",
-   "dup": true
+   "dup": true,
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "biosan20261117",
@@ -2281,7 +2764,10 @@
    "end": "2026-11-23",
    "dose": "3 g VO (pela seringa) 1x ao dia por 7 dias",
    "form": "seringa",
-   "notes": "Começou em 17/11. 7 dias, até 23/11. Seringa de 14 g: depois das doses de 17 e 18/11 sobram ~8 g (dá pra 19 e 20/11)."
+   "notes": "Começou em 17/11. 7 dias, até 23/11. Seringa de 14 g: depois das doses de 17 e 18/11 sobram ~8 g (dá pra 19 e 20/11).",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "bkqynjd32t53e35km2bu",
@@ -2294,7 +2780,10 @@
    "purpose": "suporte",
    "start": "2026-11-05",
    "dose": "1 cápsula VO 1x ao dia por 30 dias (receita de 17/11)",
-   "end": "2026-12-16"
+   "end": "2026-12-16",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "cino1",
@@ -2306,7 +2795,10 @@
    "purpose": "Homeopático (cinomose)",
    "notes": "Por conta própria. ~7 dias antes da internação na Rio Vet.",
    "form": "spray",
-   "kind": "med"
+   "kind": "med",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "cino2",
@@ -2316,7 +2808,10 @@
    "purpose": "Homeopático (cinomose)",
    "notes": "Por conta própria. Recomeçou em 17/11. Frasco de 30 mL com um pouco mais da metade (estoque estimado).",
    "form": "spray",
-   "kind": "med"
+   "kind": "med",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "cipro20261029",
@@ -2329,7 +2824,10 @@
    "name": "Ciprovet colírio",
    "notes": "receita de alta; 2º período",
    "purpose": "olhos (antibiótico)",
-   "start": "2026-10-29"
+   "start": "2026-10-29",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "diazepam20260925",
@@ -2340,7 +2838,10 @@
    "purpose": "Convulsões (se necessário)",
    "notes": "Receita de controle especial da Tododoy (25/09). Nunca precisou dar. Caixa fechada com 30. Confirmar a dose atual com a neuro antes de usar.",
    "kind": "med",
-   "form": "comprimido"
+   "form": "comprimido",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "dipirona20261117",
@@ -2350,7 +2851,10 @@
    "clinic": "Tododoy",
    "purpose": "Dor e febre (se necessário)",
    "notes": "Só quando precisar. Caixa fechada com 30.",
-   "kind": "med"
+   "kind": "med",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "dyjnrsp1u8um23ccm3qc",
@@ -2362,7 +2866,10 @@
    "name": "Furosemida injetável",
    "notes": "",
    "purpose": "pulmão / líquido",
-   "start": "2026-09-20"
+   "start": "2026-09-20",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ekw76x8vayk2xf62g8vu",
@@ -2375,7 +2882,10 @@
    "name": "Prednisolona 20 mg",
    "notes": "aparece de novo na receita de alta de 26/10",
    "purpose": "corticoide (anti-inflamatório)",
-   "start": "2026-10-13"
+   "start": "2026-10-13",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "f15ukthwf42i3x7es1i9",
@@ -2388,7 +2898,10 @@
    "start": "2026-11-08",
    "notes": "Rio Vet; receita de alta. Recomeçado em 17/11 (não há certeza das aplicações na internação). Frasco novo de 5 mL comprado em 17/11.",
    "dose": "1 gota em cada olho a cada 8h por 7 dias (receita de 17/11; antes era a cada 12h)",
-   "end": "2026-11-23"
+   "end": "2026-11-23",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "f3m7ry49y98zd0kwae8z",
@@ -2422,7 +2935,10 @@
    "purpose": "suporte metabólico e neuromuscular",
    "notes": "Receita da neuro. Começou na internação da Rio Vet (08/11), mas não foi dado todo dia; em 17/11 restavam 24 de 30.",
    "start": "2026-11-08",
-   "end": "2026-12-10"
+   "end": "2026-12-10",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fzlzy2akpue0cbdgdq9n",
@@ -2436,7 +2952,10 @@
    "paused": false,
    "start": "2026-11-17",
    "end": "2026-12-16",
-   "notes": "Na receita de 17/11: 2 mL 1x/dia por 30 dias. Começou em 17/11 à noite (até 16/12)."
+   "notes": "Na receita de 17/11: 2 mL 1x/dia por 30 dias. Começou em 17/11 à noite (até 16/12).",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gd1n844g7r9nrfr9oha1",
@@ -2449,7 +2968,10 @@
    "name": "Dipirona 500 mg",
    "notes": "receita de alta da Tododoy",
    "purpose": "dor / febre",
-   "start": "2026-10-29"
+   "start": "2026-10-29",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "glicopan20261117",
@@ -2458,7 +2980,10 @@
    "start": "2026-09-09",
    "clinic": "Animalis",
    "purpose": "Suplemento energético e vitamínico",
-   "notes": "Indicado pela Animalis no começo da tosse (início aproximado). Estoque: 7 + pote fechado de 30."
+   "notes": "Indicado pela Animalis no começo da tosse (início aproximado). Estoque: 7 + pote fechado de 30.",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "h6dgrp2mup3pk7bhs0i3",
@@ -2471,7 +2996,10 @@
    "purpose": "massa muscular",
    "notes": "Receita da neuro (emitida 05/11). Começou de fato em 17/11.",
    "start": "2026-11-17",
-   "end": "2026-12-16"
+   "end": "2026-12-16",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "happybones20261117",
@@ -2484,7 +3012,10 @@
    "notes": "Por conta própria (não veio de receita). Estoque: 26 tabletes em 17/11.",
    "paused": true,
    "pausedAt": "2026-11-17",
-   "pauseReason": "aguardando a neuro (muitos suplementos com a mesma função); ainda não começou"
+   "pauseReason": "aguardando a neuro (muitos suplementos com a mesma função); ainda não começou",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "i1qlykv1zquh92s329dc",
@@ -2500,7 +3031,10 @@
    "start": "2026-09-20",
    "notes": "Dose atual desde 29/10 (receita de alta da Tododoy, alternativa ao Convless 4 mL a cada 12h). Antes: 22/09, Gardenal gotas 40 mg/mL, 1,5 mL após crise; depois 1 e 1/4 cp de 50 mg (62,5 mg) a cada 12h (receita de 25/09). Dosagem no sangue em 06/10: 21,2 (dentro da faixa); nova dosagem coletada em 16/11. Na alta da Rio Vet (16/11) só veio 1 comprimido; em 17/11 a tutora conseguiu comprar: 89 comprimidos em estoque (29 na caixa aberta + 2 caixas de 30).",
    "form": "comprimido",
-   "kind": "med"
+   "kind": "med",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "imunes20261029",
@@ -2513,7 +3047,10 @@
    "name": "Imunes Snacks",
    "notes": "indicado pela Animalis; tomou de 13/10 até a internação na Rio Vet (08/11). A receita de alta da Tododoy (26/10) tinha mandado continuar por mais 10 dias.",
    "purpose": "imunidade",
-   "start": "2026-10-13"
+   "start": "2026-10-13",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "imunes20261116",
@@ -2522,7 +3059,10 @@
    "start": "2026-11-16",
    "clinic": "Tododoy",
    "purpose": "Imunidade",
-   "notes": "Eram 3; a vet reduziu pra 2 por causa da perda de peso. Estoque: 2 pacotes fechados de 30."
+   "notes": "Eram 3; a vet reduziu pra 2 por causa da perda de peso. Estoque: 2 pacotes fechados de 30.",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "jkqu4ofsjaxmsjmhm0hn",
@@ -2534,7 +3074,10 @@
    "purpose": "massa muscular",
    "notes": "Receita da neuro. Começou em 07/11, um dia antes da internação na Rio Vet. Caixa de 30; restavam 21 em 17/11.",
    "start": "2026-11-07",
-   "end": "2026-12-08"
+   "end": "2026-12-08",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "kyjmunymtoah7gjbtiak",
@@ -2547,7 +3090,10 @@
    "name": "Organoneuro Cerebral",
    "notes": "Rio Vet; receita de 08/11 renovada na alta de 16/11",
    "purpose": "suporte neurológico",
-   "start": "2026-11-08"
+   "start": "2026-11-08",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "luftal20261029",
@@ -2560,7 +3106,10 @@
    "name": "Luftal",
    "notes": "receita de alta; fim estimado pelas marcações na receita",
    "purpose": "gases",
-   "start": "2026-10-29"
+   "start": "2026-10-29",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "luftal20261117",
@@ -2570,7 +3119,10 @@
    "purpose": "Gases",
    "notes": "Só quando precisar.",
    "form": "liquido",
-   "kind": "med"
+   "kind": "med",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "macrocard20261013",
@@ -2584,7 +3136,10 @@
    "name": "Macrogard Pet Sticks (Avert)",
    "notes": "indicado pela Animalis em 13/10; mantido na internação e na receita de alta da Rio Vet (16/11), com dose nova.",
    "purpose": "suporte ao sistema imunológico",
-   "start": "2026-10-13"
+   "start": "2026-10-13",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "n25f9l3sywu2lxnl2qyc",
@@ -2597,7 +3152,10 @@
    "name": "Ceftriaxona",
    "notes": "Rio Vet; injetável na internação, não seguiu na receita de alta",
    "purpose": "antibiótico",
-   "start": "2026-11-11"
+   "start": "2026-11-11",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "of411f30erz9od0puehs",
@@ -2612,7 +3170,10 @@
    "start": "2026-10-10",
    "dose": "2 mL a cada 2 dias, VIA ORAL misturado na água (orientação da neuro), uso contínuo",
    "notes": "aplicado pela Animalis; levado para a Rio Vet. Fez 2 mL 3 dias seguidos na internação. A partir de 18/11: 2 mL a cada 2 dias, dado na água (a neuro liberou via oral). Estoque: 2 ampolas = 5 doses segundo a vet (18, 20, 22, 24 e 26/11); comprar mais antes de 26/11.",
-   "form": "liquido"
+   "form": "liquido",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "p0i6228h05k74lrugk45",
@@ -2625,7 +3186,10 @@
    "dose": "1 gota em cada olho a cada 12h por 10 dias",
    "notes": "Rio Vet; receita de alta. Recomeçado em 17/11 (não há certeza das aplicações na internação). Frasco em uso quase cheio.",
    "name": "Lacrifilm (colírio lubrificante)",
-   "end": "2026-11-26"
+   "end": "2026-11-26",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "pbzrlxa01w4765cnaduj",
@@ -2638,7 +3202,10 @@
    "name": "Omeprazol 20 mg",
    "notes": "",
    "purpose": "protetor gástrico",
-   "start": "2026-10-13"
+   "start": "2026-10-13",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "pred20261030",
@@ -2651,7 +3218,10 @@
    "name": "Prednisolona 20 mg",
    "notes": "receita de alta; 2º período",
    "purpose": "corticoide (anti-inflamatório)",
-   "start": "2026-10-30"
+   "start": "2026-10-30",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "promunboost20261118",
@@ -2661,7 +3231,10 @@
    "purpose": "Imunidade",
    "form": "seringa",
    "dose": "3 mL VO 1x ao dia por 3 dias (18, 19 e 20/11); depois 3 mL 1x a cada 7 dias (receita de 17/11)",
-   "notes": "Receita de 17/11: 3 mL por 3 dias e depois 1x (3 mL) a cada 7 dias. 1ª dose em 18/11."
+   "notes": "Receita de 17/11: 3 mL por 3 dias e depois 1x (3 mL) a cada 7 dias. 1ª dose em 18/11.",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "qemqhelh6fjm9q6x4mxq",
@@ -2674,7 +3247,10 @@
    "purpose": "anemia (suplemento de ferro)",
    "notes": "Rio Vet; usado na internação e mantido na receita de alta de 16/11. Contagem dos 30 dias a partir de 15/11.",
    "start": "2026-11-15",
-   "end": "2026-12-14"
+   "end": "2026-12-14",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "rMcNJuEPfHjasssgUU1m",
@@ -2688,7 +3264,10 @@
    "allergy": false,
    "clinic": "",
    "composition": "",
-   "components": []
+   "components": [],
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "rdr0b2duqyj48wqcbdan",
@@ -2701,7 +3280,10 @@
    "purpose": "vitaminas",
    "start": "2026-11-08",
    "notes": "Rio Vet (receita de 08/11 e alta 16/11): 30 gotas/dia por 30 dias. Recomeçado em 17/11. Estoque: 3 frascos fechados de 20 mL + 1 aberto pela metade.",
-   "end": "2026-12-16"
+   "end": "2026-12-16",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "sulfadiazina20261028",
@@ -2712,7 +3294,10 @@
    "purpose": "Cicatrização das lesões",
    "notes": "A pedido da neuro, no lugar da Vetaglos. Usou 2 bisnagas; parou quando internou na Rio Vet porque cicatrizou.",
    "kind": "med",
-   "form": "pomada"
+   "form": "pomada",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "systane20261029",
@@ -2725,7 +3310,10 @@
    "name": "Systane ou Hyabak (colírio lubrificante)",
    "notes": "receita de alta; na Rio Vet seguiu com Hyabak/Lacrifilm",
    "purpose": "olhos (lubrificante)",
-   "start": "2026-10-29"
+   "start": "2026-10-29",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "tfuiw5d0sguvnlduj77a",
@@ -2737,7 +3325,10 @@
    "name": "Pró-Rim",
    "notes": "",
    "purpose": "rins",
-   "start": "2026-09-25"
+   "start": "2026-09-25",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ts393exjvp0wp4m8aper",
@@ -2750,7 +3341,10 @@
    "name": "Ceftriaxona",
    "notes": "",
    "purpose": "antibiótico",
-   "start": "2026-10-13"
+   "start": "2026-10-13",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "vetaglos20261029",
@@ -2763,7 +3357,10 @@
    "purpose": "lesões na pele (dorso e saco escrotal)",
    "start": "2026-10-29",
    "notes": "Trocada por sulfadiazina de prata a pedido da neuro na alta da Tododoy (28/10).",
-   "end": "2026-10-28"
+   "end": "2026-10-28",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "yffecbcmwlv0629k34op",
@@ -2776,7 +3373,10 @@
    "name": "Trissulfin SID 1.600 mg",
    "notes": "",
    "purpose": "antibiótico",
-   "start": "2026-09-20"
+   "start": "2026-09-20",
+   "_at": 1795228115550,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   }
  ],
  "prevent": [
@@ -2787,7 +3387,10 @@
    "kind": "Vacina",
    "next": "2026-02-13",
    "notes": "a veterinária",
-   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)"
+   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gprsa5slugq8vsdtv0b8",
@@ -2796,7 +3399,10 @@
    "kind": "Vacina",
    "next": "2027-02-20",
    "notes": "a veterinária",
-   "product": "Bordetella (Recombitek Oral)"
+   "product": "Bordetella (Recombitek Oral)",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ijkpueg0xcnz9jso3u02",
@@ -2805,7 +3411,10 @@
    "kind": "Vacina",
    "next": "2027-01-23",
    "notes": "a veterinária",
-   "product": "Raiva (Rabisin)"
+   "product": "Raiva (Rabisin)",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "jdvrkui11prxupduhyre",
@@ -2814,7 +3423,10 @@
    "kind": "Vacina",
    "next": "2026-01-02",
    "notes": "",
-   "product": "V10 (Viratec 10 CVL)"
+   "product": "V10 (Viratec 10 CVL)",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "kiwy9na9qgn3sgse5zgy",
@@ -2823,7 +3435,10 @@
    "kind": "Prevenção de dirofilariose",
    "next": "2027-06-23",
    "notes": "",
-   "product": "ProHeart SR-12"
+   "product": "ProHeart SR-12",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "kzufqb98alzd5j66mgl3",
@@ -2832,7 +3447,10 @@
    "kind": "Vacina",
    "next": "2027-02-20",
    "notes": "a veterinária",
-   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)"
+   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "plan-bravecto365",
@@ -2841,7 +3459,10 @@
    "next": null,
    "notes": "Uma injeção protege por 1 ano contra pulgas e carrapatos; liberado a partir de 6 meses de idade. Ver com a vet depois da alta, quando a anemia e o quadro estiverem estáveis.",
    "planned": true,
-   "product": "Bravecto 365 (injetável)"
+   "product": "Bravecto 365 (injetável)",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "plan-leish",
@@ -2850,7 +3471,10 @@
    "next": null,
    "notes": "Não essencial: depende do risco da região. Precisa de exame negativo antes; protocolo inicial de 3 doses e reforço anual. Só depois da recuperação.",
    "planned": true,
-   "product": "Leishmaniose"
+   "product": "Leishmaniose",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "u3vne2c1ep1ozrsphhyd",
@@ -2859,7 +3483,10 @@
    "kind": "Vacina",
    "next": "2026-01-23",
    "notes": "",
-   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)"
+   "product": "Recombitek C8 (cinomose, hepatite, parvo, parainfluenza, lepto)",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "verm20251107",
@@ -2867,7 +3494,10 @@
    "kind": "Vermífugo",
    "next": "2025-11-22",
    "notes": "1,2 mL",
-   "product": "Drontal Puppy"
+   "product": "Drontal Puppy",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "verm20251122",
@@ -2875,7 +3505,10 @@
    "kind": "Vermífugo",
    "next": "2025-12-22",
    "notes": "2,5 mL",
-   "product": "Drontal Puppy"
+   "product": "Drontal Puppy",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "verm20251222",
@@ -2883,7 +3516,10 @@
    "kind": "Vermífugo",
    "next": "2026-01-06",
    "notes": "3,8 mL",
-   "product": "Drontal Puppy"
+   "product": "Drontal Puppy",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "verm20260106",
@@ -2891,7 +3527,10 @@
    "kind": "Vermífugo",
    "next": "2026-02-06",
    "notes": "6,7 mL",
-   "product": "Drontal Puppy"
+   "product": "Drontal Puppy",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "verm20260206",
@@ -2899,7 +3538,10 @@
    "kind": "Vermífugo",
    "next": "2026-11-20",
    "notes": "12,5 mL. Último dado. O protocolo do canil previa doses em 21/02, 21/03, 05/04, 05/05 e 20/05/26, mas a vet da Animalis Pet achou exagero e mandou suspender. Próxima pelo cartão: a cada 6 meses (20/11/26 e 05/12/26), confirmar com a vet.",
-   "product": "Drontal Puppy"
+   "product": "Drontal Puppy",
+   "_at": 1795228115796,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   }
  ],
  "vitals": [
@@ -2911,7 +3553,10 @@
    "note": "água de coco",
    "temp": null,
    "time": "05:37",
-   "water_ml": 150
+   "water_ml": 150,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "1ulS0Ru6WbysD6EH4Xu8",
@@ -2919,14 +3564,20 @@
    "time": "12:07",
    "water_ml": 150,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "2C2Mw6rEoAqKoPdPTxtB",
    "date": "2026-11-20",
    "time": "20:11",
    "temp": 39.2,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "2Feuwp3b3WDSm5uXRKvU",
@@ -2935,7 +3586,10 @@
    "food": true,
    "note": "Patê caseiro (fígado, inhame, cenoura) · Pate de moela, com inhame, batata doce e cenoura",
    "foodId": "pate",
-   "food_g": 388.4
+   "food_g": 388.4,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "34l1u00X5jnK5qyWeiZN",
@@ -2943,7 +3597,10 @@
    "time": "11:00",
    "water_ml": 150,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "3j19hM4WPfoGj1g3Ncht",
@@ -2951,14 +3608,20 @@
    "time": "11:37",
    "water_ml": 150,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "6LonfiZRm483a",
    "date": "2026-11-20",
    "time": "19:51",
    "temp": 38.9,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "9K7marenvXbftWqMWRr1",
@@ -2967,7 +3630,10 @@
    "food": true,
    "note": "Patê caseiro (fígado, inhame, cenoura) · Pate de moela + inhame + batata doce",
    "foodId": "pate",
-   "food_g": 542.1
+   "food_g": 542.1,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ChRJykMN8lMAO3gQcOSA",
@@ -2976,7 +3642,10 @@
    "food": true,
    "note": "Pet Delícia Hipercalórica (úmida)",
    "foodId": "petdelicia",
-   "food_g": 143.3
+   "food_g": 143.3,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "CjaUDPjq5RXeeTa802VV",
@@ -2984,7 +3653,10 @@
    "time": "13:38",
    "water_ml": 150,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "FMnszeHDKiToPbJGKkWp",
@@ -2993,7 +3665,10 @@
    "food": true,
    "note": "Pet Delícia Hipercalórica (úmida)",
    "foodId": "petdelicia",
-   "food_g": 80.2
+   "food_g": 80.2,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "FPviRHH8mmyirDw1DFYC",
@@ -3001,14 +3676,20 @@
    "time": "09:30",
    "food": true,
    "food_g": 50,
-   "note": "ração sólida · comeu entre 09:30 e 10:20, junto com os remédios"
+   "note": "ração sólida · comeu entre 09:30 e 10:20, junto com os remédios",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "GpPmVoYlCxjOokTwPIDl",
    "date": "2026-11-17",
    "time": "20:30",
    "temp": 39.6,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "HbM9VrZPqg1mb6jh7I8d",
@@ -3016,21 +3697,30 @@
    "time": "12:38",
    "water_ml": 150,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "IbOTb9sY9DZAjp2rQTzc",
    "date": "2026-11-19",
    "time": "08:50",
    "temp": 39,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "Lj7DNQprjucysMGZPFi2",
    "date": "2026-11-19",
    "time": "17:58",
    "temp": 39.3,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "MnkoB1jFCrvWZqJVIg20",
@@ -3038,14 +3728,20 @@
    "time": "14:34",
    "water_ml": 150,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "PdpiPFLnVmsfOo7MWoCk",
    "date": "2026-11-20",
    "time": "06:06",
    "temp": 38.9,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "QQGGX2enbyp90hiZtjpH",
@@ -3053,7 +3749,10 @@
    "time": "23:00",
    "water_ml": 150,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "RAOgCOAaWZHASBZGcIk2",
@@ -3062,7 +3761,10 @@
    "food": true,
    "note": "Pet Delícia Hipercalórica (úmida)",
    "foodId": "petdelicia",
-   "food_g": 181.8
+   "food_g": 181.8,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "SDyHSTrh8YhlvSnZEgUE",
@@ -3071,7 +3773,10 @@
    "food": true,
    "note": "Fórmula Natural Vet Care Recuperação (úmida)",
    "foodId": "fnrecup",
-   "food_g": 55.6
+   "food_g": 55.6,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "TJ8PtwISGSWZJbtv6oql",
@@ -3079,21 +3784,30 @@
    "time": "09:30",
    "food": true,
    "food_g": 250,
-   "note": "ração úmida hipercalórica Pet Delícia · comeu entre 09:30 e 10:20, junto com os remédios"
+   "note": "ração úmida hipercalórica Pet Delícia · comeu entre 09:30 e 10:20, junto com os remédios",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "TMic4MhXibhhe2GYLWi2",
    "date": "2026-11-19",
    "time": "15:50",
    "temp": 40,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "VEURvov3n0TlPJbxXS7o",
    "date": "2026-11-20",
    "time": "21:18",
    "temp": 39.2,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "VjqQMgqaULb5bV4yiBBH",
@@ -3104,14 +3818,20 @@
    "foodId": "biscrok",
    "qty": 6,
    "unit": "un",
-   "food_g": 60
+   "food_g": 60,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "WmUubclpZDtDrqGojBIy",
    "date": "2026-11-19",
    "time": "18:38",
    "temp": 39.3,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "Wrv4lH5nN6FXxKbvjQKG",
@@ -3120,13 +3840,19 @@
    "food": true,
    "food_g": 463.2,
    "foodId": "patepe",
-   "note": "Patê caseiro (cartilagem de pé de galinha, inhame, cenoura)"
+   "note": "Patê caseiro (cartilagem de pé de galinha, inhame, cenoura)",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "XpZiQNnUJTzKNM28kz1v",
    "date": "2026-11-18",
    "time": "21:43",
-   "temp": 39.2
+   "temp": 39.2,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "YtHjBTOw8NZYCTKQBZKt",
@@ -3135,7 +3861,20 @@
    "food": true,
    "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
    "foodId": "racao",
-   "food_g": 70
+   "food_g": 70,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
+  },
+  {
+   "id": "ZAiQRcHFiig8ChKWIwDk",
+   "date": "2026-11-20",
+   "time": "23:23",
+   "temp": 39,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795227828697
   },
   {
    "id": "c20261117-0031-petisco",
@@ -3145,7 +3884,10 @@
    "note": "½ petisco de traqueia bovina (boa mastigação) + 2 biscoitos Biscrok",
    "temp": null,
    "time": "00:31",
-   "water_ml": null
+   "water_ml": null,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "c22xs0xebsacdez8musv",
@@ -3155,7 +3897,10 @@
    "note": "água de coco",
    "temp": null,
    "time": "20:00",
-   "water_ml": 150
+   "water_ml": 150,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "cTGGMGMvZ7LPqctu1K6i",
@@ -3163,7 +3908,10 @@
    "time": "16:57",
    "water_ml": 150,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "g7be7hMaRLjk0sIPSZDJ",
@@ -3172,14 +3920,20 @@
    "food": true,
    "note": "Fórmula Natural Vet Care Recuperação (úmida)",
    "foodId": "fnrecup",
-   "food_g": 56.5
+   "food_g": 56.5,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gxisG2PkCsm0sdCbDbCI",
    "date": "2026-11-20",
    "time": "09:06",
    "temp": 38.5,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "hNhMrPdokf0dSb1nht4Y",
@@ -3188,21 +3942,30 @@
    "food": true,
    "food_g": 58.2,
    "foodId": "petdelicia",
-   "note": "Pet Delícia Hipercalórica (úmida) · 37,9 + 20,3 g"
+   "note": "Pet Delícia Hipercalórica (úmida) · 37,9 + 20,3 g",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "iXd96wJYxPQ0lXd9Hmbk",
    "date": "2026-11-19",
    "time": "16:48",
    "temp": 39.7,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "jJFkmBlFI4P8O5fK5U2g",
    "date": "2026-11-20",
    "time": "15:01",
    "temp": 38.3,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "k0wik76sjj47vs9hvby8",
@@ -3212,7 +3975,10 @@
    "note": "água de coco",
    "temp": null,
    "time": "10:15",
-   "water_ml": 100
+   "water_ml": 100,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "k4yz3aTalOWenUCtS82A",
@@ -3220,7 +3986,10 @@
    "time": "20:40",
    "water_ml": 150,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "kVLU8xZATqB7y3nKskCP",
@@ -3228,7 +3997,10 @@
    "time": "17:51",
    "water_ml": 100,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "kaQlnAONnuE906rMCjMQ",
@@ -3236,7 +4008,10 @@
    "time": "21:30",
    "food": true,
    "note": "Ração úmida Recovery Royal Canini",
-   "food_g": 195
+   "food_g": 195,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "l1LI6w8sA5uM1BXm3CWd",
@@ -3244,7 +4019,10 @@
    "time": "16:50",
    "water_ml": 200,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "m6g0pafu4bhbt2qe98u9",
@@ -3254,7 +4032,10 @@
    "note": "água de coco",
    "temp": null,
    "time": "23:00",
-   "water_ml": 150
+   "water_ml": 150,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "mgkuospmf75jyp8d5jkj",
@@ -3264,21 +4045,30 @@
    "note": "",
    "temp": 39.4,
    "time": "20:15",
-   "water_ml": null
+   "water_ml": null,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "mkEWAVbmizqBadpYFv4Z",
    "date": "2026-11-18",
    "time": "11:16",
    "temp": 37,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "nR4rPPlu1GGDj211jMKF",
    "date": "2026-11-20",
    "time": "18:58",
    "temp": 40.1,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "nSOrj9k4DSnxy8OIIa5Y",
@@ -3286,7 +4076,10 @@
    "time": "22:27",
    "water_ml": 150,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "o3w8gm13fmp56zvqkmz2",
@@ -3296,7 +4089,10 @@
    "note": "água de coco · Remédios: Mantidan e Fenobarbital",
    "temp": null,
    "time": "21:00",
-   "water_ml": 150
+   "water_ml": 150,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "o6N9QamHsp2iHDTplpMn",
@@ -3304,14 +4100,20 @@
    "time": "09:18",
    "water_ml": 150,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "p1kxaO2BCbXfFivlGbjV",
    "date": "2026-11-17",
    "time": "20:45",
    "temp": 39.1,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-0700-1",
@@ -3320,28 +4122,40 @@
    "seq": 5,
    "temp": 39.9,
    "temp2": 40,
-   "time": "07:00"
+   "time": "07:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-0800-1",
    "date": "2026-10-30",
    "seq": 6,
    "temp": 39.1,
-   "time": "08:00"
+   "time": "08:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-0930-1",
    "date": "2026-10-30",
    "seq": 7,
    "temp": 39.6,
-   "time": "09:30"
+   "time": "09:30",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-1252-1",
    "date": "2026-10-30",
    "seq": 8,
    "temp": 38.4,
-   "time": "12:52"
+   "time": "12:52",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-x-1",
@@ -3349,7 +4163,10 @@
    "note": "madrugada (hora não anotada)",
    "seq": 0,
    "temp": 39.9,
-   "time": null
+   "time": null,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-x-2",
@@ -3357,7 +4174,10 @@
    "note": "madrugada (hora não anotada)",
    "seq": 1,
    "temp": 39.6,
-   "time": null
+   "time": null,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-x-3",
@@ -3365,7 +4185,10 @@
    "note": "madrugada (hora não anotada)",
    "seq": 2,
    "temp": 39.3,
-   "time": null
+   "time": null,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-x-4",
@@ -3373,7 +4196,10 @@
    "note": "madrugada (hora não anotada)",
    "seq": 3,
    "temp": 39.2,
-   "time": null
+   "time": null,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261030-x-5",
@@ -3381,7 +4207,10 @@
    "note": "madrugada (hora não anotada)",
    "seq": 4,
    "temp": 39.7,
-   "time": null
+   "time": null,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-0700-1",
@@ -3389,7 +4218,10 @@
    "date": "2026-10-31",
    "seq": 9,
    "temp": 39.9,
-   "time": "07:00"
+   "time": "07:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-0800-1",
@@ -3397,56 +4229,80 @@
    "date": "2026-10-31",
    "seq": 10,
    "temp": 39.6,
-   "time": "08:00"
+   "time": "08:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-1200-1",
    "date": "2026-10-31",
    "seq": 11,
    "temp": 39.3,
-   "time": "12:00"
+   "time": "12:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-1300-1",
    "date": "2026-10-31",
    "seq": 12,
    "temp": 39.3,
-   "time": "13:00"
+   "time": "13:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-1500-1",
    "date": "2026-10-31",
    "seq": 13,
    "temp": 39.6,
-   "time": "15:00"
+   "time": "15:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-1600-1",
    "date": "2026-10-31",
    "seq": 14,
    "temp": 39.4,
-   "time": "16:00"
+   "time": "16:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-1700-1",
    "date": "2026-10-31",
    "seq": 15,
    "temp": 39.2,
-   "time": "17:00"
+   "time": "17:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-1800-1",
    "date": "2026-10-31",
    "seq": 16,
    "temp": 39,
-   "time": "18:00"
+   "time": "18:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261031-2000-1",
    "date": "2026-10-31",
    "seq": 17,
    "temp": 39,
-   "time": "20:00"
+   "time": "20:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-0043-1",
@@ -3455,7 +4311,10 @@
    "seq": 18,
    "temp": 39.5,
    "time": "00:43",
-   "water_ml": 100
+   "water_ml": 100,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-0300-1",
@@ -3463,7 +4322,10 @@
    "seq": 19,
    "temp": 39.2,
    "time": "03:00",
-   "water_ml": 100
+   "water_ml": 100,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-0600-1",
@@ -3472,7 +4334,10 @@
    "seq": 20,
    "temp": 40.3,
    "time": "06:00",
-   "water_ml": 100
+   "water_ml": 100,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-0734-1",
@@ -3481,7 +4346,10 @@
    "seq": 21,
    "temp": 39.8,
    "time": "07:34",
-   "water_ml": 120
+   "water_ml": 120,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-0941-1",
@@ -3489,7 +4357,10 @@
    "note": "xixi + fezes + comida",
    "seq": 22,
    "temp": 40.2,
-   "time": "09:41"
+   "time": "09:41",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1016-1",
@@ -3497,14 +4368,20 @@
    "seq": 23,
    "temp": null,
    "time": "10:16",
-   "water_ml": 180
+   "water_ml": 180,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1100-1",
    "date": "2026-11-01",
    "seq": 24,
    "temp": 39.1,
-   "time": "11:00"
+   "time": "11:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1227-1",
@@ -3513,7 +4390,10 @@
    "seq": 25,
    "temp": 39.3,
    "time": "12:27",
-   "water_ml": 100
+   "water_ml": 100,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1340-1",
@@ -3521,7 +4401,10 @@
    "seq": 26,
    "temp": 39.3,
    "time": "13:40",
-   "water_ml": 100
+   "water_ml": 100,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1405-1",
@@ -3529,7 +4412,10 @@
    "note": "xixi",
    "seq": 27,
    "temp": null,
-   "time": "14:05"
+   "time": "14:05",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1500-1",
@@ -3538,7 +4424,10 @@
    "seq": 28,
    "temp": 39.1,
    "time": "15:00",
-   "water_ml": 60
+   "water_ml": 60,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1600-1",
@@ -3546,21 +4435,30 @@
    "seq": 29,
    "temp": 39.7,
    "time": "16:00",
-   "water_ml": 140
+   "water_ml": 140,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1700-1",
    "date": "2026-11-01",
    "seq": 30,
    "temp": 39.5,
-   "time": "17:00"
+   "time": "17:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1800-1",
    "date": "2026-11-01",
    "seq": 31,
    "temp": 39.2,
-   "time": "18:00"
+   "time": "18:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-1910-1",
@@ -3568,14 +4466,20 @@
    "seq": 32,
    "temp": 39,
    "time": "19:10",
-   "water_ml": 120
+   "water_ml": 120,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-2016-1",
    "date": "2026-11-01",
    "seq": 33,
    "temp": 39.2,
-   "time": "20:16"
+   "time": "20:16",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261101-2228-1",
@@ -3583,14 +4487,20 @@
    "note": "comida + água + remédio",
    "seq": 34,
    "temp": 38.8,
-   "time": "22:28"
+   "time": "22:28",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-0000-1",
    "date": "2026-11-02",
    "seq": 35,
    "temp": 39.2,
-   "time": "00:00"
+   "time": "00:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-0100-1",
@@ -3598,7 +4508,10 @@
    "note": "01:30: 120 mL",
    "seq": 36,
    "temp": 39.5,
-   "time": "01:00"
+   "time": "01:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-0400-1",
@@ -3607,14 +4520,20 @@
    "seq": 37,
    "temp": 40.2,
    "time": "04:00",
-   "water_ml": 140
+   "water_ml": 140,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-0507-1",
    "date": "2026-11-02",
    "seq": 38,
    "temp": 39.7,
-   "time": "05:07"
+   "time": "05:07",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-0712-1",
@@ -3623,14 +4542,20 @@
    "seq": 39,
    "temp": 39.4,
    "time": "07:12",
-   "water_ml": 140
+   "water_ml": 140,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-0840-1",
    "date": "2026-11-02",
    "seq": 40,
    "temp": 39.5,
-   "time": "08:40"
+   "time": "08:40",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-0950-1",
@@ -3638,35 +4563,50 @@
    "seq": 41,
    "temp": 39.8,
    "time": "09:50",
-   "water_ml": 140
+   "water_ml": 140,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-1030-1",
    "date": "2026-11-02",
    "seq": 42,
    "temp": 39.5,
-   "time": "10:30"
+   "time": "10:30",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-1213-1",
    "date": "2026-11-02",
    "seq": 43,
    "temp": 39.3,
-   "time": "12:13"
+   "time": "12:13",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-1302-1",
    "date": "2026-11-02",
    "seq": 44,
    "temp": 39.4,
-   "time": "13:02"
+   "time": "13:02",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-1413-1",
    "date": "2026-11-02",
    "seq": 45,
    "temp": 39.5,
-   "time": "14:13"
+   "time": "14:13",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-1859-1",
@@ -3675,7 +4615,10 @@
    "seq": 46,
    "temp": 38.6,
    "temp2": 39.4,
-   "time": "18:59"
+   "time": "18:59",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-1906-1",
@@ -3685,7 +4628,10 @@
    "note": "iogurte com quiabo (no quadro: 100 mL)",
    "seq": 47,
    "temp": null,
-   "time": "19:06"
+   "time": "19:06",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-2107-1",
@@ -3695,7 +4641,10 @@
    "temp": 39.5,
    "temp2": 40,
    "time": "21:07",
-   "water_ml": 140
+   "water_ml": 140,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-2220-1",
@@ -3705,7 +4654,10 @@
    "temp": 39.3,
    "temp2": 39.7,
    "time": "22:20",
-   "water_ml": 250
+   "water_ml": 250,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261102-2321-1",
@@ -3713,7 +4665,10 @@
    "seq": 50,
    "temp": 39.2,
    "time": "23:21",
-   "water_ml": 140
+   "water_ml": 140,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261103-0146-1",
@@ -3723,7 +4678,10 @@
    "temp": 39.4,
    "temp2": 39.8,
    "time": "01:46",
-   "water_ml": 100
+   "water_ml": 100,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261103-0405-1",
@@ -3732,56 +4690,80 @@
    "seq": 52,
    "temp": 39.3,
    "temp2": 39.4,
-   "time": "04:05"
+   "time": "04:05",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261105-0312-1",
    "date": "2026-11-05",
    "seq": 53,
    "temp": 39.2,
-   "time": "03:12"
+   "time": "03:12",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261105-1534-1",
    "date": "2026-11-05",
    "seq": 54,
    "temp": 39.2,
-   "time": "15:34"
+   "time": "15:34",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261105-2130-1",
    "date": "2026-11-05",
    "seq": 55,
    "temp": 39.5,
-   "time": "21:30"
+   "time": "21:30",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261106-0522-1",
    "date": "2026-11-06",
    "seq": 56,
    "temp": 39.5,
-   "time": "05:22"
+   "time": "05:22",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261106-0955-1",
    "date": "2026-11-06",
    "seq": 57,
    "temp": 39.2,
-   "time": "09:55"
+   "time": "09:55",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261107-0753-1",
    "date": "2026-11-07",
    "seq": 58,
    "temp": 39.4,
-   "time": "07:53"
+   "time": "07:53",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261107-0955-1",
    "date": "2026-11-07",
    "seq": 59,
    "temp": 39.5,
-   "time": "09:55"
+   "time": "09:55",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261107-1500-1",
@@ -3789,21 +4771,30 @@
    "note": "sem ar-condicionado",
    "seq": 60,
    "temp": 39.9,
-   "time": "15:00"
+   "time": "15:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261107-1621-1",
    "date": "2026-11-07",
    "seq": 61,
    "temp": 39.6,
-   "time": "16:21"
+   "time": "16:21",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261107-1707-1",
    "date": "2026-11-07",
    "seq": 62,
    "temp": 39.8,
-   "time": "17:07"
+   "time": "17:07",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261107-1710-1",
@@ -3811,7 +4802,10 @@
    "note": "no chão",
    "seq": 63,
    "temp": 39.3,
-   "time": "17:10"
+   "time": "17:10",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261108-0900-1",
@@ -3819,14 +4813,20 @@
    "note": "tomou remédios + suplemento",
    "seq": 64,
    "temp": 39.5,
-   "time": "09:00"
+   "time": "09:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "q20261108-1000-1",
    "date": "2026-11-08",
    "seq": 65,
    "temp": 39,
-   "time": "10:00"
+   "time": "10:00",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "qEBZGPSn76g1lrwlCQEs",
@@ -3834,7 +4834,10 @@
    "time": "20:50",
    "water_ml": 110,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "qaZpWoNdDKzJbTuKHAKJ",
@@ -3843,7 +4846,10 @@
    "food": true,
    "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
    "foodId": "racao",
-   "food_g": 75.2
+   "food_g": 75.2,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "rSQsyp3h8TOQJq0l6GCY",
@@ -3851,7 +4857,10 @@
    "time": "15:50",
    "water_ml": 100,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "raZ06IRnhIHth36yqKmP",
@@ -3859,14 +4868,20 @@
    "time": "14:30",
    "food_g": 342,
    "food": true,
-   "note": "Pate de figado de frango com inhame e cenoura"
+   "note": "Pate de figado de frango com inhame e cenoura",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "s1cC4ta3j4bu24Y5ofve",
    "date": "2026-11-17",
    "time": "15:00",
    "water_ml": 100,
-   "note": "água de coco"
+   "note": "água de coco",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "srtfaSMZN155xFsP5Pe2",
@@ -3874,21 +4889,30 @@
    "time": "21:06",
    "water_ml": 150,
    "drinkId": "coco",
-   "note": "água de coco natural"
+   "note": "água de coco natural",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "tGXAWrjOJ7A3TY3fZhPn",
    "date": "2026-11-19",
    "time": "22:17",
    "temp": 39,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "tGcsOolWxNDIEAt4us8v",
    "date": "2026-11-19",
    "time": "22:17",
    "temp": 39,
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "vujdj5fxku1wd8m71nzg",
@@ -3898,7 +4922,10 @@
    "note": "Ração Recovery Hills",
    "temp": null,
    "time": "20:30",
-   "water_ml": null
+   "water_ml": null,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wkA6ZhuNYc7jT9I2ppry",
@@ -3907,7 +4934,10 @@
    "food": true,
    "note": "Pet Delícia Hipercalórica (úmida)",
    "foodId": "petdelicia",
-   "food_g": 187.2
+   "food_g": 187.2,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "xJR8Zq9IWXcoxG3S9gmo",
@@ -3916,7 +4946,10 @@
    "food": true,
    "note": "Pet Delícia Hipercalórica (úmida)",
    "foodId": "petdelicia",
-   "food_g": 161.9
+   "food_g": 161.9,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "xd7V5Mru1lkg4NMxGKqF",
@@ -3924,7 +4957,10 @@
    "time": "10:48",
    "water_ml": 150,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "xhegIMWgsPxZJb1pJwho",
@@ -3933,21 +4969,30 @@
    "food": true,
    "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
    "foodId": "racao",
-   "food_g": 30
+   "food_g": 30,
+   "_at": 1795228115896,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "yDxJc48m6962P8z70SZb",
    "date": "2026-11-19",
    "time": "15:20",
    "temp": 39.5,
-   "note": ""
+   "note": "",
+   "_at": 1795228115897,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "yOF1CrtnhjsKEOqemYTS",
    "date": "2026-11-18",
    "time": "21:13",
    "temp": 39.4,
-   "note": "medida ~30 min antes da das 21:43"
+   "note": "medida ~30 min antes da das 21:43",
+   "_at": 1795228115897,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "ymfnX8q8ZIlQ1w3MnQBO",
@@ -3956,7 +5001,10 @@
    "food": true,
    "note": "Ração seca Fórmula Natural Fresh Meat Sênior",
    "foodId": "racao",
-   "food_g": 75
+   "food_g": 75,
+   "_at": 1795228115897,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "zYnwLsfQ5NKywePq2ldP",
@@ -3964,7 +5012,10 @@
    "time": "14:53",
    "water_ml": 150,
    "drinkId": "agua",
-   "note": ""
+   "note": "",
+   "_at": 1795228115897,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   }
  ],
  "foods": [
@@ -3976,7 +5027,10 @@
    "kcal100": 0,
    "water": 1,
    "match": "",
-   "src": ""
+   "src": "",
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "biscrok",
@@ -3989,7 +5043,10 @@
    "est": true,
    "src": "kcal: 350 kcal/100g (rótulo, via sites); umidade máx 10%; peso por biscoito estimado (10 g)",
    "kcal100": 350,
-   "updatedAt": 1795014482635
+   "updatedAt": 1795014482635,
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "cha",
@@ -3999,7 +5056,10 @@
    "kcal100": 0,
    "water": 1,
    "match": "ch[aá]",
-   "src": ""
+   "src": "",
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "coco",
@@ -4009,7 +5069,10 @@
    "kcal100": 19,
    "water": 0.95,
    "match": "coco",
-   "src": "TACO"
+   "src": "TACO",
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fnrecup",
@@ -4019,7 +5082,10 @@
    "kcal100": 130,
    "water": 0.73,
    "match": "f[óo]rmula natural.*recupera|vet care|recupera[çc][ãa]o",
-   "src": "rótulo: energia metabolizável 1.300 kcal/kg, umidade 73%"
+   "src": "rótulo: energia metabolizável 1.300 kcal/kg, umidade 73%",
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "iogquiabo",
@@ -4030,7 +5096,10 @@
    "water": 0.89,
    "match": "",
    "src": "média 50/50 iogurte + quiabo",
-   "est": true
+   "est": true,
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "iogurte",
@@ -4041,7 +5110,10 @@
    "water": 0.87,
    "match": "iogurte|iorgute",
    "src": "tabela Itambé; água estimada",
-   "est": true
+   "est": true,
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "pate",
@@ -4052,7 +5124,10 @@
    "water": 0.7,
    "match": "pat[êe]",
    "src": "estimado",
-   "est": true
+   "est": true,
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "patepe",
@@ -4063,7 +5138,10 @@
    "water": 0.75,
    "est": true,
    "src": "estimativa: pé de galinha cozido ~215, inhame cozido ~97, cenoura cozida ~35 kcal/100 g, partes iguais",
-   "match": "p[ée] de galinha|cartilagem"
+   "match": "p[ée] de galinha|cartilagem",
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "petdelicia",
@@ -4074,7 +5152,10 @@
    "water": 0.72,
    "match": "pet del[íi]cia|hipercal|ra[çc][ãa]o [úu]mida",
    "src": "rótulo: 1.330 kcal/kg; água estimada",
-   "est": true
+   "est": true,
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "quiabo",
@@ -4085,7 +5166,10 @@
    "water": 0.92,
    "match": "quiabo",
    "src": "TACO; água estimada",
-   "est": true
+   "est": true,
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "racao",
@@ -4096,7 +5180,10 @@
    "match": "ra[çc][ãa]o (s[óo]lida|seca)|f[óo]rmula natural|fresh meat",
    "est": true,
    "src": "calculado pelos níveis de garantia (PB 28%, EE 16%, FB 4,5%, MM 8,5%, umidade 9%) — o site não informa a energia metabolizável",
-   "kcal100": 355
+   "kcal100": 355,
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "traqueia",
@@ -4108,7 +5195,10 @@
    "water": 0.1,
    "match": "traqueia",
    "src": "estimado",
-   "est": true
+   "est": true,
+   "_at": 1795228116489,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   }
  ],
  "goals": {
@@ -4123,7 +5213,10 @@
    "time": "09:45",
    "caption": "Banho e tomando sol",
    "video": false,
-   "createdAt": 1795012265858
+   "createdAt": 1795012265858,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "3i95jhHhqi1CL7iJVzn5",
@@ -4132,7 +5225,10 @@
    "time": "09:45",
    "caption": "Banho e tomando sol",
    "video": false,
-   "createdAt": 1795012269236
+   "createdAt": 1795012269236,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "9J8rVYtBVCCPo1baSKNI",
@@ -4141,7 +5237,10 @@
    "caption": "Comendo o patê de fígado com inhame e cenoura que vovó fez.",
    "video": false,
    "createdAt": 1794944408558,
-   "time": "14:30"
+   "time": "14:30",
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "CYjLhf4PV8bb9EPJTs1Z",
@@ -4150,7 +5249,10 @@
    "time": "09:05",
    "caption": "Hora do sol",
    "video": false,
-   "createdAt": 1795180781286
+   "createdAt": 1795180781286,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "FkftI7AE2dcQ5SBum83v",
@@ -4159,7 +5261,10 @@
    "caption": "Roncando",
    "video": false,
    "createdAt": 1794944424942,
-   "time": "15:37"
+   "time": "15:37",
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "am-00",
@@ -4168,7 +5273,10 @@
    "createdAt": 1794769100000,
    "date": "2026-10-07",
    "time": "14:10",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "am-01",
@@ -4177,7 +5285,10 @@
    "createdAt": 1794769100001,
    "date": "2026-10-20",
    "time": "20:30",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "am-02",
@@ -4186,7 +5297,10 @@
    "createdAt": 1794769100002,
    "date": "2026-10-30",
    "time": "13:44",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "casa-00",
@@ -4195,7 +5309,10 @@
    "createdAt": 1794871940000,
    "date": "2026-11-16",
    "time": "19:59",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "casa-01",
@@ -4204,7 +5321,10 @@
    "createdAt": 1794873870000,
    "date": "2026-11-16",
    "time": "20:40",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-00",
@@ -4212,7 +5332,10 @@
    "caption": "Agosto, antes de adoecer: forte e ativo em casa",
    "createdAt": 1794768600000,
    "date": "2026-08-03",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-01",
@@ -4220,7 +5343,10 @@
    "caption": "Sentado na caminha, ainda com toda a massa muscular",
    "createdAt": 1794768600001,
    "date": "2026-08-20",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-02",
@@ -4228,7 +5354,10 @@
    "caption": "Começo de setembro, ainda saudável",
    "createdAt": 1794768600002,
    "date": "2026-09-01",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-03",
@@ -4236,7 +5365,10 @@
    "caption": "Dormindo tranquilo, poucos dias antes da primeira tosse (09/09)",
    "createdAt": 1794768600003,
    "date": "2026-09-06",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-04",
@@ -4244,7 +5376,10 @@
    "caption": "Dias antes das primeiras convulsões",
    "createdAt": 1794768600004,
    "date": "2026-09-16",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-06",
@@ -4252,7 +5387,10 @@
    "caption": "Em casa, no dia da alta",
    "createdAt": 1794768600006,
    "date": "2026-09-25",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-07",
@@ -4260,7 +5398,10 @@
    "caption": "Rosto abatido e olhos com secreção",
    "createdAt": 1794768600007,
    "date": "2026-09-28",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-08",
@@ -4268,7 +5409,10 @@
    "caption": "Descansando com o brinquedo azul",
    "createdAt": 1794768600008,
    "date": "2026-09-30",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-09",
@@ -4276,7 +5420,10 @@
    "caption": "No sofá, começo de outubro",
    "createdAt": 1794768600009,
    "date": "2026-10-04",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-10",
@@ -4284,7 +5431,10 @@
    "caption": "Véspera da segunda internação na Tododoy (13/10)",
    "createdAt": 1794768600010,
    "date": "2026-10-12",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-11",
@@ -4292,7 +5442,10 @@
    "caption": "Na internação da Tododoy, com acesso na pata",
    "createdAt": 1794768600011,
    "date": "2026-10-20",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-12",
@@ -4300,7 +5453,10 @@
    "caption": "Aniversário de 1 ano comemorado na internação da Tododoy",
    "createdAt": 1794768600012,
    "date": "2026-10-23",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-13",
@@ -4308,7 +5464,10 @@
    "caption": "Dia da alta da Tododoy",
    "createdAt": 1794768600013,
    "date": "2026-10-28",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-14",
@@ -4316,7 +5475,10 @@
    "caption": "Em casa, já bem mais magro",
    "createdAt": 1794768600014,
    "date": "2026-10-31",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-15",
@@ -4324,7 +5486,10 @@
    "caption": "Perda de massa muscular visível",
    "createdAt": 1794768600015,
    "date": "2026-11-01",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-16",
@@ -4332,7 +5497,10 @@
    "caption": "Deitadinho na manta vermelha",
    "createdAt": 1794768600016,
    "date": "2026-11-04",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-17",
@@ -4340,7 +5508,10 @@
    "caption": "Comendo com ajuda da seringa, na noite antes de internar na Rio Vet",
    "createdAt": 1794768600017,
    "date": "2026-11-07",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-18",
@@ -4348,7 +5519,10 @@
    "caption": "Chegada à internação da Rio Vet",
    "createdAt": 1794768600018,
    "date": "2026-11-08",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-19",
@@ -4356,7 +5530,10 @@
    "caption": "Primeira noite na Rio Vet",
    "createdAt": 1794768600019,
    "date": "2026-11-08",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "fotos-20",
@@ -4364,7 +5541,10 @@
    "caption": "Dia da transfusão (imagem de um vídeo)",
    "createdAt": 1794768600020,
    "date": "2026-11-09",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-00",
@@ -4373,7 +5553,10 @@
    "createdAt": 1794768900000,
    "date": "2026-10-03",
    "time": "21:31",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-02",
@@ -4382,7 +5565,10 @@
    "createdAt": 1794768900002,
    "date": "2026-10-08",
    "time": "20:06",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-03",
@@ -4391,7 +5577,10 @@
    "createdAt": 1794768900003,
    "date": "2026-10-14",
    "time": "17:19",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-04",
@@ -4400,7 +5589,10 @@
    "createdAt": 1794768900004,
    "date": "2026-10-15",
    "time": "22:29",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-05",
@@ -4409,7 +5601,10 @@
    "createdAt": 1794768900005,
    "date": "2026-10-16",
    "time": "13:36",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-06",
@@ -4418,7 +5613,10 @@
    "createdAt": 1794768900006,
    "date": "2026-10-16",
    "time": "19:55",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-07",
@@ -4427,7 +5625,10 @@
    "createdAt": 1794768900007,
    "date": "2026-10-17",
    "time": "12:53",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-08",
@@ -4436,7 +5637,10 @@
    "createdAt": 1794768900008,
    "date": "2026-10-22",
    "time": "20:41",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-11",
@@ -4445,7 +5649,10 @@
    "createdAt": 1794768900011,
    "date": "2026-10-31",
    "time": "22:03",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-13",
@@ -4454,7 +5661,10 @@
    "createdAt": 1794769000000,
    "date": "2026-08-07",
    "time": "22:13",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-14",
@@ -4463,7 +5673,10 @@
    "createdAt": 1794769000001,
    "date": "2026-08-08",
    "time": "21:22",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-15",
@@ -4472,7 +5685,10 @@
    "createdAt": 1794769000002,
    "date": "2026-08-10",
    "time": "08:21",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-16",
@@ -4481,7 +5697,10 @@
    "createdAt": 1794769000003,
    "date": "2026-08-15",
    "time": "09:13",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-17",
@@ -4490,7 +5709,10 @@
    "createdAt": 1794769000004,
    "date": "2026-08-19",
    "time": "17:46",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-18",
@@ -4499,7 +5721,10 @@
    "createdAt": 1794769000005,
    "date": "2026-08-20",
    "time": "04:32",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-19",
@@ -4508,7 +5733,10 @@
    "createdAt": 1794769000006,
    "date": "2026-08-24",
    "time": "23:36",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-20",
@@ -4517,7 +5745,10 @@
    "createdAt": 1794769000007,
    "date": "2026-09-01",
    "time": "20:25",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-21",
@@ -4526,7 +5757,10 @@
    "createdAt": 1794769000008,
    "date": "2026-09-08",
    "time": "01:29",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-22",
@@ -4535,7 +5769,10 @@
    "createdAt": 1794769000009,
    "date": "2026-09-08",
    "time": "13:10",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-23",
@@ -4544,7 +5781,10 @@
    "createdAt": 1794769000010,
    "date": "2026-09-22",
    "time": "11:14",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-24",
@@ -4553,7 +5793,10 @@
    "createdAt": 1794769000011,
    "date": "2026-09-23",
    "time": "16:31",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-25",
@@ -4562,7 +5805,10 @@
    "createdAt": 1794769000012,
    "date": "2026-09-23",
    "time": "18:26",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-26",
@@ -4571,7 +5817,10 @@
    "createdAt": 1794769000013,
    "date": "2026-09-25",
    "time": "23:39",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-27",
@@ -4580,7 +5829,10 @@
    "createdAt": 1794769000014,
    "date": "2026-09-26",
    "time": "09:02",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-28",
@@ -4589,7 +5841,10 @@
    "createdAt": 1794769000015,
    "date": "2026-10-14",
    "time": "11:08",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "gih-29",
@@ -4598,7 +5853,10 @@
    "createdAt": 1794769000016,
    "date": "2026-10-14",
    "time": "12:22",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "l1ploq6umb60p3ohay09",
@@ -4606,7 +5864,10 @@
    "caption": "Odin deitado sobre manta branca em baia de internação, com sonda nasal fixada com esparadrapo no focinho e testa, olhando para o lado",
    "createdAt": 1794780052850,
    "date": "2026-11-15",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "mmnnby19vwofhva15fzj",
@@ -4614,7 +5875,10 @@
    "caption": "Deitadinho com o macaquinho de pelúcia, na época em que a barriga estava inchada",
    "createdAt": 1794762111326,
    "date": "2026-11-03",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-00",
@@ -4623,7 +5887,10 @@
    "createdAt": 1794768700000,
    "date": "2026-11-09",
    "time": "07:16",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-01",
@@ -4632,7 +5899,10 @@
    "createdAt": 1794768700001,
    "date": "2026-11-09",
    "time": "16:30",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-02",
@@ -4641,7 +5911,10 @@
    "createdAt": 1794768700002,
    "date": "2026-11-10",
    "time": "00:33",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-03",
@@ -4650,7 +5923,10 @@
    "createdAt": 1794768700003,
    "date": "2026-11-10",
    "time": "07:26",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-04",
@@ -4659,7 +5935,10 @@
    "createdAt": 1794768700004,
    "date": "2026-11-10",
    "time": "19:32",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-05",
@@ -4668,7 +5947,10 @@
    "createdAt": 1794768700005,
    "date": "2026-11-11",
    "time": "06:29",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-06",
@@ -4677,7 +5959,10 @@
    "createdAt": 1794768700006,
    "date": "2026-11-11",
    "time": "15:12",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-07",
@@ -4686,7 +5971,10 @@
    "createdAt": 1794768700007,
    "date": "2026-11-11",
    "time": "20:18",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-08",
@@ -4695,7 +5983,10 @@
    "createdAt": 1794768700008,
    "date": "2026-11-12",
    "time": "08:11",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-09",
@@ -4704,7 +5995,10 @@
    "createdAt": 1794768700009,
    "date": "2026-11-13",
    "time": "07:13",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-10",
@@ -4713,7 +6007,10 @@
    "createdAt": 1794768700010,
    "date": "2026-11-13",
    "time": "20:00",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-11",
@@ -4722,7 +6019,10 @@
    "createdAt": 1794768700011,
    "date": "2026-11-14",
    "time": "07:28",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-12",
@@ -4731,7 +6031,10 @@
    "createdAt": 1794768700012,
    "date": "2026-11-14",
    "time": "18:38",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-13",
@@ -4740,7 +6043,10 @@
    "createdAt": 1794768700013,
    "date": "2026-11-14",
    "time": "19:45",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-14",
@@ -4749,7 +6055,10 @@
    "createdAt": 1794768700014,
    "date": "2026-11-15",
    "time": "07:34",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-15",
@@ -4758,7 +6067,10 @@
    "createdAt": 1794782520000,
    "date": "2026-11-15",
    "time": "19:14",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-16",
@@ -4767,7 +6079,10 @@
    "createdAt": 1794866210000,
    "date": "2026-11-16",
    "time": "07:03",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   },
   {
    "id": "wa-17",
@@ -4776,7 +6091,10 @@
    "createdAt": 1794866220000,
    "date": "2026-11-16",
    "time": "18:44",
-   "video": false
+   "video": false,
+   "_at": 1795228116108,
+   "_by": "[removido]",
+   "_byName": "a tutora"
   }
  ]
 }
