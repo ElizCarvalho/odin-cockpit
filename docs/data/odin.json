@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-21T16:17:21.044Z",
- "updatedAt": 1795277562064,
+ "exportedAt": "2026-11-21T16:30:47.586Z",
+ "updatedAt": 1795278638973,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1358,6 +1358,17 @@
    "_byName": "a tutora"
   },
   {
+   "id": "6iOQdBvBVT8Tx33C9QPi",
+   "date": "2026-11-21",
+   "time": null,
+   "text": "Consulta com infectologista agendada para segunda-feira, 23/11, às 9h, em domicílio.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795278352983
+  },
+  {
    "id": "8O68wpwK1WfPmqIHHUUS",
    "date": "2026-11-19",
    "time": "14:20",
@@ -1584,6 +1595,21 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "YiT1vOzfX81T9eGu9eXD",
+   "date": "2026-11-21",
+   "time": "13:19",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795277989601
   },
   {
    "id": "cWCvPIujG2Zla7zx2JAK",
@@ -2191,6 +2217,17 @@
    "_by": "[removido]",
    "_at": 1795228835062,
    "_byName": "a tutora"
+  },
+  {
+   "id": "yswsejjHsp00OlZYiuuY",
+   "date": "2026-11-21",
+   "time": null,
+   "text": "Coletada urina e sangue para novos exames.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795278351604
   }
  ],
  "analyses": [
@@ -2273,6 +2310,11 @@
    "id": "SttyZbGXtSOAnWCCXSwi",
    "text": "## O que mudou\n- **Peso: 17,5 kg** em casa, contra 18,87 kg na alta da Rio Vet (16/11). Balanças diferentes, então não dá pra cravar a queda de 1,4 kg em um dia. Mas ela bate com a perda de massa muscular que a equipe já vinha vendo.\n- **Temperatura: 38,1 °C**, normal e sem febre. Está um pouco abaixo das últimas medidas (38,4 em 14/11; 38,8 em 07/11).\n\n## Tendência geral\n- **O peso segue caindo** desde setembro (27 kg → 24,75 → 23,5 → ~19 → 17,5). É a perda de músculo da doença somada a dias de pouca comida.\n- A temperatura normal é um bom sinal, mas não descarta infecção. Os leucócitos seguem altos, e a diarreia e a secreção nos olhos e no nariz continuam.\n- **Ponto de atenção:** em 17/11 ele teve diarreia líquida duas vezes, fez pouco xixi e já vinha com fezes bem escuras (16/11) e anemia (Ht 26% em 16/11, abaixo do 29,8% de 14/11). Diarreia líquida repetida pode desidratar e derrubar ainda mais o peso. **Vale avisar a Rio Vet ou a neuro hoje**, sem esperar o próximo exame.\n\n## Perguntas pra levar à vet\n- Essa diarreia líquida precisa de exame de fezes ou de reavaliação? Fezes escuras junto com anemia merecem checagem?\n- Quando repetir o hemograma? A queda do hematócrito foi real ou efeito dos agregados de plaquetas?\n- Como ver se ele está desidratado e quanto ele precisa comer por dia pra parar de perder peso?\n- Vale pesar de novo na mesma balança, pra comparar certinho?\n- Como confirmar que a bexiga esvazia por completo, já que ele ainda não urina sozinho? Precisa de exame de urina?\n- Quando saem o PCR de cinomose e o fenobarbital, coletados em 16/11?",
    "createdAt": 1794960591480
+  },
+  {
+   "id": "TMrMhyUmVczlTLqj8l2o",
+   "text": "## ✅ Pontos positivos\n- **Peso subindo:** 17,5 → 18,9 → 19,4 → **20,1 kg** em 4 dias (balança de casa, mas a tendência é boa).\n- **Comendo bem:** de 17 a 20/11 as calorias ficaram acima da meta de 950 kcal. Ele come sozinho e as fezes estão **firmes** desde 19/11.\n- **Hematócrito estável:** 26% em 16 e 18/11 (hematócrito = proporção de glóbulos vermelhos). Ele não está caindo.\n- **Urina sem perda de proteína:** a relação proteína/creatinina deu 0,09, normal. Creatinina 1,0 e ureia na faixa do laboratório. Sem sinal de sangue na urina.\n- **Outros:** leucócitos bem menores que os 45–50 mil de outubro; plaquetas e ferro normais; sem hemoparasitas; ausculta limpa; sangramento da sonda parou; remédios quase todos dados.\n\n## ⚠️ Pontos de preocupação\n1. **Febre todo dia** (máx. 39,4 a 40,1 °C), mesmo com dipirona. A dipirona pode esconder a febre real. **Fale com a clínica hoje**, principalmente se passar de 40 °C ou ele ficar mole, parar de comer ou ofegar.\n2. **Urina com sinais de infecção:** leucócitos (células de defesa) incontáveis e bactérias +++ (de sonda se espera +). Ele ainda não urina sozinho. Observe cor, cheiro e quantidade do xixi. A cultura com antibiograma vai mostrar a bactéria e o antibiótico que funciona. Cobre o resultado.\n3. **Medula sem resposta:** reticulócitos (glóbulos vermelhos novos) em 3,7 mil, quando em 08/11 estavam em 200 mil. O hematócrito se sustenta, mas a medula não está repondo. Se ele ficar mais pálido ou mais mole, avise logo.\n4. **Globulina alta (5,3)** e albumina no limite: costuma indicar inflamação ou infecção ativa. Isso precisa ser interpretado pela vet.\n5. **Ingestão de 21/11 baixa** (557 mL, 490 kcal). Se o dia fechou assim, é queda, e vale vigiar.\n6. **Neuro e cinomose:** continuam os espasmos e a tetraparesia. O PCR de cinomose e o nível de fenobarbital de 16/11 ainda estão pendentes.\n\n## O que mudou\n- Hematócrito igual ao de 16/11, mas agora com reticulócitos muito baixos.\n- Urina nova com bactérias e leucócitos altos, e função renal ok.\n- Peso e apetite melhores, fezes normalizadas.\n- Febre persistente, sem melhora.\n\n## Perguntas pra levar à vet\n- Por que a febre continua? Ela pode vir da urina, da cinomose ou de outra causa?\n- O resultado da urina pede tratamento antes da cultura sair?\n- Quando repetir os reticulócitos? Precisa avaliar a medula?\n- O que explica a globulina alta?\n- Como esvaziar a bexiga com segurança, já que ele não urina sozinho?\n- Quando saem o PCR e o fenobarbital? Levar para a neuro (24/11) e para a infectologista (23/11).",
+   "createdAt": 1795278376934
   },
   {
    "id": "XLcC3rZNNIssCFDfC49L",
@@ -3694,6 +3736,16 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "CktsIIHjNxkeI6OcNr2P",
+   "date": "2026-11-21",
+   "time": "13:30",
+   "temp": 39.9,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795278637649
   },
   {
    "id": "E7zO3M9laowyoUxVHaBX",

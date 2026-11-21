@@ -694,7 +694,7 @@ body:not(.app) .app-only { display: none; }
 <script>
 const PARAMS = [
   {k:'peso', l:'Peso', u:'kg', g:'clin', lo:null, hi:null, d:'Peso corporal. Perda rápida de peso indica que ele está gastando mais energia do que recebe, ou perdendo massa muscular.'},
-  {k:'temp', l:'Temperatura', u:'°C', g:'clin', lo:37.5, hi:39.2, d:'Temperatura retal. Acima de ~39,2 °C costuma ser febre.'},
+  {k:'temp', l:'Temperatura', u:'°C', g:'clin', lo:37.5, hi:39.4, d:'Temperatura retal. Até 39,4 °C está ok; 39,5 °C é estado febril; a partir de 39,6 °C é febre (combinado com a veterinária).'},
   {k:'ht', l:'Hematócrito', u:'%', g:'red', lo:37, hi:55, d:'Porcentagem do sangue ocupada pelas hemácias. É o principal número pra acompanhar anemia: abaixo da faixa = anemia.'},
   {k:'hb', l:'Hemoglobina', u:'g/dL', g:'red', lo:12, hi:18, d:'Proteína das hemácias que carrega oxigênio. Costuma andar junto com o hematócrito.'},
   {k:'rbc', l:'Hemácias', u:'milhões/µL', g:'red', lo:5.5, hi:8.5, d:'Quantidade de hemácias (glóbulos vermelhos) no sangue.'},
@@ -799,6 +799,8 @@ function toast(msg, cls = '') {
 }
 
 /* ---------- Tiles ---------- */
+// Combinado com a veterinária: até 39,4 ok; 39,5 estado febril; 39,6 ou mais é febre.
+const FEBRIL = 39.5, FEBRE = 39.6;
 function lastTemps() {
   const toTs = (d, t) => Date.parse(d + 'T' + (t || '12:00') + ':00');
   return [...vitals.filter(v => typeof v.temp === 'number' && v.date).map(v => ({ ts: toTs(v.date, v.time), y: Math.max(v.temp, v.temp2 || 0), date: v.date, time: v.time, where: 'em casa' })),
@@ -809,10 +811,10 @@ function tempTile() {
   const info = `<button class="info" type="button" aria-label="O que Temperatura avalia" aria-expanded="false">?</button>`, tipBox = `<div class="tip" role="tooltip">${esc(p.d)}</div>`;
   if (!all.length) return `<div class="tile"><div class="lbl">Temperatura ${info}</div>${tipBox}<div class="val">–</div><div class="meta">sem dados ainda</div></div>`;
   const last = all[all.length - 1], st = statusOf('temp', last.y);
-  const day = all.filter(x => x.ts > last.ts - 864e5), mx = Math.max(...day.map(x => x.y)), hot = day.filter(x => x.y > 39.2).length;
+  const day = all.filter(x => x.ts > last.ts - 864e5), mx = Math.max(...day.map(x => x.y)), hot = day.filter(x => x.y >= FEBRE).length, morno = day.filter(x => x.y >= FEBRIL && x.y < FEBRE).length;
   const iv = vitals.filter(v => v.date === last.date), water = iv.reduce((a, v) => a + (v.water_ml || 0), 0), meals = iv.filter(ate).length;
-  const extra = [day.length > 1 && `máx 24h ${fmt(mx)}${hot ? ` (${hot}× febre)` : ''}`].filter(Boolean).join(' · ');
-  return `<div class="tile ${st}" data-go="exames" style="cursor:pointer" title="Ver gráficos de temperatura, água e comida"><div class="lbl">Temperatura ${info} <span class="pill ${st}">${statusTxt(st)}</span></div>${tipBox}
+  const extra = [day.length > 1 && `máx 24h ${fmt(mx)}${hot || morno ? ` (${[hot && `${hot}× febre`, morno && `${morno}× febril`].filter(Boolean).join(', ')})` : ''}`].filter(Boolean).join(' · ');
+  return `<div class="tile ${st}" data-go="exames" style="cursor:pointer" title="Ver gráficos de temperatura, água e comida"><div class="lbl">Temperatura ${info} <span class="pill ${st}">${last.y >= FEBRE ? 'febre' : last.y >= FEBRIL ? 'estado febril' : statusTxt(st)}</span></div>${tipBox}
     <div class="val">${fmt(last.y)}<small>°C</small></div><div class="reft">${extra || 'ref. ' + refTxt(p) + ' °C'}</div>
     <div class="meta">${dm(last.date)}${last.time ? ' ' + esc(last.time) : ''} · ${esc(last.where)}</div></div>`;
 }
@@ -1058,17 +1060,17 @@ function renderHomeTemp(host) {
   const days = [...new Set(vitals.map(v => v.date).filter(Boolean))].sort();
   const intake = d => { const l = vitals.filter(v => v.date === d), T = dayTotals(d); return { water: l.reduce((a, v) => a + (v.water_ml || 0), 0), food: l.reduce((a, v) => a + (v.food_g || 0), 0), meals: l.filter(ate).length, drink: Math.round(T.drink), fwater: Math.round(T.fwater), total: Math.round(T.water), kcal: Math.round(T.kcal) }; };
   const rows = [...new Set([...byDay.keys(), ...days])].sort().reverse().map(d => { const l = byDay.get(d) || [], ys = l.map(p => p.y), I = intake(d);
-    const mx = ys.length ? Math.max(...ys) : null, mn = ys.length ? Math.min(...ys) : null, hot = ys.filter(y => y > 39.2).length;
-    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx > 39.2 ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.total || ''}</td><td class="num">${I.kcal || ''}</td><td class="num">${I.food ? Math.round(I.food) : ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
+    const mx = ys.length ? Math.max(...ys) : null, mn = ys.length ? Math.min(...ys) : null, hot = ys.filter(y => y >= FEBRE).length;
+    return `<tr><td>${dmy(d)}</td><td class="num">${ys.length || ''}</td><td class="num ${mx >= FEBRIL ? 'hi' : ''}">${mx != null ? fmt(mx) : ''}</td><td class="num">${mn != null ? fmt(mn) : ''}</td><td class="num">${hot || ''}</td><td class="num">${I.total || ''}</td><td class="num">${I.kcal || ''}</td><td class="num">${I.food ? Math.round(I.food) : ''}</td><td class="num">${I.meals || ''}</td></tr>`; }).join('');
   const sec = document.createElement('section'); sec.style.display = 'grid'; sec.style.gap = '12px';
   sec.innerHTML = `<div class="section-title"><h2>Temperatura</h2><span>${home.length} medições em casa (quadro branco)${clinic.length ? ` + ${clinic.length} na clínica/exame` : ''}</span></div>
     <div class="card" data-bigcv="tempCv" data-title="Temperatura" role="button" tabindex="0" aria-label="Ampliar temperatura"><div style="position:relative;height:240px"><canvas id="tempCv" aria-label="Gráfico de temperatura"></canvas></div>
-    <p class="note" style="margin-top:6px">Faixa verde: 37,5 a 39,2 °C · ● em casa · ■ clínica/exame · laranja = acima de 39,2. Com dois termômetros, vale o maior valor. Passe o dedo/mouse nos pontos pra ver hora e anotações.</p>
+    <p class="note" style="margin-top:6px">Faixa verde: 37,5 a 39,4 °C · ● em casa · ■ clínica/exame · laranja = 39,5 (estado febril) ou mais; febre a partir de 39,6. Com dois termômetros, vale o maior valor. Passe o dedo/mouse nos pontos pra ver hora e anotações.</p>
     ${canWrite ? `<div class="wr" style="margin-top:8px"><button class="ghost tiny app-only" data-free="temp">＋ Anotar temperatura</button></div>` : ''}</div>
     <div class="section-title"><h2>Água e calorias</h2><span>o que foi anotado por dia</span></div>
     <div class="card" data-bigcv="intakeCv" data-title="Água e calorias" role="button" tabindex="0" aria-label="Ampliar água e calorias"><div style="position:relative;height:200px"><canvas id="intakeCv" aria-label="Gráfico de água e comida por dia"></canvas></div>
     <p class="note" style="margin-top:6px">Barras: água do dia em mL (bebida + a água que vem na comida), escala da esquerda. Linha: calorias (escala da direita). Tracejados: metas. O número em cima é quantas vezes ele comeu. Dia sem barra = nada anotado, não quer dizer que não bebeu.</p>
-    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Acima de 39,2</th><th>Água total mL</th><th>kcal</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+    <details style="margin-top:8px"><summary>Resumo por dia</summary><div style="overflow-x:auto"><table style="margin-top:8px"><thead><tr><th>Dia</th><th>Medições</th><th>Máx °C</th><th>Mín °C</th><th>Febre (≥39,6)</th><th>Água total mL</th><th>kcal</th><th>Comida g</th><th>Comeu (vezes)</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     ${canWrite ? `<div class="wr row" style="margin-top:8px"><button class="ghost tiny app-only" data-free="agua">＋ Anotar água</button><button class="ghost tiny app-only" data-free="comida">＋ Anotar comida</button></div>` : ''}</div>`;
   host.appendChild(sec);
   if (pts.length) {
@@ -1076,12 +1078,12 @@ function renderHomeTemp(host) {
     charts.push(new Chart(sec.querySelector('#tempCv'), { type: 'line',
       data: { datasets: [{ data: pts, parsing: false, borderColor: accent, borderWidth: 1.5, tension: 0.2,
         pointStyle: pts.map(p => p.src === 'clinica' ? 'rect' : 'circle'), pointRadius: pts.map(p => p.src === 'clinica' ? 5 : 3),
-        pointBackgroundColor: pts.map(p => p.y > 39.2 ? warn : surface), pointBorderColor: pts.map(p => p.y > 39.2 ? warn : accent),
+        pointBackgroundColor: pts.map(p => p.y >= FEBRIL ? warn : surface), pointBorderColor: pts.map(p => p.y >= FEBRIL ? warn : accent),
         segment: { borderDash: c => (c.p1.parsed.x - c.p0.parsed.x) > 0.5 ? [4, 4] : undefined } }] },
       options: { responsive: true, maintainAspectRatio: false, animation: false,
         scales: { x: { type: 'linear', min: xMin, max: xMax, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { stepSize: Math.max(1, Math.round((xMax - xMin) / 10)), color: muted, font: { size: 10.5 }, callback: v => dm(dayIso(Math.round(v))), maxRotation: 0 } },
           y: { suggestedMin: 38, suggestedMax: 40.5, grid: { color: line, drawTicks: false }, border: { display: false }, ticks: { color: muted, font: { size: 10.5 }, callback: v => fmt(v) } } },
-        plugins: { legend: { display: false }, refband: { lo: 37.5, hi: 39.2, color: band },
+        plugins: { legend: { display: false }, refband: { lo: 37.5, hi: 39.4, color: band },
           evlines: { events: events.filter(e => e.mark && e.date).map(e => ({ x: dayNum(e.date), short: e.short || '' })), color: muted, labels: true },
           tooltip: { backgroundColor: ink, titleColor: surface, bodyColor: surface, displayColors: false,
             callbacks: { title: it => dmy(it[0].raw.v.date) + (it[0].raw.v.time ? ' · ' + it[0].raw.v.time + (it[0].raw.v.approx ? ' (aprox.)' : '') : '') + (it[0].raw.src === 'clinica' ? ' · clínica/exame' : ''),
@@ -1281,7 +1283,7 @@ function tlItems() {
   for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', ic: '💉', text: `${v.kind}: ${v.product}` });
   for (const v of vitals) {
     if (!v.date) continue;
-    if (typeof v.temp === 'number') { const t = Math.max(v.temp, v.temp2 || 0); out.push({ date: v.date, time: v.time, who: quemFez(v), kind: 'Temperatura', ic: '🌡', text: `${fmt(t)} °C${v.temp2 ? ` (${fmt(v.temp)} / ${fmt(v.temp2)})` : ''}`, hot: t > 39.2, sub: v.note || '' }); }
+    if (typeof v.temp === 'number') { const t = Math.max(v.temp, v.temp2 || 0); out.push({ date: v.date, time: v.time, who: quemFez(v), kind: 'Temperatura', ic: '🌡', text: `${fmt(t)} °C${v.temp2 ? ` (${fmt(v.temp)} / ${fmt(v.temp2)})` : ''}`, hot: t >= FEBRIL, sub: v.note || '' }); }
     const n = nutri(v);
     if (v.water_ml) { const d = foodById(v.drinkId); out.push({ date: v.date, time: v.time, who: quemFez(v), kind: 'Comida e água', ic: '💧', text: `${fmt(v.water_ml)} mL de ${d ? d.name.toLowerCase() : 'água'}`, sub: v.note && (!d || !v.note.toLowerCase().includes(d.name.toLowerCase())) ? v.note : '' }); }
     if (v.food_g || (v.food && !v.water_ml && typeof v.temp !== 'number')) { const f = foodById(v.foodId); out.push({ date: v.date, time: v.time, who: quemFez(v), kind: 'Comida e água', ic: '🍽', text: v.food_g ? `${fmt(Math.round(v.food_g))} g de ${f ? f.name : (v.note || 'comida')}${n.kcal ? ` · ${fmt(Math.round(n.kcal))} kcal` : ''}` : `Comeu${v.note ? ': ' + v.note : ''}` }); }
@@ -1398,7 +1400,7 @@ function historyText(highlightDates = []) {
     const d = dayIso(dayNum(todayIso()) - i), T = dayTotals(d), ts = vitals.filter(v => v.date === d && typeof v.temp === 'number').map(v => Math.max(v.temp, v.temp2 || 0));
     const dl = rlogs.filter(l => l.date === d && l.kind === 'med'), dado = dl.filter(l => l.status === 'done').length;
     if (!ts.length && !T.water && !T.kcal && !dl.length) continue;
-    casa.push(`- ${d}: ${ts.length ? `temp máx ${Math.max(...ts)} °C (${ts.filter(t => t > 39.2).length} acima de 39,2)` : 'sem temperatura'} · água ${Math.round(T.water)} mL (bebida ${Math.round(T.drink)}) · ${Math.round(T.kcal)} kcal${dl.length ? ` · remédios ${dado} dados, ${dl.length - dado} pulados` : ''}`);
+    casa.push(`- ${d}: ${ts.length ? `temp máx ${Math.max(...ts)} °C (${ts.filter(t => t >= FEBRE).length}× febre ≥39,6; ${ts.filter(t => t >= FEBRIL && t < FEBRE).length}× estado febril 39,5)` : 'sem temperatura'} · água ${Math.round(T.water)} mL (bebida ${Math.round(T.drink)}) · ${Math.round(T.kcal)} kcal${dl.length ? ` · remédios ${dado} dados, ${dl.length - dado} pulados` : ''}`);
   }
   const emUso = meds.filter(m => inUse(m)).map(m => m.name).join(', ');
   return `ACONTECIMENTOS:\n${ev || '(nenhum)'}\n\nEXAMES (ordem cronológica):\n${ex}\n\nEM CASA, ÚLTIMOS 7 DIAS (metas: água ${g.water || '?'} mL, ${g.kcal || '?'} kcal):\n${casa.join('\n') || '(nada anotado)'}\n\nREMÉDIOS EM USO: ${emUso || '(nenhum)'}\n\nReferências aproximadas (variam por laboratório): ${refs}`;
