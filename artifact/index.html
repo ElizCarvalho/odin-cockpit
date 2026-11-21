@@ -2396,6 +2396,18 @@ document.addEventListener('focusout', () => setTimeout(() => {
   if (a && a.matches && a.matches('input:not([type=checkbox]):not([type=radio]), textarea, select')) return;
   document.body.classList.remove('kb'); window.scrollTo(window.scrollX, window.scrollY);
 }, 150));
+// iPhone (ícone na tela inicial): às vezes a "tela de layout" do iOS fica menor ou deslocada em relação ao que aparece
+// (depois do teclado, ao voltar de outro app ou no puxa-e-solta da rolagem) e a barra fixa sobe pro meio. Prende a barra no fundo do que está visível.
+(function () {
+  const vv = window.visualViewport, nav = document.querySelector('nav.tabs');
+  if (!vv || !nav) return;
+  let raf = 0;
+  const fix = () => { raf = 0; if (innerWidth > 760 || document.body.classList.contains('kb')) { nav.style.transform = ''; return; }
+    const d = Math.round(vv.offsetTop + vv.height - innerHeight); nav.style.transform = Math.abs(d) > 1 ? `translateY(${d}px)` : ''; };
+  const ask = () => { if (!raf) raf = requestAnimationFrame(fix); };
+  vv.addEventListener('resize', ask); vv.addEventListener('scroll', ask); addEventListener('scroll', ask, { passive: true });
+  addEventListener('pageshow', ask); document.addEventListener('visibilitychange', ask); addEventListener('orientationchange', () => setTimeout(ask, 300));
+})();
 // app aberto há muito tempo em segundo plano (ex.: desde ontem): volta com dados frescos
 let hiddenAt = 0;
 document.addEventListener('visibilitychange', () => {
