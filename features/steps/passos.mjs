@@ -293,3 +293,13 @@ Then('a meta de água de hoje é 1.600 mL e mostra quanto falta beber', async fu
 })
 Then('eu vejo quanto ele comeu hoje contra a meta de 680 g', async function () { await expect(this.page.getByRole('group', { name: 'Comida hoje' })).toContainText('meta 680 g') })
 When('eu volto para Hoje', async function () { await this.nav.abrir('Hoje') })
+
+/* ---------- Comida caseira ---------- */
+const formComida = page => page.getByRole('region', { name: 'Registrar Comida' })
+When('eu vou anotar uma comida caseira', async function () {
+  await this.registrar.escolher('Comida')
+  await formComida(this.page).getByLabel('Alimento').selectOption({ label: '🥕 Comida caseira (descrever a receita)' })
+})
+When('eu vou anotar uma comida do catálogo', async function () { await this.registrar.escolher('Comida') })
+Then('o app pede a receita da comida caseira', async function () { await expect(formComida(this.page).getByLabel('Receita da comida caseira')).toBeVisible() })
+Then('o app não pede receita', async function () { await expect(formComida(this.page).getByLabel('Receita da comida caseira')).toBeHidden() })

@@ -63,6 +63,29 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
   }
 
   /* ---------- Registrar a resposta ---------- */
+  // Comida caseira: a IA estima peso, calorias e água da receita e cria o alimento (estimado) no catálogo.
+  async function comidaCaseira(desc) {
+    desc = desc.trim();
+    if (desc.length < 5) throw new Error('descreva a receita (ingredientes e quantidades)');
+    const sample = await window.claude.use('sample');
+    if (!sample) throw new Error('a IA não está disponível aqui');
+    const prompt = `Comida caseira feita para o cão Odin. Receita descrita pela tutora: «${desc.slice(0, 600)}»
+Estime, para a receita inteira já pronta (cozida), usando tabelas de composição (TACO/USDA) e tamanhos médios quando ela disser só "1 batata-doce" ou "1 cenoura":
+{"nome":"nome curto da comida, ex.: Patê caseiro (moela, batata-doce, cenoura)","peso_total_g":numero,"kcal_total":numero,"agua_frac":fração de água de 0 a 1,"itens":[{"nome":"...","g":numero,"kcal":numero}]}
+Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Responda SOMENTE com o JSON.`;
+    const r = await sample(prompt, { modelTier: 'default', cache: false });
+    const m = (r.text || '').match(/\{[\s\S]*\}/); if (!m) throw new Error('não consegui calcular a receita');
+    const j = JSON.parse(m[0]);
+    if (j.fora_do_tema) throw new Error('isso não parece uma receita de comida');
+    const g = +j.peso_total_g, k = +j.kcal_total, w = +j.agua_frac;
+    if (!(g > 0 && k > 0)) throw new Error('não consegui calcular a receita');
+    const id = 'caseira_' + Date.now().toString(36);
+    const food = { name: String(j.nome || 'Comida caseira').slice(0, 80), kind: 'comida', unit: 'g', kcal100: Math.round(k / g * 1000) / 10, water: w > 0 && w < 1 ? Math.round(w * 100) / 100 : 0.7, est: true,
+      src: ('estimado pela IA: ' + (Array.isArray(j.itens) ? j.itens.map(i => `${i.nome} ${Math.round(i.g)} g/${Math.round(i.kcal)} kcal`).join(' · ') : desc)).slice(0, 300), receita: desc.slice(0, 600), createdAt: Date.now() };
+    await fb.fs.collection('foods').doc(id).set(food);
+    return { food: { id, ...food }, totalG: Math.round(g) };
+  }
+
   async function answer(n, form, skipped) {
     const t = form?.querySelector('[name=time]')?.value || hhmm(); // aviso de compra/consulta não tem campo de hora
     const note = form ? form.querySelector('[name=note]')?.value.trim() || '' : '';
@@ -89,9 +112,10 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
         const d = foodById(form.querySelector('[name=fid]')?.value) || foodById('agua');
         await db.collection('vitals').add({ ...base, water_ml: ml, drinkId: d ? d.id : 'agua', note: [d && d.id !== 'agua' ? d.name.toLowerCase() : '', note].filter(Boolean).join(' · ') });
       } else if (n.kind === 'comida') {
-        const q = parseFloat(form.querySelector('[name=v]').value.replace(',', '.'));
+        let q = parseFloat((form.querySelector('[name=v]').value || '').replace(',', '.'));
+        let f = foodById(form.querySelector('[name=fid]')?.value);
+        if (form.querySelector('[name=fid]')?.value === '__caseira') { const r = await comidaCaseira(form.querySelector('[name=desc]')?.value || ''); f = r.food; if (!(q > 0)) q = r.totalG; }
         if (!(q > 0)) throw new Error('quanto ele comeu?');
-        const f = foodById(form.querySelector('[name=fid]')?.value);
         const doc = { ...base, food: true, note: [f ? f.name : '', note].filter(Boolean).join(' · ') };
         if (f) doc.foodId = f.id;
         if (f && f.unit === 'un') { doc.qty = q; doc.unit = 'un'; doc.food_g = q * (f.gUnit || 0); } else doc.food_g = q;
@@ -126,7 +150,8 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
     if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque em Mais → Medicamentos.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
     if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}"${n.free ? '' : ' checked'}> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
     else if (n.kind === 'agua') f = `<label>Bebida<select name="fid">${foodList().filter(x => x.kind === 'bebida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select></label><label>Quanto (mL)<input type="text" name="v" inputmode="decimal" required></label>`;
-    else if (n.kind === 'comida') f = `<label>Alimento<select name="fid">${foodList().filter(x => x.kind === 'comida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}${x.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}<option value="">outro</option></select></label><label>Quanto (g ou unidades)<input type="text" name="v" inputmode="decimal" required></label>`;
+    else if (n.kind === 'comida') f = `<label>Alimento<select name="fid">${foodList().filter(x => x.kind === 'comida').sort((a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' })).map(x => `<option value="${esc(x.id)}">${esc(x.name)}${x.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}<option value="__caseira">🥕 Comida caseira (descrever a receita)</option><option value="">outro</option></select></label><label>Quanto ele comeu (g ou unidades)<input type="text" name="v" inputmode="decimal"></label>
+      <label class="wide">Receita da comida caseira<textarea name="desc" rows="2" placeholder="ex.: patê de 300 g de moela, 1 batata-doce e 1 cenoura, cozidos e batidos. Deixe &quot;quanto ele comeu&quot; vazio se ele comeu tudo."></textarea></label>`;
     else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required></label>`;
     else if (n.kind === 'fezes') f = `<label>Consistência<select name="cons"><option>normal (firme)</option><option>pastosa</option><option>mole</option><option>líquida (diarreia)</option><option>ressecada / dura</option></select></label>
       <label>Cor<select name="cor"><option>marrom</option><option>marrom escura</option><option>preta</option><option>amarelada</option><option>esverdeada</option><option>com sangue</option><option>com muco</option></select></label>`;
