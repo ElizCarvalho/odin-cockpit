@@ -278,7 +278,9 @@ export function entradaAuditoria(col, id, antes, depois) {
   if (antes && antes._at === depois._at && antes._by === depois._by) return null; // escrita sem carimbo novo (ex.: função atualizando)
   const ign = ['_by', '_byName', '_at', 'at', 'by', 'createdAt', 'updatedAt'];
   const campos = antes ? Object.keys({ ...antes, ...depois }).filter(k => !ign.includes(k) && JSON.stringify(antes[k]) !== JSON.stringify(depois[k])) : [];
-  return { acao: antes ? 'editou' : 'criou', col, docId: id, by: depois._by, byName: depois._byName || '', at: depois._at || Date.now(), resumo: resumoDoc(col, depois), campos: campos.slice(0, 12) };
+  if (antes && !campos.length) return null; // salvou igual: nada mudou
+  const META = { goals: 'metas de água/comida/calorias', notificacoes: 'notificações', status: 'status' };
+  return { acao: antes ? 'editou' : 'criou', col, docId: id, by: depois._by, byName: depois._byName || '', at: depois._at || Date.now(), resumo: col === 'meta' ? (META[id] || id) : resumoDoc(col, depois), campos: campos.slice(0, 12) };
 }
 
 export const marcarSitePublico = onDocumentWritten({ document: '{col}/{id}', memory: '256MiB' }, async ev => {
