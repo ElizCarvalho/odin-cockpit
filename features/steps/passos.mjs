@@ -332,3 +332,14 @@ Then('só aparece o que a Brenda fez', async function () {
   await expect(itensAtividade(this.page)).toHaveCount(1); await expect(itensAtividade(this.page)).toContainText('Brenda')
 })
 Then('eu não encontro a parte de atividade', async function () { await expect(this.nav.partes.getByRole('tab', { name: 'Atividade' })).toHaveCount(0) })
+
+/* ---------- Temperatura ---------- */
+When('a última temperatura anotada é {int},{int} °C', async function (a, b) {
+  if (!this.page) await this.abrir()
+  const t = Number(`${a}.${b}`)
+  await this.page.evaluate(t => window.ODIN_FB.fs.collection('vitals').add({ date: new Date().toLocaleDateString('sv'), time: '23:59', temp: t }), t)
+})
+Then('o quadro de temperatura mostra {string}', async function (sit) {
+  await this.nav.abrir('Hoje')
+  await expect(this.page.locator('#tiles .tile').first().locator('.pill')).toHaveText(sit)
+})
