@@ -21,7 +21,7 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
   };
   let ncfg = {}, lateId = null, scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
-  const focusId = new URLSearchParams(location.search).get('n');
+  let focusId = new URLSearchParams(location.search).get('n');
   const hhmm = () => new Date().toTimeString().slice(0, 5);
   const daysAgo = n => new Date(Date.now() - n * 864e5 - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
   const me = () => (window.ODIN_USER && window.ODIN_USER.email) || '';
@@ -142,23 +142,61 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
     if (n.id) await fb.fs.collection('notifs').doc(n.id).update({ status: skipped ? 'skipped' : 'done', doneAt: Date.now(), by: me() });
   }
 
+
+  /* ---------- Próximas 12 h: mesma regra do servidor (isDue em functions/index.js) ---------- */
+  const minsOf = t => +t.slice(0, 2) * 60 + +t.slice(3, 5);
+  const dNum = iso => Math.round(Date.parse(iso + 'T12:00:00Z') / 864e5);
+  function isDueLocal(s, date, hm) {
+    if (s.active === false) return false;
+    if (s.from_date && date < s.from_date) return false;
+    if (s.until && date > s.until) return false;
+    if (Array.isArray(s.days) && s.days.length && !s.days.includes(new Date(dNum(date) * 864e5).getUTCDay())) return false;
+    const ed = Number(s.everyDays);
+    if (ed > 1) { const diff = dNum(date) - dNum(s.anchor || date); if (diff < 0 || diff % ed !== 0) return false; }
+    if (Array.isArray(s.times) && s.times.includes(hm)) return true;
+    const every = Number(s.every);
+    if (every > 0) { const t = minsOf(hm), a = minsOf(s.from || '00:00'), b = minsOf(s.to || '23:59'); if (t >= a && t <= b && (t - a) % every === 0) return true; }
+    return false;
+  }
+  const medAtivo = id => { const m = meds.find(x => x.id === id); return !m || (!m.paused && (!m.end || m.end >= todayIso())); };
+  function proximas(horas = 12) {
+    const agora = Date.now(), fim = agora + horas * 36e5, out = [], ids = new Set(notifs.map(n => n.id));
+    for (const s of scheds) {
+      for (const date of [todayIso(), daysAgo(-1)]) {
+        const hms = new Set(Array.isArray(s.times) ? s.times : []);
+        const every = Number(s.every); if (every > 0) for (let t = minsOf(s.from || '00:00'); t <= minsOf(s.to || '23:59'); t += every) hms.add(String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0'));
+        for (const hm of hms) {
+          const ts = new Date(date + 'T' + hm + ':00').getTime(), id = `${s.id}_${date}_${hm.replace(':', '')}`;
+          if (ts <= agora || ts > fim || ids.has(id) || !isDueLocal(s, date, hm)) continue;
+          const items = Array.isArray(s.items) ? s.items.filter(i => medAtivo(i.medId)) : [];
+          if (s.kind === 'med' && Array.isArray(s.items) && s.items.length && !items.length) continue;
+          if (s.kind === 'med' && s.medId && !medAtivo(s.medId)) continue;
+          out.push({ id, s, date, hm, ts, items });
+        }
+      }
+    }
+    return out.sort((a, b) => a.ts - b.ts);
+  }
+
   function entryForm(n) {
+    // listas sempre começam em "Selecione" (exceto quando o app tem uma sugestão, como o próximo lado do decúbito)
+    const sel = (name, opts, sug, opcional) => `<select name="${name}"${opcional ? '' : ' required'}><option value=""${sug ? '' : ' selected'}${opcional ? '' : ' disabled'}>${opcional ? 'Selecione (opcional)' : 'Selecione'}</option>${opts.map(o => { const [v, t] = Array.isArray(o) ? o : [o, o]; return `<option value="${esc(v)}"${sug === v ? ' selected' : ''}>${esc(t)}</option>`; }).join('')}</select>`;
     const time = `<label>Hora<input type="time" name="time" value="${hhmm()}"></label>`;
-    const note = `<label>Obs.<input type="text" name="note" placeholder="opcional"></label>`;
+    const note = `<label>Obs.<input type="text" name="note" placeholder="opcional · ex.: comeu devagar"></label>`;
     let f = '';
     if (n.kind === 'consulta') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}</p><div class="row"><button type="submit">Ok</button></div></form>`;
-    if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque em Mais → Medicamentos.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
+    if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque em Mais → Estoque.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
     if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}"${n.free ? '' : ' checked'}> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
-    else if (n.kind === 'agua') f = `<label>Bebida<select name="fid">${foodList().filter(x => x.kind === 'bebida').map(x => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select></label><label>Quanto (mL)<input type="text" name="v" inputmode="decimal" required></label>`;
-    else if (n.kind === 'comida') f = `<label>Alimento<select name="fid">${foodList().filter(x => x.kind === 'comida').sort((a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' })).map(x => `<option value="${esc(x.id)}">${esc(x.name)}${x.unit === 'un' ? ' (unid.)' : ''}</option>`).join('')}<option value="__caseira">🥕 Comida caseira (descrever a receita)</option><option value="">outro</option></select></label><label>Quanto ele comeu (g ou unidades)<input type="text" name="v" inputmode="decimal"></label>
+    else if (n.kind === 'agua') f = `<label>Bebida${sel('fid', foodList().filter(x => x.kind === 'bebida').sort((a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' })).map(x => [x.id, x.name]))}</label><label>Quanto (mL)<input type="text" name="v" inputmode="decimal" required placeholder="ex.: 150"></label>`;
+    else if (n.kind === 'comida') f = `<label>Alimento${sel('fid', [...foodList().filter(x => x.kind === 'comida').sort((a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' })).map(x => [x.id, x.name + (x.unit === 'un' ? ' (unid.)' : '')]), ['__caseira', '🥕 Comida caseira (descrever a receita)'], ['__outro', 'outro']])}</label><label>Quanto ele comeu (g ou unidades)<input type="text" name="v" inputmode="decimal" placeholder="ex.: 200"></label>
       <label class="wide">Receita da comida caseira<textarea name="desc" rows="2" placeholder="ex.: patê de 300 g de moela, 1 batata-doce e 1 cenoura, cozidos e batidos. Deixe &quot;quanto ele comeu&quot; vazio se ele comeu tudo."></textarea></label>`;
-    else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required></label>`;
-    else if (n.kind === 'fezes') f = `<label>Consistência<select name="cons"><option>normal (firme)</option><option>pastosa</option><option>mole</option><option>líquida (diarreia)</option><option>ressecada / dura</option></select></label>
-      <label>Cor<select name="cor"><option>marrom</option><option>marrom escura</option><option>preta</option><option>amarelada</option><option>esverdeada</option><option>com sangue</option><option>com muco</option></select></label>`;
-    else if (n.kind === 'urina') f = `<label>Como<select name="como"><option>espontâneo</option><option>com escape</option><option>ao pressionar a bexiga</option><option>na sonda</option></select></label>
-      <label>Cor<select name="cor"><option>clarinho</option><option>amarelo</option><option>amarelo escuro</option><option>rosado / com sangue</option></select></label>
-      <label>Quantidade<select name="qtd"><option>pouco</option><option>normal</option><option>bastante</option></select></label>`;
-    else if (n.kind === 'decubito') f = `<label>Posição<select name="side">${['lado esquerdo', 'esternal (de bruços)', 'lado direito', 'em pé / andando'].map(o => `<option${n.suggest === o ? ' selected' : ''}>${o}</option>`).join('')}</select></label>`;
+    else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required placeholder="ex.: 38,7"></label>`;
+    else if (n.kind === 'fezes') f = `<label>Consistência${sel('cons', ['normal (firme)', 'pastosa', 'mole', 'líquida (diarreia)', 'ressecada / dura'])}</label>
+      <label>Cor${sel('cor', ['marrom', 'marrom escura', 'preta', 'amarelada', 'esverdeada', 'com sangue', 'com muco'], null, true)}</label>`;
+    else if (n.kind === 'urina') f = `<label>Como${sel('como', ['espontâneo', 'com escape', 'ao pressionar a bexiga', 'na sonda'])}</label>
+      <label>Cor${sel('cor', ['clarinho', 'amarelo', 'amarelo escuro', 'rosado / com sangue'], null, true)}</label>
+      <label>Quantidade${sel('qtd', ['pouco', 'normal', 'bastante'], null, true)}</label>`;
+    else if (n.kind === 'decubito') f = `<label>Posição${sel('side', ['lado esquerdo', 'esternal (de bruços)', 'lado direito', 'em pé / andando'], n.suggest)}</label>`;
     const ok = n.kind === 'med' ? (n.items && n.items.length > 1 ? 'Dei os marcados ✓' : 'Dei ✓') : 'Salvar';
     const extra = n.id ? `<details class="rMore" data-k="m-${esc(n.id)}"><summary>mudar hora ou anotar</summary><div class="vform" style="margin-top:6px">${time}${note}</div></details>` : time + note;
     return `<form class="vform rForm" data-n="${esc(n.id || '')}">${f}${extra}
@@ -210,6 +248,13 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
       ${canEdit() ? '' : '<p class="note" style="margin-top:8px">Você está com acesso só de visualização.</p>'}
     </section>
 
+
+    <section class="card" aria-label="Próximas 12 h">
+      <div class="row between"><h2>Próximas 12 h</h2><span class="muted" style="font-size:12.5px">dá pra adiantar o que vem na próxima hora</span></div>
+      <div class="list" role="list" aria-label="Próximas 12 h" style="margin-top:6px">${proximas().map(p => { const k = KIND[p.s.kind] || KIND.outro, falta = Math.round((p.ts - Date.now()) / 6e4);
+        return `<div class="item" role="listitem" aria-label="${esc(p.s.label || k.t)} às ${p.hm}"><div class="row between"><span><b class="num">${p.date === today ? '' : 'amanhã '}${p.hm}</b> ${ic({ kind: p.s.kind, label: p.s.label })}${esc(p.s.label || k.t)}${p.items.length ? `<br><span class="muted" style="font-size:12.5px">${p.items.map(i => esc(i.name)).join(' · ')}</span>` : ''}</span>
+        ${canEdit() && falta <= 60 ? `<button type="button" class="tiny" data-adiantar="${esc(p.id)}">Adiantar</button>` : `<span class="muted" style="font-size:12px">em ${falta >= 60 ? Math.floor(falta / 60) + ' h' + (falta % 60 ? ' ' + (falta % 60) + ' min' : '') : falta + ' min'}</span>`}</div></div>`; }).join('') || '<p class="muted">Nada programado nas próximas 12 horas.</p>'}</div>
+    </section>
 `, () => { if (focusId) { const el = document.getElementById('rn-' + focusId); if (el && !render.scrolled) { render.scrolled = true; el.scrollIntoView({ block: 'center' }); } } });
     paint('hoje48', `
     <section class="card">
@@ -505,6 +550,15 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
       if (n) { t.disabled = true; await answer(n, f, true).then(() => feito(f, '⏭ Pulado: ' + (n.label || (KIND[n.kind] || KIND.outro).t))).catch(e => say(f, e.message)); }
     }
     if (t.matches('[data-late]')) { lateId = t.dataset.late; render(); }
+    if (t.matches('[data-adiantar]')) {
+      const p = proximas().find(x => x.id === t.dataset.adiantar); if (!p) return;
+      t.disabled = true;
+      try {
+        await fb.fs.collection('notifs').doc(p.id).set({ kind: p.s.kind, label: p.s.label || '', date: p.date, time: p.hm, status: 'pending', sentAt: Date.now(), schedId: p.s.id,
+          medId: p.s.medId || null, items: p.items, renotified: true, adiantado: true });
+        focusId = p.id; render.scrolled = false; window.toast('⏩ Adiantado: responda em "Agora" quando der');
+      } catch (x) { window.toast(x.message, 'err'); t.disabled = false; }
+    }
     if (t.matches('[data-latex]')) { lateId = null; render(); }
     if (t.matches('[data-latego]')) {
       const l = logs.find(x => x.id === t.dataset.latego); if (!l) return;

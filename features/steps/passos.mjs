@@ -343,3 +343,29 @@ Then('o quadro de temperatura mostra {string}', async function (sit) {
   await this.nav.abrir('Hoje')
   await expect(this.page.locator('#tiles .tile').first().locator('.pill')).toHaveText(sit)
 })
+
+/* ---------- Próximas 12 h ---------- */
+async function programar(world, min) {
+  if (!world.page) await world.abrir()
+  await world.page.evaluate(min => {
+    const d = new Date(Date.now() + min * 6e4), hm = d.toTimeString().slice(0, 5), date = d.toLocaleDateString('sv')
+    return window.ODIN_FB.fs.collection('schedule').doc('prox').set({ kind: 'med', label: 'Lanche de teste', times: [hm], active: true, items: [{ medId: 'm2', name: 'Outro em uso', dose: '1 comp.' }], from_date: date, until: date })
+  }, min)
+}
+Given('tem um remédio programado pra daqui a meia hora', async function () { await programar(this, 30) })
+Given('tem um remédio programado pra daqui a 5 horas', async function () { await programar(this, 300) })
+const proxItem = page => page.getByRole('list', { name: 'Próximas 12 h' }).getByRole('listitem', { name: /Lanche de teste/ })
+When('eu adianto esse remédio', async function () { await proxItem(this.page).getByRole('button', { name: 'Adiantar' }).click() })
+Then('ele aparece em {string} pra eu responder', async function (_) {
+  await expect(this.page.getByRole('group', { name: 'Lembrete Lanche de teste' })).toBeVisible()
+  await expect(proxItem(this.page)).toHaveCount(0)
+})
+Then('eu vejo esse remédio nas próximas 12 horas sem opção de adiantar', async function () {
+  await expect(proxItem(this.page)).toBeVisible()
+  await expect(proxItem(this.page).getByRole('button', { name: 'Adiantar' })).toHaveCount(0)
+})
+When('eu vou anotar fezes', async function () { await this.registrar.escolher('Fezes') })
+Then('a consistência começa em {string}', async function (t) {
+  await expect(this.page.getByRole('region', { name: 'Registrar Fezes' }).getByLabel('Consistência')).toHaveValue('')
+  await expect(this.page.getByRole('region', { name: 'Registrar Fezes' }).getByLabel('Consistência').locator('option:checked')).toHaveText(t)
+})
