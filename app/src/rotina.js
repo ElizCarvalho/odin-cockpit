@@ -249,14 +249,15 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
     </section>
 
 
+`, () => { if (focusId) { const el = document.getElementById('rn-' + focusId); if (el && !render.scrolled) { render.scrolled = true; el.scrollIntoView({ block: 'center' }); } } });
+    paint('hoje48', `
     <section class="card" aria-label="Próximas 12 h">
       <div class="row between"><h2>Próximas 12 h</h2><span class="muted" style="font-size:12.5px">dá pra adiantar o que vem na próxima hora</span></div>
       <div class="list" role="list" aria-label="Próximas 12 h" style="margin-top:6px">${proximas().map(p => { const k = KIND[p.s.kind] || KIND.outro, falta = Math.round((p.ts - Date.now()) / 6e4);
         return `<div class="item" role="listitem" aria-label="${esc(p.s.label || k.t)} às ${p.hm}"><div class="row between"><span><b class="num">${p.date === today ? '' : 'amanhã '}${p.hm}</b> ${ic({ kind: p.s.kind, label: p.s.label })}${esc(p.s.label || k.t)}${p.items.length ? `<br><span class="muted" style="font-size:12.5px">${p.items.map(i => esc(i.name)).join(' · ')}</span>` : ''}</span>
         ${canEdit() && falta <= 60 ? `<button type="button" class="tiny" data-adiantar="${esc(p.id)}">Adiantar</button>` : `<span class="muted" style="font-size:12px">em ${falta >= 60 ? Math.floor(falta / 60) + ' h' + (falta % 60 ? ' ' + (falta % 60) + ' min' : '') : falta + ' min'}</span>`}</div></div>`; }).join('') || '<p class="muted">Nada programado nas próximas 12 horas.</p>'}</div>
     </section>
-`, () => { if (focusId) { const el = document.getElementById('rn-' + focusId); if (el && !render.scrolled) { render.scrolled = true; el.scrollIntoView({ block: 'center' }); } } });
-    paint('hoje48', `
+
     <section class="card">
       <div class="row between"><h2>Últimas 48 h</h2><button type="button" class="ghost tiny" data-go="registrar">＋ registrar</button></div>
       <div class="list" role="list" aria-label="Últimas 48 h" style="margin-top:6px">${done.slice(0, 40).map(x => `<div class="item" role="listitem" aria-label="${esc(x.src === 'v' ? vtxt(x) : x.src === 'e' ? x.text : (x.label || (KIND[x.kind] || KIND.outro).t))}"><div class="row between"><span>${x.src === 'v' ? vtxt(x) + (x.note ? ' · ' + esc(x.note) : '') : x.src === 'e' ? (KIND[x.kind] || KIND.outro).e + ' ' + esc(x.text) : ltxt(x)}</span><span class="row"><span class="muted">${x.date === today ? '' : dm(x.date) + ' '}${esc(x.time || '')}</span>${x.src === 'log' && x.status === 'skipped' && canEdit() && lateId !== x.id ? `<button type="button" class="ghost tiny" data-late="${esc(x.id)}">Dei depois</button>` : ''}</span></div>${lateId === x.id ? `<div class="row rLate" style="margin-top:6px"><label>Que horas deu?<input type="time" name="lt" value="${hhmm()}"></label><button type="button" class="tiny" data-latego="${esc(x.id)}">Salvar ✓</button><button type="button" class="ghost tiny" data-latex>Cancelar</button></div>` : ''}</div>`).join('') || '<p class="muted">Nada ainda.</p>'}</div>
