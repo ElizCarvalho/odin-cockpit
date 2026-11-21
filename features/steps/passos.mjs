@@ -104,7 +104,7 @@ Then(/^eu vejo a confirmação de que (?:a|o) (comida|xixi|água) foi registrad[
 
 Then('o formulário fica limpo pra um novo registro', async function () {
   const f = this.registrar.formulario('Comida')
-  await expect(f.getByLabel('Quanto (g ou unidades)')).toHaveValue('')
+  await expect(f.getByLabel('Quanto ele comeu (g ou unidades)')).toHaveValue('')
   await expect(f.getByLabel('Obs.')).toHaveValue('')
 })
 Then('o formulário de peso fica limpo pra um novo registro', async function () {
