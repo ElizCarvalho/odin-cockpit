@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-21T00:23:45.496Z",
+ "exportedAt": "2026-11-21T00:38:15.463Z",
  "updatedAt": 1795220291662,
  "exams": [
   {
@@ -818,24 +818,6 @@
     "Exame realizado sem sedação"
    ],
    "params": {}
-  },
-  {
-   "id": "mnFZuN2pfXwS6yMSvpcK",
-   "date": "2026-11-19",
-   "lab": "Alphalabs",
-   "kind": "EAS (urina)",
-   "params": {},
-   "other": [
-    "Aspecto límpido",
-    "Cor amarela",
-    "pH 6,0",
-    "Densidade 1.025",
-    "Cristais: oxalato de cálcio (raros)",
-    "Células vesicais raras",
-    "Cilindros ausentes",
-    "Forma de coleta não informada"
-   ],
-   "labInterpretation": ""
   },
   {
    "id": "nijn6ayxqxbt740xhobo",
