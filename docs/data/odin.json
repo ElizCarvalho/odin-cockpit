@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-21T17:19:55.974Z",
+ "exportedAt": "2026-11-21T17:37:43.205Z",
  "updatedAt": 1795281357093,
  "exams": [
   {
@@ -5274,8 +5274,9 @@
    "kcal100": 350,
    "updatedAt": 1795014482635,
    "_by": "[removido]",
-   "_at": 1795228836221,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "tipo": "biscoito",
+   "_at": 1795282414436
   },
   {
    "id": "caseira_mwqnq5ty",
@@ -5327,8 +5328,9 @@
    "match": "f[óo]rmula natural.*recupera|vet care|recupera[çc][ãa]o",
    "src": "rótulo: energia metabolizável 1.300 kcal/kg, umidade 73%",
    "_by": "[removido]",
-   "_at": 1795228836221,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "tipo": "umida",
+   "_at": 1795282408555
   },
   {
    "id": "iogquiabo",
@@ -5397,8 +5399,9 @@
    "src": "rótulo: 1.330 kcal/kg; água estimada",
    "est": true,
    "_by": "[removido]",
-   "_at": 1795228836221,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "tipo": "umida",
+   "_at": 1795282408423
   },
   {
    "id": "quiabo",
@@ -5425,8 +5428,9 @@
    "src": "calculado pelos níveis de garantia (PB 28%, EE 16%, FB 4,5%, MM 8,5%, umidade 9%) — o site não informa a energia metabolizável",
    "kcal100": 355,
    "_by": "[removido]",
-   "_at": 1795228836221,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "tipo": "seca",
+   "_at": 1795282408663
   },
   {
    "id": "traqueia",
