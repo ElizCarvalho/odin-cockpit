@@ -369,3 +369,33 @@ Then('a consistência começa em {string}', async function (t) {
   await expect(this.page.getByRole('region', { name: 'Registrar Fezes' }).getByLabel('Consistência')).toHaveValue('')
   await expect(this.page.getByRole('region', { name: 'Registrar Fezes' }).getByLabel('Consistência').locator('option:checked')).toHaveText(t)
 })
+
+/* ---------- Refeição planejada ---------- */
+const refeicao = page => page.getByRole('group', { name: 'Lembrete Café da manhã' })
+Given('está na hora do café da manhã planejado', async function () {
+  if (!this.page) await this.abrir()
+  await this.page.evaluate(() => {
+    const fs = window.ODIN_FB.fs, d = new Date().toLocaleDateString('sv')
+    fs.collection('foods').doc('umida1').set({ name: 'Pet Delícia', kind: 'comida', unit: 'g', kcal100: 133, tipo: 'umida' })
+    fs.collection('foods').doc('seca1').set({ name: 'Ração seca', kind: 'comida', unit: 'g', kcal100: 355, tipo: 'seca' })
+    return fs.collection('notifs').doc('cafe_' + d + '_0940').set({ kind: 'comida', label: 'Café da manhã', date: d, time: '09:40', status: 'pending', schedId: 'cafe',
+      plan: 'aprox. 100 g de ração úmida + aprox. 75 g de ração seca', meal: [{ nome: 'Ração úmida', tipo: 'umida', quanto: 'aprox. 100 g', ex: 'ex.: 100' }, { nome: 'Ração seca', tipo: 'seca', quanto: 'aprox. 75 g', ex: 'ex.: 75' }] })
+  })
+  await this.nav.abrir('Hoje')
+})
+When('eu confirmo que dei o café da manhã', async function () { await refeicao(this.page).getByRole('button', { name: 'Dei ✓' }).click() })
+Then('o app pede quanto ele comeu de cada parte', async function () {
+  await expect(refeicao(this.page).getByRole('group', { name: 'Ração úmida' })).toBeVisible()
+  await expect(refeicao(this.page).getByRole('group', { name: 'Ração seca' })).toBeVisible()
+})
+When('eu anoto 95 g de ração úmida e 70 g de ração seca', async function () {
+  const r = refeicao(this.page)
+  await r.getByRole('group', { name: 'Ração úmida' }).getByLabel('Quanto comeu (g)').fill('95')
+  await r.getByRole('group', { name: 'Ração seca' }).getByLabel('Quanto comeu (g)').fill('70')
+  await r.getByRole('button', { name: 'Salvar refeição ✓' }).click()
+})
+Then('as duas partes ficam registradas como comida de hoje', async function () {
+  await expect(this.page.getByRole('status').filter({ hasText: 'Registrado' })).toBeVisible()
+  await expect(this.page.getByRole('list', { name: 'Últimas 48 h' })).toContainText('95 g')
+  await expect(this.page.getByRole('list', { name: 'Últimas 48 h' })).toContainText('70 g')
+})

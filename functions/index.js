@@ -69,7 +69,7 @@ export function pushoverMensagem(notifId, n, again, prio) {
   const k = KIND[n.kind] || KIND.outro;
   const m = {
     title: `${k.emoji} ${again ? 'Ainda pendente: ' : ''}${k.title} · ${n.time}`,
-    message: Array.isArray(n.items) && n.items.length ? n.items.map(i => i.name + (i.dose ? ' ' + i.dose : '')).join(' · ') : (n.label || k.title),
+    message: Array.isArray(n.items) && n.items.length ? n.items.map(i => i.name + (i.dose ? ' ' + i.dose : '')).join(' · ') : (n.plan || n.label || k.title),
     priority: prio, url: `${APP_URL}/?n=${encodeURIComponent(notifId)}#rotina`, url_title: 'Abrir no Cockpit'
   };
   if (prio === 2) Object.assign(m, { retry: 60, expire: 1800, tags: notifId.replace(/[^\w-]/g, '_') }); // repete a cada 1 min por até 30 min
@@ -108,7 +108,7 @@ async function push(notifId, n, again, cfg = {}) {
     webpush: {
       notification: {
         title: `${k.emoji} ${again ? 'Ainda pendente: ' : ''}${k.title} · ${n.time}`,
-        body: Array.isArray(n.items) && n.items.length ? n.items.map(i => i.name + (i.dose ? ' ' + i.dose : '')).join(' · ') : (n.label || k.title),
+        body: Array.isArray(n.items) && n.items.length ? n.items.map(i => i.name + (i.dose ? ' ' + i.dose : '')).join(' · ') : (n.plan || n.label || k.title),
         icon: `${APP_URL}/icon-192.png`,
         tag: notifId,
         renotify: true
@@ -194,6 +194,7 @@ export const tick = onSchedule({ schedule: '* * * * *', timeZone: TZ, retryCount
     }
     const id = `${doc.id}_${date}_${hm.replace(':', '')}`;
     const n = { schedId: doc.id, kind: s.kind || 'outro', label: s.label || '', medId: s.medId || null, items, date, time: hm, status: 'pending', sentAt: Date.now(), renotified: false };
+    if (Array.isArray(s.meal) && s.meal.length) { n.meal = s.meal; n.plan = s.plan || ''; } // refeição planejada
     if (n.kind === 'agua') {
       const a = await aguaHoje(date);
       if (a.goal && a.water >= a.goal) continue; // meta batida: não incomoda

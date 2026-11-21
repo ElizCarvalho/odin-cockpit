@@ -111,6 +111,23 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
         if (!(ml > 0)) throw new Error('quantos mL?');
         const d = foodById(form.querySelector('[name=fid]')?.value) || foodById('agua');
         await db.collection('vitals').add({ ...base, water_ml: ml, drinkId: d ? d.id : 'agua', note: [d && d.id !== 'agua' ? d.name.toLowerCase() : '', note].filter(Boolean).join(' · ') });
+      } else if (n.kind === 'comida' && Array.isArray(n.meal) && n.meal.length) {
+        // refeição planejada: um registro por parte (ração úmida, seca, caseira…)
+        let n0 = 0;
+        for (let i = 0; i < n.meal.length; i++) {
+          const fidv = form.querySelector(`[name=fid_${i}]`)?.value || '';
+          let q = parseFloat((form.querySelector(`[name=v_${i}]`)?.value || '').replace(',', '.'));
+          if (!fidv && !(q > 0)) continue;
+          let f = foodById(fidv);
+          if (fidv === '__caseira') { const r = await comidaCaseira(form.querySelector(`[name=desc_${i}]`)?.value || ''); f = r.food; if (!(q > 0)) q = r.totalG; }
+          if (!(q > 0)) throw new Error(`quanto ele comeu de ${n.meal[i].nome}?`);
+          if (!fidv) throw new Error(`qual ${n.meal[i].nome.toLowerCase()}?`);
+          const doc = { ...base, food: true, note: [f ? f.name : n.meal[i].nome, n.label, note].filter(Boolean).join(' · ') };
+          if (f) doc.foodId = f.id;
+          if (f && f.unit === 'un') { doc.qty = q; doc.unit = 'un'; doc.food_g = q * (f.gUnit || 0); } else doc.food_g = q;
+          await db.collection('vitals').add(doc); n0++;
+        }
+        if (!n0) throw new Error('anote pelo menos uma parte da refeição');
       } else if (n.kind === 'comida') {
         let q = parseFloat((form.querySelector('[name=v]').value || '').replace(',', '.'));
         let f = foodById(form.querySelector('[name=fid]')?.value);
@@ -188,6 +205,18 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
     if (n.kind === 'compra') return `<form class="vform rForm" data-n="${esc(n.id || '')}"><p class="muted" style="grid-column:1/-1;margin:0">${esc(n.note || '')}. Quando comprar, atualize o estoque em Mais → Estoque.</p><div class="row"><button type="submit">Ok, visto</button></div></form>`;
     if (Array.isArray(n.items) && n.items.length) f = `<div class="rItems">${n.items.map((it, i) => `<label class="chk"><input type="checkbox" name="it" value="${i}"${n.free ? '' : ' checked'}> ${ic({ kind: 'med', medId: it.medId, label: it.name })}<span><b>${esc(it.name)}</b>${it.dose ? ' <span class="muted">' + esc(it.dose) + '</span>' : ''}</span></label>`).join('')}</div>`;
     else if (n.kind === 'agua') f = `<label>Bebida${sel('fid', foodList().filter(x => x.kind === 'bebida').sort((a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' })).map(x => [x.id, x.name]))}</label><label>Quanto (mL)<input type="text" name="v" inputmode="decimal" required placeholder="ex.: 150"></label>`;
+    else if (n.kind === 'comida' && Array.isArray(n.meal) && n.meal.length) {
+      const comidas = foodList().filter(x => x.kind === 'comida').sort((a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' }));
+      const rows = n.meal.map((r, i) => {
+        const doTipo = r.tipo && r.tipo !== 'caseira' ? comidas.filter(x => x.tipo === r.tipo) : [];
+        const opts = r.tipo === 'caseira' ? [['__caseira', '🥕 Comida caseira (descrever a receita)'], ...comidas.filter(x => /caseir/i.test(x.name)).map(x => [x.id, x.name])] : [...(doTipo.length ? doTipo : comidas).map(x => [x.id, x.name]), ['__caseira', '🥕 Comida caseira'], ['__outro', 'outro']];
+        const sug = r.tipo === 'caseira' ? '__caseira' : doTipo.length === 1 ? doTipo[0].id : null;
+        return `<fieldset class="mealRow" aria-label="${esc(r.nome)}"><legend><b>${esc(r.nome)}</b> <span class="muted">${esc(r.quanto || '')}</span></legend>
+          <label>Qual${sel('fid_' + i, opts, sug, true)}</label><label>Quanto comeu (g)<input type="text" name="v_${i}" inputmode="decimal" placeholder="${esc(r.ex || 'ex.: 100')}"></label>
+          <label class="wide">Receita<textarea name="desc_${i}" rows="2" placeholder="ex.: patê de 300 g de moela, 1 batata-doce e 1 cenoura. Se ele comeu tudo, pode deixar a quantidade vazia."></textarea></label></fieldset>`;
+      }).join('');
+      f = `${n.plan ? `<p class="muted" style="grid-column:1/-1;margin:0">🍽 ${esc(n.plan)}</p>` : ''}<div class="mealRows" style="grid-column:1/-1;display:grid;gap:10px"${n.id ? ' hidden' : ''}>${rows}</div>`;
+    }
     else if (n.kind === 'comida') f = `<label>Alimento${sel('fid', [...foodList().filter(x => x.kind === 'comida').sort((a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' })).map(x => [x.id, x.name + (x.unit === 'un' ? ' (unid.)' : '')]), ['__caseira', '🥕 Comida caseira (descrever a receita)'], ['__outro', 'outro']])}</label><label>Quanto ele comeu (g ou unidades)<input type="text" name="v" inputmode="decimal" placeholder="ex.: 200"></label>
       <label class="wide">Receita da comida caseira<textarea name="desc" rows="2" placeholder="ex.: patê de 300 g de moela, 1 batata-doce e 1 cenoura, cozidos e batidos. Deixe &quot;quanto ele comeu&quot; vazio se ele comeu tudo."></textarea></label>`;
     else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required placeholder="ex.: 38,7"></label>`;
@@ -197,7 +226,10 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
       <label>Cor${sel('cor', ['clarinho', 'amarelo', 'amarelo escuro', 'rosado / com sangue'], null, true)}</label>
       <label>Quantidade${sel('qtd', ['pouco', 'normal', 'bastante'], null, true)}</label>`;
     else if (n.kind === 'decubito') f = `<label>Posição${sel('side', ['lado esquerdo', 'esternal (de bruços)', 'lado direito', 'em pé / andando'], n.suggest)}</label>`;
-    const ok = n.kind === 'med' ? (n.items && n.items.length > 1 ? 'Dei os marcados ✓' : 'Dei ✓') : 'Salvar';
+    const refeicao = n.kind === 'comida' && Array.isArray(n.meal) && n.meal.length && n.id;
+    const ok = n.kind === 'med' ? (n.items && n.items.length > 1 ? 'Dei os marcados ✓' : 'Dei ✓') : refeicao ? 'Salvar refeição ✓' : 'Salvar';
+    if (refeicao) return `<form class="vform rForm" data-n="${esc(n.id)}">${f}<div class="vform mealMore" style="grid-column:1/-1" hidden>${time}${note}</div>
+      <div class="row"><button type="button" data-dei>Dei ✓</button><button type="submit" hidden>${ok}</button><button type="button" class="ghost" data-skip>Pulei</button></div></form>`;
     const extra = n.id ? `<details class="rMore" data-k="m-${esc(n.id)}"><summary>mudar hora ou anotar</summary><div class="vform" style="margin-top:6px">${time}${note}</div></details>` : time + note;
     return `<form class="vform rForm" data-n="${esc(n.id || '')}">${f}${extra}
       <div class="row"><button type="submit">${ok}</button>${n.id ? '<button type="button" class="ghost" data-skip>Pulei</button>' : ''}</div></form>`;
@@ -254,7 +286,7 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
     <section class="card" aria-label="Próximas 12 h">
       <div class="row between"><h2>Próximas 12 h</h2><span class="muted" style="font-size:12.5px">dá pra adiantar o que vem na próxima hora</span></div>
       <div class="list" role="list" aria-label="Próximas 12 h" style="margin-top:6px">${proximas().map(p => { const k = KIND[p.s.kind] || KIND.outro, falta = Math.round((p.ts - Date.now()) / 6e4);
-        return `<div class="item" role="listitem" aria-label="${esc(p.s.label || k.t)} às ${p.hm}"><div class="row between"><span><b class="num">${p.date === today ? '' : 'amanhã '}${p.hm}</b> ${ic({ kind: p.s.kind, label: p.s.label })}${esc(p.s.label || k.t)}${p.items.length ? `<br><span class="muted" style="font-size:12.5px">${p.items.map(i => esc(i.name)).join(' · ')}</span>` : ''}</span>
+        return `<div class="item" role="listitem" aria-label="${esc(p.s.label || k.t)} às ${p.hm}"><div class="row between"><span><b class="num">${p.date === today ? '' : 'amanhã '}${p.hm}</b> ${ic({ kind: p.s.kind, label: p.s.label })}${esc(p.s.label || k.t)}${p.items.length ? `<br><span class="muted" style="font-size:12.5px">${p.items.map(i => esc(i.name)).join(' · ')}</span>` : p.s.plan ? `<br><span class="muted" style="font-size:12.5px">${esc(p.s.plan)}</span>` : ''}</span>
         ${canEdit() && falta <= 60 ? `<button type="button" class="tiny" data-adiantar="${esc(p.id)}">Adiantar</button>` : `<span class="muted" style="font-size:12px">em ${falta >= 60 ? Math.floor(falta / 60) + ' h' + (falta % 60 ? ' ' + (falta % 60) + ' min' : '') : falta + ' min'}</span>`}</div></div>`; }).join('') || '<p class="muted">Nada programado nas próximas 12 horas.</p>'}</div>
     </section>
 
@@ -550,13 +582,17 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
       const f = t.closest('form'); const n = notifs.find(x => x.id === f.dataset.n);
       if (n) { t.disabled = true; await answer(n, f, true).then(() => feito(f, '⏭ Pulado: ' + (n.label || (KIND[n.kind] || KIND.outro).t))).catch(e => say(f, e.message)); }
     }
+    if (t.matches('[data-dei]')) { // refeição: "Dei" abre os campos pra anotar quanto ele comeu de cada parte
+      const f = t.closest('form'); f.querySelector('.mealRows').hidden = false; f.querySelector('.mealMore').hidden = false;
+      t.hidden = true; f.querySelector('[type=submit]').hidden = false; const first = f.querySelector('.mealRows input, .mealRows select'); if (first) first.focus();
+    }
     if (t.matches('[data-late]')) { lateId = t.dataset.late; render(); }
     if (t.matches('[data-adiantar]')) {
       const p = proximas().find(x => x.id === t.dataset.adiantar); if (!p) return;
       t.disabled = true;
       try {
         await fb.fs.collection('notifs').doc(p.id).set({ kind: p.s.kind, label: p.s.label || '', date: p.date, time: p.hm, status: 'pending', sentAt: Date.now(), schedId: p.s.id,
-          medId: p.s.medId || null, items: p.items, renotified: true, adiantado: true });
+          medId: p.s.medId || null, items: p.items, meal: p.s.meal || null, plan: p.s.plan || null, renotified: true, adiantado: true });
         focusId = p.id; render.scrolled = false; window.toast('⏩ Adiantado: responda em "Agora" quando der');
       } catch (x) { window.toast(x.message, 'err'); t.disabled = false; }
     }
