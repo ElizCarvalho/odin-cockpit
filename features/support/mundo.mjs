@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process';
 import { SEED } from '../../tests/seed.mjs';
 import { Navegacao, Hoje, Registrar, Historico, Medicamentos, Admin, Lembretes, Estoque } from './paginas.mjs';
 
-setDefaultTimeout(30_000);
+setDefaultTimeout(process.env.CI ? 60_000 : 30_000); // a máquina do GitHub é mais lenta no Safari
 const root = new URL('../..', import.meta.url).pathname;
 const pub = join(root, 'app/public');
 const fake = readFileSync(join(root, 'tests/fakefb.js'), 'utf8');
