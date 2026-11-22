@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T15:41:43.460Z",
- "updatedAt": 1795361854767,
+ "exportedAt": "2026-11-22T16:11:43.434Z",
+ "updatedAt": 1795363625979,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -4497,6 +4497,16 @@
    "_byName": "a tutora"
   },
   {
+   "id": "ds1apFBWdtkqHQhdRpR2",
+   "date": "2026-11-22",
+   "time": "13:03",
+   "temp": 38.8,
+   "note": "Deixei ele 30min com tapete térmico",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795363473060
+  },
+  {
    "id": "g7be7hMaRLjk0sIPSZDJ",
    "date": "2026-11-20",
    "time": "21:58",
@@ -5545,6 +5555,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "spEsyxaNJ1PghWRIGFI3",
+   "date": "2026-11-22",
+   "time": "13:06",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 100,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795363624544
   },
   {
    "id": "srtfaSMZN155xFsP5Pe2",
