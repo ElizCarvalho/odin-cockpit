@@ -44,6 +44,15 @@ pets/{petId}/exams | vitals | meds | schedule | notifs | events | photos | suppl
 
 Regras: quem é membro da família do pet lê; `edita`/`admin` escrevem; `auditoria` só admin lê. O `tick` passa por todos os pets ativos.
 
+**Pensado pra receber "pessoa" no futuro, sem fazer agora.** O núcleo (rotina, remédios, exames, equipe, estoque, alertas) serve pra quem cuida de um familiar doente também. Por isso:
+
+- No código (`packages/core`), o conceito central é **quem recebe o cuidado**, com `tipo: 'pet'` (único valor por enquanto). Tudo que é só de bicho (espécie, raça, vacina V10, ração com kcal/100 g, faixas de referência veterinárias) fica num módulo `pet`, não espalhado.
+- No banco e na interface continua `pets/` e "pet": não vale complicar a primeira versão.
+- Antes de abrir pra pessoas, três portões: (1) dado de saúde humana é dado pessoal sensível na LGPD; (2) a IA que lê laudo e aponta valor alterado pode ser software como dispositivo médico (Anvisa, RDC 657/2022), com registro; (3) conversa com a empresa onde a Elis trabalha, que é de saúde humana, sobre conflito de interesse e propriedade intelectual.
+- A pesquisa da landing tem uma pergunta opcional pra medir essa demanda.
+
+**Métrica de resultado: adesão ao tratamento.** Porcentagem de doses e cuidados feitos no horário (com tolerância), por pet e por semana. O app já registra cada cuidado, então dá pra medir desde o primeiro dia e mostrar pra família e pro veterinário.
+
 ## Fases
 
 | # | Fase | Pronto quando |
