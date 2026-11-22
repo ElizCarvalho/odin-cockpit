@@ -31,11 +31,14 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow create: if canEdit() && request.resource.data.by == me() && request.resource.data.acao == 'apagou';
     }
+    // pesquisa da landing (Munin): só a função grava; respostas e métricas só admin lê; contatos ninguém lê pelo app
+    match /pesquisa_respostas/{id} { allow read: if isAdmin(); }
+    match /pesquisa_metricas/{id} { allow read: if isAdmin(); }
     match /{col}/{id} {
-      allow read: if member() && col != 'acl' && col != 'auditoria';
+      allow read: if member() && !(col in ['acl', 'auditoria', 'pesquisa_respostas', 'pesquisa_contatos', 'pesquisa_metricas', 'pesquisa_limites']);
       // o app carimba _by/_byName/_at em toda escrita (shim.js) e a função grava a trilha em "auditoria"
-      allow create, update: if canEdit() && !(col in ['acl', 'tokens', 'auditoria']);
-      allow delete: if canEdit() && !(col in ['acl', 'tokens', 'auditoria']);
+      allow create, update: if canEdit() && !(col in ['acl', 'tokens', 'auditoria', 'pesquisa_respostas', 'pesquisa_contatos', 'pesquisa_metricas', 'pesquisa_limites']);
+      allow delete: if canEdit() && !(col in ['acl', 'tokens', 'auditoria', 'pesquisa_respostas', 'pesquisa_contatos', 'pesquisa_metricas', 'pesquisa_limites']);
     }
   }
 }

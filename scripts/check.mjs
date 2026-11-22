@@ -68,6 +68,27 @@ try {
   /Cannot find (package|module) 'firebase-/.test(msg) ? console.log('• functions: pulei (rode npm ci --prefix functions pra testar)') : bad('functions: ' + msg.trim().split('\n').slice(-1)[0]);
 }
 
+// 4b. pesquisa da landing: validação do que chega da página pública
+try {
+  const out = execFileSync('node', ['--input-type=module', '-e', `
+    const m = await import(${JSON.stringify(r('functions/index.js'))});
+    const v = m.validarPesquisa;
+    const S = 'sessao-de-teste-123';
+    const a = v({ tipo: 'evento', evento: 'visita', sessao: S, utm: 'LinkedIn!' });
+    const b = v({ tipo: 'evento', evento: 'hackear', sessao: S });
+    const c = v({ tipo: 'resposta', sessao: S, respostas: { q1: 'Tem agora', q7: { v: ['Esqueceram uma dose'] }, q10: 'x'.repeat(3000) }, uf: 'RJ', contato: { valor: '(21) 99999-0000', consent: true, lista: true } });
+    const d = v({ tipo: 'resposta', sessao: S, respostas: {}, contato: { valor: 'a@b.com', consent: false } });
+    const e = v({ tipo: 'resposta', sessao: S, respostas: { qX: 'oi' } });
+    const f = v({ tipo: 'resposta', sessao: S, respostas: { q1: 'Não' }, uf: 'XX' });
+    console.log(JSON.stringify([a.evento + '/' + a.utm, b.erro, c.respostas ? 1 : c.resposta.respostas.q10.length, c.contato.valor, c.contato.tipo, c.id !== c.contatoId, d.erro, e.erro, f.resposta.uf]));`], { encoding: 'utf8', cwd: r('functions'), stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop();
+  out === '["visita/linkedin","evento",2000,"21999990000","whatsapp",true,"consentimento","pergunta qX",""]' ? ok('pesquisa da landing: validação, consentimento e contato separado conferem') : bad('validarPesquisa deu ' + out);
+} catch (e) {
+  const msg = String(e.stderr || e.message);
+  /Cannot find (package|module) 'firebase-/.test(msg) ? console.log('• pesquisa: pulei (rode npm ci --prefix functions pra testar)') : bad('pesquisa: ' + msg.trim().split('\n').slice(-1)[0]);
+}
+// sintaxe e privacidade da landing
+inline('landing/index.html', r('landing/index.html'));
+
 // 5. privacidade e segredos nos arquivos versionados
 const tracked = execFileSync('git', ['ls-files'], { cwd: root, encoding: 'utf8' }).split('\n').filter(Boolean);
 const exp = tracked.filter(f => /^exports\/|odin-export-.*\.json$/.test(f));

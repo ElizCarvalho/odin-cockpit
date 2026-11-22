@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Munin · o plantão do seu pet</title>
+<meta name="description" content="O Odin tem 1 ano e está enfrentando a cinomose. Do cuidado dele nasceu o Munin. Me ajuda a entender se você vive a mesma rotina?">
+<meta property="og:title" content="Esse é o Odin.">
+<meta property="og:description" content="Do cuidado dele nasceu o Munin, o plantão do seu pet. Me ajuda a entender se você vive a mesma rotina?">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f6efe6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #f6efe6; --surf: #fffaf3; --ink: #1f2a44; --muted: #545a68; --line: #e4d9c9;
+  --amber: #f5dfa8; --amber-ink: #4a3608; --amber-deep: #8a5a0a; --focus: #1f2a44;
+  --serif: 'Literata', Georgia, serif; --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r: 8px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.55; }
+a { color: var(--ink); text-underline-offset: 3px; }
+a:hover { color: var(--amber-deep); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(40px, 9vw, 56px); letter-spacing: -0.01em; }
+h2 { font-size: clamp(28px, 6vw, 36px); }
+h3 { font-size: 21px; line-height: 1.25; }
+p { margin: 0; }
+section.wrap { padding-top: 56px; padding-bottom: 56px; }
+section.wrap + section.wrap { border-top: 1px solid var(--line); }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 22px; border-radius: var(--r); border: 0; background: var(--ink); color: var(--surf); font: 600 17px/1 var(--sans); text-decoration: none; cursor: pointer; }
+.btn:hover { background: #2c3a5c; color: var(--surf); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.btn.sec { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+.btn.sec:hover { background: var(--surf); }
+.link { background: none; border: 0; padding: 0; font: inherit; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 44px; }
+.card { background: var(--surf); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; }
+
+/* topo */
+header.topo { position: sticky; top: 0; z-index: 5; background: rgba(246,239,230,.94); backdrop-filter: saturate(1.2) blur(6px); border-bottom: 1px solid transparent; }
+header.topo .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; }
+.marca { display: inline-flex; align-items: center; gap: 8px; font: 700 22px/1 var(--serif); text-decoration: none; }
+.marca svg { flex: none; }
+
+/* fotos */
+.foto { margin: 0; border-radius: var(--r); overflow: hidden; background: linear-gradient(135deg,#e8dccb,#f3ebe0); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; text-align: center; }
+.foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.foto .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px; }
+.foto.hero { aspect-ratio: 4 / 3.4; }
+.foto.meia { aspect-ratio: 4 / 3; }
+
+/* história */
+.passos { display: flex; flex-direction: column; gap: 40px; margin-top: 8px; }
+.passo { display: flex; flex-direction: column; gap: 12px; }
+.passo .num { font: 700 15px/1 var(--serif); color: var(--amber-ink); background: var(--amber); border-radius: 6px; padding: 6px 9px; align-self: flex-start; }
+.horas { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.hora { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--surf); border: 1px solid var(--line); border-radius: var(--r); font-size: 15px; }
+.hora b { font: 700 15px/1 var(--serif); color: var(--amber-ink); background: var(--amber); padding: 5px 8px; border-radius: 6px; }
+.colchete { background: #fff2c9; border-bottom: 2px dashed var(--amber-deep); padding: 0 3px; }
+
+/* dores */
+.dores { display: grid; gap: 12px; }
+@media (min-width: 560px) { .dores { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.dor h3 { font-size: 19px; margin-bottom: 6px; }
+.dor p { font-size: 15px; color: var(--muted); }
+
+/* pesquisa */
+.pesq { background: var(--surf); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.prog { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+.barra { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-bottom: 20px; }
+.barra i { display: block; height: 100%; background: var(--ink); width: 0; transition: width .25s; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+legend { font: 700 22px/1.25 var(--serif); padding: 0; margin-bottom: 6px; }
+.dica { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
+.opcoes { display: flex; flex-direction: column; gap: 8px; }
+.opt { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; cursor: pointer; font-size: 16px; line-height: 1.35; }
+.opt:hover { border-color: #c9b9a2; }
+.opt:has(input:checked) { border: 2px solid var(--ink); padding: 9px 13px; background: #fffdf8; }
+.opt input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--ink); }
+.campo { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.campo label { font-size: 15px; font-weight: 600; }
+input[type=text], input[type=email], input[type=tel], textarea, select { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid #cdbfa9; border-radius: var(--r); background: #fff; color: var(--ink); font: 16px/1.4 var(--sans); }
+textarea { min-height: 140px; resize: vertical; }
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231f2a44' stroke-width='1.8'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+.acoes { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-top: 20px; flex-wrap: wrap; }
+.acoes .btn { flex: 1 1 180px; }
+.erro { color: #9b2c1f; font-size: 15px; margin-top: 10px; }
+.aviso-lgpd { font-size: 14px; color: var(--muted); background: var(--bg); border-radius: var(--r); padding: 12px 14px; margin-top: 12px; }
+.previa { font-size: 14px; background: var(--amber); color: var(--amber-ink); border-radius: var(--r); padding: 10px 14px; margin-bottom: 16px; }
+[hidden] { display: none !important; }
+
+/* munin + telas */
+.munin { background: var(--amber); border-radius: 12px; padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; color: var(--ink); }
+.munin .tit { display: flex; align-items: center; gap: 12px; }
+.telas { display: grid; gap: 20px; }
+@media (min-width: 600px) { .telas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; } }
+.tela { display: flex; flex-direction: column; gap: 10px; }
+.cel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px; font-size: 13px; line-height: 1.4; display: flex; flex-direction: column; gap: 8px; min-height: 250px; }
+.cel .t { font: 700 15px/1.2 var(--serif); }
+.cel .l { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 8px; border-radius: 8px; background: #f4f6f8; }
+.cel .ok { color: #2f6b45; font-weight: 600; }
+.cel .pend { color: #8a5a0a; font-weight: 600; }
+.cel .mini { font-size: 12px; color: var(--muted); }
+.tela p { font-size: 15px; color: var(--muted); }
+
+/* rodapé */
+footer { border-top: 1px solid var(--line); padding: 32px 0 48px; font-size: 15px; color: var(--muted); }
+footer .stack { gap: 12px; }
+details summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+details p { margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="#topo" aria-label="Munin, início">
+      <svg aria-hidden="true" width="30" height="30" viewBox="0 0 48 48" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1"/></svg>
+      Munin
+    </a>
+    <a href="#pesquisa">Responder a pesquisa</a>
+  </div>
+</header>
+
+<main id="topo">
+  <section class="wrap stack" aria-labelledby="t-hero" style="padding-top: 20px">
+    <figure class="foto hero"><img src="fotos/odin-forte.jpg" alt="O Odin em pé no corredor de casa, forte e atento, em agosto" width="675" height="1200" style="object-position: 50% 28%" fetchpriority="high"></figure>
+    <h1 id="t-hero">Esse é o Odin.</h1>
+    <p style="font-size: 19px">Ele tem 1 ano, está enfrentando a cinomose e tem uma família inteira se revezando pra cuidar dele.</p>
+    <a class="btn" href="#historia">Conhecer a história</a>
+    <a href="#pesquisa" style="align-self: center; min-height: 44px; display: inline-flex; align-items: center">Ir direto pra pesquisa</a>
+  </section>
+
+  <section id="historia" class="wrap" aria-labelledby="t-hist">
+    <h2 id="t-hist" class="eyebrow" style="font-family: var(--sans); font-size: 13px">A história</h2>
+    <div class="passos">
+      <article class="passo">
+        <span class="num">1</span>
+        <h3>Quem é o Odin</h3>
+        <p>O Odin é um American Bully de um ano. Vacinado em dia, cheio de energia, do tipo que derruba a gente na porta.</p>
+        <figure class="foto meia"><img src="fotos/odin-retrato.jpg" alt="O Odin deitado, olhando pra câmera, em setembro" width="768" height="1024" loading="lazy" style="object-position: 50% 92%"></figure>
+      </article>
+      <article class="passo">
+        <span class="num">2</span>
+        <h3>A cinomose</h3>
+        <p>Em setembro, o Odin pegou cinomose, mesmo vacinado. Começou com uma tosse e, duas semanas depois, vieram as convulsões. A doença foi pro sistema nervoso e ele parou de andar.</p>
+        <figure class="foto meia"><img src="fotos/odin-cinomose.jpg" alt="O Odin dormindo no colo, entre uma internação e outra" width="360" height="480" loading="lazy"></figure>
+      </article>
+      <article class="passo">
+        <span class="num">3</span>
+        <h3>As internações</h3>
+        <p>Entre setembro e novembro ele ficou internado três vezes. Fez aniversário de 1 ano internado e precisou de transfusão de sangue. Cada veterinário, cada exame, cada laudo chegava por um canal diferente.</p>
+      </article>
+      <article class="passo">
+        <span class="num">4</span>
+        <h3>A casa virou uma UTI</h3>
+        <p>Ele voltou pra casa no dia 16 de novembro. Remédio de hora em hora, temperatura, água, comida, mudar ele de posição, sonda pro xixi. E a família perguntando no grupo: “alguém já deu o das 14h?”</p>
+        <div class="horas" aria-label="Um pedaço do dia do Odin">
+          <div class="hora"><b>08:15</b> Colírio</div>
+          <div class="hora"><b>12:45</b> Remédios antes do almoço</div>
+          <div class="hora"><b>14:00</b> Água e mudar de lado</div>
+          <div class="hora"><b>20:00</b> Medir a temperatura</div>
+        </div>
+      </article>
+      <article class="passo">
+        <span class="num">5</span>
+        <h3>Da planilha pro app</h3>
+        <p>Eu sou engenheira de software. Comecei com uma planilha e virou um app: ele avisa a hora de cada coisa, mostra quem fez o quê, lê os laudos e transforma em gráfico. Hoje a gente cuida do Odin com ele. <span class="colchete">[Uma linha sobre como ele está hoje.]</span></p>
+        <figure class="foto meia"><img src="fotos/odin-hoje.jpg" alt="O Odin deitado na caminha, tomando sol, em novembro" width="900" height="1200" loading="lazy"></figure>
+      </article>
+      <article class="passo">
+        <span class="num">6</span>
+        <h3>Por que esta página</h3>
+        <p>Se ajudou a gente, pode ajudar outras famílias que cuidam de um pet doente. Antes de transformar isso num produto, quero ouvir quem vive a mesma rotina. E o que esse projeto render vai ajudar a pagar o tratamento do Odin.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap stack" aria-labelledby="t-dores">
+    <h2 id="t-dores">Talvez você conheça essa rotina.</h2>
+    <div class="dores">
+      <div class="card dor"><h3>Quem deu o remédio das 14h?</h3><p>Três pessoas cuidando, nenhuma sabe se a dose já foi.</p></div>
+      <div class="card dor"><h3>Qual era o valor do último hemograma?</h3><p>O laudo está em algum lugar do WhatsApp.</p></div>
+      <div class="card dor"><h3>Acabou a seringa de novo?</h3><p>Só dá pra perceber quando precisa usar.</p></div>
+      <div class="card dor"><h3>Ele bebeu água suficiente hoje?</h3><p>Ninguém anotou, então ninguém sabe.</p></div>
+    </div>
+  </section>
+
+  <section id="pesquisa" class="wrap stack" aria-labelledby="t-pesq">
+    <h2 id="t-pesq">Me ajuda a entender se você passa pelo mesmo?</h2>
+    <p>São perguntas rápidas sobre a sua rotina, uns 3 minutos. Não precisa deixar nome.</p>
+    <div class="pesq" id="pesq1">
+      <p class="previa" id="avisoPrevia" hidden>Prévia: as respostas ainda não são enviadas pra lugar nenhum.</p>
+      <div id="p1-inicio" class="stack">
+        <button class="btn" type="button" id="comecar">Começar</button>
+        <button class="link" type="button" id="pularPesquisa">Prefiro só conhecer o app</button>
+      </div>
+      <form id="p1-form" hidden novalidate></form>
+    </div>
+  </section>
+
+  <section id="app" class="wrap stack" aria-labelledby="t-app" hidden>
+    <div class="munin">
+      <div class="tit">
+        <svg role="img" aria-label="Corvo" width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="#1f2a44" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1"/></svg>
+        <h2 style="font-size: 26px">Por que Munin?</h2>
+      </div>
+      <p>Na mitologia nórdica, o deus Odin tem um corvo chamado Munin, a memória. Todo dia ele voa pelo mundo e, à noite, volta e conta tudo o que viu.</p>
+      <p>É isso que esse app faz pelo nosso Odin, e pode fazer pelo seu pet: lembra cada remédio, cada exame e quem cuidou dele, pra ninguém precisar guardar tudo de cabeça.</p>
+    </div>
+
+    <h2 id="t-app" style="margin-top: 24px">O que a gente construiu</h2>
+    <p>Telas com dados de exemplo, de uma pet fictícia chamada Mel.</p>
+    <div class="telas">
+      <div class="tela">
+        <div class="cel" aria-hidden="true">
+          <span class="t">Hoje</span>
+          <div class="l"><span>14:00 · Prednisona 5 mg</span><span class="ok">Feito</span></div>
+          <span class="mini">Ana deu às 14:02</span>
+          <div class="l"><span>16:00 · Água 120 ml</span><span class="pend">Pendente</span></div>
+          <div class="l"><span>20:00 · Temperatura</span><span class="mini">daqui 4 h</span></div>
+          <span class="mini" style="margin-top: auto">Adesão da semana: 96% no horário</span>
+        </div>
+        <h3>Ninguém fica na dúvida</h3>
+        <p>O celular avisa a hora de cada cuidado. Quem fizer marca, e a família toda vê quem fez.</p>
+      </div>
+      <div class="tela">
+        <div class="cel" aria-hidden="true">
+          <span class="t">Exames · Hemácias</span>
+          <svg viewBox="0 0 200 90" width="100%" height="110"><rect x="0" y="20" width="200" height="34" fill="#e6f0e9"/><polyline points="8,72 50,66 92,58 134,44 176,36" fill="none" stroke="#1f2a44" stroke-width="2.5"/><circle cx="176" cy="36" r="4" fill="#1f2a44"/></svg>
+          <span class="mini">Faixa verde: valores de referência</span>
+          <span class="mini">Laudo em PDF lido automaticamente</span>
+        </div>
+        <h3>Exames viram gráfico</h3>
+        <p>Manda o PDF do laboratório e o app separa os valores e mostra a evolução de cada um.</p>
+      </div>
+      <div class="tela">
+        <div class="cel" aria-hidden="true">
+          <span class="t">Estoque</span>
+          <div class="l"><span>Seringa 10 ml</span><span class="pend">acaba em 3 dias</span></div>
+          <div class="l"><span>Ração úmida</span><span class="ok">12 dias</span></div>
+          <div class="l"><span>Prednisona 5 mg</span><span class="ok">18 dias</span></div>
+          <span class="mini" style="margin-top: auto">Lista de compras pronta pra copiar</span>
+        </div>
+        <h3>Nada acaba de surpresa</h3>
+        <p>O app conta o que foi usado e avisa antes de acabar remédio, comida ou material.</p>
+      </div>
+    </div>
+
+    <div class="pesq" id="pesq2" style="margin-top: 24px" hidden>
+      <form id="p2-form" novalidate></form>
+    </div>
+  </section>
+
+  <section id="obrigada" class="wrap stack" aria-labelledby="t-obr" hidden>
+    <h2 id="t-obr" tabindex="-1">Obrigada de verdade.</h2>
+    <p>Cada resposta me ajuda a entender se isso pode ajudar outras famílias. Se puder, manda a página pra alguém que cuida de um pet doente.</p>
+    <button class="btn sec" type="button" id="compartilhar">Compartilhar a página</button>
+    <p id="copiado" role="status" style="font-size: 15px; color: var(--muted)"></p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap stack">
+    <p>Quer ajudar o Odin de outro jeito? <a href="mailto:[EMAIL_DO_PROJETO]">Fala comigo.</a></p>
+    <p>Feito pela Elis, tutora do Odin.</p>
+    <details>
+      <summary>Privacidade</summary>
+      <p>As respostas da pesquisa são guardadas sem nome e analisadas sem identificar você. Se você deixar WhatsApp ou e-mail, ele fica guardado separado das respostas e só é usado pra combinar a conversa e avisar quando o app abrir. Não vendemos nem compartilhamos com ninguém. Guardamos por até 12 meses. Pra apagar seus dados a qualquer momento, é só pedir em <a href="mailto:[EMAIL_DO_PROJETO]">[EMAIL_DO_PROJETO]</a>.</p>
+      <p>Esta página não usa rastreador de anúncio. Contamos só quantas pessoas visitam, começam e terminam a pesquisa.</p>
+    </details>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  // Endereço da função que recebe as respostas. Vazio = prévia (nada é enviado).
+  var ENDPOINT = /(\.web\.app|\.firebaseapp\.com)$/.test(location.hostname) ? '/api/pesquisa' : '';
+  var PREVIA = !ENDPOINT;
+
+  var sessao = (function () {
+    try {
+      var s = sessionStorage.getItem('munin_sessao');
+      if (!s) { s = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)); sessionStorage.setItem('munin_sessao', s); }
+      return s;
+    } catch (e) { return String(Date.now()) + Math.random().toString(16).slice(2); }
+  })();
+  var params = new URLSearchParams(location.search);
+  var utm = params.get('utm_source') || params.get('origem') || '';
+
+  function evento(nome) {
+    if (PREVIA) return;
+    var corpo = JSON.stringify({ tipo: 'evento', evento: nome, sessao: sessao, utm: utm });
+    try {
+      if (navigator.sendBeacon) navigator.sendBeacon(ENDPOINT, new Blob([corpo], { type: 'text/plain' }));
+      else fetch(ENDPOINT, { method: 'POST', body: corpo, keepalive: true, headers: { 'Content-Type': 'text/plain' } });
+    } catch (e) { /* contagem é opcional */ }
+  }
+
+  var UFS = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA','MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR','RS','SC','SE','SP','TO'];
+
+  // Perguntas. tipo: uma (avança ao tocar), varias, texto, contato.
+  var P1 = [
+    { id: 'q1', tipo: 'uma', titulo: 'Seu pet tem ou teve algum problema de saúde que exige cuidado diário?',
+      opcoes: ['Tem agora', 'Teve nos últimos 12 meses', 'Não'] },
+    { id: 'q2', tipo: 'varias', titulo: 'Qual a condição?', dica: 'Pode marcar mais de uma.',
+      opcoes: ['Cinomose', 'Doença renal', 'Diabetes', 'Doença do coração', 'Câncer', 'Epilepsia', 'Pele ou alergia', 'Pós-cirurgia', 'Idoso com várias condições', 'Outra'], outro: 'Outra' },
+    { id: 'q3a', tipo: 'uma', titulo: 'Ele é cão, gato ou outro?', opcoes: ['Cão', 'Gato', 'Outro'] },
+    { id: 'q3b', tipo: 'uma', titulo: 'Há quanto tempo você está nesse cuidado?', opcoes: ['Menos de 1 mês', '1 a 6 meses', '6 a 12 meses', 'Mais de 1 ano'] },
+    { id: 'q4', tipo: 'uma', titulo: 'Quantas pessoas cuidam dele no dia a dia?', opcoes: ['Só eu', '2 pessoas', '3 ou mais', 'Inclui alguém pago (cuidador, hotel, clínica)'] },
+    { id: 'q5', tipo: 'uma', titulo: 'Num dia comum, quantos remédios ou cuidados têm hora marcada?', opcoes: ['Nenhum', '1 a 2', '3 a 5', '6 a 10', 'Mais de 10'] },
+    { id: 'q6', tipo: 'varias', titulo: 'Como você controla os horários hoje?', dica: 'Pode marcar mais de uma.',
+      opcoes: ['De cabeça', 'Alarme do celular', 'Papel ou caderno', 'Planilha', 'Grupo de WhatsApp', 'Um app', 'Outro jeito'], outro: 'Um app', outroLabel: 'Qual app?' },
+    { id: 'q7', tipo: 'varias', titulo: 'Nos últimos 30 dias, alguma dessas aconteceu?', dica: 'Pode marcar mais de uma.',
+      opcoes: ['Esqueceram uma dose', 'Deram dose a mais', 'Acabou remédio ou material sem perceber', 'Não acharam um exame que o veterinário pediu', 'Não souberam contar ao veterinário como ele estava', 'Nada disso'], exclusiva: 'Nada disso' },
+    { id: 'q8', tipo: 'varias', titulo: 'Onde ficam os exames e as receitas?', dica: 'Pode marcar mais de uma.',
+      opcoes: ['WhatsApp', 'E-mail', 'Papel', 'App da clínica ou do laboratório', 'Pasta no celular ou na nuvem', 'Não sei direito'] },
+    { id: 'q9', tipo: 'varias', max: 2, titulo: 'O que é mais difícil nessa rotina?', dica: 'Escolha até 2.',
+      opcoes: ['Horário dos remédios', 'Dividir o cuidado com a família', 'Acompanhar os exames', 'Lembrar de medir e anotar (temperatura, água, comida, xixi)', 'Comprar antes de acabar', 'O custo', 'Falar com o veterinário'] },
+    { id: 'q10', tipo: 'texto', opcional: true, titulo: 'Conta a última vez que alguma coisa deu errado no cuidado.', dica: 'Opcional, mas é a resposta que mais me ajuda.' }
+  ];
+  var P2 = [
+    { id: 'q11', tipo: 'uma', titulo: 'Agora que você viu o app: quanto pagaria por mês por algo assim?',
+      opcoes: ['Não pagaria', 'Até R$ 10', 'R$ 10 a 20', 'R$ 20 a 35', 'R$ 35 a 50', 'Mais de R$ 50'] },
+    { id: 'q12', tipo: 'contato', titulo: 'Quer continuar essa conversa?' },
+    { id: 'q13', tipo: 'uma', opcional: true, titulo: 'Você já cuidou da rotina de saúde de um familiar (pai, mãe, avós)? Usaria algo assim pra isso?',
+      dica: 'Opcional.', opcoes: ['Sim, e usaria', 'Sim, mas não usaria', 'Não'] }
+  ];
+
+  var respostas = {};
+  var contato = null;
+  var semPetDoente = false;
+  var pulou = false;
+
+  function el(tag, attrs, filhos) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === 'text') n.textContent = attrs[k];
+      else if (k === 'on') Object.keys(attrs.on).forEach(function (ev) { n.addEventListener(ev, attrs.on[ev]); });
+      else if (attrs[k] === true) n.setAttribute(k, '');
+      else if (attrs[k] !== false && attrs[k] != null) n.setAttribute(k, attrs[k]);
+    });
+    (filhos || []).forEach(function (f) { if (f) n.appendChild(typeof f === 'string' ? document.createTextNode(f) : f); });
+    return n;
+  }
+
+  function Fluxo(form, perguntas, aoTerminar, nomeParte) {
+    this.form = form; this.perguntas = perguntas; this.i = 0; this.fim = aoTerminar; this.nome = nomeParte;
+  }
+  Fluxo.prototype.lista = function () {
+    return this.perguntas.filter(function (q) {
+      if (semPetDoente && ['q2','q3a','q3b','q4','q5','q6','q7','q8','q9','q10','q11'].indexOf(q.id) >= 0) return false;
+      return true;
+    });
+  };
+  Fluxo.prototype.mostrar = function (foco) {
+    var lista = this.lista(), q = lista[this.i], self = this;
+    var f = this.form; f.innerHTML = '';
+    var total = lista.length;
+    var prog = el('div', { class: 'prog' }, [el('span', { text: 'Pergunta ' + (this.i + 1) + ' de ' + total }), el('span', { text: this.nome })]);
+    var barra = el('div', { class: 'barra', 'aria-hidden': 'true' }, [el('i')]);
+    f.appendChild(prog); f.appendChild(barra);
+    requestAnimationFrame(function () { barra.firstChild.style.width = Math.round((self.i / total) * 100) + '%'; });
+
+    var fs = el('fieldset');
+    var lg = el('legend', { tabindex: '-1', id: 'lg-' + q.id, text: q.titulo });
+    fs.appendChild(lg);
+    if (q.dica) fs.appendChild(el('p', { class: 'dica', text: q.dica }));
+    var erro = el('p', { class: 'erro', role: 'alert' });
+    var atual = respostas[q.id];
+
+    if (q.tipo === 'uma' || q.tipo === 'varias') {
+      var box = el('div', { class: 'opcoes' });
+      q.opcoes.forEach(function (o) {
+        var marcado = q.tipo === 'uma' ? atual === o : (atual && atual.v || []).indexOf(o) >= 0;
+        var inp = el('input', { type: q.tipo === 'uma' ? 'radio' : 'checkbox', name: q.id, value: o, checked: marcado });
+        box.appendChild(el('label', { class: 'opt' }, [inp, o]));
+      });
+      fs.appendChild(box);
+      var outroCampo = null;
+      if (q.outro) {
+        var oid = 'outro-' + q.id;
+        var oi = el('input', { type: 'text', id: oid, maxlength: '120', placeholder: 'Ex.: ' + (q.id === 'q6' ? 'nome do app' : 'qual condição') });
+        if (atual && atual.outro) oi.value = atual.outro;
+        outroCampo = el('div', { class: 'campo' }, [el('label', { for: oid, text: q.outroLabel || 'Qual?' }), oi]);
+        fs.appendChild(outroCampo);
+      }
+      var sync = function () {
+        if (outroCampo) outroCampo.hidden = !box.querySelector('input[value="' + q.outro + '"]:checked');
+        if (q.exclusiva) {
+          var ex = box.querySelector('input[value="' + q.exclusiva + '"]');
+          if (ex && ex.checked) box.querySelectorAll('input').forEach(function (x) { if (x !== ex) x.checked = false; });
+        }
+        if (q.max) {
+          var n = box.querySelectorAll('input:checked').length;
+          box.querySelectorAll('input').forEach(function (x) { x.disabled = !x.checked && n >= q.max; });
+        }
+      };
+      box.addEventListener('change', function (e) {
+        if (q.exclusiva && e.target.value !== q.exclusiva && e.target.checked) {
+          var ex = box.querySelector('input[value="' + q.exclusiva + '"]'); if (ex) ex.checked = false;
+        }
+        sync();
+        if (q.tipo === 'uma' && self.i < self.lista().length - 1) { setTimeout(function () { self.avancar(erro); }, 180); }
+      });
+      sync();
+    } else if (q.tipo === 'texto') {
+      var ta = el('textarea', { id: 'ta-' + q.id, maxlength: '2000', placeholder: 'Ex.: no sábado ninguém sabia se ele tinha tomado o antibiótico da manhã...', 'aria-labelledby': 'lg-' + q.id });
+      if (atual) ta.value = atual;
+      fs.appendChild(ta);
+    } else if (q.tipo === 'contato') {
+      fs.appendChild(el('p', { class: 'dica', text: 'Tudo aqui é opcional.' }));
+      var c = contato || {};
+      var cx = el('div', { class: 'opcoes' }, [
+        el('label', { class: 'opt' }, [el('input', { type: 'checkbox', name: 'conversa', checked: !!c.conversa }), 'Topo uma conversa de 20 minutos, por vídeo ou ligação']),
+        el('label', { class: 'opt' }, [el('input', { type: 'checkbox', name: 'lista', checked: !!c.lista }), 'Quero entrar na lista de espera do app'])
+      ]);
+      fs.appendChild(cx);
+      var ci = el('input', { type: 'text', id: 'contato', inputmode: 'email', autocomplete: 'email', maxlength: '120', placeholder: 'Ex.: (21) 99999-0000 ou nome@email.com' });
+      if (c.valor) ci.value = c.valor;
+      var consent = el('input', { type: 'checkbox', name: 'consent', checked: !!c.consent });
+      var blocoContato = el('div', {}, [
+        el('div', { class: 'campo' }, [el('label', { for: 'contato', text: 'Seu WhatsApp ou e-mail' }), ci]),
+        el('p', { class: 'aviso-lgpd', text: 'Seu contato só vai ser usado pra combinar a conversa e avisar quando o app abrir. Fica guardado separado das suas respostas, não é compartilhado com ninguém e é apagado quando você pedir (ou em até 12 meses).' }),
+        el('label', { class: 'opt', style: 'margin-top: 8px' }, [consent, 'Concordo com esse uso do meu contato'])
+      ]);
+      fs.appendChild(blocoContato);
+      var ufSel = el('select', { id: 'uf' }, [el('option', { value: '', text: 'Selecione' })].concat(UFS.map(function (u) { return el('option', { value: u, text: u, selected: c.uf === u }); })));
+      fs.appendChild(el('div', { class: 'campo' }, [el('label', { for: 'uf', text: 'Em que estado você mora?' }), ufSel]));
+      var orig = el('select', { id: 'origem' }, [el('option', { value: '', text: 'Selecione' })].concat(['Grupo de WhatsApp', 'Indicação', 'Instagram', 'LinkedIn', 'Outro'].map(function (o) { return el('option', { value: o, text: o, selected: c.origem === o }); })));
+      fs.appendChild(el('div', { class: 'campo' }, [el('label', { for: 'origem', text: 'Como você chegou aqui?' }), orig]));
+      var syncC = function () { blocoContato.hidden = !(cx.querySelector('[name=conversa]').checked || cx.querySelector('[name=lista]').checked); };
+      cx.addEventListener('change', syncC); syncC();
+    }
+    fs.appendChild(erro);
+    f.appendChild(fs);
+
+    var voltar = this.i > 0 ? el('button', { type: 'button', class: 'link', text: 'Voltar', on: { click: function () { self.salvar(); self.i--; self.mostrar(true); } } }) : el('span');
+    var ultimo = this.i === lista.length - 1;
+    var seguir = el('button', { type: 'submit', class: 'btn', text: ultimo && this.nome === 'parte 2' ? 'Enviar' : 'Continuar' });
+    f.appendChild(el('div', { class: 'acoes' }, [voltar, seguir]));
+    f.onsubmit = function (e) { e.preventDefault(); self.avancar(erro); };
+    if (foco) lg.focus();
+  };
+  Fluxo.prototype.salvar = function () {
+    var q = this.lista()[this.i], f = this.form;
+    if (q.tipo === 'uma') { var m = f.querySelector('input[name="' + q.id + '"]:checked'); if (m) respostas[q.id] = m.value; else delete respostas[q.id]; }
+    else if (q.tipo === 'varias') {
+      var v = Array.prototype.map.call(f.querySelectorAll('input[name="' + q.id + '"]:checked'), function (x) { return x.value; });
+      var r = { v: v }; var o = f.querySelector('#outro-' + q.id); if (o && !o.closest('.campo').hidden && o.value.trim()) r.outro = o.value.trim().slice(0, 120);
+      if (v.length) respostas[q.id] = r; else delete respostas[q.id];
+    } else if (q.tipo === 'texto') { var t = f.querySelector('textarea').value.trim(); if (t) respostas[q.id] = t.slice(0, 2000); else delete respostas[q.id]; }
+    else if (q.tipo === 'contato') {
+      contato = {
+        conversa: f.querySelector('[name=conversa]').checked, lista: f.querySelector('[name=lista]').checked,
+        valor: f.querySelector('#contato').value.trim().slice(0, 120), consent: f.querySelector('[name=consent]').checked,
+        uf: f.querySelector('#uf').value, origem: f.querySelector('#origem').value
+      };
+    }
+  };
+  Fluxo.prototype.valido = function () {
+    var q = this.lista()[this.i];
+    if (q.opcional) return '';
+    if (q.tipo === 'uma' && !respostas[q.id]) return 'Escolha uma opção pra continuar.';
+    if (q.tipo === 'varias' && !respostas[q.id]) return 'Marque pelo menos uma opção.';
+    if (q.tipo === 'contato' && (contato.conversa || contato.lista)) {
+      if (!contato.valor) return 'Deixe um WhatsApp ou e-mail, ou desmarque as opções acima.';
+      if (!/@/.test(contato.valor) && contato.valor.replace(/\D/g, '').length < 10) return 'Confira o WhatsApp (com DDD) ou o e-mail.';
+      if (!contato.consent) return 'Pra guardar seu contato, marque que concorda com o uso dele.';
+    }
+    return '';
+  };
+  Fluxo.prototype.avancar = function (erro) {
+    this.salvar();
+    var msg = this.valido(); erro.textContent = msg; if (msg) return;
+    var q = this.lista()[this.i];
+    if (q.id === 'q1') {
+      semPetDoente = respostas.q1 === 'Não';
+      fluxo2.i = 0;
+    }
+    if (this.i < this.lista().length - 1) { this.i++; this.mostrar(true); }
+    else this.fim();
+  };
+
+  var form1 = document.getElementById('p1-form'), form2 = document.getElementById('p2-form');
+  var fluxo1 = new Fluxo(form1, P1, fimParte1, 'parte 1');
+  var fluxo2 = new Fluxo(form2, P2, enviar, 'parte 2');
+  var app = document.getElementById('app'), pesq2 = document.getElementById('pesq2');
+
+  if (PREVIA) document.getElementById('avisoPrevia').hidden = false;
+  evento('visita');
+
+  document.getElementById('comecar').addEventListener('click', function () {
+    document.getElementById('p1-inicio').hidden = true; form1.hidden = false;
+    evento('inicio'); fluxo1.mostrar(true);
+  });
+  document.getElementById('pularPesquisa').addEventListener('click', function () {
+    pulou = true; evento('pulou');
+    document.getElementById('pesq1').innerHTML = '<p>Tudo bem! Dá uma olhada no app aqui embaixo.</p>';
+    abrirApp();
+  });
+
+  function fimParte1() {
+    evento('fim_parte1');
+    document.getElementById('pesq1').innerHTML = '<p><strong>Valeu!</strong> Agora sim, olha o que a gente construiu. Depois tem só mais 2 ou 3 perguntas.</p>';
+    abrirApp();
+  }
+  function abrirApp() {
+    app.hidden = false; pesq2.hidden = false; fluxo2.i = 0; fluxo2.mostrar(false);
+    app.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function enviar() {
+    var btn = form2.querySelector('button[type=submit]');
+    var payload = {
+      tipo: 'resposta', sessao: sessao, utm: utm, pulou: pulou, semPetDoente: semPetDoente,
+      respostas: respostas,
+      contato: contato && (contato.conversa || contato.lista) && contato.consent ? { valor: contato.valor, conversa: contato.conversa, lista: contato.lista, consent: true } : null,
+      uf: contato ? contato.uf : '', origem: contato ? contato.origem : '',
+      celular: matchMedia('(max-width: 700px)').matches
+    };
+    var concluir = function () {
+      document.getElementById('pesq2').hidden = true;
+      var ob = document.getElementById('obrigada'); ob.hidden = false;
+      ob.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('t-obr').focus({ preventScroll: true });
+    };
+    if (PREVIA) { console.log('Prévia: resposta que seria enviada', payload); concluir(); return; }
+    btn.disabled = true; btn.textContent = 'Enviando...';
+    fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); concluir(); })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = 'Tentar de novo';
+        var e = form2.querySelector('.erro'); if (e) e.textContent = 'Não consegui enviar agora. Confere a internet e tenta de novo.';
+      });
+  }
+
+  document.getElementById('compartilhar').addEventListener('click', function () {
+    var url = location.origin + location.pathname;
+    var out = document.getElementById('copiado');
+    var copiar = function () {
+      try { navigator.clipboard.writeText(url).then(function () { out.textContent = 'Link copiado.'; }, function () { out.textContent = url; }); }
+      catch (e) { out.textContent = url; }
+    };
+    if (navigator.share) { navigator.share({ title: 'Esse é o Odin.', text: 'Me ajuda a entender se você vive a mesma rotina?', url: url }).catch(function (e) { if (!e || e.name !== 'AbortError') copiar(); }); return; }
+    copiar();
+  });
+})();
+</script>
+</body>
+</html>

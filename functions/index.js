@@ -2,7 +2,8 @@ import { initializeApp } from 'firebase-admin/app';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { getMessaging } from 'firebase-admin/messaging';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https';
+import { createHash } from 'node:crypto';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { setGlobalOptions } from 'firebase-functions/v2';
 
@@ -376,4 +377,87 @@ export const registrar = onCall({ timeoutSeconds: 120, memory: '512MiB' }, async
   if (!r.ok) throw new HttpsError('internal', (j.error && j.error.message) || 'erro na IA');
   await uref.set({ registrar: FieldValue.increment(1), lastAt: Date.now(), [`porDia_${dia}`]: { [chave]: FieldValue.increment(1) } }, { merge: true });
   return { text: (j.content || []).filter(c => c.type === 'text').map(c => c.text).join('') };
+});
+
+
+// ───────── Pesquisa da landing (Munin) ─────────
+// A página pública manda as respostas pra cá. Sem login: valida tudo, limita por IP e grava com o Admin SDK.
+// Respostas e contatos ficam em coleções separadas (o contato aponta pra resposta, nunca o contrário).
+export const PESQ_SITE = 'munin-pesquisa';
+export const PESQ_ORIGENS = [`https://${PESQ_SITE}.web.app`, `https://${PESQ_SITE}.firebaseapp.com`];
+const PESQ_EVENTOS = ['visita', 'inicio', 'fim_parte1', 'pulou'];
+const PESQ_UFS = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA','MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR','RS','SC','SE','SP','TO'];
+const PESQ_CHAVES = ['q1','q2','q3a','q3b','q4','q5','q6','q7','q8','q9','q10','q11','q13'];
+const txt = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '';
+const limpaUtm = v => txt(v, 40).toLowerCase().replace(/[^a-z0-9_-]/g, '');
+
+// Valida o corpo enviado pela landing. Devolve { evento } ou { resposta, contato } ou { erro }.
+export function validarPesquisa(b) {
+  if (!b || typeof b !== 'object') return { erro: 'corpo' };
+  const sessao = txt(b.sessao, 80);
+  if (sessao.length < 8) return { erro: 'sessao' };
+  if (b.tipo === 'evento') {
+    if (!PESQ_EVENTOS.includes(b.evento)) return { erro: 'evento' };
+    return { evento: b.evento, utm: limpaUtm(b.utm) };
+  }
+  if (b.tipo !== 'resposta') return { erro: 'tipo' };
+  const r = b.respostas && typeof b.respostas === 'object' ? b.respostas : {};
+  const respostas = {};
+  for (const k of Object.keys(r)) {
+    if (!PESQ_CHAVES.includes(k)) return { erro: 'pergunta ' + k };
+    const v = r[k];
+    if (k === 'q10') { const t = txt(v, 2000); if (t) respostas[k] = t; }
+    else if (typeof v === 'string') { const t = txt(v, 120); if (t) respostas[k] = t; }
+    else if (v && Array.isArray(v.v)) {
+      const lista = v.v.filter(x => typeof x === 'string').slice(0, 12).map(x => txt(x, 120)).filter(Boolean);
+      if (lista.length) respostas[k] = { v: lista, ...(txt(v.outro, 120) ? { outro: txt(v.outro, 120) } : {}) };
+    } else return { erro: 'valor ' + k };
+  }
+  const uf = PESQ_UFS.includes(b.uf) ? b.uf : '';
+  const resposta = {
+    respostas, uf, origem: txt(b.origem, 40), utm: limpaUtm(b.utm),
+    pulou: b.pulou === true, semPetDoente: b.semPetDoente === true, celular: b.celular === true
+  };
+  let contato = null;
+  if (b.contato) {
+    const valor = txt(b.contato.valor, 120);
+    const ehEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor), digitos = valor.replace(/\D/g, '');
+    if (b.contato.consent !== true) return { erro: 'consentimento' };
+    if (!ehEmail && (digitos.length < 10 || digitos.length > 13)) return { erro: 'contato' };
+    contato = { valor: ehEmail ? valor.toLowerCase() : digitos, tipo: ehEmail ? 'email' : 'whatsapp', conversa: b.contato.conversa === true, lista: b.contato.lista === true, consent: true, consentVersao: 'v1' };
+  }
+  const h = p => createHash('sha256').update(p + sessao).digest('hex').slice(0, 24);
+  return { resposta, contato, id: h('resp:'), contatoId: h('cont:') };
+}
+
+export const pesquisa = onRequest({ timeoutSeconds: 15, memory: '256MiB', maxInstances: 3, cors: PESQ_ORIGENS }, async (req, res) => {
+  if (req.method !== 'POST') { res.status(405).send('use POST'); return; }
+  let b = req.body;
+  if (typeof b === 'string' || Buffer.isBuffer(b)) { try { b = JSON.parse(String(b)); } catch { res.status(400).send('json'); return; } }
+  if (JSON.stringify(b || {}).length > 12000) { res.status(413).send('grande demais'); return; }
+  const v = validarPesquisa(b);
+  if (v.erro) { res.status(400).send(v.erro); return; }
+  const { date } = nowSP();
+  // limite por IP e por dia (o IP vira hash, não é guardado)
+  const ipHash = createHash('sha256').update(date + ':' + String(req.ip || '')).digest('hex').slice(0, 20);
+  const lim = db.doc(`pesquisa_limites/${date}_${ipHash}`);
+  const campo = v.evento ? 'eventos' : 'respostas', teto = v.evento ? 60 : 8;
+  const passou = await db.runTransaction(async t => {
+    const d = (await t.get(lim)).data() || {};
+    if ((d[campo] || 0) >= teto) return false;
+    t.set(lim, { [campo]: FieldValue.increment(1), dia: date, expira: new Date(Date.now() + 2 * 864e5) }, { merge: true });
+    return true;
+  });
+  if (!passou) { res.status(429).send('limite'); return; }
+  if (v.evento) {
+    const inc = { [v.evento]: FieldValue.increment(1), dia: date };
+    if (v.utm) inc[`${v.evento}__${v.utm}`] = FieldValue.increment(1);
+    await db.doc(`pesquisa_metricas/${date}`).set(inc, { merge: true });
+    res.status(204).send(''); return;
+  }
+  const at = Date.now();
+  await db.doc(`pesquisa_respostas/${v.id}`).set({ ...v.resposta, temContato: !!v.contato, at });
+  if (v.contato) await db.doc(`pesquisa_contatos/${v.contatoId}`).set({ ...v.contato, respostaId: v.id, at });
+  await db.doc(`pesquisa_metricas/${date}`).set({ respostas: FieldValue.increment(1), ...(v.contato ? { contatos: FieldValue.increment(1) } : {}), dia: date }, { merge: true });
+  res.status(200).json({ ok: true });
 });

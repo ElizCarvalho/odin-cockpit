@@ -39,3 +39,17 @@ Dados reais vivem só no Firestore e no Storage. `exports/` e `odin-export-*.jso
 ## Quem fez
 
 Toda escrita feita pelo app leva `_by` (e-mail), `_byName` (primeiro nome) e `_at` (shim.js). A função `marcarSitePublico` grava em `auditoria` cada criação e edição carimbada; o app grava as exclusões (com o resumo do que foi apagado). Só admin lê `auditoria`, em Mais → Atividade.
+
+## Pesquisa da landing (Munin)
+
+A landing pública (`landing/`) manda as respostas pra função `pesquisa` (HTTP, sem login), que valida (`validarPesquisa`), limita por IP e grava com o Admin SDK. Nenhum cliente escreve nessas coleções, e nenhuma vai pro site público nem pra auditoria.
+
+| Coleção | Quem lê | O que guarda | Campos principais |
+|---|---|---|---|
+| `pesquisa_respostas` | só admin | Uma resposta por sessão (id = hash da sessão), sem contato | `respostas{q1…q13}`, `uf`, `origem`, `utm`, `pulou`, `semPetDoente`, `celular`, `temContato`, `at` |
+| `pesquisa_contatos` | ninguém pelo app (só console) | Contato de quem aceitou o uso (LGPD), separado da resposta | `valor`, `tipo` (`email`/`whatsapp`), `conversa`, `lista`, `consent`, `consentVersao`, `respostaId`, `at` |
+| `pesquisa_metricas` | só admin | Funil por dia: `pesquisa_metricas/{AAAA-MM-DD}` | `visita`, `inicio`, `fim_parte1`, `pulou`, `respostas`, `contatos`, e `{evento}__{utm}` |
+| `pesquisa_limites` | ninguém | Contador por IP (em hash) e dia, pra barrar abuso | `eventos`, `respostas`, `dia`, `expira` (dá pra ligar TTL nesse campo) |
+
+Pedido de apagar dados: apagar o doc em `pesquisa_contatos` (e, se a pessoa pedir, a resposta em `pesquisa_respostas/{respostaId}`).
+
