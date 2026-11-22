@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T16:11:43.434Z",
- "updatedAt": 1795363625979,
+ "exportedAt": "2026-11-22T16:23:22.038Z",
+ "updatedAt": 1795364545919,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1722,6 +1722,19 @@
    "_byName": "a tutora"
   },
   {
+   "id": "WxQM8icr8K8RVFFX46pr",
+   "kind": "consulta",
+   "sub": "Consulta",
+   "date": "2026-11-23",
+   "time": "09:00",
+   "text": "Consulta: Infectologista (em casa)",
+   "remind": 120,
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795364106844
+  },
+  {
    "id": "X2YNbbZQO345Q9rdNTiR",
    "date": "2026-11-22",
    "time": "09:34",
@@ -2432,12 +2445,12 @@
    "id": "yswsejjHsp00OlZYiuuY",
    "date": "2026-11-21",
    "time": null,
-   "text": "Coletada urina e sangue para novos exames.",
    "mark": false,
    "short": "",
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795278351604
+   "_at": 1795364107029,
+   "text": "Coletada urina e sangue (pedido do infectologista, enviado ao laboratório HVBR): hemograma (resultado saiu 21/11), PCR de cinomose na urina, sorologia IgM de cinomose e EAS da urina. Aguardando PCR, sorologia e EAS."
   }
  ],
  "analyses": [
@@ -4497,6 +4510,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "cvXWwf8VUm0eSAurLv5l",
+   "date": "2026-11-22",
+   "time": "13:19",
+   "food": true,
+   "note": "Cozido caseiro (moela, cenoura, batata-doce, inhame, beterraba) · Almoço",
+   "foodId": "caseira_mws1p0g6",
+   "food_g": 630,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795364544596
+  },
+  {
    "id": "ds1apFBWdtkqHQhdRpR2",
    "date": "2026-11-22",
    "time": "13:03",
@@ -5780,6 +5805,20 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795280617223
+  },
+  {
+   "id": "caseira_mws1p0g6",
+   "name": "Cozido caseiro (moela, cenoura, batata-doce, inhame, beterraba)",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 107.2,
+   "water": 0.75,
+   "est": true,
+   "src": "estimado pela IA: Moela de frango cozida 300 g/462 kcal · Cenoura cozida 82 g/29 kcal · Batata-doce cozida 82 g/63 kcal · Inhame cozido 81 g/81 kcal · Beterraba cozida 81 g/36 kcal",
+   "receita": "300g de moela de frango\n326g de cenoura + batata doce + inhame + beterraba",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795364544391
   },
   {
    "id": "cha",
