@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T13:27:51.614Z",
- "updatedAt": 1795353393217,
+ "exportedAt": "2026-11-22T13:37:48.011Z",
+ "updatedAt": 1795354437186,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1397,6 +1397,17 @@
    "_byName": "a tutora"
   },
   {
+   "id": "3YoxxNRrlKfx7O7ZU8Vu",
+   "date": "2026-11-22",
+   "time": null,
+   "text": "Esse procedimento foi definido como padrão de pesagem, para avaliar com menos parâmetros envolvidos.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795354416259
+  },
+  {
    "id": "3nV6PUarekD19VWqDmsi",
    "date": "2026-11-20",
    "time": null,
@@ -1533,6 +1544,17 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "GjrgJqkuwmZxbrQCAHN3",
+   "date": "2026-11-22",
+   "time": null,
+   "text": "Odin teve a urina aliviada com sonda e evacuou fezes.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795354415995
   },
   {
    "id": "H5YowW5eMMTNaT7zftpy",
@@ -1778,6 +1800,17 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "jawhq1V2Ioy2AWkQBX8m",
+   "date": "2026-11-22",
+   "time": null,
+   "text": "Peso medido depois do alívio da urina e da evacuação, antes de alimentação, remédios e água.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795354416208
   },
   {
    "id": "lDuFpXi9wscXXRVgQX71",
@@ -2475,6 +2508,11 @@
    "id": "TMrMhyUmVczlTLqj8l2o",
    "text": "## ✅ Pontos positivos\n- **Peso subindo:** 17,5 → 18,9 → 19,4 → **20,1 kg** em 4 dias (balança de casa, mas a tendência é boa).\n- **Comendo bem:** de 17 a 20/11 as calorias ficaram acima da meta de 950 kcal. Ele come sozinho e as fezes estão **firmes** desde 19/11.\n- **Hematócrito estável:** 26% em 16 e 18/11 (hematócrito = proporção de glóbulos vermelhos). Ele não está caindo.\n- **Urina sem perda de proteína:** a relação proteína/creatinina deu 0,09, normal. Creatinina 1,0 e ureia na faixa do laboratório. Sem sinal de sangue na urina.\n- **Outros:** leucócitos bem menores que os 45–50 mil de outubro; plaquetas e ferro normais; sem hemoparasitas; ausculta limpa; sangramento da sonda parou; remédios quase todos dados.\n\n## ⚠️ Pontos de preocupação\n1. **Febre todo dia** (máx. 39,4 a 40,1 °C), mesmo com dipirona. A dipirona pode esconder a febre real. **Fale com a clínica hoje**, principalmente se passar de 40 °C ou ele ficar mole, parar de comer ou ofegar.\n2. **Urina com sinais de infecção:** leucócitos (células de defesa) incontáveis e bactérias +++ (de sonda se espera +). Ele ainda não urina sozinho. Observe cor, cheiro e quantidade do xixi. A cultura com antibiograma vai mostrar a bactéria e o antibiótico que funciona. Cobre o resultado.\n3. **Medula sem resposta:** reticulócitos (glóbulos vermelhos novos) em 3,7 mil, quando em 08/11 estavam em 200 mil. O hematócrito se sustenta, mas a medula não está repondo. Se ele ficar mais pálido ou mais mole, avise logo.\n4. **Globulina alta (5,3)** e albumina no limite: costuma indicar inflamação ou infecção ativa. Isso precisa ser interpretado pela vet.\n5. **Ingestão de 21/11 baixa** (557 mL, 490 kcal). Se o dia fechou assim, é queda, e vale vigiar.\n6. **Neuro e cinomose:** continuam os espasmos e a tetraparesia. O PCR de cinomose e o nível de fenobarbital de 16/11 ainda estão pendentes.\n\n## O que mudou\n- Hematócrito igual ao de 16/11, mas agora com reticulócitos muito baixos.\n- Urina nova com bactérias e leucócitos altos, e função renal ok.\n- Peso e apetite melhores, fezes normalizadas.\n- Febre persistente, sem melhora.\n\n## Perguntas pra levar à vet\n- Por que a febre continua? Ela pode vir da urina, da cinomose ou de outra causa?\n- O resultado da urina pede tratamento antes da cultura sair?\n- Quando repetir os reticulócitos? Precisa avaliar a medula?\n- O que explica a globulina alta?\n- Como esvaziar a bexiga com segurança, já que ele não urina sozinho?\n- Quando saem o PCR e o fenobarbital? Levar para a neuro (24/11) e para a infectologista (23/11).",
    "createdAt": 1795278376934
+  },
+  {
+   "id": "VC6is3NJcdJ37EZ5loVt",
+   "text": "## ✅ Pontos positivos\n- **Peso estável:** 20 kg em 22/11, praticamente igual aos 20,1 kg de 20/11. Depois do fundo de 17,5 kg (17/11), ele não está mais caindo.\n- **Medula acordando (tendência):** o hematócrito (% de sangue ocupado por glóbulos vermelhos) foi de 26% (18/11) para 30% (21/11). Os reticulócitos (glóbulos vermelhos novos) saíram de quase zero para uma faixa normal. São laboratórios diferentes, então vale a direção, não o número.\n- **Comer e beber:** nos dias 17 a 21/11 ele bateu ou passou a meta de calorias, e em 21/11 a água também.\n- **Fezes** firmes e marrons desde 19/11. A ausculta (som do pulmão) estava limpa em 17/11.\n- A urina tem proteína normal (PU/CU 0,09).\n\n## ⚠️ Pontos de preocupação\n1. **Febre que não larga:** 5 picos ≥39,6 °C em 21/11, máxima de 40,1 °C em 20/11 e 39,6 °C hoje, mesmo com dipirona. **Em casa:** anote hora e temperatura. **Chame a clínica** se passar de 40 °C, se ele ficar muito mole ou se a mucosa ficar branca de novo.\n2. **Sinais de inflamação no sangue de 21/11:** leucócitos altos, com células jovens (bastonetes) e granulações tóxicas. Isso sugere que o corpo está lutando contra algo, mas não diz o quê.\n3. **Bexiga:** a urina de 19/11 tinha muitos leucócitos e bactérias, e ele ainda não urina sozinho. A cultura com antibiograma (que mostra qual bactéria é e quais antibióticos funcionam) não apareceu nos dados. **Observe** se a urina fica turva, com cheiro forte ou escura e se o volume cai. **Cobre o resultado da cultura.**\n4. **Hidratação:** a urina de 21 e 22/11 está amarelo escuro. Hoje a água (271 mL) e as calorias (521 kcal) estão baixas, mas o dia pode não ter fechado. Se ele recusar comida ou água, avise a equipe.\n5. **Neuro:** continuam o quadro de tetraparesia (fraqueza nas quatro patas) e a mioclonia. Os resultados do PCR de cinomose e do fenobarbital, coletados em 16/11, devem sair em breve.\n\n## O que mudou\n- O peso de 22/11 (20 kg), tirado depois de esvaziar bexiga e intestino e antes de comer, virou o **novo padrão**. Compare as próximas pesagens só com esse método. Os pesos antigos podem variar com bexiga e fezes.\n- Em relação a 18/11, a série vermelha melhorou, mas a febre e os leucócitos subiram.\n\n## Perguntas pra levar à vet\n- A febre e os leucócitos altos vêm da bexiga, do pulmão ou da cinomose?\n- Qual o resultado da **cultura de urina** e do **PCR de cinomose**?\n- Precisa repetir o hemograma, e quando? O hematócrito segue subindo?\n- Quando começar a tentar a urina voluntária, e o que fazer se ele não esvaziar a bexiga?\n- Na consulta de **23/11 (infectologista)** e na de **24/11 (neuro)**, levar a lista de febres e o resultado do fenobarbital.",
+   "createdAt": 1795354435833
   },
   {
    "id": "XLcC3rZNNIssCFDfC49L",
