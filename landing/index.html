@@ -65,6 +65,7 @@ header.topo .wrap { display: flex; align-items: center; justify-content: space-b
 .horas { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
 .hora { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--surf); border: 1px solid var(--line); border-radius: var(--r); font-size: 15px; }
 .hora b { font: 700 15px/1 var(--serif); color: var(--amber-ink); background: var(--amber); padding: 5px 8px; border-radius: 6px; }
+.legenda { font-size: 14px; color: var(--muted); margin-top: -4px; }
 .colchete { background: #fff2c9; border-bottom: 2px dashed var(--amber-deep); padding: 0 3px; }
 
 /* dores */
@@ -133,7 +134,7 @@ details p { margin-top: 8px; }
 
 <main id="topo">
   <section class="wrap stack" aria-labelledby="t-hero" style="padding-top: 20px">
-    <figure class="foto hero"><img src="fotos/odin-forte.jpg" alt="O Odin em pé no corredor de casa, forte e atento, em agosto" width="675" height="1200" style="object-position: 50% 28%" fetchpriority="high"></figure>
+    <figure class="foto hero"><img src="fotos/odin-agora.jpg" alt="O Odin dormindo na caminha em casa, em novembro, bem mais magro" width="1400" height="788" style="object-position: 0% 55%" fetchpriority="high"></figure>
     <h1 id="t-hero">Esse é o Odin.</h1>
     <p style="font-size: 19px">Ele tem 1 ano, está enfrentando a cinomose e tem uma família inteira se revezando pra cuidar dele.</p>
     <a class="btn" href="#historia">Conhecer a história</a>
@@ -147,7 +148,8 @@ details p { margin-top: 8px; }
         <span class="num">1</span>
         <h3>Quem é o Odin</h3>
         <p>O Odin é um American Bully de um ano. Vacinado em dia, cheio de energia, do tipo que derruba a gente na porta.</p>
-        <figure class="foto meia"><img src="fotos/odin-retrato.jpg" alt="O Odin deitado, olhando pra câmera, em setembro" width="768" height="1024" loading="lazy" style="object-position: 50% 92%"></figure>
+        <figure class="foto meia" style="flex-direction: column"><img src="fotos/odin-forte.jpg" alt="O Odin em pé no corredor de casa, forte e atento" width="675" height="1200" loading="lazy" style="object-position: 50% 28%"></figure>
+        <p class="legenda">Em agosto, antes da cinomose.</p>
       </article>
       <article class="passo">
         <span class="num">2</span>
@@ -176,6 +178,7 @@ details p { margin-top: 8px; }
         <h3>Da planilha pro app</h3>
         <p>Eu sou engenheira de software. Comecei com uma planilha e virou um app: ele avisa a hora de cada coisa, mostra quem fez o quê, lê os laudos e transforma em gráfico. Hoje a gente cuida do Odin com ele. <span class="colchete">[Uma linha sobre como ele está hoje.]</span></p>
         <figure class="foto meia"><img src="fotos/odin-hoje.jpg" alt="O Odin deitado na caminha, tomando sol, em novembro" width="900" height="1200" loading="lazy"></figure>
+        <p class="legenda">Tomando sol em casa, 20 de novembro.</p>
       </article>
       <article class="passo">
         <span class="num">6</span>
