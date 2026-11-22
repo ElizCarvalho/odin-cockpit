@@ -67,6 +67,8 @@ header.topo .wrap { display: flex; align-items: center; justify-content: space-b
 .hora b { font: 700 15px/1 var(--serif); color: var(--amber-ink); background: var(--amber); padding: 5px 8px; border-radius: 6px; }
 .legenda { font-size: 14px; color: var(--muted); margin-top: -4px; }
 .carrossel { display: flex; flex-direction: column; gap: 10px; }
+.palco { position: relative; }
+.selo { position: absolute; top: 12px; left: 12px; z-index: 1; background: var(--amber); color: var(--amber-ink); font: 600 14px/1 var(--sans); padding: 8px 12px; border-radius: 999px; box-shadow: 0 1px 3px rgba(31,42,68,.18); pointer-events: none; }
 .trilho { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: var(--r); }
 .trilho::-webkit-scrollbar { display: none; }
 .slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; gap: 8px; }
@@ -162,17 +164,19 @@ details p { margin-top: 8px; }
         <h3>Quem é o Odin</h3>
         <p>O Odin é um American Bully de um ano. Vacinado em dia, cheio de energia, do tipo que derruba a gente na porta.</p>
         <div class="carrossel" role="region" aria-roledescription="carrossel" aria-label="Fotos do Odin antes da cinomose">
+          <div class="palco">
+          <span class="selo">Antes da cinomose</span>
           <div class="trilho" id="trilho" tabindex="0">
             <figure class="slide"><img src="fotos/odin-praia.jpg?v=3" alt="O Odin de coleira na areia da praia, olhando o mar, com o Pão de Açúcar ao fundo" width="1000" height="1482" loading="lazy"><figcaption>Passeio na praia, com o Pão de Açúcar ao fundo.</figcaption></figure>
             <figure class="slide"><img src="fotos/odin-olhar.jpg?v=3" alt="O Odin de perto, com a pata apoiada no ombro de alguém, olhando pra câmera" width="1000" height="1666" loading="lazy" style="object-position: 50% 40%"><figcaption>De olho em tudo, sempre por perto.</figcaption></figure>
             <figure class="slide"><img src="fotos/odin-pata.jpg?v=3" alt="O Odin deitado no sofá, olhando pra câmera, com uma mão segurando a pata dele" width="1000" height="1333" loading="lazy"><figcaption>Pata dada, do jeito que ele gosta.</figcaption></figure>
+          </div>
           </div>
           <div class="ctrl">
             <button type="button" class="seta" id="ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
             <div class="pontos" id="pontos"></div>
             <button type="button" class="seta" id="prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
           </div>
-          <p class="legenda">Antes da cinomose.</p>
         </div>
       </article>
       <article class="passo">
