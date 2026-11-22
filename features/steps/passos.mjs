@@ -316,8 +316,7 @@ Then('o registro mais recente aparece primeiro', async function () {
 })
 When('eu filtro o histórico por remédio', async function () { await this.page.getByRole('button', { name: /^Remédio \d/ }).click() })
 Then('só aparecem registros de remédio', async function () {
-  const textos = await diaDeHoje(this.page).getByRole('listitem').allTextContents()
-  expect(textos.length).toBeGreaterThan(0); for (const t of textos) expect(t).toMatch(/Deu|Pulou/)
+  await expect.poll(async () => { const t = await diaDeHoje(this.page).getByRole('listitem').allTextContents(); return t.length > 0 && t.every(x => /Deu|Pulou/.test(x)) }).toBe(true)
 })
 Then('eu não vejo a seção de últimos acontecimentos', async function () { await expect(this.page.getByRole('heading', { name: 'Últimos acontecimentos' })).toHaveCount(0) })
 
@@ -398,4 +397,20 @@ Then('as duas partes ficam registradas como comida de hoje', async function () {
   await expect(this.page.getByRole('status').filter({ hasText: 'Registrado' })).toBeVisible()
   await expect(this.page.getByRole('list', { name: 'Últimas 48 h' })).toContainText('95 g')
   await expect(this.page.getByRole('list', { name: 'Últimas 48 h' })).toContainText('70 g')
+})
+
+/* ---------- Lembrete de pesar ---------- */
+Given('está na hora de pesar o Odin', async function () {
+  if (!this.page) await this.abrir()
+  await this.page.evaluate(() => { const d = new Date().toLocaleDateString('sv'); return window.ODIN_FB.fs.collection('notifs').doc('peso_' + d + '_0915').set({ kind: 'peso', label: 'Ver o peso', date: d, time: '09:15', status: 'pending', schedId: 'peso' }) })
+  await this.nav.abrir('Hoje')
+})
+When('eu lanço {int},{int} kg no lembrete', async function (a, b) {
+  const g = this.page.getByRole('group', { name: 'Lembrete Ver o peso' })
+  await g.getByLabel('Peso (kg)').fill(`${a},${b}`)
+  await g.getByRole('button', { name: 'Salvar' }).click()
+  await expect(this.page.getByRole('status').filter({ hasText: 'kg' })).toBeVisible()
+})
+Then('o peso de {int},{int} kg aparece em Hoje', async function (a, b) {
+  await expect(this.page.locator('#tiles .tile').filter({ hasText: 'Peso' })).toContainText(`${a},${b}`)
 })

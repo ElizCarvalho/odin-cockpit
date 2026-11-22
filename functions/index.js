@@ -20,6 +20,7 @@ const KIND = {
   decubito: { emoji: '🔄', title: 'Troca de decúbito' },
   temp: { emoji: '🌡', title: 'Temperatura' },
   compra: { emoji: '🛒', title: 'Comprar remédio' },
+  peso: { emoji: '⚖️', title: 'Pesar' },
   consulta: { emoji: '📅', title: 'Compromisso' },
   outro: { emoji: '🐶', title: 'Odin' }
 };
