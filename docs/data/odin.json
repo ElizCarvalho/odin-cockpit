@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T12:51:00.496Z",
- "updatedAt": 1795351229929,
+ "exportedAt": "2026-11-22T13:06:11.677Z",
+ "updatedAt": 1795352512879,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -103,6 +103,20 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "9PDMklCZQcMQIcIdhRBC",
+   "date": "2026-11-22",
+   "time": "09:50",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "params": {
+    "peso": 20
+   },
+   "other": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795351870166
   },
   {
    "id": "ECvd1yEtLsPcsUx9z2Q8",
@@ -3885,6 +3899,17 @@
    "_at": 1795301893251
   },
   {
+   "id": "5UGVA8FCVphSEUaNxI98",
+   "date": "2026-11-22",
+   "time": "09:56",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795352280957
+  },
+  {
    "id": "6LonfiZRm483a",
    "date": "2026-11-20",
    "time": "19:51",
@@ -4146,6 +4171,16 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "QwadM1V4AyOYfYcC3alV",
+   "date": "2026-11-22",
+   "time": "10:00",
+   "temp": 39.6,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795352511442
   },
   {
    "id": "RAOgCOAaWZHASBZGcIk2",
