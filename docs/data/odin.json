@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-22T16:33:59.984Z",
+ "exportedAt": "2026-11-22T17:10:53.119Z",
  "updatedAt": 1795364683518,
  "exams": [
   {
@@ -786,6 +786,55 @@
    "_byName": "a tutora"
   },
   {
+   "id": "e20261121eas",
+   "date": "2026-11-21",
+   "time": null,
+   "kind": "EAS (urina)",
+   "lab": "HVBR - Serviços Veterinários",
+   "params": {
+    "udens": 1.035,
+    "uph": 8
+   },
+   "other": [
+    "Coleta por sondagem uretral",
+    "Volume: 28 mL",
+    "Cor: amarelo ouro (ref. amarelo)",
+    "Aspecto: turvo (ref. límpido)",
+    "Odor: sui generis acentuado",
+    "Depósito: presente (+++) (ref. ausente)",
+    "pH: 8,0 (ref. 5,5 a 7,5)",
+    "Proteínas: presente (+++) (ref. ausentes)",
+    "Bilirrubinas: presente (+) (ref. traços ou até +)",
+    "Filamentos de muco: presentes (++) (ref. ausente)",
+    "Bactérias: bacteriúria acentuada",
+    "Leucócitos: 40 a 60 por campo (ref. 1 a 2)",
+    "Hemácias: 0 a 3 por campo",
+    "Cristais: fosfato triplo/estruvita (+++) e amorfos (++) (ref. ausentes)",
+    "Células de transição (+), descamativas raras",
+    "Nitrito, glicose, cetonas, sangue e cilindros: ausentes/negativos"
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795367213214
+  },
+  {
+   "id": "e20261121igm",
+   "date": "2026-11-21",
+   "time": null,
+   "kind": "Sorologia IgM cinomose e parvovirose (Dot-ELISA)",
+   "lab": "HVBR - Serviços Veterinários",
+   "params": {},
+   "other": [
+    "Cinomose IgM: S2 (positivo, equivale a ~1:50)",
+    "Parvovirose IgM: S2 (positivo, equivale a ~1:50)",
+    "Escala: S0 negativo · S1 fraco positivo · S2 positivo · S3 a S6 fortemente positivo",
+    "IgM indica exposição recente (infecção ou vacina) e costuma cair em ~20 dias"
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795367213354
+  },
+  {
    "id": "ecvpuu9aa8mcsi350pue",
    "date": "2026-11-15",
    "kind": "Pesagem",
@@ -1363,6 +1412,17 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "1UHKUysM2aAQaJJ2O6iu",
+   "date": "2026-11-21",
+   "time": null,
+   "text": "Sorologia IgM: cinomose S2 (positivo, doença ainda ativa segundo a a veterinária) e parvovirose S2 (positivo; provável contato durante internação). Nunca tinha sido testado para parvo.",
+   "short": "IgM parvo +",
+   "mark": true,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795367213400
   },
   {
    "id": "1qKOyz0OudLSnOfarO5h",
