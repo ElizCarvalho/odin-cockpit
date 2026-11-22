@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T13:49:20.076Z",
- "updatedAt": 1795354742286,
+ "exportedAt": "2026-11-22T14:36:44.894Z",
+ "updatedAt": 1795357967269,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1685,6 +1685,17 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "W3lCFZChvNW21iYe9uny",
+   "date": "2026-11-22",
+   "time": null,
+   "text": "Odin teve as almofadinhas das patas hidratadas.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795357964340
   },
   {
    "id": "WBoAddCHeIFxYVf0ggCp",
