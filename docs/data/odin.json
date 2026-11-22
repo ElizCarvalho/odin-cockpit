@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T00:07:54.199Z",
- "updatedAt": 1795305827378,
+ "exportedAt": "2026-11-22T00:59:03.921Z",
+ "updatedAt": 1795308868018,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -4165,6 +4165,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "YzrsZGWB2FOWQQ37N3O4",
+   "date": "2026-11-21",
+   "time": "21:51",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida) · Jantar",
+   "foodId": "petdelicia",
+   "food_g": 82.9,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795308866556
+  },
+  {
    "id": "ZAiQRcHFiig8ChKWIwDk",
    "date": "2026-11-20",
    "time": "23:23",
@@ -4433,6 +4445,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "pQJ5QmyIH32fJdGDJ97f",
+   "date": "2026-11-21",
+   "time": "21:51",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "foodId": "fnrecup",
+   "food_g": 66.4,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795308669638
   },
   {
    "id": "q20261030-0700-1",
@@ -5157,6 +5181,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "qFYm0nj01AG4DLsn5xne",
+   "date": "2026-11-21",
+   "time": "21:51",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior · Jantar",
+   "foodId": "racao",
+   "food_g": 75.6,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795308866754
   },
   {
    "id": "qaZpWoNdDKzJbTuKHAKJ",
