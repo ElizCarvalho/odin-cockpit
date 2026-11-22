@@ -84,3 +84,31 @@ Como fica no código:
 - No app, cada tela/atalho declara de qual módulo depende; módulo desligado mostra um convite ("disponível no plano X") em vez de sumir sem explicação.
 - Nas functions e nas regras do Firestore, o módulo é **conferido no servidor** (não basta esconder botão): ex. a IA recusa se o módulo estiver desligado ou o limite do mês acabou.
 - Cobrança (gateway de pagamento) fica pra fase 5+, decisão e contratação da Elis.
+
+## Controle do SaaS (quem vê o quê)
+
+| Papel | Onde vale | Pode |
+|---|---|---|
+| **Tutor responsável** (dono da família) | a família dele | tudo: pets, convidar/remover cuidadores, plano, exportar e apagar dados |
+| **Cuidador** (edita) | só os pets da família | registrar, responder lembretes, subir exames |
+| **Acompanha** (só vê) | só os pets da família | ver; ex.: vet ou parente |
+| **Veterinário convidado** (futuro) | só o pet que o tutor liberou, por prazo | ver exames e evolução, comentar |
+| **Super admin (dono do SaaS)** | painel próprio, fora do app do tutor | ver lista de famílias, plano, uso e erros; **não** abre os dados de saúde por padrão |
+
+Suporte com acesso aos dados ("break-glass"): só com pedido do tutor dentro do app, acesso temporário (ex.: 24 h), motivo obrigatório e registrado na atividade da família (o tutor vê que o suporte entrou e o que olhou). Isso é feito com *custom claims* do Firebase Auth e regras do Firestore, nunca por "admin que vê tudo".
+
+## Segurança e dados sensíveis
+
+- **Em trânsito e em repouso:** o Firebase já cifra (TLS + disco cifrado do Google). Não basta pra dado pessoal.
+- **Dados pessoais do tutor** (CPF, endereço, telefone, e-mail de terceiros, nomes de vets): ficam numa coleção separada (`familias/{id}/privado`), cifrados campo a campo com chave do **Cloud KMS**, decifrados só nas functions. Nunca no cliente de outro papel nem na página pública.
+- **LGPD:** dados de saúde do animal não são "dado pessoal sensível", mas fotos com pessoas, CPF, endereço e conversas são dados pessoais. Precisa de termos e política de privacidade, consentimento, exportar meus dados, apagar conta (com prazo) e registro de quem acessou.
+- **Segredos** (Anthropic, Pushover, gateway de pagamento) só no Secret Manager das functions.
+- **Isolamento entre famílias** garantido nas regras do Firestore + testes automatizados das regras (emulador) a cada commit.
+- **Backups** diários do Firestore e de Storage.
+
+## Página pública sai do GitHub Pages
+
+O GitHub Pages serve um site estático único, público pra sempre e versionado no git: não serve pra vários pets nem pra dados de clientes. No produto:
+- Cada pet pode ter uma **página de compartilhamento** opcional, ligada pelo tutor, servida pelo próprio Firebase Hosting (`/p/{codigo}`), com código aleatório, **revogável** e com escolha do que aparece (exames, evolução, fotos sem pessoas).
+- A anonimização roda nas functions na hora de gerar a página, não no navegador.
+- O GitHub Pages do Odin continua até o corte (fase 6).
