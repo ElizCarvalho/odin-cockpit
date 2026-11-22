@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T18:57:41.307Z",
- "updatedAt": 1795369810357,
+ "exportedAt": "2026-11-22T19:09:57.374Z",
+ "updatedAt": 1795374207033,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -50,25 +50,27 @@
     "Plasma límpido",
     "Paciente: American Bully, macho, 0 anos e 11 meses"
    ],
-   "params": {
-    "bands": 2544,
-    "chcm": 32.17,
-    "eos": 212,
-    "hb": 7.4,
-    "ht": 23,
-    "lymph": 848,
-    "mono": 424,
-    "plt": 430,
-    "pt": 5.4,
-    "rbc": 3,
-    "retic": 45,
-    "seg": 16324,
-    "vcm": 76.67,
-    "wbc": 21200
-   },
    "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795374329001,
+   "params": {
+    "chcm": 32.17,
+    "ht": 23,
+    "hb": 7.4,
+    "seg": 16324,
+    "retic": 45,
+    "pt": 5.4,
+    "bands": 2544,
+    "eos": 212,
+    "mono": 424,
+    "vcm": 76.67,
+    "wbc": 21200,
+    "plt": 430,
+    "lymph": 848,
+    "rbc": 3,
+    "hcm": 24.67,
+    "meta": 848
+   }
   },
   {
    "id": "6vqgltkf560vnu2bvadl",
@@ -153,22 +155,6 @@
    "date": "2026-11-21",
    "lab": "HVBR - Serviços Veterinários",
    "kind": "Hemograma completo com pesquisa de hemoparasitos",
-   "params": {
-    "rbc": 3.9,
-    "hb": 9.4,
-    "ht": 30,
-    "vcm": 76.92,
-    "chcm": 31.33,
-    "retic": 39,
-    "wbc": 26200,
-    "bands": 2096,
-    "seg": 20960,
-    "eos": 1572,
-    "lymph": 786,
-    "mono": 786,
-    "plt": 426,
-    "pt": 6.8
-   },
    "other": [
     "HCM: 24,10 pg (ref. 19,5 - 24,5 pg)",
     "Metamielócitos: 0",
@@ -182,7 +168,25 @@
    "labInterpretation": "Anemia normocítica normocrômica sem resposta medular adequada. Leucocitose com neutrofilia absoluta com desvio à esquerda regenerativo. Eosinofilia e linfopenia absolutas.",
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795311783467
+   "_at": 1795374329786,
+   "params": {
+    "rbc": 3.9,
+    "plt": 426,
+    "mono": 786,
+    "retic": 39,
+    "wbc": 26200,
+    "pt": 6.8,
+    "vcm": 76.92,
+    "hb": 9.4,
+    "ht": 30,
+    "bands": 2096,
+    "eos": 1572,
+    "chcm": 31.33,
+    "seg": 20960,
+    "lymph": 786,
+    "hcm": 24.1,
+    "meta": 0
+   }
   },
   {
    "id": "OinGT8GZgXEiS3gHb73r",
@@ -289,10 +293,12 @@
    "other": [
     "Cinomose DETECTADO no sangue, Ct 18,72 (quanto menor o Ct, mais vírus; o do Cappuccino foi 10,33)"
    ],
-   "params": {},
    "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795374328051,
+   "params": {
+    "cdv_ct": 18.72
+   }
   },
   {
    "id": "e20260922",
@@ -356,29 +362,30 @@
     "Neutrófilos com granulações tóxicas",
     "Hemoparasitas não observados no esfregaço"
    ],
-   "params": {
-    "alp": 792.7,
-    "alt": 330.1,
-    "bands": 2322,
-    "chcm": 30.97,
-    "creat": 1.2,
-    "eos": 258,
-    "hb": 9.6,
-    "ht": 31,
-    "lymph": 258,
-    "mono": 516,
-    "plt": 442,
-    "pt": 7,
-    "rbc": 4.1,
-    "retic": 41,
-    "seg": 21930,
-    "urea": 40.9,
-    "vcm": 75.61,
-    "wbc": 25800
-   },
    "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795374328448,
+   "params": {
+    "chcm": 30.97,
+    "urea": 40.9,
+    "ht": 31,
+    "hb": 9.6,
+    "seg": 21930,
+    "retic": 41,
+    "pt": 7,
+    "bands": 2322,
+    "alt": 330.1,
+    "eos": 258,
+    "mono": 516,
+    "creat": 1.2,
+    "vcm": 75.61,
+    "wbc": 25800,
+    "alp": 792.7,
+    "plt": 442,
+    "lymph": 258,
+    "rbc": 4.1,
+    "meta": 516
+   }
   },
   {
    "id": "e20261017",
@@ -407,32 +414,33 @@
     "Neutrófilos hipersegmentados",
     "Hemoparasitas não observados"
    ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795374328563,
    "params": {
-    "alp": 591.3,
     "alt": 185.2,
+    "retic": 46.8,
     "ast": 71.5,
-    "bands": 5027,
-    "chcm": 32,
-    "creat": 1,
-    "eos": 2285,
-    "hb": 9.6,
-    "ht": 30,
     "k": 5.2,
+    "seg": 35189,
+    "bands": 5027,
+    "urea": 58.2,
+    "chcm": 32,
+    "na": 162.2,
+    "rbc": 3.9,
+    "creat": 1,
+    "plt": 452,
+    "alp": 591.3,
+    "pt": 7.2,
+    "vcm": 76.92,
+    "wbc": 45700,
     "lymph": 457,
     "mono": 1371,
-    "na": 162.2,
-    "plt": 452,
-    "pt": 7.2,
-    "rbc": 3.9,
-    "retic": 46.8,
-    "seg": 35189,
-    "urea": 58.2,
-    "vcm": 76.92,
-    "wbc": 45700
-   },
-   "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+    "eos": 2285,
+    "ht": 30,
+    "hb": 9.6,
+    "meta": 1371
+   }
   },
   {
    "id": "e20261022",
@@ -444,29 +452,30 @@
     "Metamielócitos 3.556/µL",
     "Hemoparasitas não observados"
    ],
-   "params": {
-    "alp": 529.9,
-    "alt": 115.5,
-    "bands": 8128,
-    "chcm": 33.87,
-    "creat": 1.3,
-    "eos": 1016,
-    "hb": 10.5,
-    "ht": 31,
-    "lymph": 1016,
-    "mono": 1524,
-    "plt": 420,
-    "pt": 6.8,
-    "rbc": 4.2,
-    "retic": 33.6,
-    "seg": 35560,
-    "urea": 51.8,
-    "vcm": 73.81,
-    "wbc": 50800
-   },
    "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795374328678,
+   "params": {
+    "retic": 33.6,
+    "ht": 31,
+    "seg": 35560,
+    "hb": 10.5,
+    "chcm": 33.87,
+    "urea": 51.8,
+    "bands": 8128,
+    "pt": 6.8,
+    "alt": 115.5,
+    "eos": 1016,
+    "creat": 1.3,
+    "lymph": 1016,
+    "vcm": 73.81,
+    "wbc": 50800,
+    "mono": 1524,
+    "rbc": 4.2,
+    "plt": 420,
+    "alp": 529.9,
+    "meta": 3556
+   }
   },
   {
    "id": "e20261028",
@@ -480,14 +489,15 @@
     "Citologia: 75% neutrófilos, 13% monocitoides, 12% linfócitos",
     "Contaminação leve com sangue (316 hemácias/µL)"
    ],
-   "params": {
-    "csf_glic": 69,
-    "csf_prot": 64.88,
-    "csf_wbc": 15
-   },
    "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795374329116,
+   "params": {
+    "csf_prot": 64.88,
+    "csf_wbc": 15,
+    "csf_glic": 69,
+    "csf_cdv_ct": 32.23
+   }
   },
   {
    "id": "e20261031",
@@ -727,18 +737,6 @@
    "date": "2026-11-18",
    "kind": "Bioquímica",
    "lab": "Alpha Labs",
-   "params": {
-    "alt": 112.6,
-    "alp": 275.5,
-    "creat": 1,
-    "urea": 54.2,
-    "glic": 73.2,
-    "k": 5.2,
-    "na": 144,
-    "pt": 7.9,
-    "alb": 2.6,
-    "bili": 0.3
-   },
    "labInterpretation": "ALT, fosfatase alcalina, proteína total e globulina acima da referência; função renal, glicose e eletrólitos na faixa.",
    "other": [
     "Globulina 5,3 g/dL (ref. 2,7–4,4)",
@@ -748,29 +746,27 @@
     "Referências deste laboratório: ALT 21–102 U/L; fosfatase alcalina 20–156 U/L; proteína total 5,4–7,1 g/dL; ureia 21–60 mg/dL; sódio 141–152 mEq/L"
    ],
    "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795374329566,
+   "params": {
+    "glic": 73.2,
+    "urea": 54.2,
+    "creat": 1,
+    "k": 5.2,
+    "bili": 0.3,
+    "na": 144,
+    "alb": 2.6,
+    "alt": 112.6,
+    "alp": 275.5,
+    "pt": 7.9,
+    "glob": 5.3
+   }
   },
   {
    "id": "e20261118h",
    "date": "2026-11-18",
    "kind": "Hemograma",
    "lab": "Alpha Labs",
-   "params": {
-    "rbc": 3.7,
-    "hb": 8.5,
-    "ht": 26,
-    "vcm": 70.3,
-    "chcm": 32.7,
-    "retic": 3.7,
-    "wbc": 17200,
-    "seg": 13588,
-    "bands": 0,
-    "lymph": 2752,
-    "mono": 516,
-    "eos": 344,
-    "plt": 334
-   },
    "labInterpretation": "Anemia normocítica normocrômica arregenerativa. Leucocitose com neutrofilia absoluta.",
    "other": [
     "Reticulócitos 3.700/µL (0,1%), bem abaixo da referência do laboratório (30.000–60.000): medula ainda sem resposta",
@@ -782,8 +778,24 @@
     "Referência de leucócitos deste laboratório: 8.000–16.000/µL"
    ],
    "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795374329690,
+   "params": {
+    "rbc": 3.7,
+    "plt": 334,
+    "retic": 3.7,
+    "vcm": 70.3,
+    "chcm": 32.7,
+    "wbc": 17200,
+    "eos": 344,
+    "bands": 0,
+    "mono": 516,
+    "seg": 13588,
+    "ht": 26,
+    "hb": 8.5,
+    "lymph": 2752,
+    "pt": 6.4
+   }
   },
   {
    "id": "e20261121eas",
@@ -887,24 +899,25 @@
     "Neutrofilia",
     "Anemia regenerativa com reticulocitose"
    ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795374329275,
    "params": {
-    "chcm": 39.5,
-    "eos": 280,
-    "hb": 4.8,
-    "ht": 12.2,
-    "lymph": 3120,
-    "mono": 1550,
-    "peso": 20,
+    "retic": 200.6,
+    "vcm": 79.8,
+    "wbc": 26230,
     "plt": 425,
     "rbc": 1.53,
-    "retic": 200.6,
+    "eos": 280,
+    "peso": 20,
+    "chcm": 39.5,
+    "ht": 12.2,
+    "hb": 4.8,
+    "lymph": 3120,
+    "mono": 1550,
     "seg": 21280,
-    "vcm": 79.8,
-    "wbc": 26230
-   },
-   "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+    "hcm": 31.6
+   }
   },
   {
    "id": "hxxhn6c8yqi3cps7jrlk",
@@ -4864,6 +4877,16 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "pL46ObqOWHW4kxf37L36",
+   "date": "2026-11-22",
+   "time": "16:03",
+   "temp": 39.6,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795374205580
   },
   {
    "id": "pQJ5QmyIH32fJdGDJ97f",
