@@ -61,3 +61,26 @@ Regras: quem é membro da família do pet lê; `edita`/`admin` escrevem; `audito
 - Nada desta branch publica no app do Odin. Deploy só em projeto/canal separado.
 - Cada tela nova só conta como pronta com os cenários Gherkin dela passando (eles já descrevem o comportamento esperado).
 - Mudança feita na `main` nesse meio-tempo é trazida pra branch com `git merge main` regularmente.
+
+## Módulos liberáveis (SaaS pago)
+
+Cada parte do que o Odin tem hoje vira um **módulo** que pode ser ligado ou desligado por família, conforme o plano contratado. A arquitetura já nasce preparada pra isso, mesmo antes de existir cobrança.
+
+| Módulo | O que inclui | Custo pra nós |
+|---|---|---|
+| **Essencial** | cadastro do pet, histórico, acontecimentos, fotos, peso | baixo (Firestore/Storage) |
+| **Exames** | laudos, marcadores com gráfico e zoom, referências por espécie, pontos de atenção | baixo |
+| **Remédios** | lista em uso/pausados, linha do tempo, receitas | baixo |
+| **Rotina e lembretes** | horários, "Agora", próximas 12 h, adiantar, refeições planejadas, metas de água/comida | médio (função a cada minuto + push) |
+| **Estoque** | lista de compras, previsão de quando acaba, aviso de compra | baixo |
+| **IA** | ler laudo/foto/áudio, comida caseira, avaliação do quadro | **alto** (tokens por uso) → limite mensal por plano |
+| **Alerta crítico** | Pushover (toca no silencioso) | médio (licença por usuário) |
+| **Equipe** | vários cuidadores, papéis, atividade (quem fez o quê) | baixo |
+| **Site público** | página anonimizada pra compartilhar com vets e apoiadores | baixo |
+
+Como fica no código:
+- `familias/{id}.plano` e `familias/{id}.modulos{nome: true|false}` (+ limites, ex.: `ia.leiturasMes`).
+- `packages/core/modulos.ts`: lista de módulos, o que cada um libera e os limites.
+- No app, cada tela/atalho declara de qual módulo depende; módulo desligado mostra um convite ("disponível no plano X") em vez de sumir sem explicação.
+- Nas functions e nas regras do Firestore, o módulo é **conferido no servidor** (não basta esconder botão): ex. a IA recusa se o módulo estiver desligado ou o limite do mês acabou.
+- Cobrança (gateway de pagamento) fica pra fase 5+, decisão e contratação da Elis.
