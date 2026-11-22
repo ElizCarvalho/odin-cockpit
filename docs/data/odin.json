@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T01:25:47.566Z",
- "updatedAt": 1795310345213,
+ "exportedAt": "2026-11-22T01:47:49.802Z",
+ "updatedAt": 1795311831339,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -133,6 +133,42 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "KhnAIxbotW5uzvu3FwYt",
+   "date": "2026-11-21",
+   "lab": "HVBR - Serviços Veterinários",
+   "kind": "Hemograma completo com pesquisa de hemoparasitos",
+   "params": {
+    "rbc": 3.9,
+    "hb": 9.4,
+    "ht": 30,
+    "vcm": 76.92,
+    "chcm": 31.33,
+    "retic": 39,
+    "wbc": 26200,
+    "bands": 2096,
+    "seg": 20960,
+    "eos": 1572,
+    "lymph": 786,
+    "mono": 786,
+    "plt": 426,
+    "pt": 6.8
+   },
+   "other": [
+    "HCM: 24,10 pg (ref. 19,5 - 24,5 pg)",
+    "Metamielócitos: 0",
+    "Basófilos: 0",
+    "Anisocitose eritrocitária",
+    "Policromasia moderada",
+    "Neutrófilos com granulações tóxicas (+)",
+    "Hemoparasitos (incluindo microfilárias): não foram observados na amostra enviada",
+    "Plasma límpido"
+   ],
+   "labInterpretation": "Anemia normocítica normocrômica sem resposta medular adequada. Leucocitose com neutrofilia absoluta com desvio à esquerda regenerativo. Eosinofilia e linfopenia absolutas.",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795311783467
   },
   {
    "id": "OinGT8GZgXEiS3gHb73r",
@@ -1699,6 +1735,22 @@
    "_byName": "a tutora"
   },
   {
+   "id": "lDuFpXi9wscXXRVgQX71",
+   "date": "2026-11-21",
+   "time": "22:40",
+   "kind": "urina",
+   "details": {
+    "como": "na sonda",
+    "cor": "amarelo escuro",
+    "quantidade": "bastante"
+   },
+   "text": "Xixi na sonda, amarelo escuro, bastante.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795311634990
+  },
+  {
    "id": "lOsEkLTy2XyVQdXITnop",
    "date": "2026-11-21",
    "time": "16:26",
@@ -2340,6 +2392,11 @@
    "createdAt": 1795056644968
   },
   {
+   "id": "HiA6Q2O5j7Nlq0HVBtJQ",
+   "text": "## ✅ Pontos positivos\n- **Sangue melhorando:** hematócrito (proporção de glóbulos vermelhos) subiu de 26% pra 30%, e os reticulócitos (células novas que a medula produz) voltaram a aparecer: 39 mil, contra quase zero em 18/11. A policromasia moderada também indica glóbulo novo. É sinal de que a medula pode estar reagindo, mas são laboratórios diferentes, então o ideal é confirmar com um novo hemograma.\n- **Comida e água:** 1612 mL de água (meta batida) e ~1564 kcal (acima da meta de 950). Fezes firmes há dias.\n- **Peso subindo:** de 17,5 kg (17/11) pra 20,1 kg (20/11).\n- **Urina:** a relação proteína/creatinina está normal, sem sinal de perda de proteína pelo rim.\n- **Remédios:** quase tudo dado (29 doses, 2 puladas em 21/11).\n\n## ⚠️ Pontos de preocupação\n- **Febre voltando forte (o mais importante):** 40,1 °C em 20/11 e 5 picos ≥39,6 em 21/11, apesar da dipirona (que só baixa a febre, não trata a causa). **Avise a clínica hoje**, sem esperar segunda. Chame na hora se ele ficar mole, parar de comer ou beber, ou a gengiva ficar branca.\n- **Sinais de infecção/inflamação no hemograma:** leucócitos subiram (17,2 → 26,2 mil), com bastonetes (células jovens de defesa) e granulações tóxicas. Isso costuma aparecer quando o corpo combate algo, mas não diz sozinho onde.\n- **Urina suspeita:** leucócitos incontáveis, bactérias (+++) e urina turva. Pode ser infecção urinária, e a cultura com antibiograma ainda não saiu. Ele não urina sozinho de forma voluntária, e bexiga que não esvazia facilita infecção. Observe se o xixi fica escuro, com sangue ou cheiro forte, ou se ele fica sem urinar.\n- **Anemia ainda não resolvida:** 30% segue abaixo do normal. Se ele ficar pálido, moleza ou fraqueza, avise logo.\n- **Cinomose e neuro:** o PCR de cinomose e o fenobarbital de 16/11 ainda não saíram. Anote qualquer convulsão ou aumento dos espasmos.\n\n## O que mudou\n- Hematócrito e reticulócitos melhoraram desde 18/11.\n- Febre e leucócitos pioraram.\n- Urina com sinais de infecção (19/11), com cultura pendente.\n- Em 21/11 foram coletados urina e sangue novos.\n\n## Perguntas pra levar à vet\n- **A febre e o hemograma de 21/11 pedem antibiótico agora, ou esperamos a cultura?**\n- Como ficou a cultura de urina e qual antibiótico funciona?\n- Como esvaziar a bexiga com segurança e reduzir o risco de infecção?\n- A reação da medula já é suficiente, ou precisa repetir o hemograma e quando?\n- Quando saem o PCR de cinomose e o fenobarbital, e o que levar pra neuro (24/11) e pra infectologista (23/11)?",
+   "createdAt": 1795311801268
+  },
+  {
    "id": "Kmp53f4mutkBjQolvJv4",
    "text": "## O que mudou\n\n- **Anemia:** o hematócrito (% de sangue ocupado por glóbulos vermelhos) caiu até **12,2%** em 08/11. Depois da transfusão foi pra ~28% e ficou em **26%** em 16 e 18/11.\n- **Reticulócitos** (glóbulos vermelhos novos que a medula produz) estão em **3,7 mil/µL em 18/11**, bem abaixo do esperado. A medula ainda não está respondendo.\n- **Peso:** de 27 kg em setembro pra ~17,5 kg em 17/11, e 20,1 kg em 20/11. A subida recente é boa, mas as balanças são diferentes.\n- **Urina (19/11):** muitos leucócitos (glóbulos brancos) e bactérias. Com sonda algumas bactérias são esperadas, mas o resultado veio alto. A proteína na urina está normal.\n- **Fezes** normalizaram: firmes e marrons desde 19/11.\n- **Febre** em 17 e 20/11, tratada com dipirona, que pode mascarar a febre.\n\n## Tendência geral\n\n- O hematócrito está **estável, mas baixo**, e sem produção nova de sangue. É o ponto mais frágil.\n- Os leucócitos baixaram bastante em relação a outubro (50 mil → ~17 mil), um bom sinal.\n- A globulina está alta (5,3), o que costuma indicar inflamação ou infecção crônica.\n- **Se a gengiva ficar branca, ele ficar muito mole ou a febre voltar, fale com a equipe na hora.** O limite que a clínica citou pra nova transfusão era hematócrito abaixo de 15%.\n\n## Perguntas pra levar à vet\n\n- Como está a **cultura de urina com antibiograma**? A bacteriúria e a febre precisam de tratamento?\n- Qual o resultado do **PCR de cinomose** e da **dosagem de fenobarbital** (coletados em 16/11)?\n- Por que a medula não responde? Vale investigar mais (ex.: avaliar a medula)?\n- Quando repetir hemograma e reticulócitos?\n- Ele ainda não urina sozinho. Como acompanhar a bexiga sem sonda?\n- Posso seguir dando dipirona nas febres, ou ela atrapalha o acompanhamento?",
    "createdAt": 1795226156827
@@ -2420,6 +2477,11 @@
    "createdAt": 1795139698360
   },
   {
+   "id": "jxsJets1F95ykD50wvjA",
+   "text": "## ✅ Pontos positivos\n- **Anemia reagindo:** o hematócrito (% de sangue ocupado por hemácias) saiu de 12,2% em 08/11, antes da transfusão, para 30% em 21/11. Os reticulócitos (células novas que a medula produz) subiram de quase zero em 18/11 para 39 mil em 21/11. A medula parece estar voltando a trabalhar.\n- **Peso subindo:** 17,5 kg (17/11) para 20,1 kg (20/11).\n- **Comida e água:** as calorias passam da meta todo dia, e a água bateu a meta em 21/11 (1612 mL).\n- **Fezes firmes** desde 19/11.\n- **Urina:** o sangramento parou, a creatinina está normal e não há perda de proteína (PU/CU 0,09).\n- **Outros:** ausculta limpa, sem convulsões e remédios quase todos dados.\n\n## ⚠️ Pontos de preocupação\n- **Febre piorando:** 40,1 °C em 20/11 e 5 picos em 21/11. A dipirona pode estar escondendo o padrão real.\n - Os leucócitos subiram de 17,2 mil (18/11) para 26,2 mil (21/11), com bastonetes e granulações tóxicas, que são sinais de inflamação ou infecção ativa.\n - **Fale com a clínica ou a infectologista hoje** se a febre continuar. Vá logo se ele ficar muito mole, com mucosa branca, tremendo ou sem comer.\n- **Bexiga:** ele ainda não urina sozinho. A urina de 19/11 veio turva, com muitos leucócitos e bactérias, e a cultura ainda está pendente.\n - Observe se há barriga dura, xixi pouco, desconforto ou urina escura ou com mau cheiro, e avise a vet.\n- **Anemia ainda abaixo do normal:** os reticulócitos oscilaram entre os exames. Avise se a gengiva ficar pálida ou ele ficar abatido, ou se as fezes ficarem pretas de novo.\n- **Neurológico:** ele segue sem mexer as patas, com perda de massa muscular, e o fenobarbital e o PCR de cinomose estão pendentes. Avise se houver convulsão, mioclonia mais forte ou dificuldade para engolir.\n- **Olhos:** a secreção e a névoa seguem. Avise se aumentar ou se o olho ficar vermelho ou fechado.\n\n## O que mudou\n- O hemograma de 21/11 mostra melhora na anemia, mas piora na parte inflamatória.\n- A febre ficou mais frequente.\n- Peso, comida, água e fezes melhoraram.\n- Os resultados de urina e sangue de 21/11 ainda não saíram.\n\n## Perguntas pra levar à vet\n- A febre e os leucócitos altos podem vir de infecção urinária ou de outra causa? Precisa de reavaliação antes de 23/11?\n- Quando sai a cultura de urina e o que ela muda?\n- Como tratar a bexiga que não esvazia sozinha? Com que frequência aliviar?\n- Os reticulócitos baixos em 18/11 e normais em 21/11 mostram que a medula realmente voltou?\n- Quando saem o fenobarbital e o PCR de cinomose?\n- Dá pra contar quantas vezes dei dipirona, ou isso atrapalha a avaliação da febre?",
+   "createdAt": 1795311829905
+  },
+  {
    "id": "l3osjd3qb49ouv6rk02b",
    "text": "## O que mudou\n\n- **Hematócrito caiu pra 12,2% em 08/11** (era ~25% em 31/10). Hemoglobina 4,8. É uma queda forte e foi o que levou à transfusão.\n- Dessa vez a anemia **é regenerativa**: os reticulócitos (células novas que a medula solta) subiram pra ~200 mil. Em 31/10 estavam baixos. Ou seja, a medula está respondendo.\n- O CHCM alto e o aviso do equipamento levantam suspeita de **hemólise** (o corpo destruindo hemácias) ou aglutinação. O próprio laudo pede conferir no esfregaço.\n- Ultrassom: **cistite acentuada, colite**, baço aumentado e fígado congesto. Bexiga inflamada combina com a dificuldade de urinar.\n- Peso: **21 → 20 kg**. Veio de 27 kg em setembro, então a perda é grande.\n- Bioquímico de 09/11: **ureia alta (110) com creatinina baixa-normal**. Pode ter relação com desidratação, e o sangramento digestivo (fezes pretas) também pode subir a ureia.\n\n## Tendência geral\n\n- Perda de peso e massa muscular continua.\n- Anemia: o hematócrito subiu bem com a transfusão (~28–30%), mas em 16/11 caiu pra **26%**. A queda é pequena, mas vale acompanhar. O limite que a clínica citou pra nova transfusão é 15%.\n- Fezes escuras e amolecidas precisam de atenção junto com a anemia.\n\n## Perguntas pra levar à vet\n\n- Qual a causa da anemia regenerativa: perda de sangue (fezes pretas) ou hemólise? Dá pra fazer esfregaço, teste de Coombs ou outro exame pra esclarecer?\n- Fezes bem escuras: podem ser sangue digerido? Precisa investigar o trato digestivo?\n- A ureia alta precisa de novo controle com creatinina?\n- Quando repetir o hemograma depois da alta, e quais sinais em casa (gengiva branca, moleza, fezes pretas) exigem voltar na hora?\n- Como acompanhar a cistite, já que a sonda saiu e ele sangrou um pouco?\n\n**Se a gengiva ficar pálida, ele ficar muito mole ou as fezes pretas voltarem, fale com a equipe na hora.**",
    "createdAt": 1794877546450
@@ -2428,6 +2490,11 @@
    "id": "nypp7tjkwfesj4c21jxn",
    "text": "## O que mudou\n\n- **Peso: 17,5 kg** hoje, contra 18,87 kg na alta de 16/11. Foram ~1,4 kg em 1 dia. Pode ser diferença de balança (casa vs. clínica), mas a tendência vem caindo desde 27 kg em setembro.\n- **Temperatura: 38,1 °C**, normal (ref. 37,5–39,2). Sem febre, o que é bom sinal.\n- O que ele fez hoje (comeu petisco, mastigou bem, fez um xixi claro) é positivo, mas **ainda é pouco xixi**, e só quando a barriga foi pressionada.\n\n## Tendência geral\n\n- O peso continua caindo, junto com a perda de massa muscular. Isso pesa mais que a febre ter sumido.\n- O hematócrito (proporção de glóbulos vermelhos) foi de 29,8% em 14/11 para 26% em 16/11. Parte pode ser efeito da coleta com agregados de plaquetas, como a vet amiga disse. Ainda assim, a anemia segue limitada, e a clínica falava em nova transfusão abaixo de 15%.\n- Resultados do PCR de cinomose e do fenobarbital ainda estão pendentes.\n\n## Perguntas pra levar à vet\n\n- **Urgente:** ele está urinando por conta própria? Depois de tanto tempo de sonda e com cistite, um xixi só com pressão na barriga merece contato com a clínica **hoje**. Se a bexiga ficar cheia e ele não esvaziar, procure atendimento logo.\n- O sangramento ao tirar a sonda era esperado? Vale coletar urina pra exame?\n- Quando repetir o hemograma em casa, dado o hematócrito de 26%?\n- A perda de peso está dentro do esperado? Há como reforçar a nutrição pra recuperar massa?\n- O fenobarbital: como conseguir a receita nova com a neurologista antes de acabar? Ele só tinha dose pra ontem à noite, então isso é **prioridade** pra não ter falha na medicação.\n- Fezes escuras e amolecidas: acompanhar ou investigar?",
    "createdAt": 1794925665254
+  },
+  {
+   "id": "pEE4hMUbMEkSNzGpOuz4",
+   "text": "## ✅ Pontos positivos\n- **Peso subindo:** 17,5 → 18,9 → 19,4 → **20,1 kg** (17 a 20/11, balança de casa). Ele está recuperando massa.\n- **Come bem:** 1.250 a 1.700 kcal/dia, acima da meta de 950, e come sozinho.\n- **Água:** subiu de 428 mL para **1.612 mL** em 21/11, batendo a meta.\n- **Fezes firmes** desde 19/11. O **sangramento da urina parou** e a ausculta estava limpa.\n- **Urina:** a relação proteína/creatinina deu normal (0,09), sem sinal de perda de proteína pelo rim. Creatinina e ureia seguem na faixa.\n- **Hematócrito** (proporção de glóbulos vermelhos no sangue) **estável em 26%** entre 16 e 18/11, e as plaquetas normalizaram.\n- **Sem convulsões**, e consciência e reflexos preservados. Remédios quase todos em dia.\n\n## ⚠️ Pontos de preocupação\n- **Febre piorando (o mais importante):** 39,6 °C em 17/11, 40 °C em 19/11, 40,1 °C em 20/11 e **5 febres em 21/11** (39,9 °C). A dipirona abaixa a temperatura, mas não trata a causa. **Fale com a equipe hoje**, sem esperar a consulta de 23/11. Procure a clínica na hora se ele ficar mole, parar de comer ou de beber, ou se a febre passar de 40 °C mesmo com dipirona.\n- **Urina com sinal de infecção:** o exame de 19/11 mostrou muitos leucócitos (células de defesa) e **bactérias +++**, urina turva. Parte disso pode ser da sonda, mas junto com a febre merece atenção. A **cultura com antibiograma** (que mostra qual antibiótico funciona) ainda está pendente. Observe se o xixi tem cheiro forte, cor escura ou sangue, e se ele esvazia a bexiga.\n- **Anemia sem resposta da medula:** os reticulócitos (glóbulos vermelhos novos) caíram de ~200 mil em 08/11 para **3,7 mil** em 18/11. A medula não está reagindo. Chame a clínica se a gengiva ficar branca, ele ficar mais mole ou se aparecerem fezes pretas. Pela clínica, hematócrito abaixo de 15% indicaria nova transfusão.\n- **Neurológico e olhos:** ele segue com tetraparesia (fraqueza nas quatro patas) e espasmos. Há secreção ocular e névoa no olho direito, então mantenha a limpeza e avise se piorar.\n\n## O que mudou\n- A **febre subiu**, e o peso e a água também.\n- As fezes **firmaram**.\n- Os reticulócitos de 18/11 continuam muito baixos.\n- **Ainda sem resultado:** exames de 21/11, PCR de cinomose e fenobarbital (coletados em 16/11) e cultura de urina.\n\n## Perguntas pra levar à vet\n- A febre pode vir da urina, da cinomose ou de outra coisa? Precisa de antibiótico agora, sem esperar a cultura?\n- Os exames de 21/11 mostram como está o hematócrito? Vale investigar a medula?\n- Quando saem o PCR de cinomose e o fenobarbital, e o que fazer se vierem alterados?\n- Como esvaziar a bexiga com segurança, já que ele ainda não urina sozinho?\n- Posso continuar dando dipirona com a febre alta?",
+   "createdAt": 1795311673983
   },
   {
    "id": "rkxjwuHMXzoo4ZIZzmgq",
