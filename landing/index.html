@@ -66,6 +66,19 @@ header.topo .wrap { display: flex; align-items: center; justify-content: space-b
 .hora { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--surf); border: 1px solid var(--line); border-radius: var(--r); font-size: 15px; }
 .hora b { font: 700 15px/1 var(--serif); color: var(--amber-ink); background: var(--amber); padding: 5px 8px; border-radius: 6px; }
 .legenda { font-size: 14px; color: var(--muted); margin-top: -4px; }
+.carrossel { display: flex; flex-direction: column; gap: 10px; }
+.trilho { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: var(--r); }
+.trilho::-webkit-scrollbar { display: none; }
+.slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; gap: 8px; }
+.slide img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r); display: block; background: #e8dccb; }
+.slide figcaption { font-size: 15px; color: var(--ink); }
+.ctrl { display: flex; align-items: center; justify-content: space-between; }
+.seta { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surf); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.seta[disabled] { opacity: .35; cursor: default; }
+.pontos { display: flex; gap: 4px; }
+.ponto { width: 28px; height: 44px; border: 0; background: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.ponto::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #cdbfa9; }
+.ponto[aria-current="true"]::after { background: var(--ink); width: 10px; height: 10px; }
 .colchete { background: #fff2c9; border-bottom: 2px dashed var(--amber-deep); padding: 0 3px; }
 
 /* dores */
@@ -148,8 +161,19 @@ details p { margin-top: 8px; }
         <span class="num">1</span>
         <h3>Quem é o Odin</h3>
         <p>O Odin é um American Bully de um ano. Vacinado em dia, cheio de energia, do tipo que derruba a gente na porta.</p>
-        <figure class="foto meia" style="flex-direction: column"><img src="fotos/odin-forte.jpg" alt="O Odin em pé no corredor de casa, forte e atento" width="675" height="1200" loading="lazy" style="object-position: 50% 28%"></figure>
-        <p class="legenda">Em agosto, antes da cinomose.</p>
+        <div class="carrossel" role="region" aria-roledescription="carrossel" aria-label="Fotos do Odin antes da cinomose">
+          <div class="trilho" id="trilho" tabindex="0">
+            <figure class="slide"><img src="fotos/odin-praia.jpg" alt="O Odin de coleira na areia da praia, olhando o mar, com o Pão de Açúcar ao fundo" width="1000" height="1482" loading="lazy"><figcaption>Passeio na praia, com o Pão de Açúcar ao fundo.</figcaption></figure>
+            <figure class="slide"><img src="fotos/odin-olhar.jpg" alt="O Odin de perto, com a pata apoiada no ombro de alguém, olhando pra câmera" width="1000" height="1666" loading="lazy" style="object-position: 50% 40%"><figcaption>De olho em tudo, sempre por perto.</figcaption></figure>
+            <figure class="slide"><img src="fotos/odin-pata.jpg" alt="O Odin deitado no sofá, olhando pra câmera, com uma mão segurando a pata dele" width="1000" height="1333" loading="lazy"><figcaption>Pata dada, do jeito que ele gosta.</figcaption></figure>
+          </div>
+          <div class="ctrl">
+            <button type="button" class="seta" id="ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <div class="pontos" id="pontos"></div>
+            <button type="button" class="seta" id="prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+          </div>
+          <p class="legenda">Antes da cinomose.</p>
+        </div>
       </article>
       <article class="passo">
         <span class="num">2</span>
@@ -309,6 +333,30 @@ details p { margin-top: 8px; }
       else fetch(ENDPOINT, { method: 'POST', body: corpo, keepalive: true, headers: { 'Content-Type': 'text/plain' } });
     } catch (e) { /* contagem é opcional */ }
   }
+
+  // carrossel do "Quem é o Odin"
+  (function () {
+    var t = document.getElementById('trilho'); if (!t) return;
+    var slides = t.querySelectorAll('.slide'), pts = document.getElementById('pontos');
+    var ant = document.getElementById('ant'), prox = document.getElementById('prox');
+    var botoes = Array.prototype.map.call(slides, function (s, i) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'ponto';
+      b.setAttribute('aria-label', 'Foto ' + (i + 1) + ' de ' + slides.length);
+      b.addEventListener('click', function () { ir(i); }); pts.appendChild(b); return b;
+    });
+    function atual() { return Math.round(t.scrollLeft / Math.max(1, t.clientWidth + 12)); }
+    function ir(i) { t.scrollTo({ left: i * (t.clientWidth + 12), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+    function marca() {
+      var i = atual();
+      botoes.forEach(function (b, k) { b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      ant.disabled = i <= 0; prox.disabled = i >= slides.length - 1;
+    }
+    ant.addEventListener('click', function () { ir(Math.max(0, atual() - 1)); });
+    prox.addEventListener('click', function () { ir(Math.min(slides.length - 1, atual() + 1)); });
+    t.addEventListener('scroll', function () { requestAnimationFrame(marca); }, { passive: true });
+    t.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); prox.click(); } if (e.key === 'ArrowLeft') { e.preventDefault(); ant.click(); } });
+    marca();
+  })();
 
   var UFS = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA','MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR','RS','SC','SE','SP','TO'];
 
