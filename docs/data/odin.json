@@ -1,5 +1,5 @@
 {
- "exportedAt": "2026-11-22T17:54:44.565Z",
+ "exportedAt": "2026-11-22T18:57:41.307Z",
  "updatedAt": 1795369810357,
  "exams": [
   {
@@ -823,7 +823,6 @@
    "time": null,
    "kind": "Sorologia IgM cinomose e parvovirose (Dot-ELISA)",
    "lab": "HVBR - Serviços Veterinários",
-   "params": {},
    "other": [
     "Cinomose IgM: S2 (positivo, equivale a ~1:50)",
     "Parvovirose IgM: S2 (positivo, equivale a ~1:50)",
@@ -832,7 +831,11 @@
    ],
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795367213354
+   "_at": 1795373619817,
+   "params": {
+    "igm_cdv": 2,
+    "igm_cpv": 2
+   }
   },
   {
    "id": "ecvpuu9aa8mcsi350pue",
