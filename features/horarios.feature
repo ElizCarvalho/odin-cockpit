@@ -27,3 +27,12 @@ Funcionalidade: Organizar os horários dos remédios
     Quando eu abro "Evolução"
     E eu amplio o gráfico de temperatura
     Então eu vejo a temperatura ampliada
+
+  Cenário: Ver só os últimos 7 dias no gráfico ampliado e voltar pro completo
+    Dado que eu posso registrar os cuidados do Odin
+    Quando eu abro "Evolução"
+    E eu amplio o gráfico de temperatura
+    E eu escolho ver só os últimos 7 dias
+    Então o gráfico mostra só a última semana
+    Quando eu volto a ver tudo
+    Então o gráfico volta a mostrar o período completo

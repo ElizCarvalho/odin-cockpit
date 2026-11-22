@@ -698,6 +698,8 @@ body:not(.app) .app-only { display: none; }
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
 <script>
 const PARAMS = [
   {k:'peso', l:'Peso', u:'kg', g:'clin', lo:null, hi:null, d:'Peso corporal. Perda rápida de peso indica que ele está gastando mais energia do que recebe, ou perdendo massa muscular.'},
@@ -1146,14 +1148,40 @@ function openBig(k) {
       <div class="note" style="margin-top:4px">${(p.lo != null || p.hi != null) ? `Referência ${refTxt(p)} ${esc(p.u)} · ` : ''}último: <b>${fmt(last.y)} ${esc(p.u)}</b> em ${dmy(last.date)}</div></div>
       <div class="row mnav"><button class="ghost tiny" data-mv="-1" aria-label="Parâmetro anterior">◀</button><button class="ghost tiny" data-mv="1" aria-label="Próximo parâmetro">▶</button><button class="ghost tiny" data-close aria-label="Fechar">✕</button></div></div>
     ${p.d ? `<p class="mdesc">${esc(p.d)}</p>` : ''}
-    ${s.length > 1 ? `<div style="position:relative;height:min(52vh,420px)"><canvas aria-label="Gráfico ampliado de ${esc(p.l)}"></canvas></div>` : ''}
+    ${s.length > 1 ? `${zoomBar()}<div style="position:relative;height:min(52vh,420px);touch-action:pan-y"><canvas aria-label="Gráfico ampliado de ${esc(p.l)}"></canvas></div>` : ''}
     ${inRange.length ? `<p class="mmarks">Linhas pontilhadas: ${inRange.map(m => `<b>${dm(dayIso(m.x))}</b> ${esc(m.short || 'acontecimento')}`).join(' · ')}</p>` : ''}
     <div class="tablewrap" style="margin-top:12px"><table class="mtable"><thead><tr><th>Data</th><th>Valor</th><th>Variação</th><th>Laboratório</th></tr></thead><tbody>${rows}</tbody></table></div>
   </div>`;
   document.body.appendChild(box); document.body.style.overflow = 'hidden';
-  if (s.length > 1) bigChart = makeChart(box.querySelector('canvas'), k, true, C);
+  if (s.length > 1) { bigChart = makeChart(box.querySelector('canvas'), k, true, C); ligaZoom(bigChart); }
   box.querySelector('[data-close]').focus();
 }
+
+// Zoom nos gráficos ampliados: arrastar seleciona um período, pinça/rodinha aproxima, e os atalhos escolhem o período.
+const ZOOM_OK = () => typeof window.ChartZoom !== 'undefined' || (Chart.registry && Chart.registry.plugins.get('zoom'));
+function zoomBar() {
+  const alta = [...STAYS].filter(x => x.to).sort((a, b) => a.to < b.to ? 1 : -1)[0];
+  return `<div class="row zoombar" role="group" aria-label="Período do gráfico" style="gap:6px;flex-wrap:wrap;margin:6px 0">
+    <button class="tiny ghost" data-zr="7">7 dias</button><button class="tiny ghost" data-zr="30">30 dias</button>${alta ? `<button class="tiny ghost" data-zr="alta" data-from="${alta.to}">desde a alta (${dm(alta.to)})</button>` : ''}<button class="tiny" data-zr="tudo">tudo</button>
+    <span class="muted" style="font-size:12px;align-self:center">ou arraste no gráfico pra escolher um trecho · pinça pra aproximar</span></div>`;
+}
+function ligaZoom(ch) {
+  if (!ch || !ZOOM_OK()) return;
+  ch.options.plugins.zoom = { limits: { x: { minRange: 1 } },
+    zoom: { wheel: { enabled: true }, pinch: { enabled: true }, drag: { enabled: true, backgroundColor: 'rgba(120,180,200,.18)', borderColor: 'rgba(120,180,200,.6)', borderWidth: 1 }, mode: 'x', onZoomComplete: () => marcaZoom(null) },
+    pan: { enabled: true, mode: 'x', modifierKey: 'shift' } };
+  ch.update('none');
+}
+function marcaZoom(btn) { document.querySelectorAll('.zoombar [data-zr]').forEach(b => b.classList.toggle('ghost', b !== btn)); }
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('[data-zr]'); if (!b || !bigChart) return;
+  const ch = bigChart, x = ch.scales.x, linear = x.type === 'linear', hoje = dayNum(todayIso());
+  if (b.dataset.zr === 'tudo') { ch.resetZoom ? ch.resetZoom() : null; marcaZoom(b); return; }
+  const de = b.dataset.zr === 'alta' ? dayNum(b.dataset.from) : hoje - Number(b.dataset.zr);
+  if (linear) ch.zoomScale('x', { min: de, max: hoje + 0.5 }, 'default');
+  else { const labels = ch.data.labels || [], n = labels.length, dias = hoje - de + 1; ch.zoomScale('x', { min: Math.max(0, n - dias), max: n - 1 }, 'default'); }
+  marcaZoom(b);
+});
 function closeBig(keep) {
   if (bigChart) { bigChart.destroy(); bigChart = null; }
   document.querySelectorAll('.modal').forEach(m => m.remove());
@@ -1167,12 +1195,13 @@ function openBigCv(card) {
   const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', card.dataset.title);
   box.innerHTML = `<div class="mbox"><div class="mhead"><div><h2>${esc(card.dataset.title)}</h2></div>
       <div class="row mnav"><button class="ghost tiny" data-close aria-label="Fechar">✕</button></div></div>
-    <div style="position:relative;height:min(58vh,460px)"><canvas aria-label="Gráfico ampliado de ${esc(card.dataset.title)}"></canvas></div>
+    ${zoomBar()}<div style="position:relative;height:min(58vh,460px);touch-action:pan-y"><canvas aria-label="Gráfico ampliado de ${esc(card.dataset.title)}"></canvas></div>
     ${note ? `<p class="note" style="margin-top:8px">${note.innerHTML}</p>` : ''}
     ${tbl ? `<div class="tablewrap" style="margin-top:12px"><table class="mtable">${tbl.innerHTML}</table></div>` : ''}</div>`;
   document.body.appendChild(box); document.body.style.overflow = 'hidden';
   bigChart = new Chart(box.querySelector('canvas'), { type: raw.type, plugins: raw.plugins,
-    data: { labels: raw.data.labels ? [...raw.data.labels] : undefined, datasets: raw.data.datasets.map(d => ({ ...d, data: [...d.data] })) }, options: raw.options });
+    data: { labels: raw.data.labels ? [...raw.data.labels] : undefined, datasets: raw.data.datasets.map(d => ({ ...d, data: [...d.data] })) }, options: { ...raw.options, plugins: { ...(raw.options.plugins || {}) } } });
+  ligaZoom(bigChart);
   box.querySelector('[data-close]').focus();
 }
 document.addEventListener('click', ev => { const c = ev.target.closest('[data-bigcv]'); if (!c || ev.target.closest('button, a, details, input, select, label')) return; openBigCv(c); });

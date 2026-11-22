@@ -428,3 +428,17 @@ Then('a glicemia fica registrada em jejum', async function () {
   await expect(this.page.getByRole('status').filter({ hasText: 'glicemia 92 mg/dL' })).toBeVisible()
   await expect.poll(() => this.page.evaluate(() => Object.values(window.__store.exams).some(e => e.params && e.params.glic === 92 && e.other.includes('em jejum')))).toBe(true)
 })
+
+/* ---------- Zoom ---------- */
+const faixaX = page => page.evaluate(() => { const c = Chart.getChart(document.querySelector('[role=dialog] canvas')); return { min: c.scales.x.min, max: c.scales.x.max } })
+When('eu escolho ver só os últimos 7 dias', async function () {
+  this.faixaInicial = await faixaX(this.page)
+  await this.page.getByRole('group', { name: 'Período do gráfico' }).getByRole('button', { name: '7 dias' }).click()
+})
+Then('o gráfico mostra só a última semana', async function () {
+  await expect.poll(async () => { const f = await faixaX(this.page); return Math.round(f.max - f.min) }).toBeLessThanOrEqual(8)
+})
+When('eu volto a ver tudo', async function () { await this.page.getByRole('group', { name: 'Período do gráfico' }).getByRole('button', { name: 'tudo' }).click() })
+Then('o gráfico volta a mostrar o período completo', async function () {
+  await expect.poll(async () => (await faixaX(this.page)).min).toBe(this.faixaInicial.min)
+})
