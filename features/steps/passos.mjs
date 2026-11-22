@@ -414,3 +414,17 @@ When('eu lanço {int},{int} kg no lembrete', async function (a, b) {
 Then('o peso de {int},{int} kg aparece em Hoje', async function (a, b) {
   await expect(this.page.locator('#tiles .tile').filter({ hasText: 'Peso' })).toContainText(`${a},${b}`)
 })
+Given('está na hora de medir a glicemia', async function () {
+  if (!this.page) await this.abrir()
+  await this.page.evaluate(() => { const d = new Date().toLocaleDateString('sv'); return window.ODIN_FB.fs.collection('notifs').doc('glic_' + d + '_0830').set({ kind: 'glic', label: 'Glicemia em jejum', date: d, time: '08:30', status: 'pending', schedId: 'glic' }) })
+  await this.nav.abrir('Hoje')
+})
+When('eu lanço a glicemia de {int} no lembrete', async function (v) {
+  const g = this.page.getByRole('group', { name: 'Lembrete Glicemia em jejum' })
+  await g.getByLabel('Glicemia (mg/dL)').fill(String(v))
+  await g.getByRole('button', { name: 'Salvar' }).click()
+})
+Then('a glicemia fica registrada em jejum', async function () {
+  await expect(this.page.getByRole('status').filter({ hasText: 'glicemia 92 mg/dL' })).toBeVisible()
+  await expect.poll(() => this.page.evaluate(() => Object.values(window.__store.exams).some(e => e.params && e.params.glic === 92 && e.other.includes('em jejum')))).toBe(true)
+})

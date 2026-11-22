@@ -21,6 +21,7 @@ const KIND = {
   temp: { emoji: '🌡', title: 'Temperatura' },
   compra: { emoji: '🛒', title: 'Comprar remédio' },
   peso: { emoji: '⚖️', title: 'Pesar' },
+  glic: { emoji: '🩸', title: 'Medir a glicemia' },
   consulta: { emoji: '📅', title: 'Compromisso' },
   outro: { emoji: '🐶', title: 'Odin' }
 };

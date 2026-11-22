@@ -17,7 +17,7 @@ const PO_NIVEIS = [['desligado', 'não manda'], ['normal', 'normal'], ['critico'
   const KIND = {
     med: { e: '💊', t: 'Remédio' }, agua: { e: '💧', t: 'Água' }, comida: { e: '🍽', t: 'Comida' },
     decubito: { e: '🔄', t: 'Troca de decúbito' }, temp: { e: '🌡', t: 'Temperatura' },
-    fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, compra: { e: '🛒', t: 'Comprar' }, peso: { e: '⚖️', t: 'Peso' }, consulta: { e: '📅', t: 'Compromisso' }, outro: { e: '🐶', t: 'Outro' }
+    fezes: { e: '💩', t: 'Fezes' }, urina: { e: '🟡', t: 'Xixi' }, compra: { e: '🛒', t: 'Comprar' }, peso: { e: '⚖️', t: 'Peso' }, glic: { e: '🩸', t: 'Glicemia' }, consulta: { e: '📅', t: 'Compromisso' }, outro: { e: '🐶', t: 'Outro' }
   };
   let ncfg = {}, lateId = null, scheds = [], notifs = [], logs = [], aclDoc = { emails: [], roles: {}, notify: {} }, fb = null, freeKind = null, impMsg = '';
   document.addEventListener('focusout', () => setTimeout(() => { if (render.dirty) { render.dirty = false; render(); } }, 300));
@@ -141,6 +141,11 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
         const kg = parseFloat((form.querySelector('[name=v]').value || '').replace(',', '.'));
         if (!(kg > 1 && kg < 80)) throw new Error('peso em kg, ex.: 20,1');
         await db.collection('exams').add({ date: base.date, time: base.time, kind: 'Pesagem', lab: 'Em casa', params: { peso: kg }, other: note ? [note] : [], createdAt: Date.now() });
+      } else if (n.kind === 'glic') {
+        const mg = parseFloat((form.querySelector('[name=v]').value || '').replace(',', '.'));
+        if (!(mg >= 10 && mg <= 700)) throw new Error('glicemia em mg/dL, ex.: 92');
+        const jejum = form.querySelector('[name=jejum]')?.checked;
+        await db.collection('exams').add({ date: base.date, time: base.time, kind: 'Glicemia (glicosímetro)', lab: 'Em casa', params: { glic: mg }, other: [jejum ? 'em jejum' : 'fora do jejum', 'sangue da orelha, glicosímetro', note].filter(Boolean), createdAt: Date.now() });
       } else if (n.kind === 'temp') {
         const c = parseFloat(form.querySelector('[name=v]').value.replace(',', '.'));
         if (!(c > 30 && c < 45)) throw new Error('temperatura em °C, ex.: 38,4');
@@ -224,6 +229,7 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
     else if (n.kind === 'comida') f = `<label>Alimento${sel('fid', [...foodList().filter(x => x.kind === 'comida').sort((a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' })).map(x => [x.id, x.name + (x.unit === 'un' ? ' (unid.)' : '')]), ['__caseira', '🥕 Comida caseira (descrever a receita)'], ['__outro', 'outro']])}</label><label>Quanto ele comeu (g ou unidades)<input type="text" name="v" inputmode="decimal" placeholder="ex.: 200"></label>
       <label class="wide">Receita da comida caseira<textarea name="desc" rows="2" placeholder="ex.: patê de 300 g de moela, 1 batata-doce e 1 cenoura, cozidos e batidos. Deixe &quot;quanto ele comeu&quot; vazio se ele comeu tudo."></textarea></label>`;
     else if (n.kind === 'peso') f = `<label>Peso (kg)<input type="text" name="v" inputmode="decimal" required placeholder="ex.: 20,1"></label><p class="muted" style="grid-column:1/-1;margin:0;font-size:12.5px">Padrão: depois de esvaziar a bexiga e evacuar, antes de comida, remédios e água.</p>`;
+    else if (n.kind === 'glic') f = `<label>Glicemia (mg/dL)<input type="text" name="v" inputmode="numeric" required placeholder="ex.: 92"></label><label class="chk"><input type="checkbox" name="jejum" checked> em jejum</label><p class="muted" style="grid-column:1/-1;margin:0;font-size:12.5px">Gota de sangue da ponta da orelha. Se der muito alto ou muito baixo, repita na hora.</p>`;
     else if (n.kind === 'temp') f = `<label>Temperatura (°C)<input type="text" name="v" inputmode="decimal" required placeholder="ex.: 38,7"></label>`;
     else if (n.kind === 'fezes') f = `<label>Consistência${sel('cons', ['normal (firme)', 'pastosa', 'mole', 'líquida (diarreia)', 'ressecada / dura'])}</label>
       <label>Cor${sel('cor', ['marrom', 'marrom escura', 'preta', 'amarelada', 'esverdeada', 'com sangue', 'com muco'], null, true)}</label>`;
@@ -507,6 +513,7 @@ Se o texto não for uma comida ou receita, devolva só {"fora_do_tema":true}. Re
     const g = k => f.querySelector(`[name=${k}]`), hora = g('time')?.value || hhmm();
     if (n.kind === 'comida') { const fd = foodList().find(x => x.id === g('fid')?.value); return `🍽 ${g('v')?.value || ''} ${fd ? (fd.unit === 'un' ? 'un. de ' : 'g de ') + fd.name : ''} às ${hora}`.replace(/\s+/g, ' '); }
     if (n.kind === 'peso') return `⚖️ ${g('v')?.value || ''} kg às ${hora}`;
+    if (n.kind === 'glic') return `🩸 glicemia ${g('v')?.value || ''} mg/dL às ${hora}`;
     if (n.kind === 'agua') { const fd = foodList().find(x => x.id === g('fid')?.value); return `💧 ${g('v')?.value || ''} mL de ${fd ? fd.name : 'água'} às ${hora}`; }
     if (n.kind === 'med') { const k = f.querySelectorAll('[name=it]:checked').length; return `💊 ${k || ''} remédio${k === 1 ? '' : 's'} dado${k === 1 ? '' : 's'} às ${hora}`.replace(/^💊\s+r/, '💊 R'); }
     return `${(KIND[n.kind] || KIND.outro).e} ${(KIND[n.kind] || KIND.outro).t} às ${hora}`;
