@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T14:36:44.894Z",
- "updatedAt": 1795357967269,
+ "exportedAt": "2026-11-22T15:14:47.645Z",
+ "updatedAt": 1795360207029,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1503,6 +1503,17 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "C38lR5qhSOD4z1P6gMA1",
+   "date": "2026-11-22",
+   "time": "12:09",
+   "text": "Nebulização com 10ml de soro fisiológico",
+   "mark": true,
+   "short": "Nebulização co",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795360205470
   },
   {
    "id": "EGqbIAJDJEYDbtGw1yAU",
