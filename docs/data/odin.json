@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-22T12:39:52.191Z",
- "updatedAt": 1795350914875,
+ "exportedAt": "2026-11-22T12:51:00.496Z",
+ "updatedAt": 1795351229929,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1544,6 +1544,21 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "IjEqsS8z1SRpzvz7bFpA",
+   "date": "2026-11-22",
+   "time": "09:40",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "pastosa",
+    "cor": "marrom"
+   },
+   "text": "Fezes pastosa, marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795351228535
   },
   {
    "id": "MWQHpqB1qQUQznHd21pm",
