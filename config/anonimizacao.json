@@ -52,7 +52,19 @@
     "Lidia Raquel": "a veterinária",
     "Lídia Raquel": "a veterinária",
     "RENAN C M DE MELLO": "o laboratório",
-    "Renan C M de Mello": "o laboratório"
+    "Renan C M de Mello": "o laboratório",
+    "Dr(a)SILVIO RODRIGUES": "o infectologista",
+    "SILVIO RODRIGUES": "o infectologista",
+    "Silvio Rodrigues": "o infectologista",
+    "Dr. Silvio": "o infectologista",
+    "Dr Silvio": "o infectologista",
+    "Dra Patricia Cerqueira": "a neurologista",
+    "Patricia Cerqueira": "a neurologista",
+    "GIOVANNA ALMEIDA": "a tutora",
+    "Roberta Rose": "o laboratório",
+    "NATHALIA LEITE": "a veterinária",
+    "JOANA CARRILHO": "a veterinária",
+    "Joana Carrilho": "a veterinária"
   },
   "remover_linhas": [
     "propriet[aá]ri[ao]",
@@ -90,6 +102,15 @@
     "Lidia Raquel",
     "Lídia Raquel",
     "RENAN C M",
-    "Renan C M"
+    "Renan C M",
+    "Silvio",
+    "SILVIO",
+    "Giovanna Almeida",
+    "GIOVANNA ALMEIDA",
+    "robertarose",
+    "Nathalia Leite",
+    "NATHALIA LEITE",
+    "Carrilho",
+    "CARRILHO"
   ]
 }
