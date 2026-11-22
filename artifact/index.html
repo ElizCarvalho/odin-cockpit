@@ -734,6 +734,8 @@ const PARAMS = [
   {k:'csf_prot', l:'Líquor: proteína', u:'mg/dL', g:'csf', lo:null, hi:30, d:'Proteína no líquor. Alta indica inflamação ou lesão no sistema nervoso.'},
   {k:'fenob', l:'Fenobarbital (Gardenal) no sangue', u:'mcg/mL', g:'drug', lo:15, hi:45, d:'Quanto do Gardenal está circulando no sangue. Abaixo da faixa a proteção contra convulsões pode ser insuficiente; acima, risco de efeito tóxico (sonolência, fígado). Serve pra ajustar a dose.'},
   {k:'csf_glic', l:'Líquor: glicose', u:'mg/dL', g:'csf', lo:53, hi:104, d:'Açúcar no líquor. Muito baixo pode indicar infecção bacteriana no sistema nervoso.'},
+  {k:'igm_cdv', l:'Cinomose: anticorpos IgM (sorologia)', u:'score', g:'sero', lo:0, hi:0, d:'Anticorpos de infecção recente contra a cinomose (Dot-ELISA). Escala S0 negativo, S1 fraco, S2 positivo, S3 a S6 fortemente positivo. Costuma cair em ~20 dias após a infecção ou vacina.'},
+  {k:'igm_cpv', l:'Parvovirose: anticorpos IgM (sorologia)', u:'score', g:'sero', lo:0, hi:0, d:'Anticorpos de infecção recente contra a parvovirose (Dot-ELISA). Escala S0 negativo, S1 fraco, S2 positivo, S3 a S6 fortemente positivo. Indica contato recente com o vírus (ou vacina recente).'},
   {k:'udens', l:'Urina: densidade', u:'', g:'urine', lo:1.025, hi:1.045, d:'O quanto a urina está concentrada. Baixa: o rim não está concentrando ou ele está bebendo/recebendo muito líquido. Alta: pouca água.'},
   {k:'uph', l:'Urina: pH', u:'', g:'urine', lo:6, hi:7, d:'Acidez da urina. Fora da faixa favorece cristais e algumas infecções.'},
   {k:'upcr', l:'Urina: proteína/creatinina (PU/CU)', u:'', g:'urine', lo:0, hi:0.5, d:'Mostra se o rim está perdendo proteína. Abaixo de 0,5 é normal; acima de 1,0 indica perda de proteína pelo rim.'},
@@ -750,6 +752,7 @@ const GROUPS = [
   {g:'csf', t:'Líquor', d:''},
   {g:'drug', t:'Remédios no sangue', d:'nível do remédio na circulação'},
   {g:'urine', t:'Urina', d:'urinálise (EAS) e PU/CU'},
+  {g:'sero', t:'Sorologia', d:'anticorpos IgM contra vírus'},
 ];
 const P = Object.fromEntries(PARAMS.map(p => [p.k, p]));
 const KEY_ORDER = PARAMS.map(p => p.k);
@@ -1554,6 +1557,7 @@ Regras:
 - Não invente nada. Omita o que não estiver no documento. Use ponto como separador decimal no JSON.
 - Em "other", inclua observações relevantes do laudo (ex.: fibrina na amostra, policromasia, hemoparasitas não observados, metamielócitos).
 - Tabelas com colunas "Resultado" e "Referência": leia SEMPRE a coluna do resultado do Odin, nunca a de referência. Em "other", liste TODO resultado qualitativo fora da referência, no formato "Leucócitos: incontáveis (ref. 6/campo)".
+- Sorologia IgM (Dot-ELISA) de cinomose → igm_cdv, de parvovirose → igm_cpv, com o número do score (S2 vira 2).
 - Urina (EAS/urinálise): densidade → udens (1.030 vira 1.03), pH → uph; PU/CU → upcr, proteína urinária → uprot, creatinina urinária → ucreat. Cor, aspecto, odor, volume, sedimento (leucócitos, hemácias, bactérias, cristais, cilindros, células) e química qualitativa vão em "other" com o resultado e a referência.
 - Um laudo vira UM item em "exams" (não divida o mesmo laudo em dois).
 
