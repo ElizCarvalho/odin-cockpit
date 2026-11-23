@@ -8,7 +8,7 @@ Todas as coleções ficam na raiz. A regra geral (`firestore.rules`) é: **membr
 |---|---|---|---|
 | `exams` | sim | Exames e pesagens | `date`, `time`, `kind` (Hemograma, Pesagem…), `lab`, `params{ht, hb, peso, …}`, `other[]` |
 | `events` | sim | Acontecimentos, xixi/fezes, compromissos | `date`, `time`, `text`, `mark` (aparece nos gráficos), `kind` (`fezes`, `urina`, `consulta`), `remind` (min antes) |
-| `meds` | sim (sem estoque) | Medicamentos e suplementos | `name`, `dose`, `start`, `end`, `clinic`, `kind` (`med`/`sup`), `form`, `paused`, `pauseReason`, `pauses[]`, `stock{qty, unit, perDay, countedAt, lead, onList}` |
+| `meds` | sim (sem estoque) | Medicamentos e suplementos | `name`, `dose`, `start`, `end`, `clinic`, `kind` (`med`/`sup`), `form`, `paused`, `pauseReason`, `pauses[]`, `dup` (cadastro duplicado: não aparece no Histórico), `stock{qty, unit, perDay, countedAt, lead, onList}` |
 | `supplies` | não | Estoque de comida e suprimentos (gaze, sonda, seringa, luva…) | `name`, `cat` (`comida`/`suprimento`), `qty`, `unit`, `perDay`, `countedAt`, `lead` (dias de aviso), `onList` (pus na lista), `alertedFor` |
 | `prevent` | sim | Vacinas, vermífugos, prevenção | `kind`, `product`, `date`, `next`, `plan` |
 | `vitals` | sim | Temperatura, água, comida | `date`, `time`, `temp`, `water_ml`, `drinkId`, `food_g`, `foodId`, `qty`, `unit`, `source` (`rotina`, `chat`, `manual`) |

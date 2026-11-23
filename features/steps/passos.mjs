@@ -318,6 +318,14 @@ When('eu filtro o histórico por remédio', async function () { await this.page.
 Then('só aparecem registros de remédio', async function () {
   await expect.poll(async () => { const t = await diaDeHoje(this.page).getByRole('listitem').allTextContents(); return t.length > 0 && t.every(x => /Deu|Pulou/.test(x)) }).toBe(true)
 })
+Then('não existe filtro separado de medicamento', async function () { await expect(this.historico.filtro('Medicamento')).toHaveCount(0) })
+Then('o dia de hoje mostra que o Remédio teste começou', async function () { await expect(this.historico.linhaDoTempo()).toContainText(/Começou\s+Remédio teste/) })
+Then('o cadastro duplicado não aparece', async function () { await expect(this.historico.linhaDoTempo()).not.toContainText('Cadastro duplicado') })
+When('eu busco {string} no histórico', async function (texto) { await this.historico.buscar(texto) })
+Then('só aparecem registros com {string}', async function (texto) {
+  await expect.poll(async () => { const t = await this.historico.linhaDoTempo().getByRole('listitem').allTextContents(); return t.length > 0 && t.every(x => x.includes(texto)) }).toBe(true)
+})
+Then('o histórico diz que não encontrou nada', async function () { await expect(this.historico.linhaDoTempo()).toContainText('Nada encontrado') })
 Then('eu não vejo a seção de últimos acontecimentos', async function () { await expect(this.page.getByRole('heading', { name: 'Últimos acontecimentos' })).toHaveCount(0) })
 
 /* ---------- Atividade ---------- */

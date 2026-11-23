@@ -21,3 +21,24 @@ Funcionalidade: Histórico do dia inteiro
     Dado que eu posso registrar os cuidados do Odin
     Quando eu abro o app
     Então eu não vejo a seção de últimos acontecimentos
+
+  Cenário: Remédio junta as doses, o começo e o fim de cada remédio
+    Ilustração: o "Remédio teste" começou hoje; o "Cadastro duplicado" foi marcado como duplicado.
+    Dado que eu posso registrar os cuidados do Odin
+    Quando eu abro o histórico
+    Então não existe filtro separado de medicamento
+    E eu filtro o histórico por remédio
+    E o dia de hoje mostra que o Remédio teste começou
+    E o cadastro duplicado não aparece
+
+  Cenário: Buscar no histórico
+    Dado que eu posso registrar os cuidados do Odin
+    Quando eu abro o histórico
+    E eu busco "vitamína" no histórico
+    Então só aparecem registros com "Vitamina"
+
+  Cenário: Busca sem resultado
+    Dado que eu posso registrar os cuidados do Odin
+    Quando eu abro o histórico
+    E eu busco "xarope de groselha" no histórico
+    Então o histórico diz que não encontrou nada

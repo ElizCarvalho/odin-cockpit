@@ -93,6 +93,9 @@ export class Historico {
   constructor(page) { this.page = page }
   async verCalendario() { await this.page.getByRole('button', { name: 'Calendário' }).click() }
   compromisso(texto) { return this.page.getByRole('button', { name: new RegExp(texto) }) }
+  async buscar(texto) { await this.page.getByRole('searchbox', { name: 'Buscar no histórico' }).fill(texto) }
+  filtro(nome) { return this.page.getByRole('button', { name: new RegExp('^' + nome + ' \\d') }) }
+  linhaDoTempo() { return this.page.locator('#timeline') }
 }
 
 export class Medicamentos {
