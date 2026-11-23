@@ -415,7 +415,7 @@ details p { margin-top: 8px; }
   'use strict';
   // Alarme de clone: se a página abrir fora dos endereços oficiais, avisa e aponta pro oficial.
   var OFICIAL = 'https://munin-pesquisa.web.app';
-  var HOSTS = ['munin-pesquisa.web.app', 'munin-pesquisa.firebaseapp.com', 'muninpet.com.br', 'www.muninpet.com.br', 'munin.app.br', 'www.munin.app.br'];
+  var HOSTS = ['munin-pesquisa.web.app', 'munin-pesquisa.firebaseapp.com', 'muninpet.com.br', 'www.muninpet.com.br', 'munin.app.br', 'www.munin.app.br', 'muninpet.app.br', 'www.muninpet.app.br', 'muninpet.com', 'www.muninpet.com'];
   (function () {
     var h = location.hostname;
     var dev = !h || h === 'localhost' || h === '127.0.0.1' || /(^|\.)claudeusercontent\.com$|(^|\.)claude\.ai$/.test(h);
@@ -427,7 +427,7 @@ details p { margin-top: 8px; }
     document.body.insertBefore(faixa, document.body.firstChild);
   })();
   // Endereço da função que recebe as respostas. Vazio = prévia (nada é enviado).
-  var ENDPOINT = /(\.web\.app|\.firebaseapp\.com|(^|\.)muninpet\.com\.br|(^|\.)munin\.app\.br)$/.test(location.hostname) ? '/api/pesquisa' : '';
+  var ENDPOINT = /(\.web\.app|\.firebaseapp\.com|(^|\.)muninpet\.com\.br|(^|\.)muninpet\.app\.br|(^|\.)munin\.app\.br|(^|\.)muninpet\.com)$/.test(location.hostname) ? '/api/pesquisa' : '';
   var PREVIA = !ENDPOINT;
 
   var sessao = (function () {
