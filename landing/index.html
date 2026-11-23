@@ -74,6 +74,7 @@ header.topo .wrap { display: flex; align-items: center; justify-content: space-b
 .trilho::-webkit-scrollbar { display: none; }
 .slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; gap: 8px; }
 .slide img, .slide video { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r); display: block; background: #e8dccb; }
+.slide img.print { border: 1px solid var(--line); object-fit: cover; object-position: top; background: #f2f5f4; }
 .slide figcaption { font-size: 15px; color: var(--ink); }
 .ctrl { display: flex; align-items: center; justify-content: center; margin-top: -6px; }
 .seta { position: absolute; top: 40%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255, 250, 243, .9); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 1px 4px rgba(31,42,68,.25); transition: opacity .15s; }
@@ -232,8 +233,20 @@ details p { margin-top: 8px; }
         <span class="num">5</span>
         <h3>Da planilha pro app</h3>
         <p>Eu sou engenheira de software. Comecei com uma planilha e virou um app: ele avisa a hora de cada coisa, mostra quem fez o quê, lê os laudos e transforma em gráfico. Hoje a gente cuida do Odin com ele. <span class="colchete">[Uma linha sobre como ele está hoje.]</span></p>
-        <figure class="foto meia"><img src="fotos/odin-hoje.jpg?v=2" alt="O Odin deitado na caminha, tomando sol, em novembro" width="900" height="1200" loading="lazy"></figure>
-        <p class="legenda">Tomando sol em casa, 20 de novembro.</p>
+        <div class="carrossel" role="region" aria-roledescription="carrossel" aria-label="Telas do app do Odin">
+          <div class="palco">
+          <span class="selo">Odin - Cockpit</span>
+          <div class="trilho" tabindex="0">
+            <figure class="slide"><img class="print" src="fotos/app-hoje.jpg" alt="Tela Hoje do app do Odin, com cartões de temperatura, água, calorias e comida do dia" width="780" height="975" loading="lazy"><figcaption>A tela de hoje: temperatura, água, comida e os últimos exames.</figcaption></figure>
+            <figure class="slide"><img class="print" src="fotos/app-grafico.jpg" alt="Gráfico de temperatura do Odin ao longo de novembro, com a faixa normal marcada em verde" width="780" height="975" loading="lazy"><figcaption>Cada medição vira gráfico, com a faixa normal marcada.</figcaption></figure>
+            <figure class="slide"><img class="print" src="fotos/app-avaliacao.jpg" alt="Avaliação do quadro feita pela IA, com a lista de pontos positivos" width="780" height="975" loading="lazy"><figcaption>A IA lê tudo e resume o quadro em pontos positivos e de preocupação.</figcaption></figure>
+            <figure class="slide"><img class="print" src="fotos/app-historico.jpg" alt="Linha do tempo do app, com filtros por tipo e os registros do dia" width="780" height="975" loading="lazy"><figcaption>A linha do tempo mostra o que aconteceu, a que horas e quem fez.</figcaption></figure>
+          </div>
+          <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+          </div>
+          <div class="ctrl"><div class="pontos"></div></div>
+        </div>
       </article>
       <article class="passo">
         <span class="num">6</span>
