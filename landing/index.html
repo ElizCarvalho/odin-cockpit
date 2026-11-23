@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Munin · o plantão do seu pet</title>
-<meta name="description" content="O Odin tem 1 ano e está enfrentando a cinomose. Do cuidado dele nasceu o Munin. Me ajuda a entender se você vive a mesma rotina?">
+<title>Munin Pet · o plantão da família</title>
+<meta name="description" content="O Odin tem 1 ano e está enfrentando a cinomose. Do cuidado dele nasceu o Munin Pet. Me ajuda a entender se você vive a mesma rotina?">
 <meta property="og:title" content="Esse é o Odin.">
-<meta property="og:description" content="Do cuidado dele nasceu o Munin, o plantão do seu pet. Me ajuda a entender se você vive a mesma rotina?">
+<meta property="og:description" content="Do cuidado dele nasceu o Munin Pet, o plantão da família pro seu pet. Me ajuda a entender se você vive a mesma rotina?">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#f6efe6">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -50,6 +50,7 @@ header.topo { position: sticky; top: 0; z-index: 5; background: rgba(246,239,230
 header.topo .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; }
 .marca { display: inline-flex; align-items: center; gap: 8px; font: 700 22px/1 var(--serif); text-decoration: none; }
 .marca svg { flex: none; }
+.marca .pet { font-family: var(--sans); font-weight: 500; font-size: 18px; color: var(--amber-deep); }
 
 /* fotos */
 .foto { margin: 0; border-radius: var(--r); overflow: hidden; background: linear-gradient(135deg,#e8dccb,#f3ebe0); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; text-align: center; }
@@ -139,9 +140,9 @@ details p { margin-top: 8px; }
 
 <header class="topo">
   <div class="wrap">
-    <a class="marca" href="#topo" aria-label="Munin, início">
+    <a class="marca" href="#topo" aria-label="Munin Pet, início">
       <svg aria-hidden="true" width="30" height="30" viewBox="0 0 48 48" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1"/></svg>
-      Munin
+      <span>Munin <span class="pet">Pet</span></span>
     </a>
     <a href="#pesquisa">Responder a pesquisa</a>
   </div>
@@ -243,7 +244,7 @@ details p { margin-top: 8px; }
     <div class="munin">
       <div class="tit">
         <svg role="img" aria-label="Corvo" width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="#1f2a44" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1"/></svg>
-        <h2 style="font-size: 26px">Por que Munin?</h2>
+        <h2 style="font-size: 26px">Por que Munin Pet?</h2>
       </div>
       <p>Na mitologia nórdica, o deus Odin tem um corvo chamado Munin, a memória. Todo dia ele voa pelo mundo e, à noite, volta e conta tudo o que viu.</p>
       <p>É isso que esse app faz pelo nosso Odin, e pode fazer pelo seu pet: lembra cada remédio, cada exame e quem cuidou dele, pra ninguém precisar guardar tudo de cabeça.</p>
