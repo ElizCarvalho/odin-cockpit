@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-23T15:47:33.497Z",
- "updatedAt": 1795448476120,
+ "exportedAt": "2026-11-23T16:05:47.474Z",
+ "updatedAt": 1795449512839,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -5042,6 +5042,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "k70dPl3POoWvvGQBBcSn",
+   "date": "2026-11-23",
+   "time": "12:58",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "foodId": "fnrecup",
+   "food_g": 79.4,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795449511229
   },
   {
    "id": "kVLU8xZATqB7y3nKskCP",
