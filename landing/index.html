@@ -75,9 +75,12 @@ header.topo .wrap { display: flex; align-items: center; justify-content: space-b
 .slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; gap: 8px; }
 .slide img, .slide video { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r); display: block; background: #e8dccb; }
 .slide figcaption { font-size: 15px; color: var(--ink); }
-.ctrl { display: flex; align-items: center; justify-content: space-between; }
-.seta { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surf); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
-.seta[disabled] { opacity: .35; cursor: default; }
+.ctrl { display: flex; align-items: center; justify-content: center; margin-top: -6px; }
+.seta { position: absolute; top: 40%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255, 250, 243, .9); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 1px 4px rgba(31,42,68,.25); transition: opacity .15s; }
+.seta.ant { left: 10px; }
+.seta.prox { right: 10px; }
+.seta[disabled] { opacity: 0; pointer-events: none; }
+@media (hover: hover) { .seta { opacity: .85; } .seta:hover { opacity: 1; } .seta[disabled] { opacity: 0; } }
 .pontos { display: flex; gap: 4px; }
 .ponto { width: 28px; height: 44px; border: 0; background: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
 .ponto::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #cdbfa9; }
@@ -172,12 +175,10 @@ details p { margin-top: 8px; }
             <figure class="slide"><img src="fotos/odin-olhar.jpg?v=3" alt="O Odin de perto, com a pata apoiada no ombro de alguém, olhando pra câmera" width="1000" height="1666" loading="lazy" style="object-position: 50% 40%"><figcaption>De olho em tudo, sempre por perto.</figcaption></figure>
             <figure class="slide"><img src="fotos/odin-azul.jpg" alt="O Odin sentado na rua, olhando pra cima com os olhos azuis, ao lado de uma tigela de água" width="1000" height="1419" loading="lazy" style="object-position: 50% 45%"><figcaption>Esperando a água depois do passeio.</figcaption></figure>
           </div>
+          <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
           </div>
-          <div class="ctrl">
-            <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-            <div class="pontos"></div>
-            <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
-          </div>
+          <div class="ctrl"><div class="pontos"></div></div>
         </div>
       </article>
       <article class="passo">
@@ -192,12 +193,10 @@ details p { margin-top: 8px; }
             <figure class="slide"><video src="fotos/odin-colo.mp4" poster="fotos/odin-colo-capa.jpg" muted playsinline loop preload="none" controls controlslist="nodownload noplaybackrate" disablepictureinpicture aria-label="Vídeo sem som: carinho no Odin deitado no colo" width="720" height="1280"></video><figcaption>Carinho no colo, entre uma internação e outra.</figcaption></figure>
             <figure class="slide"><img src="fotos/odin-cinomose.jpg?v=3" alt="O Odin dormindo no colo, com a cabeça apoiada numa manta xadrez" width="1000" height="1333" loading="lazy"><figcaption>Na véspera da segunda internação.</figcaption></figure>
           </div>
+          <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
           </div>
-          <div class="ctrl">
-            <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-            <div class="pontos"></div>
-            <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
-          </div>
+          <div class="ctrl"><div class="pontos"></div></div>
         </div>
       </article>
       <article class="passo">
@@ -212,12 +211,10 @@ details p { margin-top: 8px; }
             <figure class="slide"><img src="fotos/odin-aniversario.jpg" alt="O Odin deitado diante de um bolinho com vela de osso acesa" width="1000" height="1332" loading="lazy"><figcaption>Aniversário de 1 ano, comemorado na internação.</figcaption></figure>
             <figure class="slide"><img src="fotos/odin-sonda.jpg" alt="O Odin deitado, com a sonda pra se alimentar presa no focinho" width="1000" height="1602" loading="lazy" style="object-position: 50% 35%"><figcaption>Novembro, na terceira internação, com sonda pra se alimentar.</figcaption></figure>
           </div>
+          <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
           </div>
-          <div class="ctrl">
-            <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-            <div class="pontos"></div>
-            <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
-          </div>
+          <div class="ctrl"><div class="pontos"></div></div>
         </div>
       </article>
       <article class="passo">
