@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-23T11:59:42.551Z",
- "updatedAt": 1795434893601,
+ "exportedAt": "2026-11-23T12:18:10.711Z",
+ "updatedAt": 1795435990675,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -5028,6 +5028,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "mHpCdkb7HFyzQbwTuUdH",
+   "date": "2026-11-23",
+   "time": "09:20",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida) · Café da manhã",
+   "foodId": "petdelicia",
+   "food_g": 103.2,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795435989036
+  },
+  {
    "id": "mgkuospmf75jyp8d5jkj",
    "date": "2026-11-16",
    "food": false,
@@ -5920,6 +5932,18 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795353391881
+  },
+  {
+   "id": "rIM2VZSprQPlVmSe2EH4",
+   "date": "2026-11-23",
+   "time": "09:20",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior · Café da manhã",
+   "foodId": "racao",
+   "food_g": 75,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795435989342
   },
   {
    "id": "rSQsyp3h8TOQJq0l6GCY",
