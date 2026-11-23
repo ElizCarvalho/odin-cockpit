@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-23T13:47:56.562Z",
- "updatedAt": 1795441400676,
+ "exportedAt": "2026-11-23T14:13:54.673Z",
+ "updatedAt": 1795442893872,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -1803,6 +1803,21 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "NlnXgbLPlzUm3ngoaChC",
+   "date": "2026-11-23",
+   "time": "11:08",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795442892529
   },
   {
    "id": "PnTIo6xQME8iJYNtJL7p",
@@ -4557,6 +4572,16 @@
    "_byName": "a tutora"
   },
   {
+   "id": "N1sVMxQrRufcnKzCDbNu",
+   "date": "2026-11-23",
+   "time": "11:07",
+   "temp": 39.5,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795442855684
+  },
+  {
    "id": "PdpiPFLnVmsfOo7MWoCk",
    "date": "2026-11-20",
    "time": "06:06",
@@ -4891,6 +4916,17 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795396218252
+  },
+  {
+   "id": "fTmwBoUuFv4phEqtbMfd",
+   "date": "2026-11-23",
+   "time": "10:47",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795441740617
   },
   {
    "id": "g7be7hMaRLjk0sIPSZDJ",
