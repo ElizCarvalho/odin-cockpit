@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-23T03:10:17.979Z",
- "updatedAt": 1795403071260,
+ "exportedAt": "2026-11-23T06:02:48.038Z",
+ "updatedAt": 1795413521276,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -1824,6 +1824,22 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "VDo40sqDsLLe96jcVMKD",
+   "date": "2026-11-23",
+   "time": "02:57",
+   "kind": "urina",
+   "details": {
+    "como": "ao pressionar a bexiga",
+    "cor": "amarelo",
+    "quantidade": "pouco"
+   },
+   "text": "Xixi ao pressionar a bexiga, amarelo, pouco.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795413489684
   },
   {
    "id": "VgC86Hxy4AqyJHXP60sV",
@@ -4168,6 +4184,16 @@
    "_byName": "a tutora"
   },
   {
+   "id": "89tbLgpxZ8c6sdd2DoQK",
+   "date": "2026-11-23",
+   "time": "02:58",
+   "temp": 39.5,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795413519249
+  },
+  {
    "id": "98wWXznqdEsA68Q1roNE",
    "date": "2026-11-21",
    "time": "14:02",
@@ -4993,6 +5019,16 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795396218111
+  },
+  {
+   "id": "oreuBopa4MwzOYD9Ij6b",
+   "date": "2026-11-23",
+   "time": "02:30",
+   "temp": 39.8,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795413425008
   },
   {
    "id": "p1kxaO2BCbXfFivlGbjV",
@@ -6025,6 +6061,17 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "yhBZxdwPhUySSMc6okeU",
+   "date": "2026-11-23",
+   "time": "02:44",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795413506588
   },
   {
    "id": "ymfnX8q8ZIlQ1w3MnQBO",

@@ -78,17 +78,17 @@ header { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wr
 .drop strong { font-family: var(--font-display); font-size: 17px; }
 .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
 @media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
-textarea, input[type=text], input[type=date], input[type=number], input[type=time], input[type=email], select {
+textarea, input[type=text], input[type=search], input[type=date], input[type=number], input[type=time], input[type=email], select {
   font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%;
   box-sizing: border-box;
 }
 /* todos os campos com a mesma altura; 16 px no celular evita o zoom do iPhone ao tocar no campo */
-input[type=text], input[type=date], input[type=number], input[type=time], input[type=email], select { min-height: 42px; line-height: 1.25; font-family: inherit; }
+input[type=text], input[type=search], input[type=date], input[type=number], input[type=time], input[type=email], select { min-height: 42px; line-height: 1.25; font-family: inherit; }
 input[type=time], input[type=date] { -webkit-appearance: none; appearance: none; display: flex; align-items: center; }
 select { -webkit-appearance: none; appearance: none; padding-right: 30px; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
 select:invalid, select option[value=""] { color: var(--muted); }
 ::placeholder { color: var(--muted); opacity: .8; }
-@media (max-width: 760px) { textarea, input[type=text], input[type=date], input[type=number], input[type=time], input[type=email], select { font-size: 16px; } }
+@media (max-width: 760px) { textarea, input[type=text], input[type=search], input[type=date], input[type=number], input[type=time], input[type=email], select { font-size: 16px; } }
 textarea { min-height: 84px; resize: vertical; }
 button { font: inherit; font-weight: 600; border-radius: 8px; padding: 8px 14px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
 button.ghost { background: transparent; color: var(--accent); }
@@ -683,6 +683,7 @@ body:not(.app) .app-only { display: none; }
   <section class="card">
     <div class="row between"><h2>Linha do tempo</h2><div class="seg" id="tlView"><button class="chip on" data-view="lista">Lista</button><button class="chip" data-view="cal">Calendário</button></div></div>
     <div id="tlList">
+      <input type="search" id="tlBusca" placeholder="Ex.: dipirona, febre, Elis" aria-label="Buscar no histórico" autocomplete="off" style="margin-top:10px; width:100%">
       <div class="row" style="margin-top:8px" id="tlFilters"></div>
       <div id="timeline" class="timeline" style="margin-top:8px"></div>
     </div>
@@ -1303,8 +1304,8 @@ const STAYS = [
 const CLINIC_FIXED = { 'animalis': '#5cc98a', 'tododoy': '#e5675f', 'vetreabilite (neuro)': '#5b9cf0', 'rio vet': '#e8c547' };
 const stayOf = iso => STAYS.find(s => iso >= s.from && (!s.to || iso <= s.to));
 const daysBetween = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 864e5);
-let tlFilter = 'Tudo', tlAsc = false, tlMarks = false, tlOpen = new Set();
-const TL_KINDS = ['Tudo', ...['Remédio', 'Comida e água', 'Temperatura', 'Xixi e fezes', 'Decúbito', 'Acontecimento', 'Exame', 'Receita', 'Medicamento', 'Vacina/vermífugo', 'Foto'].sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }))];
+let tlFilter = 'Tudo', tlAsc = false, tlMarks = false, tlOpen = new Set(), tlBusca = '';
+const TL_KINDS = ['Tudo', ...['Remédio', 'Comida e água', 'Temperatura', 'Xixi e fezes', 'Decúbito', 'Acontecimento', 'Exame', 'Receita', 'Vacina/vermífugo', 'Foto'].sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }))];
 // Tudo o que aconteceu, um item por registro, com hora: o Histórico mostra o dia inteiro (não só os acontecimentos).
 const quemFez = x => x && (x._byName || (typeof x.by === 'string' && x.by.includes('@') ? x.by.split('@')[0] : ''));
 function tlItems() {
@@ -1322,9 +1323,11 @@ function tlItems() {
     out.push({ date: e.date, time: e.time, kind: rx ? 'Receita' : 'Exame', ic: peso ? '⚖️' : rx ? '📄' : '🧪', text: peso ? `Peso ${fmt(e.params.peso)} kg${e.lab ? ' · ' + e.lab : ''}` : `${e.kind || 'Exame'}${e.lab ? ' · ' + e.lab : ''}`,
       sub: flags.length ? 'Fora da referência: ' + flags.slice(0, 5).join(', ') + (flags.length > 5 ? ` e mais ${flags.length - 5}` : '') : (e.other || []).join('; ') });
   }
+  // começo e fim de cada remédio entram no filtro "Remédio", junto com as doses; cadastro duplicado (dup) não aparece
   for (const m of meds) {
-    if (m.start && !neverStarted(m) && m.start <= hoje) out.push({ date: m.start, kind: 'Medicamento', med: 'start', name: m.name, allergy: m.allergy });
-    if (m.end && m.end <= hoje) out.push({ date: m.end, kind: 'Medicamento', med: 'end', name: m.name, allergy: m.allergy });
+    if (m.dup) continue;
+    if (m.start && !neverStarted(m) && m.start <= hoje) out.push({ date: m.start, kind: 'Remédio', med: 'start', name: m.name, allergy: m.allergy });
+    if (m.end && m.end <= hoje) out.push({ date: m.end, kind: 'Remédio', med: 'end', name: m.name, allergy: m.allergy });
   }
   for (const v of prevent) if (!v.planned && v.date) out.push({ date: v.date, kind: 'Vacina/vermífugo', ic: '💉', text: `${v.kind}: ${v.product}` });
   for (const v of vitals) {
@@ -1344,12 +1347,16 @@ function tlItems() {
 }
 function tlDaySummary(d, list) {
   const temps = list.filter(i => i.kind === 'Temperatura').map(i => parseFloat(i.text.replace(',', '.')));
-  const T = dayTotals(d), dados = list.filter(i => i.kind === 'Remédio' && !i.skip).length, pulos = list.filter(i => i.kind === 'Remédio' && i.skip).length;
+  const T = dayTotals(d), dados = list.filter(i => i.kind === 'Remédio' && !i.med && !i.skip).length, pulos = list.filter(i => i.kind === 'Remédio' && !i.med && i.skip).length;
   return [temps.length && `🌡 máx ${fmt(Math.max(...temps))} °C`, T.water && `💧 ${fmt(Math.round(T.water))} mL`, T.kcal && `🍽 ${fmt(Math.round(T.kcal))} kcal`,
     (dados || pulos) && `💊 ${dados} dado${dados === 1 ? '' : 's'}${pulos ? ` · ${pulos} pulado${pulos === 1 ? '' : 's'}` : ''}`].filter(Boolean).join(' · ');
 }
+// busca do Histórico: sem acento e sem maiúscula, em tudo que o registro mostra (texto, detalhe, remédio, quem fez, tipo)
+const semAcento = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const tlBate = (i, q) => !q || semAcento([i.text, i.sub, i.name, i.who, i.kind, i.short, i.med === 'start' ? 'começou' : i.med === 'end' ? 'terminou' : ''].join(' ')).includes(q);
 function renderTimeline() {
-  const all = tlItems();
+  const q = semAcento(tlBusca.trim());
+  const all = tlItems().filter(i => tlBate(i, q));
   const count = k => k === 'Tudo' ? all.length : all.filter(i => i.kind === k).length;
   $('tlFilters').innerHTML = TL_KINDS.filter(k => count(k)).map(k => `<button class="tiny ${k === tlFilter ? '' : 'ghost'}" data-f="${k}" aria-pressed="${k === tlFilter}">${k} <span class="muted">${count(k)}</span></button>`).join('')
     + `<span style="flex:1"></span><label class="chk"><input type="checkbox" id="tlMarks" ${tlMarks ? 'checked' : ''}> só os marcos</label>`
@@ -1385,13 +1392,13 @@ function renderTimeline() {
       ? `<button class="tlp vid" data-open="${esc(p.assetId)}" data-video="1" title="${esc(p.text)}">▶</button>`
       : `<img class="tlp" src="${esc(photoSrc(p.assetId))}" alt="${esc(p.text)}" title="${esc((p.time ? p.time + ' · ' : '') + p.text)}" loading="lazy" data-open="${esc(p.assetId)}" data-cap="${esc(p.text)}">`).join('') + `</div>`
       + (pics.length === 1 || tlFilter === 'Foto' ? `<div class="muted sub">${pics.map(p => (p.time ? p.time + ' ' : '') + esc(p.text)).join(' · ')}</div>` : '');
-    const open = tlOpen.has(d) || (!tlOpen.has('!' + d) && idx < 2);
+    const open = q ? !tlOpen.has('!' + d) : tlOpen.has(d) || (!tlOpen.has('!' + d) && idx < 2);
     const sum = tlFilter === 'Tudo' ? tlDaySummary(d, list) : '';
     html += `<details class="tl ${marks.length ? 'mark' : ''} ${st ? 'instay' : ''}" data-day="${d}" ${open ? 'open' : ''} ${st ? `style="--clc:${CLINIC_FIXED[st.clinic.toLowerCase()] || 'var(--accent)'}"` : ''}>
       <summary class="d"><b>${dmy(d)}</b> <span class="muted">${ago(d)}</span>${st ? `<span class="where">${esc(st.clinic)}</span>` : ''} <span class="tlsum">${sum || `${list.length} registro${list.length === 1 ? '' : 's'}`}</span></summary>
       <div class="tlb" role="list" aria-label="Registros de ${dmy(d)}">${body}</div></details>`;
   });
-  $('timeline').innerHTML = html || '<p class="muted">Nada registrado ainda.</p>';
+  $('timeline').innerHTML = html || (q ? `<p class="muted">Nada encontrado pra “${esc(tlBusca.trim())}”.</p>` : '<p class="muted">Nada registrado ainda.</p>');
 }
 function openLightbox(id, video, cap) {
   const lb = document.createElement('div'); lb.className = 'lightbox'; const src = photoSrc(id);
@@ -1405,6 +1412,7 @@ $('tlFilters').addEventListener('click', ev => {
   if (ev.target.closest('#tlOrder')) { tlAsc = !tlAsc; renderTimeline(); }
 });
 $('timeline').addEventListener('toggle', ev => { const d = ev.target.dataset && ev.target.dataset.day; if (!d) return; if (ev.target.open) { tlOpen.add(d); tlOpen.delete('!' + d); } else { tlOpen.delete(d); tlOpen.add('!' + d); } }, true);
+$('tlBusca').addEventListener('input', ev => { tlBusca = ev.target.value; renderTimeline(); });
 $('tlFilters').addEventListener('change', ev => { if (ev.target.id === 'tlMarks') { tlMarks = ev.target.checked; renderTimeline(); } });
 $('timeline').addEventListener('click', async ev => {
   const o = ev.target.closest('[data-open]'); if (o) { openLightbox(o.dataset.open, !!o.dataset.video, o.dataset.cap || o.title); return; }
@@ -1578,7 +1586,6 @@ function parseJsonLoose(s) {
   return JSON.parse(m[0]);
 }
 // Já existe um remédio em uso com o mesmo nome (primeira palavra, sem acento)? Então vem desmarcado na conferência.
-const semAcento = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 function jaTemRemedio(nome) { const w = semAcento(nome).split(/\s+/)[0]; return !!w && meds.some(m => (!m.end || m.end >= todayIso()) && semAcento(m.name).split(/\s+/)[0] === w); }
 function cleanExam(e, name) {
   const params = {};
