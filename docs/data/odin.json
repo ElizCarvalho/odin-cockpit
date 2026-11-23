@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-23T22:21:42.096Z",
- "updatedAt": 1795472274888,
+ "exportedAt": "2026-11-23T22:40:01.295Z",
+ "updatedAt": 1795473329688,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -6246,6 +6246,20 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "wkO9tgz2tv39q04UYfJq",
+   "date": "2026-11-23",
+   "time": "19:35",
+   "food": true,
+   "note": "Biscrok Multi · Lanche",
+   "foodId": "biscrok",
+   "qty": 3,
+   "unit": "un",
+   "food_g": 30,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795473328356
   },
   {
    "id": "wsBOM6h0Vb9fqXuzzV7M",
