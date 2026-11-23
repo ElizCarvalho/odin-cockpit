@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-23T01:18:52.366Z",
- "updatedAt": 1795396219506,
+ "exportedAt": "2026-11-23T01:52:46.447Z",
+ "updatedAt": 1795398525767,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -4280,6 +4280,17 @@
    "_byName": "a tutora"
   },
   {
+   "id": "Ge7bRD7qPmlOdlcS2nC3",
+   "date": "2026-11-22",
+   "time": "22:42",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795398445279
+  },
+  {
    "id": "GpPmVoYlCxjOokTwPIDl",
    "date": "2026-11-17",
    "time": "20:30",
@@ -4633,6 +4644,16 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "bYoLYbW57pbvTynvxFFP",
+   "date": "2026-11-22",
+   "time": "22:47",
+   "temp": 39.3,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795398524369
   },
   {
    "id": "c20261117-0031-petisco",
