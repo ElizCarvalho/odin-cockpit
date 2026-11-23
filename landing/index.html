@@ -80,6 +80,9 @@ header.topo .wrap { display: flex; align-items: center; justify-content: space-b
 .seta { position: absolute; top: 40%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255, 250, 243, .9); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 1px 4px rgba(31,42,68,.25); transition: opacity .15s; }
 .seta.ant { left: 10px; }
 .seta.prox { right: 10px; }
+.carrossel.mocks .seta { top: 10px; transform: none; width: 38px; height: 38px; box-shadow: none; border: 1px solid var(--line); }
+.carrossel.mocks .seta.ant { left: auto; right: 56px; }
+.carrossel.mocks .seta.prox { right: 12px; }
 .seta[disabled] { opacity: 0; pointer-events: none; }
 @media (hover: hover) { .seta { opacity: .85; } .seta:hover { opacity: 1; } .seta[disabled] { opacity: 0; } }
 .pontos { display: flex; gap: 4px; }
@@ -125,15 +128,45 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
 .munin { background: var(--amber); border-radius: 12px; padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; color: var(--ink); }
 .munin .tit { display: flex; align-items: center; gap: 12px; }
 .telas { display: grid; gap: 20px; }
-@media (min-width: 600px) { .telas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; } }
+.telas { gap: 32px; }
 .tela { display: flex; flex-direction: column; gap: 10px; }
-.cel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px; font-size: 13px; line-height: 1.4; display: flex; flex-direction: column; gap: 8px; min-height: 250px; }
+.cel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px; font-size: 13px; line-height: 1.35; display: flex; flex-direction: column; gap: 8px; height: 250px; overflow: hidden; }
 .cel .t { font: 700 15px/1.2 var(--serif); }
-.cel .l { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 8px; border-radius: 8px; background: #f4f6f8; }
+.cel .l { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 8px; align-items: center; min-height: 40px; padding: 6px 10px; border-radius: 8px; background: #f4f6f8; }
+.cel .l.dois { grid-template-columns: minmax(0, 1fr) auto; }
+.cel .l .h { font-variant-numeric: tabular-nums; color: var(--muted); }
+.cel .l .n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cel .l > :last-child { white-space: nowrap; text-align: right; }
 .cel .ok { color: #2f6b45; font-weight: 600; }
 .cel .pend { color: #8a5a0a; font-weight: 600; }
 .cel .mini { font-size: 12px; color: var(--muted); }
 .tela p { font-size: 15px; color: var(--muted); }
+/* telas simuladas do app (dados fictícios da Mel) */
+.mock { aspect-ratio: 4 / 5; background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 58px 16px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; font-size: 13px; line-height: 1.35; color: var(--ink); }
+.mock .topo { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.mock .topo b { font: 700 16px/1.2 var(--serif); }
+.mock .topo span { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.mock .grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.mock .tile { background: #f6f8f7; border-radius: 10px; padding: 10px; border-left: 3px solid #2f6b45; display: flex; flex-direction: column; gap: 3px; min-height: 104px; }
+.mock .tile.alerta { border-left-color: #b46a14; }
+.mock .tile .r { font-size: 12px; color: var(--muted); }
+.mock .tile .v { font: 600 20px/1.1 var(--sans); font-variant-numeric: tabular-nums; }
+.mock .tile .v small { font-size: 12px; font-weight: 500; color: var(--muted); }
+.mock .tag { align-self: flex-start; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: #e3f0e7; color: #2f6b45; }
+.mock .tag.alerta { background: #f7e7cf; color: #7a4a0a; }
+.mock .barra2 { height: 6px; border-radius: 3px; background: #e6e9ec; display: flex; overflow: hidden; margin-top: auto; }
+.mock .barra2 i { display: block; height: 100%; }
+.mock ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.mock .bloco { display: flex; flex-direction: column; gap: 6px; }
+.mock .bloco > b { display: flex; align-items: center; gap: 6px; font-size: 14px; }
+.mock .bola { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.mock .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.mock .chips span { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid #cfd8dc; }
+.mock .chips span.on { background: #2b6c7d; border-color: #2b6c7d; color: #fff; }
+.mock .ev { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 8px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #eef1f2; }
+.mock .ev .h { font-variant-numeric: tabular-nums; color: #2b6c7d; font-weight: 600; }
+.mock .ev .quem { color: var(--muted); font-size: 12px; }
+.mock .nota { margin-top: auto; font-size: 11px; color: var(--muted); }
 
 /* rodapé */
 footer { border-top: 1px solid var(--line); padding: 32px 0 48px; font-size: 15px; color: var(--muted); }
@@ -233,16 +266,39 @@ details p { margin-top: 8px; }
       </article>
       <article class="passo">
         <span class="num">5</span>
-        <h3>Da planilha pro app</h3>
-        <p>Eu sou engenheira de software. Comecei com uma planilha e virou um app: ele avisa a hora de cada coisa, mostra quem fez o quê, lê os laudos e transforma em gráfico. Hoje a gente cuida do Odin com ele. Ele segue lutando, um dia de cada vez, e a gente segue do lado dele.</p>
-        <div class="carrossel" role="region" aria-roledescription="carrossel" aria-label="Telas do app do Odin">
+        <h3>Do papel pro app</h3>
+        <p>Eram receitas e mais receitas, e resultado de exame em papel, PDF e foto no WhatsApp. Eu sou engenheira de software e juntei tudo num app: ele avisa a hora de cada coisa, mostra quem fez o quê, lê os laudos e transforma em gráfico. Hoje a gente cuida do Odin com ele. Ele segue lutando, um dia de cada vez, e a gente segue do lado dele.</p>
+        <div class="carrossel mocks" role="region" aria-roledescription="carrossel" aria-label="Telas do app com dados de exemplo">
           <div class="palco">
-          <span class="selo">Odin - Cockpit</span>
+          <span class="selo">Exemplo com a Mel</span>
           <div class="trilho" tabindex="0">
-            <figure class="slide"><img class="print" src="fotos/app-hoje.jpg" alt="Tela Hoje do app do Odin, com cartões de temperatura, água, calorias e comida do dia" width="780" height="975" loading="lazy"><figcaption>A tela de hoje: temperatura, água, comida e os últimos exames.</figcaption></figure>
-            <figure class="slide"><img class="print" src="fotos/app-grafico.jpg" alt="Gráfico de temperatura do Odin ao longo de novembro, com a faixa normal marcada em verde" width="780" height="975" loading="lazy"><figcaption>Cada medição vira gráfico, com a faixa normal marcada.</figcaption></figure>
-            <figure class="slide"><img class="print" src="fotos/app-avaliacao.jpg" alt="Avaliação do quadro feita pela IA, com a lista de pontos positivos" width="780" height="975" loading="lazy"><figcaption>A IA lê tudo e resume o quadro em pontos positivos e de preocupação.</figcaption></figure>
-            <figure class="slide"><img class="print" src="fotos/app-historico.jpg" alt="Linha do tempo do app, com filtros por tipo e os registros do dia" width="780" height="975" loading="lazy"><figcaption>A linha do tempo mostra o que aconteceu, a que horas e quem fez.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Tela Hoje com dados de exemplo da Mel: temperatura, água, calorias e comida do dia">
+              <div class="topo"><b>Mel · Hoje</b><span>atualizado às 14:05</span></div>
+              <div class="grade">
+                <div class="tile"><span class="r">Temperatura</span><span class="tag">na faixa</span><span class="v">38,6 <small>°C</small></span><span class="r">às 13:40 · Ana</span></div>
+                <div class="tile"><span class="r">Água hoje</span><span class="v">820 <small>mL</small></span><span class="r">meta 1.000 mL</span><div class="barra2"><i style="width: 52%; background: #2b6c7d"></i><i style="width: 30%; background: #6fae86"></i></div></div>
+                <div class="tile"><span class="r">Calorias</span><span class="v">610 <small>kcal</small></span><span class="r">meta 700 kcal</span><div class="barra2"><i style="width: 87%; background: #2f6b45"></i></div></div>
+                <div class="tile alerta"><span class="r">Creatinina</span><span class="tag alerta">acima</span><span class="v">1,6 <small>mg/dL</small></span><span class="r">caiu de 2,1</span></div>
+              </div>
+              <div class="ev"><span class="h">16:00</span><span>Água 120 mL <span class="quem">· pendente</span></span></div>
+              <div class="ev"><span class="h">20:00</span><span>Prednisona 5 mg <span class="quem">· em 6 h</span></span></div>
+            </div><figcaption>A tela de hoje: temperatura, água, comida e os últimos exames.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Gráfico de exemplo com a temperatura da Mel em novembro, a faixa normal em verde e dois picos de febre em laranja">
+              <div class="topo"><b>Temperatura</b><span>14 medições</span></div>
+              <svg viewBox="0 0 300 290" width="100%" style="font: 11px var(--sans); fill: #545a68" aria-hidden="true"><rect x="36" y="91" width="254" height="136" fill="#e6f0e9"/><line x1="36" x2="290" y1="226" y2="226" stroke="#eef1f2"/><text x="30" y="230" text-anchor="end">37,5</text><line x1="36" x2="290" y1="155" y2="155" stroke="#eef1f2"/><text x="30" y="159" text-anchor="end">38,5</text><line x1="36" x2="290" y1="83" y2="83" stroke="#eef1f2"/><text x="30" y="87" text-anchor="end">39,5</text><line x1="36" x2="290" y1="12" y2="12" stroke="#eef1f2"/><text x="30" y="16" text-anchor="end">40,5</text><polyline points="36,162 56,148 75,126 95,76 114,112 134,141 153,155 173,133 192,69 212,105 231,148 251,155 270,141 290,162" fill="none" stroke="#2b6c7d" stroke-width="2"/><circle cx="36" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="56" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="75" cy="126" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="95" cy="76" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="114" cy="112" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="134" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="153" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="173" cy="133" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="192" cy="69" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="212" cy="105" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="231" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="251" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="270" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="290" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><text x="36" y="282" text-anchor="start">10/11</text><text x="114" y="282" text-anchor="middle">14/11</text><text x="212" y="282" text-anchor="middle">19/11</text><text x="290" y="282" text-anchor="end">23/11</text></svg>
+              <span class="r" style="font-size: 12px; color: var(--muted)">Faixa verde: 37,5 a 39,4 °C · laranja: febre</span>
+            </div><figcaption>Cada medição vira gráfico, com a faixa normal marcada.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Avaliação de exemplo feita pela IA, com pontos positivos e de preocupação da Mel">
+              <div class="topo"><b>Avaliação do quadro</b><span>gerada às 9:00</span></div>
+              <div class="bloco"><b><span class="bola" style="background: #2f6b45"></span>Pontos positivos</b><ul><li><strong>Rim melhorando:</strong> creatinina caiu de 2,1 pra 1,6 em duas semanas.</li><li><strong>Comendo bem:</strong> 610 kcal hoje, perto da meta.</li><li><strong>Remédios em dia:</strong> 96% das doses no horário.</li></ul></div>
+              <div class="bloco"><b><span class="bola" style="background: #b46a14"></span>Pontos de preocupação</b><ul><li><strong>Febre à noite:</strong> passou de 39,5 °C em 2 dos últimos 7 dias.</li><li><strong>Água abaixo da meta</strong> em 3 dias da semana.</li></ul></div>
+              <span class="nota">Leitura de apoio, não substitui a veterinária.</span>
+            </div><figcaption>A IA lê tudo e resume o quadro em pontos positivos e de preocupação.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Linha do tempo de exemplo da Mel, com filtros e os registros do dia e quem fez cada um">
+              <div class="topo"><b>Linha do tempo</b><span>hoje, 23/11</span></div>
+              <div class="chips"><span class="on">Tudo</span><span>Remédio</span><span>Exame</span><span>Comida e água</span><span>Temperatura</span></div>
+              <div><div class="ev"><span class="h">14:02</span><span>Prednisona 5 mg <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">13:40</span><span>38,6 °C <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">12:30</span><span>180 g de ração úmida <span class="quem">· Beto</span></span></div><div class="ev"><span class="h">10:15</span><span>Exame de sangue lido do PDF <span class="quem">· Carla</span></span></div><div class="ev"><span class="h">08:00</span><span>Água 150 mL <span class="quem">· Beto</span></span></div></div>
+            </div><figcaption>A linha do tempo mostra o que aconteceu, a que horas e quem fez.</figcaption></figure>
           </div>
           <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
           <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -297,10 +353,10 @@ details p { margin-top: 8px; }
       <div class="tela">
         <div class="cel" aria-hidden="true">
           <span class="t">Hoje</span>
-          <div class="l"><span>14:00 · Prednisona 5 mg</span><span class="ok">Feito</span></div>
+          <div class="l"><span class="h">14:00</span><span class="n">Prednisona 5 mg</span><span class="ok">Feito</span></div>
           <span class="mini">Ana deu às 14:02</span>
-          <div class="l"><span>16:00 · Água 120 ml</span><span class="pend">Pendente</span></div>
-          <div class="l"><span>20:00 · Temperatura</span><span class="mini">daqui 4 h</span></div>
+          <div class="l"><span class="h">16:00</span><span class="n">Água 120 mL</span><span class="pend">Pendente</span></div>
+          <div class="l"><span class="h">20:00</span><span class="n">Temperatura</span><span class="mini">em 4 h</span></div>
           <span class="mini" style="margin-top: auto">Adesão da semana: 96% no horário</span>
         </div>
         <h3>Ninguém fica na dúvida</h3>
@@ -319,9 +375,9 @@ details p { margin-top: 8px; }
       <div class="tela">
         <div class="cel" aria-hidden="true">
           <span class="t">Estoque</span>
-          <div class="l"><span>Seringa 10 ml</span><span class="pend">acaba em 3 dias</span></div>
-          <div class="l"><span>Ração úmida</span><span class="ok">12 dias</span></div>
-          <div class="l"><span>Prednisona 5 mg</span><span class="ok">18 dias</span></div>
+          <div class="l dois"><span class="n">Seringa 10 mL</span><span class="pend">3 dias</span></div>
+          <div class="l dois"><span class="n">Ração úmida</span><span class="ok">12 dias</span></div>
+          <div class="l dois"><span class="n">Prednisona 5 mg</span><span class="ok">18 dias</span></div>
           <span class="mini" style="margin-top: auto">Lista de compras pronta pra copiar</span>
         </div>
         <h3>Nada acaba de surpresa</h3>
