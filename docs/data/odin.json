@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-23T11:18:12.055Z",
- "updatedAt": 1795432399746,
+ "exportedAt": "2026-11-23T11:36:51.037Z",
+ "updatedAt": 1795433543514,
  "exams": [
   {
    "id": "4hij7o2ry1qed6691fc6",
@@ -267,6 +267,23 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "cOZcoHKrYCJgpQUjsFYP",
+   "date": "2026-11-23",
+   "time": "08:30",
+   "kind": "Glicemia (glicosímetro)",
+   "lab": "Em casa",
+   "params": {
+    "glic": 88
+   },
+   "other": [
+    "em jejum",
+    "sangue da orelha, glicosímetro"
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795433417323
   },
   {
    "id": "cxfk6hny6616mgkndjml",
@@ -2162,6 +2179,21 @@
    "_by": "[removido]",
    "_at": 1795228835062,
    "_byName": "a tutora"
+  },
+  {
+   "id": "tN7mPUS0NUmcg0tSdh4O",
+   "date": "2026-11-23",
+   "time": "08:32",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795433542013
   },
   {
    "id": "tvSKSAxLbnJCp21otwVL",
