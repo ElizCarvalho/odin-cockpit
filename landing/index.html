@@ -73,7 +73,7 @@ header.topo .wrap { display: flex; align-items: center; justify-content: space-b
 .trilho { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: var(--r); }
 .trilho::-webkit-scrollbar { display: none; }
 .slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; gap: 8px; }
-.slide img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r); display: block; background: #e8dccb; }
+.slide img, .slide video { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r); display: block; background: #e8dccb; }
 .slide figcaption { font-size: 15px; color: var(--ink); }
 .ctrl { display: flex; align-items: center; justify-content: space-between; }
 .seta { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surf); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -167,16 +167,16 @@ details p { margin-top: 8px; }
         <div class="carrossel" role="region" aria-roledescription="carrossel" aria-label="Fotos do Odin antes da cinomose">
           <div class="palco">
           <span class="selo">Antes da cinomose</span>
-          <div class="trilho" id="trilho" tabindex="0">
+          <div class="trilho" tabindex="0">
             <figure class="slide"><img src="fotos/odin-praia.jpg?v=3" alt="O Odin de coleira na areia da praia, olhando o mar, com o Pão de Açúcar ao fundo" width="1000" height="1482" loading="lazy"><figcaption>Passeio na praia, com o Pão de Açúcar ao fundo.</figcaption></figure>
             <figure class="slide"><img src="fotos/odin-olhar.jpg?v=3" alt="O Odin de perto, com a pata apoiada no ombro de alguém, olhando pra câmera" width="1000" height="1666" loading="lazy" style="object-position: 50% 40%"><figcaption>De olho em tudo, sempre por perto.</figcaption></figure>
             <figure class="slide"><img src="fotos/odin-pata.jpg?v=3" alt="O Odin deitado no sofá, olhando pra câmera, com uma mão segurando a pata dele" width="1000" height="1333" loading="lazy"><figcaption>Pata dada, do jeito que ele gosta.</figcaption></figure>
           </div>
           </div>
           <div class="ctrl">
-            <button type="button" class="seta" id="ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-            <div class="pontos" id="pontos"></div>
-            <button type="button" class="seta" id="prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+            <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <div class="pontos"></div>
+            <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
           </div>
         </div>
       </article>
@@ -184,7 +184,21 @@ details p { margin-top: 8px; }
         <span class="num">2</span>
         <h3>A cinomose</h3>
         <p>Em setembro, o Odin pegou cinomose, mesmo vacinado. Começou com uma tosse e, duas semanas depois, vieram as convulsões. A doença foi pro sistema nervoso e ele parou de andar.</p>
-        <figure class="foto meia"><img src="fotos/odin-cinomose.jpg?v=2" alt="O Odin dormindo no colo, entre uma internação e outra" width="360" height="480" loading="lazy"></figure>
+        <div class="carrossel" role="region" aria-roledescription="carrossel" aria-label="O Odin entre setembro e outubro">
+          <div class="palco">
+          <span class="selo">Setembro e outubro</span>
+          <div class="trilho" tabindex="0">
+            <figure class="slide"><img src="fotos/odin-dino.jpg" alt="O Odin deitado na caminha roxa, abatido, com o dinossauro azul de pelúcia" width="1000" height="1333" loading="lazy"><figcaption>Em casa depois da primeira alta, com o dinossauro de pelúcia.</figcaption></figure>
+            <figure class="slide"><video src="fotos/odin-colo.mp4" poster="fotos/odin-colo-capa.jpg" muted playsinline loop preload="none" controls controlslist="nodownload noplaybackrate" disablepictureinpicture aria-label="Vídeo sem som: carinho no Odin deitado no colo" width="720" height="1280"></video><figcaption>Carinho no colo, entre uma internação e outra.</figcaption></figure>
+            <figure class="slide"><img src="fotos/odin-cinomose.jpg?v=3" alt="O Odin dormindo no colo, com a cabeça apoiada numa manta xadrez" width="1000" height="1333" loading="lazy"><figcaption>Na véspera da segunda internação.</figcaption></figure>
+          </div>
+          </div>
+          <div class="ctrl">
+            <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <div class="pontos"></div>
+            <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
       </article>
       <article class="passo">
         <span class="num">3</span>
@@ -339,29 +353,40 @@ details p { margin-top: 8px; }
     } catch (e) { /* contagem é opcional */ }
   }
 
-  // carrossel do "Quem é o Odin"
-  (function () {
-    var t = document.getElementById('trilho'); if (!t) return;
-    var slides = t.querySelectorAll('.slide'), pts = document.getElementById('pontos');
-    var ant = document.getElementById('ant'), prox = document.getElementById('prox');
+  // carrosséis da história: setas, bolinhas e vídeo que só toca quando aparece
+  document.querySelectorAll('.carrossel').forEach(function (raiz) {
+    var t = raiz.querySelector('.trilho'), slides = t.querySelectorAll('.slide'), pts = raiz.querySelector('.pontos');
+    var ant = raiz.querySelector('.ant'), prox = raiz.querySelector('.prox');
+    var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
     var botoes = Array.prototype.map.call(slides, function (s, i) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'ponto';
-      b.setAttribute('aria-label', 'Foto ' + (i + 1) + ' de ' + slides.length);
+      b.setAttribute('aria-label', 'Item ' + (i + 1) + ' de ' + slides.length);
       b.addEventListener('click', function () { ir(i); }); pts.appendChild(b); return b;
     });
     function atual() { return Math.round(t.scrollLeft / Math.max(1, t.clientWidth + 12)); }
-    function ir(i) { t.scrollTo({ left: i * (t.clientWidth + 12), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+    function ir(i) { t.scrollTo({ left: i * (t.clientWidth + 12), behavior: calmo ? 'auto' : 'smooth' }); }
     function marca() {
       var i = atual();
       botoes.forEach(function (b, k) { b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
       ant.disabled = i <= 0; prox.disabled = i >= slides.length - 1;
+      Array.prototype.forEach.call(slides, function (s, k) {
+        var v = s.querySelector('video'); if (!v) return;
+        if (k !== i) { v.pause(); return; }
+        if (!calmo && raiz.dataset.visivel === '1') { v.muted = true; var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
+      });
     }
     ant.addEventListener('click', function () { ir(Math.max(0, atual() - 1)); });
     prox.addEventListener('click', function () { ir(Math.min(slides.length - 1, atual() + 1)); });
     t.addEventListener('scroll', function () { requestAnimationFrame(marca); }, { passive: true });
     t.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); prox.click(); } if (e.key === 'ArrowLeft') { e.preventDefault(); ant.click(); } });
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { raiz.dataset.visivel = e.isIntersecting ? '1' : '0'; if (!e.isIntersecting) raiz.querySelectorAll('video').forEach(function (v) { v.pause(); }); else marca(); });
+      }, { threshold: 0.5 });
+      obs.observe(raiz);
+    }
     marca();
-  })();
+  });
 
   var UFS = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA','MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR','RS','SC','SE','SP','TO'];
 
