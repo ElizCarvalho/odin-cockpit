@@ -1,7 +1,21 @@
 {
- "exportedAt": "2026-11-23T11:49:54.058Z",
- "updatedAt": 1795434303018,
+ "exportedAt": "2026-11-23T11:59:42.551Z",
+ "updatedAt": 1795434893601,
  "exams": [
+  {
+   "id": "1qnN9mlkpATNoD43YyIz",
+   "date": "2026-11-23",
+   "time": "08:49",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "params": {
+    "peso": 20
+   },
+   "other": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795434892209
+  },
   {
    "id": "4hij7o2ry1qed6691fc6",
    "date": "2026-09-25",
