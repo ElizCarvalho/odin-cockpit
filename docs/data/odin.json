@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-23T16:05:47.474Z",
- "updatedAt": 1795449512839,
+ "exportedAt": "2026-11-23T16:14:09.340Z",
+ "updatedAt": 1795450122619,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -4556,6 +4556,18 @@
    "_at": 1795293485941
   },
   {
+   "id": "K9l06vUdvFThEhpcOgyQ",
+   "date": "2026-11-23",
+   "time": "13:07",
+   "food": true,
+   "note": "Patê caseiro (fígado de frango, cenoura, beterraba, inhame, batata-doce) · Almoço",
+   "foodId": "caseira_mwtgn7wo",
+   "food_g": 530.9,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795450121298
+  },
+  {
    "id": "Lj7DNQprjucysMGZPFi2",
    "date": "2026-11-19",
    "time": "17:58",
@@ -6362,6 +6374,20 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795364544391
+  },
+  {
+   "id": "caseira_mwtgn7wo",
+   "name": "Patê caseiro (fígado de frango, cenoura, beterraba, inhame, batata-doce)",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 110.3,
+   "water": 0.73,
+   "est": true,
+   "src": "estimado pela IA: Fígado de frango cozido 225 g/355 kcal · Cenoura cozida 70 g/29 kcal · Beterraba cozida 70 g/30 kcal · Inhame cozido 70 g/82 kcal · Batata-doce cozida 69 g/60 kcal",
+   "receita": "298,3 gramas de fígado de frango \n279 gramas de cenoura + beterraba + inhame + batata doce",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795450121161
   },
   {
    "id": "cha",
