@@ -151,7 +151,19 @@ section.bloco { padding: 64px 0; }
 
 /* telas de exemplo do app (pet fictício: Bento) */
 .mocks { margin-top: 32px; }
-.mock { aspect-ratio: 4 / 5; background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 18px 16px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; font-size: 13px; line-height: 1.35; color: var(--ink); }
+.mocks { max-width: 1000px; margin-left: auto; margin-right: auto; }
+.mocks .trilho { gap: 16px; border-radius: 0; }
+.mocks .slide { flex: 0 0 min(280px, 80%); scroll-snap-align: start; }
+@media (min-width: 640px) { .mocks .slide { flex-basis: calc((100% - 16px) / 2); } }
+@media (min-width: 1000px) { .mocks .slide { flex-basis: calc((100% - 32px) / 3); } }
+.mocks .slide figcaption { font-size: 15px; color: var(--muted); padding: 0 4px; }
+.mock { position: relative; aspect-ratio: 9 / 17; background: #fff; border: 9px solid var(--hero); border-radius: 38px; box-shadow: 0 18px 40px rgba(15, 27, 45, .16); padding: 40px 14px 14px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; font-size: 13px; line-height: 1.35; color: var(--ink); }
+.mock::before { content: ''; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 72px; height: 20px; border-radius: 999px; background: var(--hero); }
+.mock .item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 10px; border-radius: 10px; background: #f6f8f7; }
+.mock .item small { display: block; font-size: 12px; color: var(--muted); }
+.mock .ok { color: #2f6b45; font-weight: 600; white-space: nowrap; }
+.mock .pend { color: #7a4a0a; font-weight: 600; white-space: nowrap; }
+.mock .caixa { margin-top: auto; background: var(--teal-soft); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
 .mock .topo { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .mock .topo b { font: 700 16px/1.2 var(--disp); }
 .mock .topo span { font-size: 12px; color: var(--muted); white-space: nowrap; }
@@ -176,12 +188,6 @@ section.bloco { padding: 64px 0; }
 .mock .ev .h { font-variant-numeric: tabular-nums; color: #2b6c7d; font-weight: 600; }
 .mock .ev .quem { color: var(--muted); font-size: 12px; }
 .mock .nota { margin-top: auto; font-size: 11px; color: var(--muted); }
-@media (min-width: 1000px) {
-  .mocks .trilho { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; overflow: visible; border-radius: 0; }
-  .mocks .mock { aspect-ratio: auto; height: 100%; min-height: 380px; overflow: visible; }
-  .mocks .slide figcaption { font-size: 14px; color: var(--muted); }
-  .mocks .ctrl { display: none; }
-}
 
 /* a história */
 .historia { background: var(--surf); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -345,7 +351,7 @@ details.priv p { margin-top: 8px; max-width: 720px; }
         <div class="card"><span class="passo-n" aria-hidden="true">3</span><h3>Exames viram gráfico</h3><p>Mande o PDF do laboratório. O app separa os valores e mostra a evolução, com a faixa normal marcada.</p></div>
       </div>
       <div class="carrossel mocks" role="region" aria-roledescription="carrossel" aria-label="Telas do app com dados de exemplo do Bento, um pet fictício">
-        <p class="legenda" style="font-size: 15px; color: var(--muted)">Telas de verdade do app, com dados de exemplo do Bento, um pet fictício.</p>
+        <p class="legenda" style="font-size: 15px; color: var(--muted)">Telas de verdade do app, com dados de exemplo do Bento, um pet fictício. Use as setas pra ver as outras.</p>
         <div class="palco">
           <div class="trilho" tabindex="0">
             <figure class="slide"><div class="mock" role="img" aria-label="Tela Hoje com dados de exemplo do Bento: temperatura, água, calorias e comida do dia">
@@ -359,6 +365,14 @@ details.priv p { margin-top: 8px; max-width: 720px; }
               <div class="ev"><span class="h">16:00</span><span>Água 120 mL <span class="quem">· pendente</span></span></div>
               <div class="ev"><span class="h">20:00</span><span>Prednisona 5 mg <span class="quem">· em 6 h</span></span></div>
             </div><figcaption>A tela de hoje: temperatura, água, comida e os últimos exames.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Tela de remédios de exemplo do Bento, com os horários do dia, quem deu cada dose e a adesão da semana">
+              <div class="topo"><b>Remédios</b><span>hoje, 27/11</span></div>
+              <div class="item"><span>08:00 · Omeprazol 10 mg<small>Beto deu às 08:04</small></span><span class="ok">Feito</span></div>
+              <div class="item"><span>14:00 · Prednisona 5 mg<small>Ana deu às 14:02</small></span><span class="ok">Feito</span></div>
+              <div class="item"><span>18:00 · Amoxicilina 250 mg<small>com comida</small></span><span class="pend">em 4 h</span></div>
+              <div class="item"><span>20:00 · Prednisona 5 mg<small>segunda dose</small></span><span class="pend">em 6 h</span></div>
+              <div class="caixa"><b>Adesão da semana</b><span>96% das doses no horário</span><div class="barra2" style="margin-top: 2px"><i style="width: 96%; background: #0E5D55"></i></div></div>
+            </div><figcaption>Cada dose com o horário, quem deu e a adesão da semana.</figcaption></figure>
             <figure class="slide"><div class="mock" role="img" aria-label="Gráfico de exemplo com a temperatura do Bento em novembro, a faixa normal em verde e dois picos de febre em laranja">
               <div class="topo"><b>Temperatura</b><span>14 medições</span></div>
               <svg viewBox="0 0 300 290" width="100%" style="font: 11px var(--sans); fill: #545a68" aria-hidden="true"><rect x="36" y="91" width="254" height="136" fill="#e6f0e9"/><line x1="36" x2="290" y1="226" y2="226" stroke="#eef1f2"/><text x="30" y="230" text-anchor="end">37,5</text><line x1="36" x2="290" y1="155" y2="155" stroke="#eef1f2"/><text x="30" y="159" text-anchor="end">38,5</text><line x1="36" x2="290" y1="83" y2="83" stroke="#eef1f2"/><text x="30" y="87" text-anchor="end">39,5</text><line x1="36" x2="290" y1="12" y2="12" stroke="#eef1f2"/><text x="30" y="16" text-anchor="end">40,5</text><polyline points="36,162 56,148 75,126 95,76 114,112 134,141 153,155 173,133 192,69 212,105 231,148 251,155 270,141 290,162" fill="none" stroke="#2b6c7d" stroke-width="2"/><circle cx="36" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="56" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="75" cy="126" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="95" cy="76" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="114" cy="112" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="134" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="153" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="173" cy="133" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="192" cy="69" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="212" cy="105" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="231" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="251" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="270" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="290" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><text x="36" y="282" text-anchor="start">10/11</text><text x="114" y="282" text-anchor="middle">14/11</text><text x="212" y="282" text-anchor="middle">19/11</text><text x="290" y="282" text-anchor="end">23/11</text></svg>
@@ -375,6 +389,14 @@ details.priv p { margin-top: 8px; max-width: 720px; }
               <div class="chips"><span class="on">Tudo</span><span>Remédio</span><span>Exame</span><span>Comida e água</span><span>Temperatura</span></div>
               <div><div class="ev"><span class="h">14:02</span><span>Prednisona 5 mg <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">13:40</span><span>38,6 °C <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">12:30</span><span>180 g de ração úmida <span class="quem">· Beto</span></span></div><div class="ev"><span class="h">10:15</span><span>Exame de sangue lido do PDF <span class="quem">· Carla</span></span></div><div class="ev"><span class="h">08:00</span><span>Água 150 mL <span class="quem">· Beto</span></span></div></div>
             </div><figcaption>A linha do tempo mostra o que aconteceu, a que horas e quem fez.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Tela de estoque de exemplo do Bento, com quantos dias dura cada item e a lista de compras">
+              <div class="topo"><b>Estoque</b><span>4 itens</span></div>
+              <div class="item"><span>Gaze<small>2 pacotes</small></span><span class="ok">25 dias</span></div>
+              <div class="item"><span>Prednisona 5 mg<small>36 comprimidos</small></span><span class="ok">18 dias</span></div>
+              <div class="item"><span>Ração úmida<small>12 sachês</small></span><span class="ok">12 dias</span></div>
+              <div class="item" style="background: #fbf1e1"><span>Seringa 10 mL<small>6 unidades</small></span><span class="pend">3 dias</span></div>
+              <div class="caixa"><b>Lista de compras</b><span>Seringa 10 mL · 2 caixas</span><span class="ok" style="color: var(--teal-ink)">Copiar lista</span></div>
+            </div><figcaption>O estoque avisa antes de acabar remédio, comida ou material.</figcaption></figure>
           </div>
         </div>
         <div class="ctrl">
@@ -597,17 +619,26 @@ details.priv p { margin-top: 8px; max-width: 720px; }
     var t = raiz.querySelector('.trilho'), slides = t.querySelectorAll('.slide'), pts = raiz.querySelector('.pontos');
     var ant = raiz.querySelector('.ant'), prox = raiz.querySelector('.prox');
     var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var botoes = Array.prototype.map.call(slides, function (s, i) {
-      var b = document.createElement('button'); b.type = 'button'; b.className = 'ponto';
-      b.setAttribute('aria-label', 'Item ' + (i + 1) + ' de ' + slides.length);
-      b.addEventListener('click', function () { ir(i); }); pts.appendChild(b); return b;
-    });
-    function atual() { return Math.round(t.scrollLeft / Math.max(1, t.clientWidth + 12)); }
-    function ir(i) { t.scrollTo({ left: i * (t.clientWidth + 12), behavior: calmo ? 'auto' : 'smooth' }); }
+    var botoes = [];
+    function passo() { var d = slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : 0; return d > 0 ? d : t.clientWidth + 12; }
+    function porVez() { var g = passo() - slides[0].offsetWidth; return Math.max(1, Math.round((t.clientWidth + Math.max(0, g)) / passo())); }
+    function ultimo() { return Math.max(0, slides.length - porVez()); }
+    function atual() { return Math.min(ultimo(), Math.round(t.scrollLeft / Math.max(1, passo()))); }
+    function ir(i) { t.scrollTo({ left: Math.max(0, Math.min(ultimo(), i)) * passo(), behavior: calmo ? 'auto' : 'smooth' }); }
+    function montaPontos() {
+      var n = ultimo() + 1; if (botoes.length === n) return;
+      pts.innerHTML = ''; botoes = [];
+      for (var k = 0; k < n; k++) (function (i) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'ponto';
+        b.setAttribute('aria-label', 'Posição ' + (i + 1) + ' de ' + n);
+        b.addEventListener('click', function () { ir(i); }); pts.appendChild(b); botoes.push(b);
+      })(k);
+    }
     function marca() {
+      montaPontos();
       var i = atual();
       botoes.forEach(function (b, k) { b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
-      ant.disabled = i <= 0; prox.disabled = i >= slides.length - 1;
+      ant.disabled = i <= 0; prox.disabled = i >= ultimo();
       Array.prototype.forEach.call(slides, function (s, k) {
         var v = s.querySelector('video'); if (!v) return;
         if (k !== i) { v.pause(); return; }
@@ -615,7 +646,8 @@ details.priv p { margin-top: 8px; max-width: 720px; }
       });
     }
     ant.addEventListener('click', function () { ir(Math.max(0, atual() - 1)); });
-    prox.addEventListener('click', function () { ir(Math.min(slides.length - 1, atual() + 1)); });
+    prox.addEventListener('click', function () { ir(atual() + 1); });
+    window.addEventListener('resize', function () { requestAnimationFrame(marca); });
     t.addEventListener('scroll', function () { requestAnimationFrame(marca); }, { passive: true });
     t.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); prox.click(); } if (e.key === 'ArrowLeft') { e.preventDefault(); ant.click(); } });
     if ('IntersectionObserver' in window) {
