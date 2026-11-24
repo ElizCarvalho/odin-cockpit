@@ -6,7 +6,6 @@ on:
     paths:
       - 'app/**'
       - 'artifact/index.html'
-      - 'landing/**'
       - 'functions/**'
       - 'firebase.json'
       - 'firestore.rules'

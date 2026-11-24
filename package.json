@@ -5,6 +5,7 @@
   "description": "Cockpit de acompanhamento de saúde do Odin, publicado no GitHub Pages",
   "scripts": {
     "check": "node scripts/check.mjs",
+    "check:landing": "node scripts/check-landing.mjs",
     "smoke": "node scripts/build-app.mjs && node tests/smoke.mjs",
     "app:build": "node scripts/build-app.mjs",
     "app:ver": "node scripts/build-app.mjs && npx --yes serve app/public -l 5050",

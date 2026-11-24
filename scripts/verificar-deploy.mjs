@@ -6,6 +6,7 @@ import { execFileSync } from 'node:child_process';
 const REPO = 'ElizCarvalho/odin-cockpit';
 const APP = 'https://odin-cockpit.web.app/';
 const SITE = 'https://elizcarvalho.github.io/odin-cockpit/';
+const LANDING = 'https://munin-pesquisa.web.app/';
 const root = new URL('..', import.meta.url).pathname;
 const git = (...a) => execFileSync('git', a, { cwd: root, encoding: 'utf8' }).trim();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -35,7 +36,7 @@ while (waited < 15 * 60e3) {
 }
 
 let fail = false;
-if (!runs.length) console.log('• nenhum Action rodou pra este commit (não mexeu em app nem em docs/).');
+if (!runs.length) console.log('• nenhum Action rodou pra este commit (não mexeu em app, landing nem docs/).');
 for (const r of runs) {
   const good = r.conclusion === 'success';
   console.log(`${good ? '✓' : '✗'} ${r.name}: ${r.conclusion || r.status}${good ? '' : ' → ' + r.html_url}`);
@@ -48,6 +49,13 @@ if (deploy && deploy.conclusion === 'success') {
   const live = (html.match(/<meta name="odin-build" content="([0-9a-f]*)"/) || [])[1] || '';
   if (live === sha) console.log(`✓ app no ar com este commit: ${APP}`);
   else { console.log(`✗ o app no ar está em ${live ? live.slice(0, 7) : '(sem marca de versão)'}, não em ${sha.slice(0, 7)}`); fail = true; }
+}
+const landing = runs.find(r => r.name.startsWith('Deploy da landing'));
+if (landing && landing.conclusion === 'success') {
+  const html = await (await fetch(LANDING + '?v=' + Date.now(), { cache: 'no-store' })).text();
+  const live = (html.match(/<meta name="munin-build" content="([0-9a-f]*)"/) || [])[1] || '';
+  if (live === sha) console.log(`✓ landing no ar com este commit: ${LANDING}`);
+  else { console.log(`✗ a landing no ar está em ${live ? live.slice(0, 7) : '(sem marca de versão)'}, não em ${sha.slice(0, 7)}`); fail = true; }
 }
 const pages = runs.find(r => r.name === 'pages build and deployment');
 if (pages && pages.conclusion === 'success') {

@@ -56,6 +56,7 @@ Fale **em português do Brasil**, direto, sem enrolação. Todo texto de interfa
 
 - Firebase project `odin-cockpit`: Firestore em `southamerica-east1`, Storage em `us-east1` (cota grátis), funções em `southamerica-east1`.
 - O deploy é automático no push pra `main` (Action "Deploy do app (Firebase)"), que roda `npm run check` antes de publicar.
+- A landing do Munin Pet (`landing/`, site `munin-pesquisa`) tem Action próprio, "Deploy da landing (Munin Pet)": roda `npm run check:landing` e publica só esse site, sem gerar versão nova do app. Mudou `functions/` ou `firebase.json`? Aí vai pelo deploy do app.
 - O site público se atualiza sozinho quando os dados mudam: a função `marcarSitePublico` marca `meta/publico.dirtyAt` a cada escrita numa coleção pública, e o `tick` dispara o Action "Publicar site público" depois de 3 min sem edição (no máximo 1 vez a cada 10 min; precisa do secret `GH_DISPATCH_TOKEN`). O cron do Action (a cada 6 h) é só rede de segurança. Ele lê o Firebase e passa pelo anonimizador (`config/anonimizacao.json`), que **para a publicação** se sobrar nome, CRMV, CPF ou e-mail. Nome novo de pessoa em documento? Acrescente em `substituir` e `proibidos`.
 - Papéis em `acl/users`: `emails[]`, `roles{email: admin|edit|view}`, `notify{email: bool}`.
 - O lembrete é um doc `notifs/{schedId_AAAA-MM-DD_HHMM}`, criado pela função `tick` a partir de `schedule`. A resposta grava em `vitals` (água, comida, temperatura) ou em `rotina_log` (remédio, decúbito).

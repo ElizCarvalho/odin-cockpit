@@ -51,6 +51,7 @@ flowchart LR
 | **registrar** | `functions/index.js` | Chamada autenticada (só admin/edita). Manda texto e imagens pro Claude e devolve o JSON que o cockpit mostra em "Confere antes de salvar". |
 | **marcarSitePublico** | `functions/index.js` | Gatilho do Firestore. Toda escrita numa coleção que vai pro site marca `meta/publico.dirtyAt`. |
 | **Deploy do app** | `.github/workflows/deploy-app.yml` | No push pra `main`: instala, roda `npm run check` (o mesmo de antes do commit) e faz deploy de hosting, regras e funções. |
+| **Deploy da landing** | `.github/workflows/deploy-landing.yml` | No push pra `main` que mexe só em `landing/`: roda `npm run check:landing` e publica só o site `munin-pesquisa`, com a marca `munin-build` do commit. Não gera versão nova do app. |
 | **Publicar site público** | `.github/workflows/publicar-site.yml` | Exporta do Firestore, anonimiza, monta `docs/` e commita se mudou. Quem dispara é o `tick`; o cron a cada 6 h é só rede de segurança. |
 
 ## Caminho de um dado

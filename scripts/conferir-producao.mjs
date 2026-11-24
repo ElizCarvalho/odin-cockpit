@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Conferência em produção, só leitura: abre o app no ar (login e modo teste) e o site público
+// Conferência em produção, só leitura: abre o app no ar (login e modo teste), o site público e a landing do Munin Pet
 // no Chrome (computador) e no Safari simulando iPhone. Procura erro de JavaScript, menu fora do lugar
 // e tela estourando pro lado. Não loga nem grava nada no Odin real.
 // Uso: npm run producao:conferir   (também roda no fim do npm run deploy:verificar)
@@ -11,7 +11,8 @@ const ALVOS = [
   { nome: 'app · modo teste (Hoje)', url: APP + 'teste/?as=admin%40teste.com#hoje', menu: 5 },
   { nome: 'app · modo teste (Registrar)', url: APP + 'teste/?as=edita%40teste.com#registrar', menu: 5 },
   { nome: 'site público (Hoje)', url: 'https://elizcarvalho.github.io/odin-cockpit/', menu: 4 },
-  { nome: 'site público (Medicamentos)', url: 'https://elizcarvalho.github.io/odin-cockpit/#remedios', menu: 4 }
+  { nome: 'site público (Medicamentos)', url: 'https://elizcarvalho.github.io/odin-cockpit/#remedios', menu: 4 },
+  { nome: 'landing Munin Pet', url: 'https://munin-pesquisa.web.app/', landing: true }
 ];
 const MOTORES = [
   { nome: 'iPhone/Safari', motor: webkit, ctx: devices['iPhone 15'] },
@@ -29,7 +30,8 @@ for (const m of MOTORES) {
     page.on('console', c => { if (c.type() === 'error' && !ignorar.test(c.text())) erros.push('console: ' + c.text()); });
     try {
       await page.goto(a.url, { waitUntil: 'load', timeout: 30000 });
-      if (a.login) await page.getByRole('button', { name: /Entrar com Google/i }).waitFor({ timeout: 15000 });
+      if (a.landing) await page.locator('#t-hero').waitFor({ timeout: 15000 });
+      else if (a.login) await page.getByRole('button', { name: /Entrar com Google/i }).waitFor({ timeout: 15000 });
       else await page.getByRole('tablist', { name: 'Seções' }).waitFor({ timeout: 15000 });
       await page.waitForTimeout(800);
       const r = await page.evaluate(() => {

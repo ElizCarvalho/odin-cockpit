@@ -1,0 +1,32 @@
+name: Deploy da landing (Munin Pet)
+
+# Publica só o site munin-pesquisa (landing/). Não monta nem publica o app, então o app não
+# mostra "nova versão" quando só a landing muda. Mudança em functions/ ou firebase.json continua
+# indo pelo "Deploy do app (Firebase)", que publica tudo.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'landing/**'
+      - 'scripts/check-landing.mjs'
+      - '.github/workflows/deploy-landing.yml'
+  workflow_dispatch:
+
+concurrency: { group: deploy-landing, cancel-in-progress: false }
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Validação da landing
+        run: node scripts/check-landing.mjs
+      - name: Marca de versão (pra conferir depois qual commit está no ar)
+        run: sed -i "s|<meta charset=\"utf-8\">|<meta charset=\"utf-8\">\n<meta name=\"munin-build\" content=\"$GITHUB_SHA\">|" landing/index.html
+      - uses: google-github-actions/auth@v2
+        with: { credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' }
+      - name: Deploy (só a landing)
+        run: npx -y firebase-tools@14 deploy --project odin-cockpit --only hosting:munin-pesquisa --non-interactive

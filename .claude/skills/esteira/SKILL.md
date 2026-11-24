@@ -57,7 +57,7 @@ git push
 
 Se for rejeitado: `git pull --rebase`, rode `npm run check` de novo e faça o push.
 
-O push na `main` dispara o Action **Deploy do app (Firebase)**: ele roda `npm run check` de novo e publica app, regras e funções. Mudança só em `docs/` publica o site público pelo GitHub Pages.
+O push na `main` dispara o Action **Deploy do app (Firebase)**: ele roda `npm run check` de novo e publica app, regras e funções. Mudança só em `docs/` publica o site público pelo GitHub Pages. Mudança só em `landing/` dispara o **Deploy da landing (Munin Pet)**, que publica só a landing e não faz o app avisar de versão nova.
 
 ## 6. Conferir que está no ar
 
