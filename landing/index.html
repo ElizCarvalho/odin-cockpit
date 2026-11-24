@@ -151,24 +151,24 @@ section.bloco { padding: 64px 0; }
 
 /* telas de exemplo do app (pet fictício: Bento) */
 .mocks { margin-top: 32px; }
-.mocks { max-width: 1000px; margin-left: auto; margin-right: auto; }
+.mocks { max-width: 920px; margin-left: auto; margin-right: auto; }
 .mocks .trilho { gap: 16px; border-radius: 0; }
-.mocks .slide { flex: 0 0 min(280px, 80%); scroll-snap-align: start; }
+.mocks .slide { flex: 0 0 min(300px, 84%); scroll-snap-align: start; }
 @media (min-width: 640px) { .mocks .slide { flex-basis: calc((100% - 16px) / 2); } }
 @media (min-width: 1000px) { .mocks .slide { flex-basis: calc((100% - 32px) / 3); } }
 .mocks .slide figcaption { font-size: 15px; color: var(--muted); padding: 0 4px; }
-.mock { position: relative; aspect-ratio: 9 / 17; background: #fff; border: 9px solid var(--hero); border-radius: 38px; box-shadow: 0 18px 40px rgba(15, 27, 45, .16); padding: 40px 14px 14px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; font-size: 13px; line-height: 1.35; color: var(--ink); }
+.mock { position: relative; aspect-ratio: 9 / 19.5; background: #fff; border: 9px solid var(--hero); border-radius: 38px; box-shadow: 0 18px 40px rgba(15, 27, 45, .16); padding: 40px 14px 14px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; font-size: 13px; line-height: 1.35; color: var(--ink); }
 .mock::before { content: ''; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 72px; height: 20px; border-radius: 999px; background: var(--hero); }
-.mock .item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 10px; border-radius: 10px; background: #f6f8f7; }
+.mock .item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 10px; background: #f6f8f7; }
 .mock .item small { display: block; font-size: 12px; color: var(--muted); }
 .mock .ok { color: #2f6b45; font-weight: 600; white-space: nowrap; }
 .mock .pend { color: #7a4a0a; font-weight: 600; white-space: nowrap; }
-.mock .caixa { margin-top: auto; background: var(--teal-soft); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.mock .caixa { background: var(--teal-soft); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
 .mock .topo { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .mock .topo b { font: 700 16px/1.2 var(--disp); }
 .mock .topo span { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .mock .grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.mock .tile { background: #f6f8f7; border-radius: 10px; padding: 10px; border-left: 3px solid #2f6b45; display: flex; flex-direction: column; gap: 3px; min-height: 104px; }
+.mock .tile { background: #f6f8f7; border-radius: 10px; padding: 8px 10px; border-left: 3px solid #2f6b45; display: flex; flex-direction: column; gap: 2px; min-height: 92px; }
 .mock .tile.alerta { border-left-color: #b46a14; }
 .mock .tile .r { font-size: 12px; color: var(--muted); }
 .mock .tile .v { font: 600 20px/1.1 var(--sans); font-variant-numeric: tabular-nums; }
@@ -184,10 +184,21 @@ section.bloco { padding: 64px 0; }
 .mock .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .mock .chips span { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid #cfd8dc; }
 .mock .chips span.on { background: #2b6c7d; border-color: #2b6c7d; color: #fff; }
-.mock .ev { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 8px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #eef1f2; }
+.mock .ev { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 8px; align-items: baseline; padding: 4px 0; border-bottom: 1px solid #eef1f2; }
 .mock .ev .h { font-variant-numeric: tabular-nums; color: #2b6c7d; font-weight: 600; }
 .mock .ev .quem { color: var(--muted); font-size: 12px; }
-.mock .nota { margin-top: auto; font-size: 11px; color: var(--muted); }
+.mock .nota { font-size: 11px; color: var(--muted); }
+.mock .sec { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 2px; }
+.mock .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.mock .trio span { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 8px 4px; border-radius: 10px; background: #f6f8f7; font-size: 11px; color: var(--muted); }
+.mock .trio b { font: 600 16px/1.1 var(--sans); color: var(--ink); font-variant-numeric: tabular-nums; }
+.mock .abas { margin-top: auto; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid #eef1f2; padding-top: 8px; font-size: 10px; line-height: 1.2; text-align: center; color: var(--muted); }
+.mock .abas span { position: relative; padding-top: 8px; }
+.mock .abas span::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 14px; height: 4px; border-radius: 2px; background: #d6dde0; }
+.mock .abas .on { color: var(--teal-ink); font-weight: 700; }
+.mock .abas .on::before { background: var(--teal-ink); width: 18px; }
+@media (max-width: 339px) { .mocks .slide { flex-basis: 94%; } .mock .ev { grid-template-columns: 38px minmax(0, 1fr); } }
+@media (max-width: 379px) { .mock { gap: 7px; padding-top: 36px; font-size: 12.5px; } .mock .tile { min-height: 86px; } }
 
 /* a história */
 .historia { background: var(--surf); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -354,7 +365,7 @@ details.priv p { margin-top: 8px; max-width: 720px; }
         <p class="legenda" style="font-size: 15px; color: var(--muted)">Telas de verdade do app, com dados de exemplo do Bento, um pet fictício. Use as setas pra ver as outras.</p>
         <div class="palco">
           <div class="trilho" tabindex="0">
-            <figure class="slide"><div class="mock" role="img" aria-label="Tela Hoje com dados de exemplo do Bento: temperatura, água, calorias e comida do dia">
+            <figure class="slide"><div class="mock" role="img" aria-label="Tela Hoje com dados de exemplo do Bento: temperatura, água, calorias, creatinina, os próximos cuidados e o resumo de ontem">
               <div class="topo"><b>Bento · Hoje</b><span>atualizado às 14:05</span></div>
               <div class="grade">
                 <div class="tile"><span class="r">Temperatura</span><span class="tag">na faixa</span><span class="v">38,6 <small>°C</small></span><span class="r">às 13:40 · Ana</span></div>
@@ -362,40 +373,70 @@ details.priv p { margin-top: 8px; max-width: 720px; }
                 <div class="tile"><span class="r">Calorias</span><span class="v">610 <small>kcal</small></span><span class="r">meta 700 kcal</span><div class="barra2"><i style="width: 87%; background: #2f6b45"></i></div></div>
                 <div class="tile alerta"><span class="r">Creatinina</span><span class="tag alerta">acima</span><span class="v">1,6 <small>mg/dL</small></span><span class="r">caiu de 2,1</span></div>
               </div>
+              <b class="sec">Próximos cuidados</b>
               <div class="ev"><span class="h">16:00</span><span>Água 120 mL <span class="quem">· pendente</span></span></div>
+              <div class="ev"><span class="h">17:00</span><span>Mudar de lado <span class="quem">· em 3 h</span></span></div>
+              <div class="ev"><span class="h">18:00</span><span>Amoxicilina 250 mg <span class="quem">· em 4 h</span></span></div>
               <div class="ev"><span class="h">20:00</span><span>Prednisona 5 mg <span class="quem">· em 6 h</span></span></div>
+              <div class="caixa"><b>Ontem</b><span>12 de 12 cuidados feitos · sem febre · 1.050 mL de água</span></div>
+              <div class="abas" aria-hidden="true"><span class="on">Hoje</span><span>Registrar</span><span>Evolução</span><span>Histórico</span><span>Mais</span></div>
             </div><figcaption>A tela de hoje: temperatura, água, comida e os últimos exames.</figcaption></figure>
             <figure class="slide"><div class="mock" role="img" aria-label="Tela de remédios de exemplo do Bento, com os horários do dia, quem deu cada dose e a adesão da semana">
               <div class="topo"><b>Remédios</b><span>hoje, 27/11</span></div>
+              <div class="item"><span>06:00 · Colírio<small>Carla pingou às 06:10</small></span><span class="ok">Feito</span></div>
               <div class="item"><span>08:00 · Omeprazol 10 mg<small>Beto deu às 08:04</small></span><span class="ok">Feito</span></div>
+              <div class="item"><span>12:00 · Suplemento renal<small>Ana deu às 12:15</small></span><span class="ok">Feito</span></div>
               <div class="item"><span>14:00 · Prednisona 5 mg<small>Ana deu às 14:02</small></span><span class="ok">Feito</span></div>
               <div class="item"><span>18:00 · Amoxicilina 250 mg<small>com comida</small></span><span class="pend">em 4 h</span></div>
               <div class="item"><span>20:00 · Prednisona 5 mg<small>segunda dose</small></span><span class="pend">em 6 h</span></div>
-              <div class="caixa"><b>Adesão da semana</b><span>96% das doses no horário</span><div class="barra2" style="margin-top: 2px"><i style="width: 96%; background: #0E5D55"></i></div></div>
+              <div class="caixa"><b>Adesão da semana</b><span>96% das doses no horário · 1 atraso de 20 min</span><div class="barra2" style="margin-top: 2px"><i style="width: 96%; background: #0E5D55"></i></div></div>
+              <div class="abas" aria-hidden="true"><span class="on">Hoje</span><span>Registrar</span><span>Evolução</span><span>Histórico</span><span>Mais</span></div>
             </div><figcaption>Cada dose com o horário, quem deu e a adesão da semana.</figcaption></figure>
-            <figure class="slide"><div class="mock" role="img" aria-label="Gráfico de exemplo com a temperatura do Bento em novembro, a faixa normal em verde e dois picos de febre em laranja">
+            <figure class="slide"><div class="mock" role="img" aria-label="Gráfico de exemplo com a temperatura do Bento em novembro, a faixa normal em verde, dois picos de febre em laranja, média, máxima e mínima e as últimas medições">
               <div class="topo"><b>Temperatura</b><span>14 medições</span></div>
               <svg viewBox="0 0 300 290" width="100%" style="font: 11px var(--sans); fill: #545a68" aria-hidden="true"><rect x="36" y="91" width="254" height="136" fill="#e6f0e9"/><line x1="36" x2="290" y1="226" y2="226" stroke="#eef1f2"/><text x="30" y="230" text-anchor="end">37,5</text><line x1="36" x2="290" y1="155" y2="155" stroke="#eef1f2"/><text x="30" y="159" text-anchor="end">38,5</text><line x1="36" x2="290" y1="83" y2="83" stroke="#eef1f2"/><text x="30" y="87" text-anchor="end">39,5</text><line x1="36" x2="290" y1="12" y2="12" stroke="#eef1f2"/><text x="30" y="16" text-anchor="end">40,5</text><polyline points="36,162 56,148 75,126 95,76 114,112 134,141 153,155 173,133 192,69 212,105 231,148 251,155 270,141 290,162" fill="none" stroke="#2b6c7d" stroke-width="2"/><circle cx="36" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="56" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="75" cy="126" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="95" cy="76" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="114" cy="112" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="134" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="153" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="173" cy="133" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="192" cy="69" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="212" cy="105" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="231" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="251" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="270" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="290" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><text x="36" y="282" text-anchor="start">10/11</text><text x="114" y="282" text-anchor="middle">14/11</text><text x="212" y="282" text-anchor="middle">19/11</text><text x="290" y="282" text-anchor="end">23/11</text></svg>
               <span class="r" style="font-size: 12px; color: var(--muted)">Faixa verde: 37,5 a 39,4 °C · laranja: febre</span>
+              <div class="trio"><span><b>38,7</b>média</span><span><b>39,8</b>máxima</span><span><b>38,3</b>mínima</span></div>
+              <div class="ev"><span class="h">13:40</span><span>38,6 °C <span class="quem">· Ana</span></span></div>
+              <div class="ev"><span class="h">08:10</span><span>38,4 °C <span class="quem">· Beto</span></span></div>
+              <div class="ev"><span class="h">22:10</span><span>39,6 °C · ontem <span class="quem">· Ana</span></span></div>
+              <div class="caixa"><b>Última febre</b><span>ontem às 22:10 · baixou pra 38,9 °C em 1 h</span></div>
+              <div class="abas" aria-hidden="true"><span>Hoje</span><span>Registrar</span><span class="on">Evolução</span><span>Histórico</span><span>Mais</span></div>
             </div><figcaption>Cada medição vira gráfico, com a faixa normal marcada.</figcaption></figure>
-            <figure class="slide"><div class="mock" role="img" aria-label="Avaliação de exemplo feita pela IA, com pontos positivos e de preocupação do Bento">
+            <figure class="slide"><div class="mock" role="img" aria-label="Avaliação de exemplo feita pela IA, com pontos positivos, pontos de preocupação e perguntas pra próxima consulta do Bento">
               <div class="topo"><b>Avaliação do quadro</b><span>gerada às 9:00</span></div>
               <div class="bloco"><b><span class="bola" style="background: #2f6b45"></span>Pontos positivos</b><ul><li><strong>Rim melhorando:</strong> creatinina caiu de 2,1 pra 1,6 em duas semanas.</li><li><strong>Comendo bem:</strong> 610 kcal hoje, perto da meta.</li><li><strong>Remédios em dia:</strong> 96% das doses no horário.</li></ul></div>
               <div class="bloco"><b><span class="bola" style="background: #b46a14"></span>Pontos de preocupação</b><ul><li><strong>Febre à noite:</strong> passou de 39,5 °C em 2 dos últimos 7 dias.</li><li><strong>Água abaixo da meta</strong> em 3 dias da semana.</li></ul></div>
+              <div class="bloco"><b><span class="bola" style="background: #2b6c7d"></span>Pra levar na consulta</b><ul><li>A febre noturna muda a dose da Prednisona?</li><li>Quando repetir a creatinina?</li></ul></div>
               <span class="nota">Leitura de apoio, não substitui a veterinária.</span>
+              <div class="abas" aria-hidden="true"><span>Hoje</span><span>Registrar</span><span class="on">Evolução</span><span>Histórico</span><span>Mais</span></div>
             </div><figcaption>A IA lê tudo e resume o quadro em pontos positivos e de preocupação.</figcaption></figure>
-            <figure class="slide"><div class="mock" role="img" aria-label="Linha do tempo de exemplo do Bento, com filtros e os registros do dia e quem fez cada um">
-              <div class="topo"><b>Linha do tempo</b><span>hoje, 23/11</span></div>
+            <figure class="slide"><div class="mock" role="img" aria-label="Linha do tempo de exemplo do Bento, com filtros e os registros de hoje e de ontem e quem fez cada um">
+              <div class="topo"><b>Linha do tempo</b><span>hoje, 27/11</span></div>
               <div class="chips"><span class="on">Tudo</span><span>Remédio</span><span>Exame</span><span>Comida e água</span><span>Temperatura</span></div>
-              <div><div class="ev"><span class="h">14:02</span><span>Prednisona 5 mg <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">13:40</span><span>38,6 °C <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">12:30</span><span>180 g de ração úmida <span class="quem">· Beto</span></span></div><div class="ev"><span class="h">10:15</span><span>Exame de sangue lido do PDF <span class="quem">· Carla</span></span></div><div class="ev"><span class="h">08:00</span><span>Água 150 mL <span class="quem">· Beto</span></span></div></div>
+              <b class="sec">Hoje</b>
+              <div class="ev"><span class="h">14:02</span><span>Prednisona 5 mg <span class="quem">· Ana</span></span></div>
+              <div class="ev"><span class="h">13:40</span><span>38,6 °C <span class="quem">· Ana</span></span></div>
+              <div class="ev"><span class="h">12:30</span><span>180 g de ração úmida <span class="quem">· Beto</span></span></div>
+              <div class="ev"><span class="h">10:15</span><span>Exame de sangue lido do PDF <span class="quem">· Carla</span></span></div>
+              <div class="ev"><span class="h">08:00</span><span>Água 150 mL <span class="quem">· Beto</span></span></div>
+              <b class="sec">Ontem</b>
+              <div class="ev"><span class="h">22:10</span><span>39,6 °C · febre <span class="quem">· Ana</span></span></div>
+              <div class="ev"><span class="h">20:00</span><span>Prednisona 5 mg <span class="quem">· Carla</span></span></div>
+              <div class="ev"><span class="h">18:05</span><span>Amoxicilina 250 mg <span class="quem">· Beto</span></span></div>
+              <div class="ev"><span class="h">16:30</span><span>Mudou de lado <span class="quem">· Ana</span></span></div>
+              <div class="abas" aria-hidden="true"><span>Hoje</span><span>Registrar</span><span>Evolução</span><span class="on">Histórico</span><span>Mais</span></div>
             </div><figcaption>A linha do tempo mostra o que aconteceu, a que horas e quem fez.</figcaption></figure>
             <figure class="slide"><div class="mock" role="img" aria-label="Tela de estoque de exemplo do Bento, com quantos dias dura cada item e a lista de compras">
-              <div class="topo"><b>Estoque</b><span>4 itens</span></div>
+              <div class="topo"><b>Estoque</b><span>6 itens</span></div>
               <div class="item"><span>Gaze<small>2 pacotes</small></span><span class="ok">25 dias</span></div>
               <div class="item"><span>Prednisona 5 mg<small>36 comprimidos</small></span><span class="ok">18 dias</span></div>
               <div class="item"><span>Ração úmida<small>12 sachês</small></span><span class="ok">12 dias</span></div>
               <div class="item" style="background: #fbf1e1"><span>Seringa 10 mL<small>6 unidades</small></span><span class="pend">3 dias</span></div>
+              <div class="item"><span>Soro fisiológico<small>2 frascos</small></span><span class="ok">9 dias</span></div>
+              <div class="item"><span>Tapete higiênico<small>20 unidades</small></span><span class="ok">7 dias</span></div>
               <div class="caixa"><b>Lista de compras</b><span>Seringa 10 mL · 2 caixas</span><span class="ok" style="color: var(--teal-ink)">Copiar lista</span></div>
+              <div class="abas" aria-hidden="true"><span>Hoje</span><span>Registrar</span><span>Evolução</span><span>Histórico</span><span class="on">Mais</span></div>
             </div><figcaption>O estoque avisa antes de acabar remédio, comida ou material.</figcaption></figure>
           </div>
         </div>
