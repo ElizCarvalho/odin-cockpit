@@ -4,147 +4,150 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Munin Pet · o plantão da família</title>
-<meta name="description" content="O Odin tem 1 ano e está enfrentando a cinomose. Do cuidado dele nasceu o Munin Pet. Me ajuda a entender se você vive a mesma rotina?">
-<meta property="og:title" content="Esse é o Odin.">
-<meta property="og:description" content="Do cuidado dele nasceu o Munin Pet, o plantão da família pro seu pet. Me ajuda a entender se você vive a mesma rotina?">
+<meta name="description" content="Quem cuida de um pet doente vive de horário, receita e exame espalhado no WhatsApp. O Munin Pet lembra cada cuidado e mostra quem fez. Me ajuda a entender a sua rotina?">
+<meta property="og:title" content="O remédio das 14h já foi dado?">
+<meta property="og:description" content="Munin Pet, o plantão da família pro seu pet. Me ajuda a entender a sua rotina em 3 minutos?">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#f6efe6">
+<meta name="theme-color" content="#0F1B2D">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
 <style>
 :root {
-  --bg: #f6efe6; --surf: #fffaf3; --ink: #1f2a44; --muted: #545a68; --line: #e4d9c9;
-  --amber: #f5dfa8; --amber-ink: #4a3608; --amber-deep: #8a5a0a; --focus: #1f2a44;
-  --serif: 'Literata', Georgia, serif; --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --r: 8px;
+  --hero: #0F1B2D; --hero-ink: #F4F6FB; --hero-muted: #B7C1D6; --hero-pill: #1D2C47;
+  --bg: #F7F4EE; --surf: #FFFFFF; --ink: #14213A; --muted: #4E586B; --line: #E5DFD3;
+  --amber: #F5B84B; --amber-ink: #1A1406; --amber-soft: #FCEBC8; --amber-deep: #6B4A08;
+  --teal: #2FB3A6; --teal-soft: #DDF3F0; --teal-ink: #0E5D55; --teal-dark: #06302B;
+  --disp: 'Sora', system-ui, sans-serif; --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r: 20px; --rs: 12px;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.55; }
 a { color: var(--ink); text-underline-offset: 3px; }
-a:hover { color: var(--amber-deep); }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
-.wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
-h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.15; margin: 0; }
-h1 { font-size: clamp(40px, 9vw, 56px); letter-spacing: -0.01em; }
-h2 { font-size: clamp(28px, 6vw, 36px); }
-h3 { font-size: 21px; line-height: 1.25; }
+a:hover { color: var(--teal-ink); }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; border-radius: 4px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+h1, h2, h3 { font-family: var(--disp); font-weight: 700; line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(38px, 7vw, 72px); font-weight: 800; line-height: 1.04; letter-spacing: -0.02em; }
+h2 { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.1; letter-spacing: -0.01em; }
+h3 { font-size: 20px; line-height: 1.25; }
 p { margin: 0; }
-section.wrap { padding-top: 56px; padding-bottom: 56px; }
-section.wrap + section.wrap { border-top: 1px solid var(--line); }
-.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.eyebrow { font: 600 13px/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--teal-ink); }
 .stack { display: flex; flex-direction: column; gap: 16px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 22px; border-radius: var(--r); border: 0; background: var(--ink); color: var(--surf); font: 600 17px/1 var(--sans); text-decoration: none; cursor: pointer; }
-.btn:hover { background: #2c3a5c; color: var(--surf); }
+.cab { display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
+.cab p { font-size: 18px; color: var(--muted); }
+section.bloco { padding: 64px 0; }
+@media (min-width: 900px) { section.bloco { padding: 88px 0; } }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 24px; border-radius: 999px; border: 0; background: var(--amber); color: var(--amber-ink); font: 600 17px/1 var(--sans); text-decoration: none; cursor: pointer; text-align: center; }
+.btn:hover { background: #F8C76D; color: var(--amber-ink); }
 .btn[disabled] { opacity: .45; cursor: not-allowed; }
 .btn.sec { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
-.btn.sec:hover { background: var(--surf); }
+.btn.sec:hover { background: var(--bg); }
 .link { background: none; border: 0; padding: 0; font: inherit; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 44px; }
-.card { background: var(--surf); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; }
-
-/* topo */
-header.topo { position: sticky; top: 0; z-index: 5; background: rgba(246,239,230,.94); backdrop-filter: saturate(1.2) blur(6px); border-bottom: 1px solid transparent; }
-header.topo .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; }
-.marca { display: inline-flex; align-items: center; gap: 8px; font: 700 22px/1 var(--serif); text-decoration: none; }
-.marca svg { flex: none; }
-.marca .pet { font-family: var(--sans); font-weight: 500; font-size: 18px; color: var(--amber-deep); }
-
-/* fotos */
-.foto { margin: 0; border-radius: var(--r); overflow: hidden; background: linear-gradient(135deg,#e8dccb,#f3ebe0); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; text-align: center; }
-.foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.foto .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px; }
-.foto.hero { aspect-ratio: 4 / 3.4; }
-.foto.meia { aspect-ratio: 4 / 3; }
-
-/* história */
-.passos { display: flex; flex-direction: column; gap: 40px; margin-top: 8px; }
-.passo { display: flex; flex-direction: column; gap: 12px; }
-.passo .num { font: 700 15px/1 var(--serif); color: var(--amber-ink); background: var(--amber); border-radius: 6px; padding: 6px 9px; align-self: flex-start; }
-.horas { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-.hora { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--surf); border: 1px solid var(--line); border-radius: var(--r); font-size: 15px; }
-.hora b { font: 700 15px/1 var(--serif); color: var(--amber-ink); background: var(--amber); padding: 5px 8px; border-radius: 6px; }
-.legenda { font-size: 14px; color: var(--muted); margin-top: -4px; }
-.carrossel { display: flex; flex-direction: column; gap: 10px; }
-.palco { position: relative; }
-.selo { position: absolute; top: 12px; left: 12px; z-index: 1; background: var(--amber); color: var(--amber-ink); font: 600 14px/1 var(--sans); padding: 8px 12px; border-radius: 999px; box-shadow: 0 1px 3px rgba(31,42,68,.18); pointer-events: none; }
-.trilho { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: var(--r); }
-.trilho::-webkit-scrollbar { display: none; }
-.slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; gap: 8px; }
-.slide img, .slide video { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r); display: block; background: #e8dccb; }
-.slide img.print { border: 1px solid var(--line); object-fit: cover; object-position: top; background: #f2f5f4; }
-.slide figcaption { font-size: 15px; color: var(--ink); }
-.ctrl { display: flex; align-items: center; justify-content: center; margin-top: -6px; }
-.seta { position: absolute; top: 40%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255, 250, 243, .9); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 1px 4px rgba(31,42,68,.25); transition: opacity .15s; }
-.seta.ant { left: 10px; }
-.seta.prox { right: 10px; }
-.carrossel.mocks .seta { top: 10px; transform: none; width: 38px; height: 38px; box-shadow: none; border: 1px solid var(--line); }
-.carrossel.mocks .seta.ant { left: auto; right: 56px; }
-.carrossel.mocks .seta.prox { right: 12px; }
-.seta[disabled] { opacity: 0; pointer-events: none; }
-@media (hover: hover) { .seta { opacity: .85; } .seta:hover { opacity: 1; } .seta[disabled] { opacity: 0; } }
-.pontos { display: flex; gap: 4px; }
-.ponto { width: 28px; height: 44px; border: 0; background: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-.ponto::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #cdbfa9; }
-.ponto[aria-current="true"]::after { background: var(--ink); width: 10px; height: 10px; }
-.colchete { background: #fff2c9; border-bottom: 2px dashed var(--amber-deep); padding: 0 3px; }
-
-/* dores */
-.dores { display: grid; gap: 12px; }
-@media (min-width: 560px) { .dores { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.dor h3 { font-size: 19px; margin-bottom: 6px; }
-.dor p { font-size: 15px; color: var(--muted); }
-
-/* pesquisa */
-.pesq { background: var(--surf); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
-.prog { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); margin-bottom: 8px; }
-.barra { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-bottom: 20px; }
-.barra i { display: block; height: 100%; background: var(--ink); width: 0; transition: width .25s; }
-fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
-legend { font: 700 22px/1.25 var(--serif); padding: 0; margin-bottom: 6px; }
-.dica { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
-.opcoes { display: flex; flex-direction: column; gap: 8px; }
-.opt { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; cursor: pointer; font-size: 16px; line-height: 1.35; }
-.opt:hover { border-color: #c9b9a2; }
-.opt:has(input:checked) { border: 2px solid var(--ink); padding: 9px 13px; background: #fffdf8; }
-.opt input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--ink); }
-.campo { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
-.campo label { font-size: 15px; font-weight: 600; }
-input[type=text], input[type=email], input[type=tel], textarea, select { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid #cdbfa9; border-radius: var(--r); background: #fff; color: var(--ink); font: 16px/1.4 var(--sans); }
-textarea { min-height: 140px; resize: vertical; }
-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231f2a44' stroke-width='1.8'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
-.acoes { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-top: 20px; flex-wrap: wrap; }
-.acoes .btn { flex: 1 1 180px; }
-.erro { color: #9b2c1f; font-size: 15px; margin-top: 10px; }
-.aviso-lgpd { font-size: 14px; color: var(--muted); background: var(--bg); border-radius: var(--r); padding: 12px 14px; margin-top: 12px; }
-.previa { font-size: 14px; background: var(--amber); color: var(--amber-ink); border-radius: var(--r); padding: 10px 14px; margin-bottom: 16px; }
 [hidden] { display: none !important; }
 .clone { position: sticky; top: 0; z-index: 20; background: #9b2c1f; color: #fff; padding: 12px 20px; font-size: 15px; font-weight: 600; line-height: 1.4; text-align: center; }
 .clone a { color: #fff; text-decoration: underline; }
 
-/* munin + telas */
-.munin { background: var(--amber); border-radius: 12px; padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; color: var(--ink); }
-.munin .tit { display: flex; align-items: center; gap: 12px; }
-.telas { display: grid; gap: 20px; }
-.telas { gap: 32px; }
-.tela { display: flex; flex-direction: column; gap: 10px; }
-.cel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px; font-size: 13px; line-height: 1.35; display: flex; flex-direction: column; gap: 8px; height: 250px; overflow: hidden; }
-.cel .t { font: 700 15px/1.2 var(--serif); }
-.cel .l { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 8px; align-items: center; min-height: 40px; padding: 6px 10px; border-radius: 8px; background: #f4f6f8; }
-.cel .l.dois { grid-template-columns: minmax(0, 1fr) auto; }
-.cel .l .h { font-variant-numeric: tabular-nums; color: var(--muted); }
-.cel .l .n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cel .l > :last-child { white-space: nowrap; text-align: right; }
-.cel .ok { color: #2f6b45; font-weight: 600; }
-.cel .pend { color: #8a5a0a; font-weight: 600; }
-.cel .mini { font-size: 12px; color: var(--muted); }
-.tela p { font-size: 15px; color: var(--muted); }
-/* telas simuladas do app (dados fictícios da Mel) */
-.mock { aspect-ratio: 4 / 5; background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 58px 16px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; font-size: 13px; line-height: 1.35; color: var(--ink); }
+/* topo */
+.cabecalho { position: sticky; top: 0; z-index: 5; background: rgba(15, 27, 45, .96); backdrop-filter: saturate(1.2) blur(8px); }
+.cabecalho .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+.marca { display: inline-flex; align-items: center; gap: 10px; color: var(--hero-ink); font: 700 21px/1 var(--disp); text-decoration: none; white-space: nowrap; }
+.marca:hover { color: var(--hero-ink); }
+.marca .pet { color: var(--amber); }
+.menu { display: flex; align-items: center; gap: 22px; }
+.menu a:not(.btn) { color: var(--hero-ink); font: 500 15px/1 var(--sans); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.menu a:not(.btn):hover { color: var(--amber); }
+.menu .btn { min-height: 44px; padding: 0 18px; font-size: 15px; }
+.menu .curto { display: none; }
+@media (max-width: 820px) { .menu a:not(.btn) { display: none; } }
+@media (max-width: 420px) { .menu .longo { display: none; } .menu .curto { display: inline; } }
+
+/* herói */
+.hero { background: var(--hero); color: var(--hero-ink); padding: 28px 0 88px; }
+.hero .wrap { display: grid; gap: 56px; align-items: center; }
+@media (min-width: 900px) { .hero { padding: 56px 0 112px; } .hero .wrap { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); } }
+.hero .texto { display: flex; flex-direction: column; gap: 22px; }
+.pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--hero-pill); font: 600 13px/1 var(--sans); }
+.pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+.hero .lead { font-size: 19px; color: var(--hero-muted); max-width: 34em; }
+.acoes-hero { display: flex; flex-wrap: wrap; gap: 12px 22px; align-items: center; }
+.acoes-hero .btn { min-height: 54px; font-size: 17px; }
+.acoes-hero .txt { color: var(--hero-ink); font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
+.acoes-hero .txt:hover { color: var(--amber); }
+.hero .mini { font-size: 14px; color: var(--hero-muted); }
+.fone { position: relative; justify-self: center; width: min(100%, 380px); }
+.fone .tela { background: #fff; color: var(--ink); border-radius: 28px; padding: 20px 16px; box-shadow: 0 30px 60px rgba(0, 0, 0, .35); display: flex; flex-direction: column; gap: 10px; }
+.fone .t1 { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.fone .t1 b { font: 700 18px/1.2 var(--disp); }
+.fone .t1 span { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.fone .duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.kpi { border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 2px; }
+.kpi span { font: 500 12px/1.2 var(--sans); }
+.kpi strong { font: 700 24px/1.2 var(--disp); color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi em { font: 600 11px/1.2 var(--sans); font-style: normal; }
+.k-teal { background: var(--teal-soft); color: var(--teal-ink); }
+.k-amb { background: var(--amber-soft); color: var(--amber-deep); }
+.lin { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; background: #F4F5F7; font-size: 14px; line-height: 1.3; }
+.lin .h { font-weight: 600; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.lin .e { font-size: 12px; font-weight: 600; white-space: nowrap; }
+.notif { position: absolute; left: 8px; bottom: -28px; display: flex; align-items: center; gap: 10px; background: #fff; color: var(--ink); border-radius: 16px; padding: 12px 14px; box-shadow: 0 16px 32px rgba(0, 0, 0, .3); max-width: 270px; font-size: 13px; line-height: 1.35; }
+@media (min-width: 900px) { .notif { left: -28px; } }
+.notif .ic { display: inline-flex; width: 34px; height: 34px; border-radius: 10px; align-items: center; justify-content: center; background: var(--teal-soft); flex: none; }
+
+/* números */
+.numeros { background: var(--ink); color: var(--hero-ink); padding: 52px 0; }
+.numeros .eyebrow { color: var(--hero-muted); }
+.numeros .grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; margin-top: 24px; }
+@media (min-width: 900px) { .numeros .grade { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.num-n { display: block; font: 700 clamp(40px, 5vw, 56px)/1 var(--disp); font-variant-numeric: tabular-nums; }
+.num-l { display: block; margin-top: 6px; font-size: 15px; line-height: 1.4; color: var(--hero-muted); }
+
+/* cartões */
+.grade-cards { display: grid; gap: 16px; margin-top: 32px; }
+@media (min-width: 640px) { .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.card { background: var(--surf); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+.card p { font-size: 16px; color: var(--muted); }
+.passo-n { display: inline-flex; width: 44px; height: 44px; border-radius: 50%; align-items: center; justify-content: center; background: var(--amber); color: var(--amber-ink); font: 700 18px/1 var(--disp); }
+.rec { border-radius: var(--r); padding: 26px; display: flex; flex-direction: column; gap: 10px; min-height: 190px; }
+.rec p { font-size: 15px; }
+.r-navy { background: var(--ink); color: var(--hero-ink); }
+.r-navy p { color: var(--hero-muted); }
+.r-amb { background: var(--amber); color: var(--amber-ink); }
+.r-teal { background: var(--teal); color: var(--teal-dark); }
+.r-claro { background: var(--surf); border: 1px solid var(--line); }
+.r-claro p { color: var(--muted); }
+
+/* carrosséis */
+.carrossel { display: flex; flex-direction: column; gap: 10px; }
+.palco { position: relative; }
+.selo { position: absolute; top: 12px; left: 12px; z-index: 1; background: var(--amber); color: var(--amber-ink); font: 600 14px/1 var(--sans); padding: 8px 12px; border-radius: 999px; box-shadow: 0 1px 3px rgba(20, 33, 58, .18); pointer-events: none; }
+.trilho { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 16px; }
+.trilho::-webkit-scrollbar { display: none; }
+.slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; gap: 8px; }
+.slide img, .slide video { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; display: block; background: #e8dccb; }
+.slide figcaption { font-size: 15px; color: var(--ink); }
+.ctrl { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -6px; }
+.seta { position: absolute; top: 40%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .92); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 1px 4px rgba(20, 33, 58, .25); transition: opacity .15s; }
+.seta.ant { left: 10px; }
+.seta.prox { right: 10px; }
+.ctrl .seta { position: static; transform: none; box-shadow: none; border: 1px solid var(--line); background: var(--surf); }
+.seta[disabled] { opacity: 0; pointer-events: none; }
+.ctrl .seta[disabled] { opacity: .3; }
+@media (hover: hover) { .seta { opacity: .85; } .seta:hover { opacity: 1; } .seta[disabled] { opacity: 0; } .ctrl .seta[disabled] { opacity: .3; } }
+.pontos { display: flex; gap: 4px; }
+.ponto { width: 28px; height: 44px; border: 0; background: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.ponto::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #cdbfa9; }
+.ponto[aria-current="true"]::after { background: var(--ink); width: 10px; height: 10px; }
+
+/* telas de exemplo do app (pet fictício: Bento) */
+.mocks { margin-top: 32px; }
+.mock { aspect-ratio: 4 / 5; background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 18px 16px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; font-size: 13px; line-height: 1.35; color: var(--ink); }
 .mock .topo { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.mock .topo b { font: 700 16px/1.2 var(--serif); }
+.mock .topo b { font: 700 16px/1.2 var(--disp); }
 .mock .topo span { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .mock .grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .mock .tile { background: #f6f8f7; border-radius: 10px; padding: 10px; border-left: 3px solid #2f6b45; display: flex; flex-direction: column; gap: 3px; min-height: 104px; }
@@ -167,39 +170,244 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
 .mock .ev .h { font-variant-numeric: tabular-nums; color: #2b6c7d; font-weight: 600; }
 .mock .ev .quem { color: var(--muted); font-size: 12px; }
 .mock .nota { margin-top: auto; font-size: 11px; color: var(--muted); }
+@media (min-width: 1000px) {
+  .mocks .trilho { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; overflow: visible; border-radius: 0; }
+  .mocks .mock { aspect-ratio: auto; height: 100%; min-height: 380px; overflow: visible; }
+  .mocks .slide figcaption { font-size: 14px; color: var(--muted); }
+  .mocks .ctrl { display: none; }
+}
+
+/* a história */
+.historia { background: var(--surf); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.historia .duo { display: grid; gap: 40px; align-items: center; }
+@media (min-width: 900px) { .historia .duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; } }
+.fotos2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0; }
+.fotos2 img { width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--r); display: block; background: #e8dccb; }
+.fotos2 img:last-child { margin-top: 40px; }
+.historia .txt { font-size: 18px; line-height: 1.6; color: var(--muted); }
+.munin { background: var(--amber-soft); border-radius: var(--r); padding: 20px; display: flex; gap: 14px; align-items: flex-start; }
+.munin svg { flex: none; }
+.munin h3 { font-size: 18px; margin-bottom: 6px; }
+.munin p { font-size: 15px; color: var(--ink); }
+details.completa { max-width: 640px; margin: 48px auto 0; }
+details.completa > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--ink); font-weight: 600; }
+details.completa > summary::-webkit-details-marker { display: none; }
+details.completa > summary::after { content: ''; width: 9px; height: 9px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-3px); }
+details.completa[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+details.completa > summary:hover { background: var(--bg); }
+.passos { display: flex; flex-direction: column; gap: 40px; margin-top: 40px; }
+.passo { display: flex; flex-direction: column; gap: 12px; }
+.passo .num { font: 700 15px/1 var(--disp); color: var(--amber-ink); background: var(--amber); border-radius: 8px; padding: 6px 9px; align-self: flex-start; }
+.passo p { color: var(--muted); }
+.horas { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.hora { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--rs); font-size: 15px; }
+.hora b { font: 700 14px/1 var(--disp); color: var(--amber-ink); background: var(--amber); padding: 5px 8px; border-radius: 6px; font-variant-numeric: tabular-nums; }
+
+/* pesquisa */
+.faixa { background: var(--ink); color: var(--hero-ink); border-radius: 32px; padding: 32px 20px; display: grid; gap: 28px; align-items: start; }
+.faixa h2 { color: var(--hero-ink); }
+.faixa .sub { color: var(--hero-muted); font-size: 18px; }
+.faixa .lado { display: flex; flex-direction: column; gap: 16px; }
+.faixa .selos { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.faixa .selos span { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--hero-ink); }
+@media (min-width: 900px) { .faixa { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); padding: 56px; gap: 48px; } .faixa .lado { position: sticky; top: 100px; } }
+@media (max-width: 600px) { #pesquisa .wrap { padding: 0 10px; } .faixa { border-radius: 24px; padding: 28px 12px 12px; } .faixa .lado { padding: 0 8px; } }
+.pesq { background: var(--surf); color: var(--ink); border-radius: var(--r); padding: 22px; }
+.pesq .btn { background: var(--ink); color: #fff; }
+.pesq .btn:hover { background: #22325a; color: #fff; }
+.pesq .btn.sec { background: transparent; color: var(--ink); }
+.pesq .intro { font-size: 16px; margin-bottom: 16px; }
+.prog { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+.barra { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-bottom: 20px; }
+.barra i { display: block; height: 100%; background: var(--teal); width: 0; transition: width .25s; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+legend { font: 700 22px/1.25 var(--disp); padding: 0; margin-bottom: 6px; }
+.dica { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
+.opcoes { display: flex; flex-direction: column; gap: 8px; }
+.opt { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--rs); background: #fff; cursor: pointer; font-size: 16px; line-height: 1.35; }
+.opt:hover { border-color: #c9b9a2; }
+.opt:has(input:checked) { border: 2px solid var(--ink); padding: 9px 13px; background: #fbfaf6; }
+.opt input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--ink); }
+.campo { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.campo label { font-size: 15px; font-weight: 600; }
+input[type=text], input[type=email], input[type=tel], textarea, select { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid #cdbfa9; border-radius: var(--rs); background: #fff; color: var(--ink); font: 16px/1.4 var(--sans); }
+textarea { min-height: 140px; resize: vertical; }
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2314213A' stroke-width='1.8'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+.acoes { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-top: 20px; flex-wrap: wrap; }
+.acoes .btn { flex: 1 1 180px; }
+.erro { color: #9b2c1f; font-size: 15px; margin-top: 10px; }
+.aviso-lgpd { font-size: 14px; color: var(--muted); background: var(--bg); border-radius: var(--rs); padding: 12px 14px; margin-top: 12px; }
+.previa { font-size: 14px; background: var(--amber-soft); color: var(--amber-deep); border-radius: var(--rs); padding: 10px 14px; margin-bottom: 16px; }
 
 /* rodapé */
-footer { border-top: 1px solid var(--line); padding: 32px 0 48px; font-size: 15px; color: var(--muted); }
-footer .stack { gap: 12px; }
-details summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-details p { margin-top: 8px; }
+footer { border-top: 1px solid var(--line); padding: 40px 0 56px; font-size: 15px; color: var(--muted); }
+footer .linha { display: flex; flex-wrap: wrap; gap: 16px 28px; justify-content: space-between; align-items: center; }
+footer .marca { color: var(--ink); font-size: 18px; }
+footer .marca:hover { color: var(--ink); }
+footer .stack { gap: 12px; margin-top: 20px; }
+details.priv summary { cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+details.priv p { margin-top: 8px; max-width: 720px; }
 </style>
 </head>
 <body>
 
-<header class="topo">
+<header class="cabecalho">
   <div class="wrap">
     <a class="marca" href="#topo" aria-label="Munin Pet, início">
-      <svg aria-hidden="true" width="30" height="30" viewBox="0 0 48 48" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1"/></svg>
+      <svg aria-hidden="true" width="30" height="30" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1.2" fill="currentColor"/></svg>
       <span>Munin <span class="pet">Pet</span></span>
     </a>
-    <a href="#pesquisa">Responder a pesquisa</a>
+    <nav class="menu" aria-label="Principal">
+      <a href="#como">Como funciona</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#historia">A história</a>
+      <a class="btn" href="#pesquisa"><span class="longo">Responder a pesquisa</span><span class="curto">Responder</span></a>
+    </nav>
   </div>
 </header>
 
 <main id="topo">
-  <section class="wrap stack" aria-labelledby="t-hero" style="padding-top: 20px">
-    <figure class="foto hero"><img src="fotos/odin-agora.jpg?v=3" alt="O Odin dormindo na caminha em casa, em novembro, bem mais magro" width="1600" height="900" style="object-position: 0% 55%" fetchpriority="high"></figure>
-    <h1 id="t-hero">Esse é o Odin.</h1>
-    <p style="font-size: 19px">Ele tem 1 ano, está enfrentando a cinomose e tem uma família inteira se revezando pra cuidar dele.</p>
-    <a class="btn" href="#historia">Conhecer a história</a>
-    <a href="#pesquisa" style="align-self: center; min-height: 44px; display: inline-flex; align-items: center">Ir direto pra pesquisa</a>
+  <section class="hero" aria-labelledby="t-hero">
+    <div class="wrap">
+      <div class="texto">
+        <span class="pill"><i aria-hidden="true"></i>Em construção · ouvindo tutores</span>
+        <h1 id="t-hero">O remédio das 14h já foi dado?</h1>
+        <p class="lead">Quem cuida de um pet doente vive de horário, receita e exame espalhado no WhatsApp. O Munin Pet lembra cada cuidado, mostra quem fez e transforma exames em gráfico, pra família inteira cuidar junto.</p>
+        <div class="acoes-hero">
+          <a class="btn" href="#pesquisa">Responder a pesquisa · 3 min</a>
+          <a class="txt" href="#como">Ver como funciona</a>
+        </div>
+        <p class="mini">Sem cadastro e sem nome. É pra eu entender a sua rotina antes de lançar.</p>
+      </div>
+      <div class="fone" role="img" aria-label="Tela Hoje do app com a rotina de exemplo do Bento, um pet fictício, e o aviso de que a Ana deu a Prednisona às 14:02">
+        <div class="tela" aria-hidden="true">
+          <div class="t1"><b>Bento · Hoje</b><span>qui, 27/11</span></div>
+          <div class="duo">
+            <div class="kpi k-teal"><span>Temperatura</span><strong>38,6 °C</strong><em>na faixa</em></div>
+            <div class="kpi k-amb"><span>Água hoje</span><strong>820 mL</strong><em>faltam 180 mL</em></div>
+          </div>
+          <div class="lin"><span class="h">14:00</span><span>Prednisona 5 mg</span><span class="e" style="color: var(--teal-ink)">Feito</span></div>
+          <div class="lin"><span class="h">16:00</span><span>Água 120 mL</span><span class="e" style="color: var(--amber-deep)">Pendente</span></div>
+          <div class="lin"><span class="h">20:00</span><span>Medir temperatura</span><span class="e" style="color: var(--muted)">em 6 h</span></div>
+        </div>
+        <div class="notif" aria-hidden="true">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E5D55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span>
+          <span><b>Ana deu a Prednisona</b><br>14:02 · a família inteira viu</span>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="historia" class="wrap" aria-labelledby="t-hist">
-    <h2 id="t-hist" class="eyebrow" style="font-family: var(--sans); font-size: 13px">A história</h2>
-    <div class="passos">
-      <article class="passo">
+  <section class="numeros" aria-labelledby="t-num">
+    <div class="wrap">
+      <h2 id="t-num" class="eyebrow">A rotina do Odin desde setembro, registrada no app</h2>
+      <div class="grade">
+        <p><span class="num-n">738</span><span class="num-l">registros de cuidado</span></p>
+        <p><span class="num-n">170</span><span class="num-l">doses de remédio dadas</span></p>
+        <p><span class="num-n">105</span><span class="num-l">medições de temperatura</span></p>
+        <p><span class="num-n">49</span><span class="num-l">exames organizados</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco" aria-labelledby="t-dores">
+    <div class="wrap">
+      <div class="cab"><p class="eyebrow">A dor</p><h2 id="t-dores">Quem cuida de pet doente conhece essa rotina.</h2></div>
+      <div class="grade-cards g2 g4">
+        <div class="card"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#14213A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><h3>“Alguém já deu o das 14h?”</h3><p>Três pessoas cuidando e ninguém sabe se a dose já foi. Ou foi duas vezes.</p></div>
+        <div class="card"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#14213A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h7M9 17h5"/></svg><h3>“Cadê o último hemograma?”</h3><p>Laudo em PDF, foto e papel, cada um num canal. O veterinário pede e ninguém acha.</p></div>
+        <div class="card"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#14213A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg><h3>“Acabou a seringa de novo.”</h3><p>Remédio, ração e material só são lembrados quando faltam.</p></div>
+        <div class="card"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#14213A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0z"/></svg><h3>“Ele bebeu água hoje?”</h3><p>Ninguém anotou, então ninguém sabe dizer ao veterinário como ele está.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como" class="bloco" aria-labelledby="t-como" style="padding-top: 0">
+    <div class="wrap">
+      <div class="cab"><p class="eyebrow">Como funciona</p><h2 id="t-como">Do papel pro celular de todo mundo, em 3 passos.</h2></div>
+      <div class="grade-cards g3">
+        <div class="card"><span class="passo-n" aria-hidden="true">1</span><h3>Cadastre a rotina</h3><p>Remédios, doses e horários direto da receita. Também dá pra mandar a foto da receita e o app preenche.</p></div>
+        <div class="card"><span class="passo-n" aria-hidden="true">2</span><h3>O celular avisa, a família marca</h3><p>Na hora de cada cuidado, todo mundo recebe o aviso. Quem fizer marca, e os outros veem na hora.</p></div>
+        <div class="card"><span class="passo-n" aria-hidden="true">3</span><h3>Exames viram gráfico</h3><p>Mande o PDF do laboratório. O app separa os valores e mostra a evolução, com a faixa normal marcada.</p></div>
+      </div>
+      <div class="carrossel mocks" role="region" aria-roledescription="carrossel" aria-label="Telas do app com dados de exemplo do Bento, um pet fictício">
+        <p class="legenda" style="font-size: 15px; color: var(--muted)">Telas de verdade do app, com dados de exemplo do Bento, um pet fictício.</p>
+        <div class="palco">
+          <div class="trilho" tabindex="0">
+            <figure class="slide"><div class="mock" role="img" aria-label="Tela Hoje com dados de exemplo do Bento: temperatura, água, calorias e comida do dia">
+              <div class="topo"><b>Bento · Hoje</b><span>atualizado às 14:05</span></div>
+              <div class="grade">
+                <div class="tile"><span class="r">Temperatura</span><span class="tag">na faixa</span><span class="v">38,6 <small>°C</small></span><span class="r">às 13:40 · Ana</span></div>
+                <div class="tile"><span class="r">Água hoje</span><span class="v">820 <small>mL</small></span><span class="r">meta 1.000 mL</span><div class="barra2"><i style="width: 52%; background: #2b6c7d"></i><i style="width: 30%; background: #6fae86"></i></div></div>
+                <div class="tile"><span class="r">Calorias</span><span class="v">610 <small>kcal</small></span><span class="r">meta 700 kcal</span><div class="barra2"><i style="width: 87%; background: #2f6b45"></i></div></div>
+                <div class="tile alerta"><span class="r">Creatinina</span><span class="tag alerta">acima</span><span class="v">1,6 <small>mg/dL</small></span><span class="r">caiu de 2,1</span></div>
+              </div>
+              <div class="ev"><span class="h">16:00</span><span>Água 120 mL <span class="quem">· pendente</span></span></div>
+              <div class="ev"><span class="h">20:00</span><span>Prednisona 5 mg <span class="quem">· em 6 h</span></span></div>
+            </div><figcaption>A tela de hoje: temperatura, água, comida e os últimos exames.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Gráfico de exemplo com a temperatura do Bento em novembro, a faixa normal em verde e dois picos de febre em laranja">
+              <div class="topo"><b>Temperatura</b><span>14 medições</span></div>
+              <svg viewBox="0 0 300 290" width="100%" style="font: 11px var(--sans); fill: #545a68" aria-hidden="true"><rect x="36" y="91" width="254" height="136" fill="#e6f0e9"/><line x1="36" x2="290" y1="226" y2="226" stroke="#eef1f2"/><text x="30" y="230" text-anchor="end">37,5</text><line x1="36" x2="290" y1="155" y2="155" stroke="#eef1f2"/><text x="30" y="159" text-anchor="end">38,5</text><line x1="36" x2="290" y1="83" y2="83" stroke="#eef1f2"/><text x="30" y="87" text-anchor="end">39,5</text><line x1="36" x2="290" y1="12" y2="12" stroke="#eef1f2"/><text x="30" y="16" text-anchor="end">40,5</text><polyline points="36,162 56,148 75,126 95,76 114,112 134,141 153,155 173,133 192,69 212,105 231,148 251,155 270,141 290,162" fill="none" stroke="#2b6c7d" stroke-width="2"/><circle cx="36" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="56" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="75" cy="126" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="95" cy="76" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="114" cy="112" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="134" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="153" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="173" cy="133" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="192" cy="69" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="212" cy="105" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="231" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="251" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="270" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="290" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><text x="36" y="282" text-anchor="start">10/11</text><text x="114" y="282" text-anchor="middle">14/11</text><text x="212" y="282" text-anchor="middle">19/11</text><text x="290" y="282" text-anchor="end">23/11</text></svg>
+              <span class="r" style="font-size: 12px; color: var(--muted)">Faixa verde: 37,5 a 39,4 °C · laranja: febre</span>
+            </div><figcaption>Cada medição vira gráfico, com a faixa normal marcada.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Avaliação de exemplo feita pela IA, com pontos positivos e de preocupação do Bento">
+              <div class="topo"><b>Avaliação do quadro</b><span>gerada às 9:00</span></div>
+              <div class="bloco"><b><span class="bola" style="background: #2f6b45"></span>Pontos positivos</b><ul><li><strong>Rim melhorando:</strong> creatinina caiu de 2,1 pra 1,6 em duas semanas.</li><li><strong>Comendo bem:</strong> 610 kcal hoje, perto da meta.</li><li><strong>Remédios em dia:</strong> 96% das doses no horário.</li></ul></div>
+              <div class="bloco"><b><span class="bola" style="background: #b46a14"></span>Pontos de preocupação</b><ul><li><strong>Febre à noite:</strong> passou de 39,5 °C em 2 dos últimos 7 dias.</li><li><strong>Água abaixo da meta</strong> em 3 dias da semana.</li></ul></div>
+              <span class="nota">Leitura de apoio, não substitui a veterinária.</span>
+            </div><figcaption>A IA lê tudo e resume o quadro em pontos positivos e de preocupação.</figcaption></figure>
+            <figure class="slide"><div class="mock" role="img" aria-label="Linha do tempo de exemplo do Bento, com filtros e os registros do dia e quem fez cada um">
+              <div class="topo"><b>Linha do tempo</b><span>hoje, 23/11</span></div>
+              <div class="chips"><span class="on">Tudo</span><span>Remédio</span><span>Exame</span><span>Comida e água</span><span>Temperatura</span></div>
+              <div><div class="ev"><span class="h">14:02</span><span>Prednisona 5 mg <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">13:40</span><span>38,6 °C <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">12:30</span><span>180 g de ração úmida <span class="quem">· Beto</span></span></div><div class="ev"><span class="h">10:15</span><span>Exame de sangue lido do PDF <span class="quem">· Carla</span></span></div><div class="ev"><span class="h">08:00</span><span>Água 150 mL <span class="quem">· Beto</span></span></div></div>
+            </div><figcaption>A linha do tempo mostra o que aconteceu, a que horas e quem fez.</figcaption></figure>
+          </div>
+        </div>
+        <div class="ctrl">
+          <button type="button" class="seta ant" aria-label="Tela anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="pontos"></div>
+          <button type="button" class="seta prox" aria-label="Próxima tela"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recursos" class="bloco" aria-labelledby="t-rec" style="padding-top: 0">
+    <div class="wrap">
+      <div class="cab"><p class="eyebrow">Recursos</p><h2 id="t-rec">Tudo que a rotina de um pet doente pede.</h2></div>
+      <div class="grade-cards g2 g3">
+        <div class="rec r-navy"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F4F6FB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><h3>Lembrete de cada cuidado</h3><p>Remédio, água, comida, temperatura e mudar de posição, no horário certo.</p></div>
+        <div class="rec r-claro"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#14213A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5c3 0 5.5 1.8 5.5 4.5"/></svg><h3>Cuidado em equipe</h3><p>Família, cuidador e quem mais ajudar. Cada um vê o que foi feito e por quem.</p></div>
+        <div class="rec r-amb"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1A1406" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7 15l4-4 3 3 5-6"/></svg><h3>Exames lidos do PDF</h3><p>A IA lê o laudo, separa os marcadores e desenha a evolução de cada um.</p></div>
+        <div class="rec r-claro"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#14213A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg><h3>Alerta que não deixa passar</h3><p>Se ninguém marcar a dose, o aviso insiste até alguém resolver.</p></div>
+        <div class="rec r-teal"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06302B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg><h3>Estoque e lista de compras</h3><p>O app conta o que foi usado e avisa antes de acabar.</p></div>
+        <div class="rec r-claro"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#14213A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><path d="M12 8l1.5 2.5L16 12l-2.5 1.5L12 16l-1.5-2.5L8 12l2.5-1.5z"/></svg><h3>Resumo pra consulta</h3><p>Pontos positivos e de preocupação da semana, prontos pra mostrar ao veterinário.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="historia" class="bloco historia" aria-labelledby="t-hist">
+    <div class="wrap">
+      <div class="duo">
+        <figure class="fotos2">
+          <img src="fotos/odin-azul.jpg" alt="O Odin sentado na rua, olhando pra cima com os olhos azuis, antes da cinomose" width="1000" height="1419" loading="lazy" style="object-position: 50% 45%">
+          <img src="fotos/odin-agora.jpg?v=3" alt="O Odin dormindo na caminha em casa, em novembro, bem mais magro" width="1600" height="900" loading="lazy" style="object-position: 0% 55%">
+        </figure>
+        <div class="stack" style="gap: 18px">
+          <p class="eyebrow">Por que isso existe</p>
+          <h2 id="t-hist">Nasceu do Odin.</h2>
+          <p class="txt">O Odin é um American Bully de 1 ano e pegou cinomose em setembro, mesmo vacinado. Entre três internações e a volta pra casa, a rotina virou remédio de hora em hora e a família se revezando. Eu sou engenheira de software e juntei tudo num app. Hoje a gente cuida dele com ele.</p>
+          <p class="txt">Se ajudou a gente, pode ajudar outras famílias. Antes de transformar isso num produto, quero ouvir quem vive a mesma rotina.</p>
+          <div class="munin">
+            <svg aria-hidden="true" width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="#14213A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1.2" fill="#14213A"/></svg>
+            <div><h3>Por que Munin?</h3><p>Na mitologia nórdica, o deus Odin tem um corvo chamado Munin, a memória. Todo dia ele voa pelo mundo e, à noite, volta e conta tudo o que viu. É isso que o app faz: lembra cada remédio, cada exame e quem cuidou, pra ninguém precisar guardar tudo de cabeça.</p></div>
+          </div>
+        </div>
+      </div>
+      <details class="completa" id="historia-completa">
+        <summary>Ler a história completa do Odin</summary>
+        <div class="passos">
+          <article class="passo">
         <span class="num">1</span>
         <h3>Quem é o Odin</h3>
         <p>O Odin é um American Bully de um ano. Vacinado em dia, cheio de energia, do tipo que derruba a gente na porta.</p>
@@ -264,149 +472,70 @@ details p { margin-top: 8px; }
           <div class="hora"><b>20:00</b> Medir a temperatura</div>
         </div>
       </article>
-      <article class="passo">
-        <span class="num">5</span>
-        <h3>Do papel pro app</h3>
-        <p>Eram receitas e mais receitas, e resultado de exame em papel, PDF e foto no WhatsApp. Eu sou engenheira de software e juntei tudo num app: ele avisa a hora de cada coisa, mostra quem fez o quê, lê os laudos e transforma em gráfico. Hoje a gente cuida do Odin com ele. Ele segue lutando, um dia de cada vez, e a gente segue do lado dele.</p>
-        <div class="carrossel mocks" role="region" aria-roledescription="carrossel" aria-label="Telas do app com dados de exemplo">
-          <div class="palco">
-          <span class="selo">Exemplo com a Mel</span>
-          <div class="trilho" tabindex="0">
-            <figure class="slide"><div class="mock" role="img" aria-label="Tela Hoje com dados de exemplo da Mel: temperatura, água, calorias e comida do dia">
-              <div class="topo"><b>Mel · Hoje</b><span>atualizado às 14:05</span></div>
-              <div class="grade">
-                <div class="tile"><span class="r">Temperatura</span><span class="tag">na faixa</span><span class="v">38,6 <small>°C</small></span><span class="r">às 13:40 · Ana</span></div>
-                <div class="tile"><span class="r">Água hoje</span><span class="v">820 <small>mL</small></span><span class="r">meta 1.000 mL</span><div class="barra2"><i style="width: 52%; background: #2b6c7d"></i><i style="width: 30%; background: #6fae86"></i></div></div>
-                <div class="tile"><span class="r">Calorias</span><span class="v">610 <small>kcal</small></span><span class="r">meta 700 kcal</span><div class="barra2"><i style="width: 87%; background: #2f6b45"></i></div></div>
-                <div class="tile alerta"><span class="r">Creatinina</span><span class="tag alerta">acima</span><span class="v">1,6 <small>mg/dL</small></span><span class="r">caiu de 2,1</span></div>
-              </div>
-              <div class="ev"><span class="h">16:00</span><span>Água 120 mL <span class="quem">· pendente</span></span></div>
-              <div class="ev"><span class="h">20:00</span><span>Prednisona 5 mg <span class="quem">· em 6 h</span></span></div>
-            </div><figcaption>A tela de hoje: temperatura, água, comida e os últimos exames.</figcaption></figure>
-            <figure class="slide"><div class="mock" role="img" aria-label="Gráfico de exemplo com a temperatura da Mel em novembro, a faixa normal em verde e dois picos de febre em laranja">
-              <div class="topo"><b>Temperatura</b><span>14 medições</span></div>
-              <svg viewBox="0 0 300 290" width="100%" style="font: 11px var(--sans); fill: #545a68" aria-hidden="true"><rect x="36" y="91" width="254" height="136" fill="#e6f0e9"/><line x1="36" x2="290" y1="226" y2="226" stroke="#eef1f2"/><text x="30" y="230" text-anchor="end">37,5</text><line x1="36" x2="290" y1="155" y2="155" stroke="#eef1f2"/><text x="30" y="159" text-anchor="end">38,5</text><line x1="36" x2="290" y1="83" y2="83" stroke="#eef1f2"/><text x="30" y="87" text-anchor="end">39,5</text><line x1="36" x2="290" y1="12" y2="12" stroke="#eef1f2"/><text x="30" y="16" text-anchor="end">40,5</text><polyline points="36,162 56,148 75,126 95,76 114,112 134,141 153,155 173,133 192,69 212,105 231,148 251,155 270,141 290,162" fill="none" stroke="#2b6c7d" stroke-width="2"/><circle cx="36" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="56" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="75" cy="126" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="95" cy="76" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="114" cy="112" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="134" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="153" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="173" cy="133" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="192" cy="69" r="4.5" fill="#b46a14" stroke="#b46a14" stroke-width="2"/><circle cx="212" cy="105" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="231" cy="148" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="251" cy="155" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="270" cy="141" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><circle cx="290" cy="162" r="4.5" fill="#fff" stroke="#2b6c7d" stroke-width="2"/><text x="36" y="282" text-anchor="start">10/11</text><text x="114" y="282" text-anchor="middle">14/11</text><text x="212" y="282" text-anchor="middle">19/11</text><text x="290" y="282" text-anchor="end">23/11</text></svg>
-              <span class="r" style="font-size: 12px; color: var(--muted)">Faixa verde: 37,5 a 39,4 °C · laranja: febre</span>
-            </div><figcaption>Cada medição vira gráfico, com a faixa normal marcada.</figcaption></figure>
-            <figure class="slide"><div class="mock" role="img" aria-label="Avaliação de exemplo feita pela IA, com pontos positivos e de preocupação da Mel">
-              <div class="topo"><b>Avaliação do quadro</b><span>gerada às 9:00</span></div>
-              <div class="bloco"><b><span class="bola" style="background: #2f6b45"></span>Pontos positivos</b><ul><li><strong>Rim melhorando:</strong> creatinina caiu de 2,1 pra 1,6 em duas semanas.</li><li><strong>Comendo bem:</strong> 610 kcal hoje, perto da meta.</li><li><strong>Remédios em dia:</strong> 96% das doses no horário.</li></ul></div>
-              <div class="bloco"><b><span class="bola" style="background: #b46a14"></span>Pontos de preocupação</b><ul><li><strong>Febre à noite:</strong> passou de 39,5 °C em 2 dos últimos 7 dias.</li><li><strong>Água abaixo da meta</strong> em 3 dias da semana.</li></ul></div>
-              <span class="nota">Leitura de apoio, não substitui a veterinária.</span>
-            </div><figcaption>A IA lê tudo e resume o quadro em pontos positivos e de preocupação.</figcaption></figure>
-            <figure class="slide"><div class="mock" role="img" aria-label="Linha do tempo de exemplo da Mel, com filtros e os registros do dia e quem fez cada um">
-              <div class="topo"><b>Linha do tempo</b><span>hoje, 23/11</span></div>
-              <div class="chips"><span class="on">Tudo</span><span>Remédio</span><span>Exame</span><span>Comida e água</span><span>Temperatura</span></div>
-              <div><div class="ev"><span class="h">14:02</span><span>Prednisona 5 mg <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">13:40</span><span>38,6 °C <span class="quem">· Ana</span></span></div><div class="ev"><span class="h">12:30</span><span>180 g de ração úmida <span class="quem">· Beto</span></span></div><div class="ev"><span class="h">10:15</span><span>Exame de sangue lido do PDF <span class="quem">· Carla</span></span></div><div class="ev"><span class="h">08:00</span><span>Água 150 mL <span class="quem">· Beto</span></span></div></div>
-            </div><figcaption>A linha do tempo mostra o que aconteceu, a que horas e quem fez.</figcaption></figure>
+          <article class="passo">
+            <span class="num">5</span>
+            <h3>Do papel pro app</h3>
+            <p>Eram receitas e mais receitas, e resultado de exame em papel, PDF e foto no WhatsApp. Eu juntei tudo num app: ele avisa a hora de cada coisa, mostra quem fez o quê, lê os laudos e transforma em gráfico. O Odin segue lutando, um dia de cada vez, e a gente segue do lado dele.</p>
+          </article>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="pesquisa" class="bloco" aria-labelledby="t-pesq">
+    <div class="wrap">
+      <div class="faixa">
+        <div class="lado">
+          <h2 id="t-pesq">Me ajuda a construir isso do jeito certo?</h2>
+          <p class="sub">São perguntas rápidas sobre a sua rotina, uns 3 minutos. Não precisa deixar nome. No fim, se quiser, você entra na lista de espera.</p>
+          <div class="selos">
+            <span><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B84B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Uns 3 minutos</span>
+            <span><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B84B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5c3 0 5.5 1.8 5.5 4.5"/></svg>Sem nome e sem cadastro</span>
+            <span><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B84B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Lista de espera, se você quiser</span>
           </div>
-          <button type="button" class="seta ant" aria-label="Foto anterior"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-          <button type="button" class="seta prox" aria-label="Próxima foto"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+        <div>
+          <div class="pesq" id="pesq1">
+            <p class="previa" id="avisoPrevia" hidden>Prévia: as respostas ainda não são enviadas pra lugar nenhum.</p>
+            <div id="p1-inicio" class="stack">
+              <p class="intro" style="margin: 0">Primeiro, umas perguntas sobre a rotina de cuidado. Depois, 2 ou 3 sobre o app.</p>
+              <button class="btn" type="button" id="comecar">Começar</button>
+              <button class="link" type="button" id="pularPesquisa">Prefiro só entrar na lista de espera</button>
+            </div>
+            <form id="p1-form" hidden novalidate></form>
           </div>
-          <div class="ctrl"><div class="pontos"></div></div>
+          <div class="pesq" id="pesq2" hidden>
+            <p class="intro" id="p2-intro"></p>
+            <form id="p2-form" novalidate></form>
+          </div>
+          <div class="pesq stack" id="obrigada" hidden>
+            <h2 id="t-obr" tabindex="-1" style="font-size: 30px">Obrigada de verdade.</h2>
+            <p>Cada resposta me ajuda a entender se isso pode ajudar outras famílias. Se puder, manda a página pra alguém que cuida de um pet doente.</p>
+            <button class="btn" type="button" id="compartilhar">Compartilhar a página</button>
+            <p id="copiado" role="status" style="font-size: 15px; color: var(--muted)"></p>
+          </div>
         </div>
-      </article>
-      <article class="passo">
-        <span class="num">6</span>
-        <h3>Por que esta página</h3>
-        <p>Se ajudou a gente, pode ajudar outras famílias que cuidam de um pet doente. Antes de transformar isso num produto, quero ouvir quem vive a mesma rotina.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="wrap stack" aria-labelledby="t-dores">
-    <h2 id="t-dores">Talvez você conheça essa rotina.</h2>
-    <div class="dores">
-      <div class="card dor"><h3>Quem deu o remédio das 14h?</h3><p>Três pessoas cuidando, nenhuma sabe se a dose já foi.</p></div>
-      <div class="card dor"><h3>Qual era o valor do último hemograma?</h3><p>O laudo está em algum lugar do WhatsApp.</p></div>
-      <div class="card dor"><h3>Acabou a seringa de novo?</h3><p>Só dá pra perceber quando precisa usar.</p></div>
-      <div class="card dor"><h3>Ele bebeu água suficiente hoje?</h3><p>Ninguém anotou, então ninguém sabe.</p></div>
-    </div>
-  </section>
-
-  <section id="pesquisa" class="wrap stack" aria-labelledby="t-pesq">
-    <h2 id="t-pesq">Me ajuda a entender se você passa pelo mesmo?</h2>
-    <p>São perguntas rápidas sobre a sua rotina, uns 3 minutos. Não precisa deixar nome.</p>
-    <div class="pesq" id="pesq1">
-      <p class="previa" id="avisoPrevia" hidden>Prévia: as respostas ainda não são enviadas pra lugar nenhum.</p>
-      <div id="p1-inicio" class="stack">
-        <button class="btn" type="button" id="comecar">Começar</button>
-        <button class="link" type="button" id="pularPesquisa">Prefiro só conhecer o app</button>
-      </div>
-      <form id="p1-form" hidden novalidate></form>
-    </div>
-  </section>
-
-  <section id="app" class="wrap stack" aria-labelledby="t-app" hidden>
-    <div class="munin">
-      <div class="tit">
-        <svg role="img" aria-label="Corvo" width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="#1f2a44" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1"/></svg>
-        <h2 style="font-size: 26px">Por que Munin Pet?</h2>
-      </div>
-      <p>Na mitologia nórdica, o deus Odin tem um corvo chamado Munin, a memória. Todo dia ele voa pelo mundo e, à noite, volta e conta tudo o que viu.</p>
-      <p>É isso que esse app faz pelo nosso Odin, e pode fazer pelo seu pet: lembra cada remédio, cada exame e quem cuidou dele, pra ninguém precisar guardar tudo de cabeça.</p>
-    </div>
-
-    <h2 id="t-app" style="margin-top: 24px">O que a gente construiu</h2>
-    <p>Telas com dados de exemplo, de uma pet fictícia chamada Mel.</p>
-    <div class="telas">
-      <div class="tela">
-        <div class="cel" aria-hidden="true">
-          <span class="t">Hoje</span>
-          <div class="l"><span class="h">14:00</span><span class="n">Prednisona 5 mg</span><span class="ok">Feito</span></div>
-          <span class="mini">Ana deu às 14:02</span>
-          <div class="l"><span class="h">16:00</span><span class="n">Água 120 mL</span><span class="pend">Pendente</span></div>
-          <div class="l"><span class="h">20:00</span><span class="n">Temperatura</span><span class="mini">em 4 h</span></div>
-          <span class="mini" style="margin-top: auto">Adesão da semana: 96% no horário</span>
-        </div>
-        <h3>Ninguém fica na dúvida</h3>
-        <p>O celular avisa a hora de cada cuidado. Quem fizer marca, e a família toda vê quem fez.</p>
-      </div>
-      <div class="tela">
-        <div class="cel" aria-hidden="true">
-          <span class="t">Exames · Hemácias</span>
-          <svg viewBox="0 0 200 90" width="100%" height="110"><rect x="0" y="20" width="200" height="34" fill="#e6f0e9"/><polyline points="8,72 50,66 92,58 134,44 176,36" fill="none" stroke="#1f2a44" stroke-width="2.5"/><circle cx="176" cy="36" r="4" fill="#1f2a44"/></svg>
-          <span class="mini">Faixa verde: valores de referência</span>
-          <span class="mini">Laudo em PDF lido automaticamente</span>
-        </div>
-        <h3>Exames viram gráfico</h3>
-        <p>Manda o PDF do laboratório e o app separa os valores e mostra a evolução de cada um.</p>
-      </div>
-      <div class="tela">
-        <div class="cel" aria-hidden="true">
-          <span class="t">Estoque</span>
-          <div class="l dois"><span class="n">Seringa 10 mL</span><span class="pend">3 dias</span></div>
-          <div class="l dois"><span class="n">Ração úmida</span><span class="ok">12 dias</span></div>
-          <div class="l dois"><span class="n">Prednisona 5 mg</span><span class="ok">18 dias</span></div>
-          <span class="mini" style="margin-top: auto">Lista de compras pronta pra copiar</span>
-        </div>
-        <h3>Nada acaba de surpresa</h3>
-        <p>O app conta o que foi usado e avisa antes de acabar remédio, comida ou material.</p>
       </div>
     </div>
-
-    <div class="pesq" id="pesq2" style="margin-top: 24px" hidden>
-      <form id="p2-form" novalidate></form>
-    </div>
-  </section>
-
-  <section id="obrigada" class="wrap stack" aria-labelledby="t-obr" hidden>
-    <h2 id="t-obr" tabindex="-1">Obrigada de verdade.</h2>
-    <p>Cada resposta me ajuda a entender se isso pode ajudar outras famílias. Se puder, manda a página pra alguém que cuida de um pet doente.</p>
-    <button class="btn sec" type="button" id="compartilhar">Compartilhar a página</button>
-    <p id="copiado" role="status" style="font-size: 15px; color: var(--muted)"></p>
   </section>
 </main>
 
 <footer>
-  <div class="wrap stack">
-    <p>Quer ajudar o Odin de outro jeito? <a href="https://wa.me/5521971297803?text=Oi%21%20Vi%20a%20p%C3%A1gina%20do%20Odin%20e%20do%20Munin%20Pet." target="_blank" rel="noopener">Fala comigo no WhatsApp.</a></p>
-    <p>Feito pela Elis, tutora do Odin.</p>
-    <details>
-      <summary>Privacidade</summary>
-      <p>As respostas da pesquisa são guardadas sem nome e analisadas sem identificar você. Se você deixar WhatsApp ou e-mail, ele fica guardado separado das respostas e só é usado pra combinar a conversa e avisar quando o app abrir. Não vendemos nem compartilhamos com ninguém. Guardamos por até 12 meses. Pra apagar seus dados a qualquer momento, é só pedir pelo WhatsApp <a href="https://wa.me/5521971297803" target="_blank" rel="noopener">(21) 97129-7803</a>.</p>
-      <p>Esta página não usa rastreador de anúncio. Contamos só quantas pessoas visitam, começam e terminam a pesquisa.</p>
-    </details>
+  <div class="wrap">
+    <div class="linha">
+      <a class="marca" href="#topo" aria-label="Munin Pet, voltar ao início">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 31c5-1 9-4 11-8 2-5 6-9 12-9 3 0 5 1 6 3l7 1-6 3c0 6-3 11-9 14l-5 2"/><path d="M22 37l2 6M17 39l-1 5"/><path d="M17 23c-4 0-7 2-9 5"/><circle cx="31" cy="17" r="1.2" fill="currentColor"/></svg>
+        <span>Munin <span class="pet" style="color: var(--amber-deep)">Pet</span></span>
+      </a>
+      <p>Feito pela Elis, tutora do Odin. Quer ajudar o Odin de outro jeito? <a href="https://wa.me/5521971297803?text=Oi%21%20Vi%20a%20p%C3%A1gina%20do%20Odin%20e%20do%20Munin%20Pet." target="_blank" rel="noopener">Fala comigo no WhatsApp.</a></p>
+    </div>
+    <div class="stack">
+      <details class="priv">
+        <summary>Privacidade</summary>
+        <p>As respostas da pesquisa são guardadas sem nome e analisadas sem identificar você. Se você deixar WhatsApp ou e-mail, ele fica guardado separado das respostas e só é usado pra combinar a conversa e avisar quando o app abrir. Não vendemos nem compartilhamos com ninguém. Guardamos por até 12 meses. Pra apagar seus dados a qualquer momento, é só pedir pelo WhatsApp <a href="https://wa.me/5521971297803" target="_blank" rel="noopener">(21) 97129-7803</a>.</p>
+        <p>Esta página não usa rastreador de anúncio. Contamos só quantas pessoas visitam, começam e terminam a pesquisa.</p>
+      </details>
+    </div>
   </div>
 </footer>
 
@@ -449,7 +578,7 @@ details p { margin-top: 8px; }
     } catch (e) { /* contagem é opcional */ }
   }
 
-  // carrosséis da história: setas, bolinhas e vídeo que só toca quando aparece
+  // carrosséis (história e telas do app): setas, bolinhas e vídeo que só toca quando aparece
   document.querySelectorAll('.carrossel').forEach(function (raiz) {
     var t = raiz.querySelector('.trilho'), slides = t.querySelectorAll('.slide'), pts = raiz.querySelector('.pontos');
     var ant = raiz.querySelector('.ant'), prox = raiz.querySelector('.prox');
@@ -507,7 +636,7 @@ details p { margin-top: 8px; }
     { id: 'q10', tipo: 'texto', opcional: true, titulo: 'Conta a última vez que alguma coisa deu errado no cuidado.', dica: 'Opcional, mas é a resposta que mais me ajuda.' }
   ];
   var P2 = [
-    { id: 'q11', tipo: 'uma', titulo: 'Agora que você viu o app: quanto pagaria por mês por algo assim?',
+    { id: 'q11', tipo: 'uma', titulo: 'Pelo que você viu do app aqui na página, quanto pagaria por mês por algo assim?',
       opcoes: ['Não pagaria', 'Até R$ 10', 'R$ 10 a 20', 'R$ 20 a 35', 'R$ 35 a 50', 'Mais de R$ 50'] },
     { id: 'q12', tipo: 'contato', titulo: 'Quer continuar essa conversa?' },
     { id: 'q13', tipo: 'uma', opcional: true, titulo: 'Você já cuidou da rotina de saúde de um familiar (pai, mãe, avós)? Usaria algo assim pra isso?',
@@ -672,7 +801,7 @@ details p { margin-top: 8px; }
   var form1 = document.getElementById('p1-form'), form2 = document.getElementById('p2-form');
   var fluxo1 = new Fluxo(form1, P1, fimParte1, 'parte 1');
   var fluxo2 = new Fluxo(form2, P2, enviar, 'parte 2');
-  var app = document.getElementById('app'), pesq2 = document.getElementById('pesq2');
+  var pesq1 = document.getElementById('pesq1'), pesq2 = document.getElementById('pesq2');
 
   if (PREVIA) document.getElementById('avisoPrevia').hidden = false;
   evento('visita');
@@ -683,18 +812,20 @@ details p { margin-top: 8px; }
   });
   document.getElementById('pularPesquisa').addEventListener('click', function () {
     pulou = true; evento('pulou');
-    document.getElementById('pesq1').innerHTML = '<p>Tudo bem! Dá uma olhada no app aqui embaixo.</p>';
-    abrirApp();
+    abrirParte2('Tudo bem! São só 2 ou 3 perguntas sobre o app, e no fim você deixa seu contato se quiser.');
   });
 
   function fimParte1() {
     evento('fim_parte1');
-    document.getElementById('pesq1').innerHTML = '<p><strong>Valeu!</strong> Agora sim, olha o que a gente construiu. Depois tem só mais 2 ou 3 perguntas.</p>';
-    abrirApp();
+    abrirParte2('Valeu! Agora só mais 2 ou 3 perguntas, sobre o app.');
   }
-  function abrirApp() {
-    app.hidden = false; pesq2.hidden = false; fluxo2.i = 0; fluxo2.mostrar(false);
-    app.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function abrirParte2(texto) {
+    pesq1.hidden = true; pesq2.hidden = false;
+    document.getElementById('p2-intro').textContent = texto;
+    fluxo2.i = 0; fluxo2.mostrar(false);
+    var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    pesq2.scrollIntoView({ behavior: calmo ? 'auto' : 'smooth', block: 'start' });
+    var lg = form2.querySelector('legend'); if (lg) lg.focus({ preventScroll: true });
   }
 
   function enviar() {
@@ -707,7 +838,7 @@ details p { margin-top: 8px; }
       celular: matchMedia('(max-width: 700px)').matches
     };
     var concluir = function () {
-      document.getElementById('pesq2').hidden = true;
+      pesq2.hidden = true;
       var ob = document.getElementById('obrigada'); ob.hidden = false;
       ob.scrollIntoView({ behavior: 'smooth', block: 'start' });
       document.getElementById('t-obr').focus({ preventScroll: true });
@@ -729,7 +860,7 @@ details p { margin-top: 8px; }
       try { navigator.clipboard.writeText(url).then(function () { out.textContent = 'Link copiado.'; }, function () { out.textContent = url; }); }
       catch (e) { out.textContent = url; }
     };
-    if (navigator.share) { navigator.share({ title: 'Esse é o Odin.', text: 'Me ajuda a entender se você vive a mesma rotina?', url: url }).catch(function (e) { if (!e || e.name !== 'AbortError') copiar(); }); return; }
+    if (navigator.share) { navigator.share({ title: 'Munin Pet', text: 'Você cuida de um pet doente? Me ajuda a entender a sua rotina em 3 minutos?', url: url }).catch(function (e) { if (!e || e.name !== 'AbortError') copiar(); }); return; }
     copiar();
   });
 })();
