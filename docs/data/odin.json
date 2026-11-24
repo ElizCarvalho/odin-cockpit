@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-24T18:33:47.644Z",
- "updatedAt": 1795544981863,
+ "exportedAt": "2026-11-24T19:23:58.256Z",
+ "updatedAt": 1795547987536,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -5226,6 +5226,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "iGqnUsiGOBgvTwdGF3Ox",
+   "date": "2026-11-24",
+   "time": "16:19",
+   "food": true,
+   "note": "Comida caseira (fígado de boi, cenoura, batata-doce, batata inglesa, inhame) · Almoço",
+   "foodId": "caseira_mwv2wsze",
+   "food_g": 500,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795547986270
+  },
+  {
    "id": "iRde4lc8trmSoKoI1tbw",
    "date": "2026-11-23",
    "time": "13:48",
@@ -6693,6 +6705,20 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795450121161
+  },
+  {
+   "id": "caseira_mwv2wsze",
+   "name": "Comida caseira (fígado de boi, cenoura, batata-doce, batata inglesa, inhame)",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 96.8,
+   "water": 0.74,
+   "est": true,
+   "src": "estimado pela IA: Fígado de boi cozido (200 g cru) 150 g/265 kcal · Cenoura cozida 60 g/20 kcal · Batata-doce cozida 130 g/100 kcal · Batata inglesa cozida 130 g/75 kcal · Inhame cozido 150 g/140 kcal",
+   "receita": "Fígado de boi 200g\n1 cenoura pequena \n1 batata doce pequena \n1 batata inglesa pequena \n1 inhame pequeno",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795547986107
   },
   {
    "id": "cha",
