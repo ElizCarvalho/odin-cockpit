@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-24T12:18:49.750Z",
- "updatedAt": 1795522463708,
+ "exportedAt": "2026-11-24T12:39:00.966Z",
+ "updatedAt": 1795523661421,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -2041,6 +2041,22 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "dNFxIX9iIquCo6Kuzprg",
+   "date": "2026-11-24",
+   "time": "09:34",
+   "kind": "urina",
+   "details": {
+    "como": "na sonda",
+    "cor": "amarelo",
+    "quantidade": "normal"
+   },
+   "text": "Xixi na sonda, amarelo, normal.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795523659939
   },
   {
    "id": "dhtmgia51hfrtcfpqzs3",
