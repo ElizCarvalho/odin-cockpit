@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-24T12:39:00.966Z",
- "updatedAt": 1795523661421,
+ "exportedAt": "2026-11-24T12:49:46.242Z",
+ "updatedAt": 1795524080649,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -267,6 +267,20 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "VSyhT0WqkNua0t2X6RY6",
+   "date": "2026-11-24",
+   "time": "09:40",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "params": {
+    "peso": 20
+   },
+   "other": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795524079217
   },
   {
    "id": "acyqxxzjqhmt4g93h1hz",
