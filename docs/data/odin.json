@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-24T15:54:45.086Z",
- "updatedAt": 1795535648376,
+ "exportedAt": "2026-11-24T16:10:22.082Z",
+ "updatedAt": 1795536304962,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -1893,6 +1893,21 @@
    "_byName": "a tutora"
   },
   {
+   "id": "RDuNoqGC8Bncz1mVCXYe",
+   "date": "2026-11-24",
+   "time": "13:04",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795536289594
+  },
+  {
    "id": "SvShBi4Gd4xxMstvh3AF",
    "date": "2026-11-23",
    "time": "08:00",
@@ -2271,6 +2286,21 @@
    "_by": "[removido]",
    "_at": 1795228835062,
    "_byName": "a tutora"
+  },
+  {
+   "id": "sQeM8ySSeWJSdNJC02iX",
+   "date": "2026-11-24",
+   "time": "09:20",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795536303633
   },
   {
    "id": "tN7mPUS0NUmcg0tSdh4O",
@@ -4364,6 +4394,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "71SSwt1RgwTY6hfTO207",
+   "date": "2026-11-24",
+   "time": "12:58",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "foodId": "fnrecup",
+   "food_g": 72.4,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795535933225
   },
   {
    "id": "7klN6wxKv0mGbGiWyNJb",
