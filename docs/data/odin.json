@@ -1,7 +1,21 @@
 {
- "exportedAt": "2026-11-25T15:09:50.060Z",
- "updatedAt": 1795619120473,
+ "exportedAt": "2026-11-25T16:21:44.868Z",
+ "updatedAt": 1795623434835,
  "exams": [
+  {
+   "id": "17Wi06K2y46JnHEXbsbh",
+   "date": "2026-11-23",
+   "lab": "Dr. o infectologista",
+   "kind": "Receita",
+   "params": {},
+   "other": [
+    "Fórmula homeopática manipulada na Farmácia Avicena"
+   ],
+   "labInterpretation": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780199
+  },
   {
    "id": "1qnN9mlkpATNoD43YyIz",
    "date": "2026-11-23",
@@ -281,6 +295,20 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795524079217
+  },
+  {
+   "id": "aTEFL8058a90ndEC8Tfr",
+   "date": "2026-11-23",
+   "lab": "Dr. o infectologista (Médico Veterinário)",
+   "kind": "Receita",
+   "params": {},
+   "other": [
+    "Receita de fórmula homeopática urinária; manipulação na Avicena (cel. 24534455)"
+   ],
+   "labInterpretation": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780670
   },
   {
    "id": "acyqxxzjqhmt4g93h1hz",
@@ -1102,6 +1130,21 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "mOPI69c7bK3Wcyzgdqn6",
+   "date": "2026-11-23",
+   "lab": "Dr. o infectologista, Médico Veterinário",
+   "kind": "Receita",
+   "params": {},
+   "other": [
+    "Receita para uso oral, manipulada em farmácia homeopática (orçamento)",
+    "Dar 1 hora depois da outra fórmula"
+   ],
+   "labInterpretation": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780444
   },
   {
    "id": "main0nmpat01zyb03nbk",
@@ -3107,6 +3150,11 @@
    "createdAt": 1795278693358
   },
   {
+   "id": "xqYRE8PKYOYhi1q3P7KO",
+   "text": "## ✅ Pontos positivos\n- **Febre cedeu**: de 40 °C (19 a 22/11) para 39,3 °C em 24/11 e 38,8 °C em 25/11. Lembra que a dipirona pode mascarar a febre, então continue medindo.\n- **Glicemia ok**: 88 e 86 mg/dL em jejum (23 e 24/11), dentro da faixa. Antes ele já tinha tido hipoglicemia na internação.\n- **Peso estável em 20 kg** desde 20/11, depois de cair pra 17,5 kg em 17/11.\n- **Hematócrito** (proporção de glóbulos vermelhos) em 30% em 21/11, melhor que os 26% de 16 e 18/11.\n- **Água e calorias** bateram a meta de 19 a 23/11. Remédios sem falhas em 22, 23 e 24/11.\n\n## ⚠️ Pontos de preocupação\n- **Escaras nos dois lados do quadril (25/11)**: são feridas de pressão. Observe vermelhidão, mau cheiro, secreção, aumento da ferida e moscas. Se piorar, **chame a clínica logo**.\n- **Hoje (25/11) comeu e bebeu pouco**: 557 mL e 659 kcal, com 2 remédios pulados. Se o dia ainda não acabou, pode fechar melhor. Se ele continuar recusando comida ou água, avise a equipe.\n- **Anemia**: em 18/11 os reticulócitos (células novas feitas pela medula) estavam muito baixos, e em 21/11 vieram melhores. Mucosa branca ou moleza = **falar com a equipe na hora**.\n- **Urina**: o exame de 21/11 mostrou muita bactéria, leucócitos e cristais. Ele ainda não urina sozinho de forma voluntária. Fique atenta a urina escura, com cheiro forte ou em pouca quantidade. Cheque com a vet o resultado da cultura com antibiograma, que não aparece nos dados.\n- **Cinomose ainda ativa** e **parvovirose IgM positiva**: diarreia, vômito e apatia são sinais pra avisar a clínica.\n- **Escaras e comida variável**: a perda de massa muscular continua sendo um ponto de atenção.\n\n## O que mudou\n- Glicemia normal nos dois dias, sem novidade preocupante.\n- Peso estável em 20 kg.\n- Consultas com infectologista (23/11) e neuro (24/11) aconteceram. Chegaram três receitas homeopáticas novas, incluindo uma urinária.\n- Surgiram as escaras em 25/11.\n- A febre sumiu nos últimos dois dias.\n\n## Perguntas pra levar à vet\n- **As fórmulas homeopáticas novas** podem ser dadas junto com Gardenal, Mantidan e os demais remédios? Algum deve sair da lista, já que são muitos?\n- **Como tratar e prevenir as escaras?** Qual a melhor posição e quanto tempo entre as trocas?\n- **Qual o resultado da cultura de urina**, e quando fazer novo exame de urina?\n- **Quando repetir o hemograma com reticulócitos**, e em que valor de hematócrito vale transfundir de novo?\n- **Os resultados do PCR de cinomose e da dosagem de fenobarbital** (coletados em 16/11) já saíram?\n- **Como acompanhar a parvovirose** e a diarreia dele?",
+   "createdAt": 1795621795958
+  },
+  {
    "id": "xyuowyvqajfycud0zk27",
    "text": "## O que mudou\n- **Cinomose confirmada** no sangue (17/10) e no líquor (28/10). O líquor mostrou inflamação (mais células e proteína que o normal), compatível com o sistema nervoso afetado, o que combina com convulsões, mioclonia e rigidez.\n- **Infecção/inflamação forte** no início: leucócitos subiram de ~26 mil para ~50 mil (16 a 22/10), com neutrófilos jovens (bastonetes e metamielócitos). Depois caiu para ~15 mil em 14/11, o que é uma melhora clara.\n- **Fígado** (ALT e fosfatase) caiu bastante desde outubro, mas a ultrassom mostrou fígado e baço aumentados.\n- **Anemia grave em 08/11** (hematócrito 12%), com reticulócitos altos (a medula tentou repor sangue, \"regenerativa\"). Isso, somado às fezes pretas, pede investigação de perda de sangue ou destruição das hemácias. Após a transfusão, ficou ~28–30% e estável em 14/11, ainda abaixo do normal.\n- **Ureia alta (110) com creatinina baixa** em 09/11, que pode ter relação com sangramento digestivo, desidratação ou perda de massa muscular. Vale confirmar se foi repetida.\n- **Plaquetas** subiram em 14/11 (trombocitose), comum em recuperação de anemia/inflamação.\n\n## Tendência geral\n- Sinais de infecção e fígado **melhorando**; sangue **estabilizou** depois da transfusão.\n- A parte **neurológica e o quadro clínico** (mioclonia, perda de muscular, bexiga que não esvazia, olhos) continuam sendo o ponto mais delicado, e exames de sangue não mostram isso.\n- Se aparecerem fezes pretas de novo, gengivas pálidas ou fraqueza súbita, avise a equipe na hora.\n\n## Perguntas pra levar à vet\n- Qual foi a causa da anemia: sangramento, hemólise ou outra? Fizeram teste de Coombs ou pesquisa de parasitas?\n- O hematócrito será repetido? Com que frequência?\n- A ureia alta foi reavaliada? E o estômago, pelas fezes pretas?\n- Como estão a ureia e a creatinina após a hidratação e a sonda?\n- O que fazer para os olhos (mancha nova, névoa)? Dá pra ter avaliação oftalmológica?\n- Qual o plano para a mioclonia e a bexiga? E qual o prognóstico neurológico?",
    "createdAt": 1794758756358
@@ -3236,6 +3284,60 @@
    "_byName": "a tutora"
   },
   {
+   "id": "66NgIr9q3MvNE0aQSnfv",
+   "name": "Fórmula Homeopática Urinária",
+   "purpose": "Urinário",
+   "dose": "9 gotas por via oral, de 6 em 6 horas, por 21 dias",
+   "start": "2026-11-23",
+   "end": "2026-12-14",
+   "endEstimated": true,
+   "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
+   "allergy": false,
+   "clinic": "Dr. o infectologista",
+   "composition": "",
+   "components": [
+    {
+     "name": "Uva ursi",
+     "dose": "5CH"
+    },
+    {
+     "name": "Cantharis vesicatoria",
+     "dose": "5CH"
+    },
+    {
+     "name": "Berberis vulgaris",
+     "dose": ""
+    },
+    {
+     "name": "Lycopodium clavatum",
+     "dose": "5CH"
+    },
+    {
+     "name": "Pareira brava",
+     "dose": "5CH"
+    },
+    {
+     "name": "Calcarea renalis",
+     "dose": "5CH"
+    },
+    {
+     "name": "Salsaparrilha",
+     "dose": "5CH"
+    },
+    {
+     "name": "Calcarea carbonica",
+     "dose": "5CH"
+    },
+    {
+     "name": "Solidago virgaurea",
+     "dose": "5CH"
+    }
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780559
+  },
+  {
    "id": "78fwenijjd7jwbo2uafk",
    "allergy": false,
    "clinic": "Tododoy",
@@ -3334,6 +3436,23 @@
    "_byName": "a tutora"
   },
   {
+   "id": "DrZW7S4wdIRY3xShJIQu",
+   "name": "Fórmula homeopática (em anexo)",
+   "purpose": "",
+   "dose": "4 tabletes via oral, 4 vezes ao dia, por 20 dias",
+   "start": "2026-11-23",
+   "end": "2026-12-13",
+   "endEstimated": true,
+   "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
+   "allergy": false,
+   "clinic": "Dr. o infectologista",
+   "composition": "",
+   "components": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780887
+  },
+  {
    "id": "Gro2yHxLtojHeOlzrrH7",
    "name": "Lunah",
    "purpose": "Lubrificante ocular",
@@ -3348,6 +3467,40 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795603341196
+  },
+  {
+   "id": "HhwcCe1OiGYABbiIHi2D",
+   "name": "Fórmula Homeopática",
+   "purpose": "",
+   "dose": "Uso oral: 4 tabletes, 4 vezes ao dia (6 em 6 horas), por 20 dias. Descansar uma semana e repetir por mais 21 dias.",
+   "start": "2026-11-23",
+   "end": "2026-12-13",
+   "endEstimated": true,
+   "notes": "da receita: Dr. o infectologista",
+   "allergy": false,
+   "clinic": "Dr. o infectologista",
+   "composition": "Phosphorus 12CH, Sticta pulm 5CH, Arsenicum alb 12CH e Camomila 5CH",
+   "components": [
+    {
+     "name": "Phosphorus",
+     "dose": "12CH"
+    },
+    {
+     "name": "Sticta pulm",
+     "dose": "5CH"
+    },
+    {
+     "name": "Arsenicum alb",
+     "dose": "12CH"
+    },
+    {
+     "name": "Camomila",
+     "dose": "5CH"
+    }
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621779988
   },
   {
    "id": "OoTTL77IVrZn15dkWPqx",
@@ -3405,6 +3558,23 @@
    "_by": "[removido]",
    "_at": 1795228835366,
    "_byName": "a tutora"
+  },
+  {
+   "id": "PaWxqwEGFPpb5zRr5m2o",
+   "name": "Diaziprim solução (uso veterinário)",
+   "purpose": "",
+   "dose": "2,5 mL via oral, de 12 em 12 horas, por 15 dias (1 frasco)",
+   "start": "2026-11-23",
+   "end": "2026-12-08",
+   "endEstimated": true,
+   "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
+   "allergy": false,
+   "clinic": "Dr. o infectologista",
+   "composition": "",
+   "components": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780784
   },
   {
    "id": "TsoagLwnegWDWyE1er9A",
@@ -3876,6 +4046,36 @@
    "_byName": "a tutora"
   },
   {
+   "id": "ksfd7wacemSEb4Z1bp9Z",
+   "name": "Ribavirina + DMSO + Vitamina C (manipulado, fórmula em anexo)",
+   "purpose": "",
+   "dose": "1 dose via oral, de 24 em 24 horas, por 15 dias",
+   "start": "2026-11-23",
+   "end": "2026-12-08",
+   "endEstimated": true,
+   "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
+   "allergy": false,
+   "clinic": "Dr. o infectologista",
+   "composition": "",
+   "components": [
+    {
+     "name": "Ribavirina",
+     "dose": ""
+    },
+    {
+     "name": "DMSO",
+     "dose": ""
+    },
+    {
+     "name": "Vitamina C",
+     "dose": ""
+    }
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780830
+  },
+  {
    "id": "kyjmunymtoah7gjbtiak",
    "allergy": false,
    "clinic": "Rio Vet",
@@ -4144,6 +4344,40 @@
    "_byName": "a tutora"
   },
   {
+   "id": "ubpf3nwHjaZizVrMiwT5",
+   "name": "Lachesis 30 CH (tabletes)",
+   "purpose": "Controlar os tremores musculares",
+   "dose": "2 tabletes pela manhã, 1 vez ao dia, por 30 dias. Dar 1 hora depois da outra fórmula.",
+   "start": "2026-11-23",
+   "end": "2026-12-23",
+   "endEstimated": true,
+   "notes": "da receita: Dr. o infectologista, Médico Veterinário",
+   "allergy": false,
+   "clinic": "Dr. o infectologista",
+   "composition": "Lachesis 30 CH",
+   "components": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780327
+  },
+  {
+   "id": "vdxMpJ8151ueOFBPjinO",
+   "name": "Leucogen xarope (uso humano)",
+   "purpose": "",
+   "dose": "5 mL via oral, de 12 em 12 horas, por 30 dias (1 caixa)",
+   "start": "2026-11-23",
+   "end": "2026-12-23",
+   "endEstimated": true,
+   "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
+   "allergy": false,
+   "clinic": "Dr. o infectologista",
+   "composition": "",
+   "components": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795622023228
+  },
+  {
    "id": "vetaglos20261029",
    "allergy": false,
    "clinic": "Tododoy",
@@ -4190,6 +4424,36 @@
    "_by": "[removido]",
    "_at": 1795228835366,
    "_byName": "a tutora"
+  },
+  {
+   "id": "zFfeXgYMJ9Mq7UWZ16oN",
+   "name": "Suspensão manipulada (Rilavirina + DMSO + Vitamina C)",
+   "purpose": "",
+   "dose": "1 dose a cada 24 h por 15 dias (suspensão q.s.p. 15 doses)",
+   "start": "2026-11-23",
+   "end": "2026-12-08",
+   "endEstimated": true,
+   "notes": "da receita: Dr. o infectologista da Silva (-RJ)",
+   "allergy": false,
+   "clinic": "Dr. o infectologista",
+   "composition": "",
+   "components": [
+    {
+     "name": "Rilavirina",
+     "dose": "30 mg/kg/dose"
+    },
+    {
+     "name": "DMSO",
+     "dose": "20 mg/kg/dose"
+    },
+    {
+     "name": "Vitamina C",
+     "dose": "500 mg"
+    }
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795621780923
   }
  ],
  "prevent": [
@@ -6724,6 +6988,18 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795278797449
+  },
+  {
+   "id": "uJ9k11NlGeWzkaFUryCJ",
+   "date": "2026-11-25",
+   "time": "13:17",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "foodId": "fnrecup",
+   "food_g": 79.6,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795623433382
   },
   {
    "id": "uh32oZQnpvsTfZ4LHqNH",
