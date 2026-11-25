@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-25T20:41:43.037Z",
- "updatedAt": 1795638920328,
+ "exportedAt": "2026-11-25T21:23:49.829Z",
+ "updatedAt": 1795641807675,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -3193,6 +3193,11 @@
    "id": "uIx4H7heSBSPtt0O8UIg",
    "text": "## O que mudou\n- **Peso 19,4 kg (em casa)**, o primeiro sinal de subida depois de uma queda longa. Na balança de casa: 17,5 kg (17/11) → 18,9 kg (18/11) → 19,4 kg.\n- Pra comparar: 27 kg em 22/09, 18,6 kg em 15/11 e 18,87 kg na alta.\n- O salto de 17,5 para 18,9 em um dia é grande demais pra ser ganho real. Pode ser diferença na forma de pesar. Por isso, confie mais na **tendência** do que no número isolado.\n\n## Tendência geral\n- A perda de peso **parece ter parado** e ele está comendo sozinho, com fezes firmes desde 19/11. Isso é bom sinal.\n- Mesmo assim, ele ainda está **bem abaixo do peso de antes** (cerca de 30% a menos). A massa muscular vai demorar pra voltar.\n- Peso sozinho não diz se é músculo, comida no estômago ou líquido retido. Ele já teve abdômen inchado antes, então vale observar o corpo junto com a balança.\n- O ponto que mais preocupa continua sendo o sangue. Em 18/11 os reticulócitos (células novas de sangue) estavam muito baixos, ou seja, a medula ainda não respondeu. O hematócrito ficou em 26%, estável em relação a 16/11.\n- Seguem pendentes o PCR de cinomose e o fenobarbital, coletados em 16/11.\n\n## Perguntas pra levar à vet\n- Qual a melhor forma de acompanhar o peso? Mesma balança, mesmo horário, antes ou depois de comer?\n- O ganho de peso é músculo ou pode ter líquido junto?\n- Quando repetir o hemograma, já que a medula ainda não respondeu?\n- O plano de suplementação e de alimentação está adequado pra ele recuperar massa?\n- Qual o prazo pra neuro avaliar o fenobarbital e iniciar a neurorreabilitação?\n\nSe ele ficar pálido, mole de novo, voltar a ter fezes pretas ou febre, fale com a equipe na hora.",
    "createdAt": 1795130620173
+  },
+  {
+   "id": "ukumK22YIL49sOTsHD0k",
+   "text": "## ✅ Pontos positivos\n- **Febre cedeu:** 24 e 25/11 sem nenhum pico acima de 39,6 °C (máx. 39,3 e 39,4), depois de quase 40 °C entre 19 e 23/11.\n- **Anemia estável:** o hematócrito (% de sangue ocupado por glóbulos vermelhos) saiu de 12,2% em 08/11 para 26–30% nos últimos controles, sem nova queda.\n- **Come bem:** calorias acima da meta (950) todos os dias. Fezes firmes desde 19/11, ausculta limpa e sangramento da sonda parou.\n- **Peso estável** em 20 kg desde 22/11. Rim e proteína na urina OK.\n- **Água** perto da meta (1457 de 1600 mL). Remédios em dia, com 2 pulados só em 25/11.\n\n## ⚠️ Pontos de preocupação\n- **Infecção urinária:** a cultura mostrou *Proteus mirabilis* ESBL (bactéria resistente a muitos antibióticos, **inclusive à ceftriaxona** que ele já usou). Os dois EAS (urina) também mostram muita bactéria e leucócito. Leve o laudo pra equipe **hoje**. Chame logo se a febre voltar, a urina ficar escura, com sangue ou cheiro forte, ou se ele fizer bem menos xixi.\n- **Anemia ainda frágil:** em 18/11 os reticulócitos (glóbulos vermelhos novos) estavam bem baixos, ou seja, a medula quase sem resposta. Veja a gengiva: se ficar branca, ele ficar mais mole ou tiver fezes pretas, fale com a equipe na hora.\n- **Escaras novas** nos dois quadris (25/11). Observe vermelhidão, cheiro, secreção, aumento da ferida ou mosca. Mantenha a troca de decúbito. Se piorar, chame a vet.\n- **Cinomose ainda ativa** (IgM positivo), com o quadro neurológico. **Parvo IgM também positivo.** Se tiver vômito, diarreia ou convulsão, avise logo.\n- **Bexiga:** ainda não urina sozinho de forma voluntária.\n- **Leucócitos altos** (26 mil em 21/11, com granulações tóxicas): sinal de inflamação ou infecção, pode ter relação com a urina.\n- **Água** um pouco abaixo da meta nos últimos dias.\n\n## O que mudou\n- Saiu a cultura, com a bactéria resistente.\n- Febre baixou em 24 e 25/11.\n- Surgiram as escaras.\n- Calorias caíram um pouco (1285–1372), mas seguem acima da meta.\n\n## Perguntas pra levar à vet\n- Com a bactéria resistente, **o que fazer com a infecção urinária**? Precisa de conduta diferente?\n- As sondagens de alívio aumentam o risco? Existe outra forma de esvaziar a bexiga?\n- Quando saem o **PCR de cinomose** e o **fenobarbital** coletados em 16/11? Já veio o PCR e o EAS da urina de 21/11?\n- Como interpretar o **parvo IgM positivo** nele?\n- A medula está respondendo? Vale repetir reticulócitos e hematócrito, e em que prazo?\n- Como cuidar das escaras e quando elas pedem avaliação presencial?",
+   "createdAt": 1795641806332
   },
   {
    "id": "vaN2Uo1mysuIlsThx5zb",
@@ -7335,6 +7340,16 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "zZiS7H7O6ZCVnFDzBdWE",
+   "date": "2026-11-25",
+   "time": "18:17",
+   "temp": 39.1,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795641597811
   }
  ],
  "foods": [
