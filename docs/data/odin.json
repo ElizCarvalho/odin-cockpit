@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-25T13:05:26.079Z",
- "updatedAt": 1795606940636,
+ "exportedAt": "2026-11-25T14:10:50.050Z",
+ "updatedAt": 1795615825956,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -5235,6 +5235,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "XWh9yQOApCBk4VDZUnsT",
+   "date": "2026-11-25",
+   "time": "11:10",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior · Café da manhã",
+   "foodId": "racao",
+   "food_g": 101.2,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795615824629
+  },
+  {
    "id": "XpZiQNnUJTzKNM28kz1v",
    "date": "2026-11-18",
    "time": "21:43",
@@ -5252,6 +5264,18 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795447845183
+  },
+  {
+   "id": "YsjKX8nsoJPu1vcDFJU1",
+   "date": "2026-11-25",
+   "time": "11:10",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida) · Café da manhã",
+   "foodId": "fnrecup",
+   "food_g": 76.4,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795615824405
   },
   {
    "id": "YtHjBTOw8NZYCTKQBZKt",
@@ -6762,6 +6786,18 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795368660943
+  },
+  {
+   "id": "x5cDbx10Xa0YP8xjYH9P",
+   "date": "2026-11-25",
+   "time": "11:06",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "foodId": "fnrecup",
+   "food_g": 88.5,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795615579451
   },
   {
    "id": "xJR8Zq9IWXcoxG3S9gmo",
