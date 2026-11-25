@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-25T10:58:48.211Z",
- "updatedAt": 1795604082586,
+ "exportedAt": "2026-11-25T11:46:37.961Z",
+ "updatedAt": 1795606940636,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -2071,6 +2071,28 @@
    "_at": 1795277989601
   },
   {
+   "id": "ZxqHXUH07RSh1TV4speY",
+   "date": "2026-11-25",
+   "time": null,
+   "text": "Aplicado unguento ao redor das feridas para evitar moscas e sulfadiazina de prata nas lesões.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795606874390
+  },
+  {
+   "id": "amfhC3vZCg5N3xwUcEAN",
+   "date": "2026-11-25",
+   "time": null,
+   "text": "Seguem acompanhando as escaras.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795606874461
+  },
+  {
    "id": "cWCvPIujG2Zla7zx2JAK",
    "date": "2026-11-17",
    "time": "20:07",
@@ -2150,6 +2172,28 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "ikbWKzlrcwyNw65jwPd1",
+   "date": "2026-11-25",
+   "time": null,
+   "text": "Surgiram escaras na região do osso proeminente do quadril, nos lados esquerdo e direito.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795606874275
+  },
+  {
+   "id": "jH7YLLq7xWaN4pfjXWYa",
+   "date": "2026-11-25",
+   "time": null,
+   "text": "Pelos da região removidos com máquina de tosa e local higienizado com soro fisiológico.",
+   "mark": false,
+   "short": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795606874326
   },
   {
    "id": "jJSHtCVslaMkbw1vG8Yg",
@@ -2908,6 +2952,11 @@
    "createdAt": 1795226156827
   },
   {
+   "id": "KrdxTuotdkge1HEaTaK0",
+   "text": "## ✅ Pontos positivos\n- **Febre cedeu:** 40,1 °C no pico (20/11), 39,3 °C em 24/11 e 38,8 °C hoje. Atenção: a dipirona pode mascarar a febre, então continue medindo.\n- **Anemia mais estável:** o hematócrito subiu de 26% (18/11) pra 30% (21/11), e os reticulócitos (células novas da medula) saíram de quase zero pra faixa baixa. Isso sugere que a medula está voltando a reagir, mas laboratórios diferentes não se comparam direto.\n- **Peso estável em 20 kg** nas últimas 3 pesagens, no padrão novo de pesagem.\n- **Fezes firmes** desde 19/11, e glicemia em jejum normal (88 e 86 mg/dL).\n- **Calorias acima da meta** (950) todos os dias. **Remédios** sem dose pulada de 22 a 24/11.\n\n## ⚠️ Pontos de preocupação\n- **Escaras nos quadris (25/11):** estão onde o osso aparece. Observe se a ferida aumenta, fica mais funda, cheira mal, sai pus ou aparece larva. **Se isso acontecer, ligue pra clínica logo.** Pergunte também como aliviar a pressão ali.\n- **Urina:** ele ainda não urina sozinho. Os dois EAS (19 e 21/11) vieram com muita bactéria e leucócitos (células de defesa) e cristais de estruvita. Isso é **sugestivo de infecção urinária**, mas a cultura (19/11) ainda não saiu. Chame a clínica se a urina ficar com sangue ou cheiro forte, se sair muito pouca ou se ele ficar incomodado.\n- **Cinomose ainda ativa:** a mioclonia (espasmos) e a tetraparesia seguem. O PCR de 16/11 e o PCR de urina estão pendentes. Se aparecer convulsão, **ligue na hora**.\n- **Leucócitos altos** em 21/11, com neutrófilos jovens (bastonetes). Pode ser inflamação ou infecção, e vale a vet olhar junto com a urina.\n- **Parvovirose IgM positiva (21/11):** o intestino está bem agora. Diarreia, vômito ou sangue de novo pedem contato com a vet.\n- **Perda de massa muscular** e olhos com secreção e névoa.\n\n## O que mudou\n- Febre baixou entre 23 e 25/11.\n- Surgiram as **escaras** em 25/11.\n- Hoje o registro ainda está parcial (143 mL de água, 29 kcal, 1 remédio pulado), então é só o dia começando. Se ele estiver comendo e bebendo pouco de verdade, avise a clínica.\n- O infectologista (23/11) e a neuro (24/11) já consultaram. Ficam faltando os resultados de cultura de urina, PCR e fenobarbital.\n\n## Perguntas pra levar à vet\n- Quando sai a **cultura com antibiograma** e o que fazer enquanto isso?\n- Os **cristais e o pH 8** da urina precisam de acompanhamento?\n- Qual o plano pro **PCR de cinomose** e o **nível de fenobarbital**?\n- Como cuidar das **escaras** e proteger melhor a pele?\n- Vale repetir o **hemograma com reticulócitos**? Em quanto tempo?\n- O leucograma alto e a globulina alta (18/11) preocupam?",
+   "createdAt": 1795606893633
+  },
+  {
    "id": "MlP4kw2uAoeyk4yLIp28",
    "text": "## O que mudou\n- **Peso 17,5 kg** (balança de casa). Na alta ontem constava 18,87 kg. Balanças diferentes não se comparam bem, então a queda de ~1,4 kg em um dia provavelmente é em parte diferença de balança.\n- **Temperatura 38,1 °C**: normal, sem febre. É mais baixa que as de 07/11 (38,8) e 14/11 (38,4), mas todas estão dentro da faixa normal. Bom sinal, já que ele teve vários episódios de febre antes.\n\n## Tendência geral\n- O peso vem caindo desde setembro: **27 kg → ~24 → ~21 → ~18 → 17,5 kg**. Isso é perda grande, e boa parte é massa muscular, o que bate com o que você já observava.\n- Em compensação, ele está comendo sozinho e sem febre. Isso é o que dá base pra recuperar peso.\n- O hematócrito (volume de glóbulos vermelhos) já tinha caído de 29,8% para 26% em 16/11, e a vet amiga acha que parte disso pode ser da coleta. O hemograma de hoje com reticulócitos vai esclarecer. Ele não depende desses dois dados novos.\n\n## Perguntas pra levar à vet\n- Como pesar sempre do mesmo jeito (mesma balança, mesmo horário) pra acompanhar a perda de forma confiável?\n- Ele precisa de um plano de calorias e proteína pra recuperar massa? Quanto ele deveria comer por dia?\n- Com diarreia líquida e fezes escuras nos últimos dias, o risco de desidratação e de perder mais peso aumenta? O que devo observar?\n- Quando devo repetir o hemograma, e quais sinais (gengiva branca, moleza) pedem contato imediato?\n\n**Se a diarreia continuar, ele parar de comer ou a gengiva ficar pálida, fale com a equipe logo.**",
    "createdAt": 1794960669443
@@ -3356,6 +3405,23 @@
    "_by": "[removido]",
    "_at": 1795228835366,
    "_byName": "a tutora"
+  },
+  {
+   "id": "TsoagLwnegWDWyE1er9A",
+   "name": "Sulfadiazina de prata",
+   "purpose": "tratamento das escaras no quadril",
+   "dose": "aplicação tópica nas lesões",
+   "start": "2026-11-25",
+   "end": null,
+   "endEstimated": false,
+   "notes": "da receita: Relato",
+   "allergy": false,
+   "clinic": "Relato",
+   "composition": "sulfadiazina de prata",
+   "components": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795606874086
   },
   {
    "id": "WgFONdJ2SsFMbRpqA3Xp",
@@ -7082,6 +7148,17 @@
    "_byName": "a tutora"
   },
   {
+   "id": "9vXH1HFtMoxons2XI0X3",
+   "assetId": "33bdf9e2-5b3c-4287-999a-585e1393bd14",
+   "date": "2026-11-25",
+   "caption": "Área raspada na lateral do corpo com pequenas feridas avermelhadas no centro e pasta ou pomada esbranquiçada ao redor",
+   "video": false,
+   "createdAt": 1795606939295,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795606939295
+  },
+  {
    "id": "CYjLhf4PV8bb9EPJTs1Z",
    "assetId": "827d63ee-5a96-4f96-bcd0-26e8d926eab6",
    "date": "2026-11-20",
@@ -7164,6 +7241,17 @@
    "_by": "[removido]",
    "_at": 1795228835778,
    "_byName": "a tutora"
+  },
+  {
+   "id": "f0ym7CIiZ1mxOuj3ujdt",
+   "assetId": "2353b8fa-f83c-4e2c-b8d0-55dde63eaf51",
+   "date": "2026-11-25",
+   "caption": "Ferida pequena e avermelhada na pele da lateral do corpo, com pelos tosados ao redor e pomada branca aplicada na área",
+   "video": false,
+   "createdAt": 1795606910318,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795606910318
   },
   {
    "id": "fotos-00",
