@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-25T19:25:46.958Z",
- "updatedAt": 1795634481999,
+ "exportedAt": "2026-11-25T20:15:56.990Z",
+ "updatedAt": 1795637488097,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -215,6 +215,24 @@
     "hcm": 24.1,
     "meta": 0
    }
+  },
+  {
+   "id": "LG7qGN7sIr9qR6zauZzy",
+   "date": "2026-11-19",
+   "lab": "Alpha Labs",
+   "kind": "Urocultura com antibiograma",
+   "params": {},
+   "other": [
+    "Cultura de urina aeróbia (coleta não informada; realizado em 25/11/2026): Proteus mirabilis ESBL (produtor de betalactamase de espectro estendido) >100.000 UFC/mL",
+    "Sensível: Piperacilina + Tazobactam; Ceftazidima; Amicacina; Meropenem",
+    "Sensível, aumentando exposição (I): nenhum antimicrobiano testado",
+    "Resistente: Amoxicilina + Ác. Clavulânico; Cefalexina; Cefazolina; Cefalotina; Cefadroxila; Cefpodoxima; Ceftriaxona; Enrofloxacino; Marbofloxacino; Levofloxacino; Gentamicina; Cotrimoxazol (Sulfametoxazol + Trimetoprima)",
+    "Resistência intrínseca: Benzilpenicilinas; Macrolídeos clássicos; Lincosamidas; Estreptogramíneas; Glicopeptídeos; Rifampicina; Ácido Fusídico; Tetraciclinas; Tigeciclina; Polimixina B; Nitrofurantoína"
+   ],
+   "labInterpretation": "Cepa ESBL+, possivelmente resistente a todos os betalactâmicos (penicilinas, cefalosporinas, monobactâmicos, entre outros). A escolha do antimicrobiano deve considerar o método de coleta da amostra, que não foi informado. Teste in vitro; a interpretação e a antibioticoterapia são de responsabilidade do médico veterinário.",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795637456468
   },
   {
    "id": "OinGT8GZgXEiS3gHb73r",
@@ -3070,6 +3088,11 @@
    "id": "VskOq9iIHVTxsIVcQelR",
    "text": "## ✅ Pontos positivos\n- **Anemia segurando:** o hematócrito (% de glóbulos vermelhos) saiu de 12,2% em 08/11 para 26–30% depois da transfusão, e ficou nessa faixa até 21/11. Ainda está abaixo do normal, mas sem nova queda forte.\n- **Comendo bem:** calorias acima da meta (950) desde 17/11, e ele come sozinho.\n- **Peso subindo:** de 17,5 kg (17/11) para 20 kg (22/11). A pesagem agora tem padrão, então as próximas serão mais comparáveis.\n- **Neuro estável:** sem novas convulsões, ausculta limpa, fezes firmes desde 19/11, sangramento da sonda parou.\n- **Rins e proteína na urina OK:** a relação proteína/creatinina da urina (PU/CU) está normal.\n- **Remédios em dia:** poucos pulados.\n\n## ⚠️ Pontos de preocupação\n- **Febre todo dia:** 39,6–40,1 °C desde 17/11, com 5 picos em 21/11. A dipirona pode mascarar o quadro. **Avise a equipe/infectologista logo** se subir de 40 °C, se ele ficar muito mole ou se a mucosa ficar branca.\n- **Urina:** ele ainda não urina sozinho. Os dois EAS (exames de urina) mostram muitos leucócitos, bactérias e cristais, e o pH foi de 6 para 8. Pode indicar infecção urinária, mas quem avalia é a vet. A cultura com antibiograma (identifica a bactéria e o antibiótico adequado) ainda não tem resultado nos dados. Chame a clínica se a urina ficar com sangue ou cheiro forte, ou se ele passar muitas horas sem esvaziar a bexiga.\n- **Sinais de inflamação no sangue:** os leucócitos subiram (17,2 mil em 18/11 para 26,2 mil em 21/11, laboratórios diferentes), com granulações tóxicas. Isso combina com a febre.\n- **Medula:** em 18/11 os reticulócitos (células novas do sangue) estavam muito baixos, e em 21/11 estavam na faixa, em outro laboratório. Os dados não fecham, então repetir o exame ajuda.\n- **Cinomose ainda ativa:** IgM positivo. Parvo IgM também deu positivo, o que pode ser exposição recente. Seguem pendentes o PCR de cinomose e o fenobarbital.\n- **Água:** 958 mL em 22/11 até agora, mas o dia ainda não fechou. Observe a bebida pela boca.\n\n## O que mudou\n- A febre piorou e os leucócitos subiram.\n- A urina ficou mais alterada (pH e cristais).\n- O peso e o hematócrito se mantiveram.\n- Chegaram as sorologias de cinomose e parvo.\n\n## Perguntas pra levar à vet\n- **A febre e o aumento dos leucócitos apontam para infecção urinária?** Como fica a cultura?\n- **Precisa de acompanhamento da bexiga ou de sondagens frequentes?**\n- **Os reticulócitos baixos e normais precisam de novo hemograma?**\n- **O parvo muda alguma coisa no cuidado?**\n- **Quando saem o PCR de cinomose e o fenobarbital?**",
    "createdAt": 1795367688717
+  },
+  {
+   "id": "WZ5906O63iYLkcl2iKY0",
+   "text": "## ✅ Pontos positivos\n- **Febre cedendo**: máxima de 40 °C até 23/11 e 39,3 °C nos últimos 2 dias, dentro do normal.\n- **Medula reagindo**: em 21/11 o hematócrito estava em 30% e os reticulócitos (células novas do sangue) foram de 3,7 mil pra 39 mil. São laboratórios diferentes, mas a tendência é boa.\n- **Peso estável** em 20 kg desde 20/11 (estava 17,5 kg em 17/11). Glicemia normal (86–88).\n- Fezes firmes desde 19/11 e calorias acima da meta (1285–1884 vs 950).\n- **Proteína na urina normal** (PU/CU 0,09): os rins não estão perdendo proteína.\n\n## ⚠️ Pontos de preocupação\n1. **Infecção urinária com bactéria resistente** (*Proteus mirabilis* ESBL, >100 mil UFC/mL). ESBL é uma bactéria que derruba muitos antibióticos. Ela é **resistente à ceftriaxona** (que ele usou na internação), amoxicilina+clavulanato, enrofloxacino e sulfa+trimetoprima. A urina veio turva, com muitos leucócitos e bactérias (+++). O EAS de 21/11 (pH 8, cristais de estruvita) combina com esse tipo de bactéria. **Fale com a equipe logo**, porque o resultado saiu em 25/11. Em casa, observe se a febre volta, se a urina fica escura, fedida ou com sangue, ou se sai pouca. Bexiga dura também é motivo de ligar. O laudo não informa como a urina foi coletada.\n2. **Escaras no quadril** (25/11): observe vermelhidão, secreção, cheiro, aumento da ferida e moscas. Se piorar ou a febre voltar, chame a clínica.\n3. **Leucócitos altos** em 21/11 (26 mil, com neutrófilos \"tóxicos\"), sinal de infecção ou inflamação. Vale repetir pra acompanhar.\n4. **Cinomose ainda ativa** (IgM positivo). O IgM de parvovirose também deu positivo, provável contato na internação. Se houver convulsão nova, diarreia, vômito ou piora da mioclonia, chame.\n5. **Água abaixo da meta** (1314–1371 mL nos últimos 2 dias; meta 1600), o que pesa mais com infecção urinária. Em 25/11 foram 2 remédios pulados.\n\n## O que mudou\n- A urocultura (19/11) mostrou bactéria resistente à ceftriaxona, antibiótico que ele já usou.\n- Febre caiu depois de 23/11.\n- Peso firmou em 20 kg e as fezes normalizaram.\n- Surgiram escaras em 25/11.\n\n## Perguntas pra levar à vet\n- Com essa urocultura, o antibiótico atual cobre a bactéria? O **Diaziprim** (sulfa+trimetoprima) ainda faz sentido, já que deu resistente?\n- Como tratar uma bactéria ESBL, e como lidar com as sondagens de alívio pra reduzir o risco de nova infecção?\n- Vale repetir a urina depois do tratamento?\n- Saíram o **PCR de cinomose** e o **fenobarbital** coletados em 16/11? Quando repetir o hemograma?\n- Como a infectologista e a neuro enxergam o IgM de parvo e a mioclonia?\n- Como cuidar das escaras e do colchão/decúbito pra evitar novas?",
+   "createdAt": 1795637486580
   },
   {
    "id": "XLcC3rZNNIssCFDfC49L",
