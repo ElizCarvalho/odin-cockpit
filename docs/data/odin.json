@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-25T18:41:09.884Z",
- "updatedAt": 1795631809178,
+ "exportedAt": "2026-11-25T19:25:46.958Z",
+ "updatedAt": 1795634481999,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -5796,6 +5796,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "gGe7bJXsFVq7H8b0rjF9",
+   "date": "2026-11-25",
+   "time": "16:19",
+   "food": true,
+   "note": "Papinha caseira (moela, legumes e creme de milho) · Almoço",
+   "foodId": "caseira_mwwieohs",
+   "food_g": 560,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795634480684
+  },
+  {
    "id": "gxisG2PkCsm0sdCbDbCI",
    "date": "2026-11-20",
    "time": "09:06",
@@ -7367,6 +7379,20 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795547986107
+  },
+  {
+   "id": "caseira_mwwieohs",
+   "name": "Papinha caseira (moela, legumes e creme de milho)",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 93.6,
+   "water": 0.74,
+   "est": true,
+   "src": "estimado pela IA: Moela de frango cozida 240 g/290 kcal · Cenoura cozida 46 g/17 kcal · Beterraba cozida 46 g/20 kcal · Inhame cozido 46 g/45 kcal · Batata-doce cozida 46 g/35 kcal · Creme de milho 46 g/33 kcal",
+   "receita": "310g de moela de frango \n230g de cenoura + beterraba + inhame + batata doce + creme de milho",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795634480513
   },
   {
    "id": "cha",
