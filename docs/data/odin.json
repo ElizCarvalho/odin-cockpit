@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-25T17:21:24.277Z",
- "updatedAt": 1795627010941,
+ "exportedAt": "2026-11-25T18:41:09.884Z",
+ "updatedAt": 1795631809178,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -1697,6 +1697,22 @@
    "_at": 1795360205470
   },
   {
+   "id": "CMqM4SoJKatJYe73pZoi",
+   "date": "2026-11-25",
+   "time": "15:36",
+   "kind": "urina",
+   "details": {
+    "como": "na sonda",
+    "cor": "amarelo",
+    "quantidade": "pouco"
+   },
+   "text": "Xixi na sonda, amarelo, pouco.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795631798245
+  },
+  {
    "id": "CQc2VYrQkYRMSxaj6Rnk",
    "date": "2026-11-22",
    "time": "14:49",
@@ -2900,6 +2916,22 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795602070915
+  },
+  {
+   "id": "y3l9ZHUUFHZROTRqwIYI",
+   "date": "2026-11-25",
+   "time": "15:36",
+   "kind": "urina",
+   "details": {
+    "como": "com escape",
+    "cor": "amarelo",
+    "quantidade": "pouco"
+   },
+   "text": "Xixi com escape, amarelo, pouco.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795631807842
   },
   {
    "id": "yEvn0FcKbzPfosYzKgEa",
@@ -5975,6 +6007,17 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "n1PA2v1pjrEygxdFpNC8",
+   "date": "2026-11-25",
+   "time": "15:36",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795631789804
   },
   {
    "id": "nR4rPPlu1GGDj211jMKF",
