@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-25T01:42:32.301Z",
- "updatedAt": 1795570633384,
+ "exportedAt": "2026-11-25T02:04:09.454Z",
+ "updatedAt": 1795571957713,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -4460,6 +4460,17 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795472273353
+  },
+  {
+   "id": "7zOpfxc46yMvLYdJnFe2",
+   "date": "2026-11-24",
+   "time": "22:56",
+   "water_ml": 150,
+   "drinkId": "agua",
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795571956356
   },
   {
    "id": "89tbLgpxZ8c6sdd2DoQK",
