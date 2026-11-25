@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-25T10:26:03.838Z",
- "updatedAt": 1795602072182,
+ "exportedAt": "2026-11-25T10:46:45.802Z",
+ "updatedAt": 1795603342645,
  "exams": [
   {
    "id": "1qnN9mlkpATNoD43YyIz",
@@ -3285,6 +3285,22 @@
    "_byName": "a tutora"
   },
   {
+   "id": "Gro2yHxLtojHeOlzrrH7",
+   "name": "Lunah",
+   "purpose": "Lubrificante ocular",
+   "dose": "1 gato a cada 8h 30min depois do Nevanac",
+   "start": "2026-11-25",
+   "end": "2026-11-25",
+   "notes": "",
+   "allergy": false,
+   "clinic": "Vetreabilite (neuro)",
+   "composition": "Hialuronato de sódio",
+   "components": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795603341196
+  },
+  {
    "id": "OoTTL77IVrZn15dkWPqx",
    "name": "Biscoitos manipulados (Ginkgo biloba, Pentoxifilina, Vitamina B12 e Vitamina E)",
    "purpose": "Sequelas pós-traumáticas",
@@ -3894,16 +3910,16 @@
    "allergy": false,
    "clinic": "Rio Vet",
    "composition": "hialuronato de sódio 0,15% (lubrificante)",
-   "endEstimated": true,
    "purpose": "olhos (lubrificante)",
    "start": "2026-11-08",
    "dose": "1 gota em cada olho a cada 12h por 10 dias",
    "notes": "Rio Vet; receita de alta. Recomeçado em 17/11 (não há certeza das aplicações na internação). Frasco em uso quase cheio.",
    "name": "Lacrifilm (colírio lubrificante)",
-   "end": "2026-11-26",
    "_by": "[removido]",
-   "_at": 1795228835366,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "endEstimated": false,
+   "_at": 1795603146666,
+   "end": "2026-11-25"
   },
   {
    "id": "pbzrlxa01w4765cnaduj",
@@ -4076,6 +4092,22 @@
    "_by": "[removido]",
    "_at": 1795228835366,
    "_byName": "a tutora"
+  },
+  {
+   "id": "wqqrOGD7Zl7wjTIcQJZd",
+   "name": "Nevanac",
+   "purpose": "Inflamação ocular",
+   "dose": "1 gota em cada olho",
+   "start": "2026-11-25",
+   "end": "2026-12-09",
+   "notes": "",
+   "allergy": false,
+   "clinic": "Vetreabilite (neuro)",
+   "composition": "nepafenaco 1mg/ml",
+   "components": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795602986854
   },
   {
    "id": "yffecbcmwlv0629k34op",
