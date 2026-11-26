@@ -22,5 +22,5 @@ Esta pasta registra **como** ele é feito. A ideia é que qualquer pessoa ou age
 - **App:** o cockpit montado com Firebase (`scripts/build-app.mjs` → `app/public/`), publicado em odin-cockpit.web.app.
 - **Site público:** o mesmo cockpit, só leitura, com dados anonimizados, publicado no GitHub Pages (`docs/`).
 - **Rotina:** os lembretes (remédio, água, decúbito…), a resposta a eles e o que foi registrado nas últimas 48 h.
-- **Registrar:** a seção única de lançar qualquer coisa. O "Registrar com leitura automática" usa IA pra ler exames, receitas e texto livre.
+- **Registrar:** a seção única de lançar qualquer coisa. O "Registrar com leitura automática" usa IA pra ler exames, receitas e texto livre. Um PDF com vários laudos da mesma coleta vira um registro por exame; se o que foi lido repetir valores de um exame do mesmo dia que já está no histórico, a conferência avisa e oferece tirar os repetidos.
 - **Esteira:** o caminho obrigatório de uma mudança até produção (pull → check → commit → push → verificar).

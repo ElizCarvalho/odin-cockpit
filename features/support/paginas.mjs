@@ -52,6 +52,14 @@ export class Registrar {
   }
   async escolher(tipo) { await this.opcoes.getByRole('button', { name: tipo, exact: true }).click() }
   formulario(tipo) { return this.page.getByRole('region', { name: 'Registrar ' + tipo }) }
+  conferencia() { return this.page.getByRole('region', { name: 'Conferir valores lidos' }) }
+  // Envia um arquivo de texto pela leitura automática; a resposta da IA vem pronta (Firebase falso).
+  async enviarArquivo(nome, texto, respostaIA) {
+    await this.escolher('Exame, receita ou texto (leitura automática)')
+    await this.page.evaluate(r => { window.ODIN_IA_RESPOSTA = r }, JSON.stringify(respostaIA))
+    await this.page.locator('#file').setInputFiles({ name: nome, mimeType: 'text/plain', buffer: Buffer.from(texto) })
+  }
+  async tirarRepetidos() { await this.conferencia().getByRole('button', { name: 'Tirar os valores que já estão no histórico' }).click() }
   caixa(nome) { return this.page.getByRole('region', { name: nome }) }
   async comida(alimento, quanto, obs) {
     await this.escolher('Comida')

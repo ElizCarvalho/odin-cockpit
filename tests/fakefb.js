@@ -18,7 +18,7 @@ function query(n, filt){ return {
 const fs = { collection: n => query(n), batch(){ const ops=[]; return { set(ref,d){ops.push(()=>ref.set(d));}, commit: async()=>{ for(const o of ops) await o(); } }; } };
 const fsFn = () => fs; fsFn.FieldPath = function(a,b){ this.__fp=[a,b]; }; fsFn.FieldValue = { arrayUnion:(...a)=>({__au:a}), arrayRemove:(...a)=>({__ar:a}), increment:x=>x };
 window.firebase = {
-  initializeApp: () => ({ functions: () => ({ httpsCallable: () => async () => ({data:{text:'{}'}}) }) }),
+  initializeApp: () => ({ functions: () => ({ httpsCallable: () => async () => ({data:{text: window.ODIN_IA_RESPOSTA || '{}'}}) }) }),
   auth: Object.assign(() => ({ onAuthStateChanged: cb => setTimeout(()=>cb({email:(new URLSearchParams(location.search).get('as')||'teste@x.com'), displayName:'T'}),0), signOut(){} }), { GoogleAuthProvider: function(){ this.setCustomParameters=()=>{}; } }),
   firestore: fsFn,
   storage: () => ({ ref: p => ({ put: async (b)=>{ window.__puts=(window.__puts||[]).concat(p); }, getDownloadURL: async () => '/blob0.jpg', put: async()=>{}, delete: async()=>{} }) }),

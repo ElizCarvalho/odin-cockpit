@@ -31,6 +31,13 @@ Funcionalidade: Registrar qualquer cuidado num lugar só
     Então eu vejo a confirmação de que o xixi foi registrado
     E esse xixi aparece nas últimas 48 horas
 
+  Cenário: Laudo que repete um exame já salvo vem com aviso e posso ficar só com o novo
+    Ilustração: o hemograma de hoje (hemoglobina 9,1 e hematócrito 27) já está no histórico; o arquivo traz esses valores misturados com o fenobarbital (6,3 µg/mL).
+    Quando eu envio um arquivo em que o hemograma de hoje veio misturado com outro exame
+    Então eu sou avisada de que parte dos valores já está no histórico
+    Quando eu peço pra tirar os valores repetidos
+    Então sobra só o valor novo pra conferir
+
   Cenário: Consulta agendada aparece no calendário
     Ilustração: consulta com a neuro hoje às 15:00, lembrete 1 dia antes.
     Quando eu agendo uma consulta para hoje

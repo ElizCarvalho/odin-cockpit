@@ -90,6 +90,19 @@ Then('esse xixi aparece nas últimas 48 horas', async function () {
   await this.nav.abrir('Hoje')
   await expect(this.hoje.registro48('Xixi com escape')).toBeVisible()
 })
+When('eu envio um arquivo em que o hemograma de hoje veio misturado com outro exame', async function () {
+  const h = SEED.exams.e1
+  await this.registrar.enviarArquivo('laudos.txt', 'Hemograma, fenobarbital e PCR da mesma coleta',
+    { exams: [{ date: h.date, lab: h.lab, kind: 'Hemograma e fenobarbital', params: { ...h.params, fenob: 6.3 }, other: [] }] })
+})
+Then('eu sou avisada de que parte dos valores já está no histórico', async function () {
+  await expect(this.registrar.conferencia().getByRole('note')).toContainText(`valores iguais aos do ${SEED.exams.e1.kind}`)
+})
+When('eu peço pra tirar os valores repetidos', async function () { await this.registrar.tirarRepetidos() })
+Then('sobra só o valor novo pra conferir', async function () {
+  // um único campo de valor (se sobrar mais de um, o locator estrito falha) e ele é o fenobarbital
+  await expect(this.registrar.conferencia().getByRole('spinbutton')).toHaveAccessibleName(/Fenobarbital/)
+})
 When('eu agendo uma consulta para hoje', async function () { await this.registrar.consulta(MASSA.consulta, today, MASSA.consultaHora) })
 Then('a consulta aparece no calendário de hoje', async function () {
   await this.nav.abrir('Histórico', 'Linha do tempo')
