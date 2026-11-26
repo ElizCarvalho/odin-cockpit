@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T09:13:58.477Z",
- "updatedAt": 1795684200108,
+ "exportedAt": "2026-11-26T09:23:49.112Z",
+ "updatedAt": 1795684740637,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -3244,20 +3244,20 @@
  "meds": [
   {
    "id": "0brLnf09agm5aXOnef3c",
-   "name": "Dipirona líquida",
    "purpose": "Estado febril",
    "start": "2026-11-17",
    "end": null,
    "endEstimated": false,
-   "notes": "da receita: relato",
    "allergy": false,
    "clinic": "",
-   "composition": "Dipirona",
    "components": [],
    "dose": "0,8 mL VO a cada 12h, só em caso de febre (receita de 17/11)",
    "_by": "[removido]",
-   "_at": 1795228835366,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "notes": "da receita: relato. Dose de 0,8 mL calculada quando ele tinha ~17 kg; em 24/11 ele estava com 20 kg. Confirmar com a vet se ajusta.",
+   "_at": 1795684739204,
+   "composition": "Dipirona 500 mg/mL",
+   "name": "Dipirona líquida 500 mg/mL"
   },
   {
    "id": "0v5llg0vglvnd4qo2bsq",
