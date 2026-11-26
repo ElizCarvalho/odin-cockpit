@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T00:26:41.287Z",
- "updatedAt": 1795652561119,
+ "exportedAt": "2026-11-26T01:18:45.772Z",
+ "updatedAt": 1795655702359,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -5030,6 +5030,18 @@
    "_at": 1795393036091
   },
   {
+   "id": "Bnoqnx2wt5JOaIXJemhV",
+   "date": "2026-11-25",
+   "time": "22:01",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida) · Jantar",
+   "foodId": "fnrecup",
+   "food_g": 79.9,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795655700744
+  },
+  {
    "id": "CKiM1BmEalU6Vb8IPVAc",
    "date": "2026-11-23",
    "time": "08:36",
@@ -7307,6 +7319,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "xspzg90IOIgQGCvu5Nv4",
+   "date": "2026-11-25",
+   "time": "22:01",
+   "food": true,
+   "note": "Ração seca Fórmula Natural Fresh Meat Sênior · Jantar",
+   "foodId": "racao",
+   "food_g": 76,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795655701025
   },
   {
    "id": "yDxJc48m6962P8z70SZb",
