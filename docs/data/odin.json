@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T19:21:51.024Z",
- "updatedAt": 1795720662089,
+ "exportedAt": "2026-11-26T20:08:25.200Z",
+ "updatedAt": 1795723430945,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -3550,9 +3550,7 @@
    "id": "Gro2yHxLtojHeOlzrrH7",
    "name": "Lunah",
    "purpose": "Lubrificante ocular",
-   "dose": "1 gato a cada 8h 30min depois do Nevanac",
    "start": "2026-11-25",
-   "end": "2026-11-25",
    "notes": "",
    "allergy": false,
    "clinic": "Vetreabilite (neuro)",
@@ -3560,7 +3558,10 @@
    "components": [],
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795603341196
+   "endEstimated": false,
+   "dose": "1 gota a cada 8h, 30 min depois do Nevanac (uso contínuo)",
+   "_at": 1795723429483,
+   "end": null
   },
   {
    "id": "HhwcCe1OiGYABbiIHi2D",
