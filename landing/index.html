@@ -946,7 +946,7 @@ details.priv p { margin-top: 8px; max-width: 720px; }
       ob.scrollIntoView({ behavior: 'smooth', block: 'start' });
       document.getElementById('t-obr').focus({ preventScroll: true });
     };
-    if (PREVIA) { console.log('Prévia: resposta que seria enviada', payload); concluir(); return; }
+    if (PREVIA || ROBO) { console.log('Prévia ou acesso automatizado: resposta não enviada', payload); concluir(); return; }
     btn.disabled = true; btn.textContent = 'Enviando...';
     fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) })
       .then(function (r) { if (!r.ok) throw new Error(r.status); concluir(); })
