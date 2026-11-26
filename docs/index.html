@@ -1515,6 +1515,7 @@ async function readPdf(file) {
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i); const c = await page.getTextContent();
     let lastY = null, line = '';
+    text += `--- Página ${i} de ${doc.numPages} ---\n`;
     for (const it of c.items) { const y = it.transform[5]; if (lastY !== null && Math.abs(y - lastY) > 2) { text += line + '\n'; line = ''; } line += it.str + ' '; lastY = y; }
     text += line + '\n\n';
   }
@@ -1574,7 +1575,8 @@ Regras:
 - Tabelas com colunas "Resultado" e "Referência": leia SEMPRE a coluna do resultado do Odin, nunca a de referência. Em "other", liste TODO resultado qualitativo fora da referência, no formato "Leucócitos: incontáveis (ref. 6/campo)".
 - Sorologia IgM (Dot-ELISA) de cinomose → igm_cdv, de parvovirose → igm_cpv, com o número do score (S2 vira 2).
 - Urina (EAS/urinálise): densidade → udens (1.030 vira 1.03), pH → uph; PU/CU → upcr, proteína urinária → uprot, creatinina urinária → ucreat. Cor, aspecto, odor, volume, sedimento (leucócitos, hemácias, bactérias, cristais, cilindros, células) e química qualitativa vão em "other" com o resultado e a referência.
-- Um laudo vira UM item em "exams" (não divida o mesmo laudo em dois).
+- Cada exame diferente vira UM item em "exams", com o seu próprio "kind": um PDF pode trazer vários laudos da mesma coleta, com o mesmo número de pedido e o mesmo cabeçalho (ex.: hemograma, dosagem de fenobarbital e PCR de cinomose = 3 itens). Nunca junte exames diferentes num item só nem invente um "kind" que some vários exames.
+- Não divida um mesmo exame em dois (ex.: eritrograma, leucograma e plaquetas do mesmo hemograma são um item só).
 
 Arquivo: ${name}
 ${hasImages ? 'O documento está nas imagens anexadas.' : ''}
@@ -1676,6 +1678,7 @@ function renderReview() {
   renderReviewExtra();
   $('reviewBody').innerHTML = pending.map((e, i) => {
     const dup = exams.some(x => x.date === e.date && JSON.stringify(x.params) === JSON.stringify(e.params));
+    const rep = dup ? null : repetidosNoHistorico(e);
     return `<div class="exam" data-i="${i}">
       <div class="row" style="align-items:end">
         <label style="flex:0 0 160px"><span class="muted" style="font-size:12px">Data da coleta</span><input type="date" data-f="date" value="${esc(e.date)}"></label>
@@ -1684,6 +1687,8 @@ function renderReview() {
         <button class="ghost tiny" data-rm="${i}">remover este</button>
       </div>
       ${dup ? '<div class="pill hi">Parece igual a um exame que já está no histórico</div>' : ''}
+      ${rep ? `<div class="pill hi" role="note">${rep.chaves.length} valores iguais aos do ${esc(rep.x.kind || 'exame')} de ${dm(rep.x.date)}, que já está no histórico. Se este arquivo trouxe outros exames junto, eles podem ter vindo misturados.</div>
+        <div><button class="ghost tiny" data-semrep="${i}">Tirar os valores que já estão no histórico</button></div>` : ''}
       <div class="muted" style="font-size:12px">de ${esc(e.source)}</div>
       <div class="pgrid">${Object.entries(e.params).sort((a,b) => KEY_ORDER.indexOf(a[0]) - KEY_ORDER.indexOf(b[0])).map(([k, v]) =>
         `<div class="prow"><span>${esc(P[k].l)} <span class="muted" style="font-size:11px">${esc(P[k].u)}</span></span>
@@ -1693,6 +1698,17 @@ function renderReview() {
         `<label class="chk" style="color:var(--ink)"><input type="checkbox" data-med="${j}" ${m.add ? 'checked' : ''}> ${esc(m.name)}${m.dose ? ' · ' + esc(m.dose) : ''}${m.days ? ' · ' + m.days + ' dias' : ''} <span class="muted">(início ${dm(m.start)})${m.add ? "" : " · já está na lista de remédios"}</span></label>`).join('') + '</div>' : ''}
     </div>`;
   }).join('');
+}
+// Exame lido que repete valores de um exame do mesmo dia já salvo (ex.: o PDF juntou o hemograma já registrado com outros exames).
+// Conta quando bate pelo menos 3 valores, ou todos os valores do exame salvo (mínimo 2), e o lido traz algo a mais.
+function repetidosNoHistorico(e) {
+  const lidos = Object.keys(e.params || {});
+  for (const x of exams) {
+    if (x.date !== e.date || !x.params) continue;
+    const salvos = Object.keys(x.params), chaves = salvos.filter(k => e.params[k] === x.params[k]);
+    if (chaves.length < lidos.length && (chaves.length >= 3 || (chaves.length >= 2 && chaves.length === salvos.length))) return { x, chaves };
+  }
+  return null;
 }
 function renderReviewExtra() {
   let h = '';
@@ -1736,6 +1752,8 @@ $('reviewBody').addEventListener('click', ev => {
   const rm = ev.target.closest('button[data-rm]'); const pd = ev.target.closest('button[data-pdel]');
   if (rm) { pending.splice(+rm.dataset.rm, 1); renderReview(); }
   if (pd) { const ex = pd.closest('.exam'); delete pending[+ex.dataset.i].params[pd.dataset.pdel]; renderReview(); }
+  const sr = ev.target.closest('button[data-semrep]');
+  if (sr) { const e = pending[+sr.dataset.semrep], r = repetidosNoHistorico(e); if (r) r.chaves.forEach(k => delete e.params[k]); renderReview(); }
 });
 $('discardBtn').addEventListener('click', () => { pending = []; pendingEvents = []; pendingPrev = []; pendingVitals = []; pendingPhotos.forEach(p => URL.revokeObjectURL(p.url)); pendingPhotos = []; renderReview(); });
 $('saveBtn').addEventListener('click', async () => {
