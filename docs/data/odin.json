@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T13:53:47.966Z",
- "updatedAt": 1795700979596,
+ "exportedAt": "2026-11-26T14:04:51.349Z",
+ "updatedAt": 1795701387139,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -313,6 +313,23 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795524079217
+  },
+  {
+   "id": "YM1ByrC7xu1nonnemPKV",
+   "date": "2026-11-26",
+   "time": "10:53",
+   "kind": "Glicemia (glicosímetro)",
+   "lab": "Em casa",
+   "params": {
+    "glic": 88
+   },
+   "other": [
+    "em jejum",
+    "sangue da orelha, glicosímetro"
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795701385730
   },
   {
    "id": "aTEFL8058a90ndEC8Tfr",
