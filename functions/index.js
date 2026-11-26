@@ -418,8 +418,10 @@ export function validarPesquisa(b) {
     respostas, uf, origem: txt(b.origem, 40), utm: limpaUtm(b.utm),
     pulou: b.pulou === true, semPetDoente: b.semPetDoente === true, celular: b.celular === true
   };
+  // parcial: a página grava a parte 1 assim que ela termina, pra não perder quem sai antes do fim
+  const parcial = b.parcial === true;
   let contato = null;
-  if (b.contato) {
+  if (b.contato && !parcial) {
     const valor = txt(b.contato.valor, 120);
     const ehEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor), digitos = valor.replace(/\D/g, '');
     if (b.contato.consent !== true) return { erro: 'consentimento' };
@@ -427,7 +429,7 @@ export function validarPesquisa(b) {
     contato = { valor: ehEmail ? valor.toLowerCase() : digitos, tipo: ehEmail ? 'email' : 'whatsapp', conversa: b.contato.conversa === true, lista: b.contato.lista === true, consent: true, consentVersao: 'v1' };
   }
   const h = p => createHash('sha256').update(p + sessao).digest('hex').slice(0, 24);
-  return { resposta, contato, id: h('resp:'), contatoId: h('cont:') };
+  return { resposta, contato, parcial, id: h('resp:'), contatoId: h('cont:') };
 }
 
 export const pesquisa = onRequest({ timeoutSeconds: 15, memory: '256MiB', maxInstances: 3, cors: PESQ_ORIGENS }, async (req, res) => {
@@ -456,7 +458,19 @@ export const pesquisa = onRequest({ timeoutSeconds: 15, memory: '256MiB', maxIns
     res.status(204).send(''); return;
   }
   const at = Date.now();
-  await db.doc(`pesquisa_respostas/${v.id}`).set({ ...v.resposta, temContato: !!v.contato, at });
+  if (v.parcial) {
+    // só grava a parte 1 se a resposta completa dessa sessão ainda não chegou
+    const ref = db.doc(`pesquisa_respostas/${v.id}`);
+    const gravou = await db.runTransaction(async t => {
+      const atual = (await t.get(ref)).data();
+      if (atual && atual.parcial !== true) return false;
+      t.set(ref, { ...v.resposta, parcial: true, temContato: false, at });
+      return true;
+    });
+    if (gravou) await db.doc(`pesquisa_metricas/${date}`).set({ parte1_salva: FieldValue.increment(1), dia: date }, { merge: true });
+    res.status(200).json({ ok: true }); return;
+  }
+  await db.doc(`pesquisa_respostas/${v.id}`).set({ ...v.resposta, parcial: false, temContato: !!v.contato, at });
   if (v.contato) await db.doc(`pesquisa_contatos/${v.contatoId}`).set({ ...v.contato, respostaId: v.id, at });
   await db.doc(`pesquisa_metricas/${date}`).set({ respostas: FieldValue.increment(1), ...(v.contato ? { contatos: FieldValue.increment(1) } : {}), dia: date }, { merge: true });
   res.status(200).json({ ok: true });

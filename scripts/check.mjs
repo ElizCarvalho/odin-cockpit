@@ -80,8 +80,9 @@ try {
     const d = v({ tipo: 'resposta', sessao: S, respostas: {}, contato: { valor: 'a@b.com', consent: false } });
     const e = v({ tipo: 'resposta', sessao: S, respostas: { qX: 'oi' } });
     const f = v({ tipo: 'resposta', sessao: S, respostas: { q1: 'Não' }, uf: 'XX' });
-    console.log(JSON.stringify([a.evento + '/' + a.utm, b.erro, c.respostas ? 1 : c.resposta.respostas.q10.length, c.contato.valor, c.contato.tipo, c.id !== c.contatoId, d.erro, e.erro, f.resposta.uf]));`], { encoding: 'utf8', cwd: r('functions'), stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop();
-  out === '["visita/linkedin","evento",2000,"21999990000","whatsapp",true,"consentimento","pergunta qX",""]' ? ok('pesquisa da landing: validação, consentimento e contato separado conferem') : bad('validarPesquisa deu ' + out);
+    const g = v({ tipo: 'resposta', parcial: true, sessao: S, respostas: { q1: 'Tem agora' }, contato: { valor: 'a@b.com', consent: true, lista: true } });
+    console.log(JSON.stringify([a.evento + '/' + a.utm, b.erro, c.respostas ? 1 : c.resposta.respostas.q10.length, c.contato.valor, c.contato.tipo, c.id !== c.contatoId, d.erro, e.erro, f.resposta.uf, g.parcial, g.contato, g.id === c.id, c.parcial]));`], { encoding: 'utf8', cwd: r('functions'), stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop();
+  out === '["visita/linkedin","evento",2000,"21999990000","whatsapp",true,"consentimento","pergunta qX","",true,null,true,false]' ? ok('pesquisa da landing: validação, consentimento, contato separado e parte 1 parcial conferem') : bad('validarPesquisa deu ' + out);
 } catch (e) {
   const msg = String(e.stderr || e.message);
   /Cannot find (package|module) 'firebase-/.test(msg) ? console.log('• pesquisa: pulei (rode npm ci --prefix functions pra testar)') : bad('pesquisa: ' + msg.trim().split('\n').slice(-1)[0]);

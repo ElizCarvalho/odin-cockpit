@@ -46,9 +46,9 @@ A landing pública (`landing/`) manda as respostas pra função `pesquisa` (HTTP
 
 | Coleção | Quem lê | O que guarda | Campos principais |
 |---|---|---|---|
-| `pesquisa_respostas` | só admin | Uma resposta por sessão (id = hash da sessão), sem contato | `respostas{q1…q13}`, `uf`, `origem`, `utm`, `pulou`, `semPetDoente`, `celular`, `temContato`, `at` |
+| `pesquisa_respostas` | só admin | Uma resposta por sessão (id = hash da sessão), sem contato. A parte 1 é gravada quando termina (`parcial: true`) e o envio final substitui (`parcial: false`); a parcial nunca sobrescreve a final | `respostas{q1…q13}`, `uf`, `origem`, `utm`, `pulou`, `semPetDoente`, `celular`, `temContato`, `parcial`, `at` |
 | `pesquisa_contatos` | ninguém pelo app (só console) | Contato de quem aceitou o uso (LGPD), separado da resposta | `valor`, `tipo` (`email`/`whatsapp`), `conversa`, `lista`, `consent`, `consentVersao`, `respostaId`, `at` |
-| `pesquisa_metricas` | só admin | Funil por dia: `pesquisa_metricas/{AAAA-MM-DD}` | `visita`, `inicio`, `fim_parte1`, `pulou`, `respostas`, `contatos`, e `{evento}__{utm}` |
+| `pesquisa_metricas` | só admin | Funil por dia: `pesquisa_metricas/{AAAA-MM-DD}`. Acesso automatizado (`navigator.webdriver`, como a conferência de deploy) não conta. Até 25/11 às 23h, as conferências entravam em `visita` | `visita`, `inicio`, `fim_parte1`, `parte1_salva`, `pulou`, `respostas` (envios completos), `contatos`, e `{evento}__{utm}` |
 | `pesquisa_limites` | ninguém | Contador por IP (em hash) e dia, pra barrar abuso | `eventos`, `respostas`, `dia`, `expira` (dá pra ligar TTL nesse campo) |
 
 Pedido de apagar dados: apagar o doc em `pesquisa_contatos` (e, se a pessoa pedir, a resposta em `pesquisa_respostas/{respostaId}`).

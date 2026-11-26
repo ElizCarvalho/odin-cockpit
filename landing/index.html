@@ -646,8 +646,10 @@ details.priv p { margin-top: 8px; max-width: 720px; }
   var params = new URLSearchParams(location.search);
   var utm = params.get('utm_source') || params.get('origem') || '';
 
+  // acesso automatizado (conferência de deploy, testes) não entra na contagem
+  var ROBO = navigator.webdriver === true;
   function evento(nome) {
-    if (PREVIA) return;
+    if (PREVIA || ROBO) return;
     var corpo = JSON.stringify({ tipo: 'evento', evento: nome, sessao: sessao, utm: utm });
     try {
       if (navigator.sendBeacon) navigator.sendBeacon(ENDPOINT, new Blob([corpo], { type: 'text/plain' }));
@@ -904,6 +906,7 @@ details.priv p { margin-top: 8px; max-width: 720px; }
 
   function fimParte1() {
     evento('fim_parte1');
+    salvarParte1();
     abrirParte2('Valeu! Agora só mais 2 ou 3 perguntas, sobre o app.');
   }
   function abrirParte2(texto) {
@@ -913,6 +916,19 @@ details.priv p { margin-top: 8px; max-width: 720px; }
     var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
     pesq2.scrollIntoView({ behavior: calmo ? 'auto' : 'smooth', block: 'start' });
     var lg = form2.querySelector('legend'); if (lg) lg.focus({ preventScroll: true });
+  }
+
+  // grava a parte 1 já, pra não perder quem sai antes do fim; o envio final substitui
+  function salvarParte1() {
+    if (PREVIA || ROBO) return;
+    var corpo = JSON.stringify({
+      tipo: 'resposta', parcial: true, sessao: sessao, utm: utm, pulou: false, semPetDoente: semPetDoente,
+      respostas: respostas, celular: matchMedia('(max-width: 700px)').matches
+    });
+    try {
+      if (navigator.sendBeacon) navigator.sendBeacon(ENDPOINT, new Blob([corpo], { type: 'text/plain' }));
+      else fetch(ENDPOINT, { method: 'POST', body: corpo, keepalive: true, headers: { 'Content-Type': 'text/plain' } });
+    } catch (e) { /* o envio final ainda grava tudo */ }
   }
 
   function enviar() {
