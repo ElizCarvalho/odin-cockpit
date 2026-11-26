@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T16:12:54.813Z",
- "updatedAt": 1795709290286,
+ "exportedAt": "2026-11-26T16:47:46.651Z",
+ "updatedAt": 1795711441299,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -4864,6 +4864,16 @@
    "_at": 1795706147950
   },
   {
+   "id": "3amDNAwzQO48vEBmByUB",
+   "date": "2026-11-26",
+   "time": "13:42",
+   "temp": 38.3,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795711412570
+  },
+  {
    "id": "3j19hM4WPfoGj1g3Ncht",
    "date": "2026-11-18",
    "time": "11:37",
@@ -5012,6 +5022,17 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795571956356
+  },
+  {
+   "id": "81c12I7flL3Rqkkv48WU",
+   "date": "2026-11-26",
+   "time": "13:25",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795711350063
   },
   {
    "id": "89tbLgpxZ8c6sdd2DoQK",
@@ -5480,6 +5501,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "PsbEtsWQIfqOPCQTsPb4",
+   "date": "2026-11-26",
+   "time": "10:43",
+   "food": true,
+   "note": "Fórmula Natural Vet Care Recuperação (úmida)",
+   "foodId": "fnrecup",
+   "food_g": 100,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795711439955
   },
   {
    "id": "PyHiipdkNBMVDXzolPZM",
