@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T08:43:44.053Z",
- "updatedAt": 1795682390953,
+ "exportedAt": "2026-11-26T09:13:58.477Z",
+ "updatedAt": 1795684200108,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -3512,23 +3512,6 @@
    "_byName": "a tutora"
   },
   {
-   "id": "DrZW7S4wdIRY3xShJIQu",
-   "name": "Fórmula homeopática (em anexo)",
-   "purpose": "",
-   "dose": "4 tabletes via oral, 4 vezes ao dia, por 20 dias",
-   "start": "2026-11-23",
-   "end": "2026-12-13",
-   "endEstimated": true,
-   "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
-   "allergy": false,
-   "clinic": "Dr. o infectologista",
-   "composition": "",
-   "components": [],
-   "_by": "[removido]",
-   "_byName": "a tutora",
-   "_at": 1795621780887
-  },
-  {
    "id": "Gro2yHxLtojHeOlzrrH7",
    "name": "Lunah",
    "purpose": "Lubrificante ocular",
@@ -3576,7 +3559,27 @@
    ],
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795621779988
+   "_at": 1795684198466,
+   "mergedFrom": [
+    {
+     "id": "DrZW7S4wdIRY3xShJIQu",
+     "_at": 1795621780887,
+     "name": "Fórmula homeopática (em anexo)",
+     "end": "2026-12-13",
+     "components": [],
+     "_by": "[removido]",
+     "allergy": false,
+     "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
+     "purpose": "",
+     "dose": "4 tabletes via oral, 4 vezes ao dia, por 20 dias",
+     "start": "2026-11-23",
+     "_byName": "a tutora",
+     "composition": "",
+     "createdAt": 1795621780887,
+     "clinic": "Dr. o infectologista",
+     "endEstimated": true
+    }
+   ]
   },
   {
    "id": "OoTTL77IVrZn15dkWPqx",
@@ -3892,11 +3895,12 @@
    "start": "2026-11-17",
    "clinic": "Tododoy",
    "purpose": "Dor e febre (se necessário)",
-   "notes": "Só quando precisar. Caixa fechada com 30.",
    "kind": "med",
    "_by": "[removido]",
-   "_at": 1795228835366,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795684196595,
+   "notes": "Trocada pela Dipirona líquida em 17/11 (dose pelo peso dele). Caixa fechada com 30 comprimidos guardada.",
+   "end": "2026-11-17"
   },
   {
    "id": "dyjnrsp1u8um23ccm3qc",
@@ -4123,33 +4127,69 @@
   },
   {
    "id": "ksfd7wacemSEb4Z1bp9Z",
-   "name": "Ribavirina + DMSO + Vitamina C (manipulado, fórmula em anexo)",
    "purpose": "",
-   "dose": "1 dose via oral, de 24 em 24 horas, por 15 dias",
    "start": "2026-11-23",
-   "end": "2026-12-08",
-   "endEstimated": true,
-   "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
    "allergy": false,
    "clinic": "Dr. o infectologista",
    "composition": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "endEstimated": false,
    "components": [
     {
      "name": "Ribavirina",
-     "dose": ""
+     "dose": "30 mg/kg/dose"
     },
     {
      "name": "DMSO",
-     "dose": ""
+     "dose": "20 mg/kg/dose"
     },
     {
      "name": "Vitamina C",
-     "dose": ""
+     "dose": "500 mg/dose"
     }
    ],
-   "_by": "[removido]",
-   "_byName": "a tutora",
-   "_at": 1795621780830
+   "paused": true,
+   "dose": "1 dose VO a cada 24h por 15 dias (suspensão q.s.p. 15 doses)",
+   "notes": "da receita: Dr. o infectologista. Os 15 dias contam a partir do dia em que começar.",
+   "_at": 1795684197011,
+   "pauseReason": "Ainda não começou: receita lançada em 23/11, fórmula não mandada manipular. Aguardando conversar com o infectologista por causa da anemia.",
+   "name": "Ribavirina + DMSO + Vitamina C (manipulado)",
+   "pausedAt": "2026-11-23",
+   "end": null,
+   "mergedFrom": [
+    {
+     "id": "zFfeXgYMJ9Mq7UWZ16oN",
+     "notes": "da receita: Dr. o infectologista da Silva (-RJ)",
+     "endEstimated": true,
+     "_byName": "a tutora",
+     "name": "Suspensão manipulada (Rilavirina + DMSO + Vitamina C)",
+     "clinic": "Dr. o infectologista",
+     "components": [
+      {
+       "dose": "30 mg/kg/dose",
+       "name": "Rilavirina"
+      },
+      {
+       "dose": "20 mg/kg/dose",
+       "name": "DMSO"
+      },
+      {
+       "dose": "500 mg",
+       "name": "Vitamina C"
+      }
+     ],
+     "end": "2026-12-08",
+     "_by": "[removido]",
+     "_at": 1795621780923,
+     "createdAt": 1795621780923,
+     "start": "2026-11-23",
+     "composition": "",
+     "purpose": "",
+     "allergy": false,
+     "dose": "1 dose a cada 24 h por 15 dias (suspensão q.s.p. 15 doses)"
+    }
+   ]
   },
   {
    "id": "kyjmunymtoah7gjbtiak",
@@ -4500,36 +4540,6 @@
    "_by": "[removido]",
    "_at": 1795228835366,
    "_byName": "a tutora"
-  },
-  {
-   "id": "zFfeXgYMJ9Mq7UWZ16oN",
-   "name": "Suspensão manipulada (Rilavirina + DMSO + Vitamina C)",
-   "purpose": "",
-   "dose": "1 dose a cada 24 h por 15 dias (suspensão q.s.p. 15 doses)",
-   "start": "2026-11-23",
-   "end": "2026-12-08",
-   "endEstimated": true,
-   "notes": "da receita: Dr. o infectologista da Silva (-RJ)",
-   "allergy": false,
-   "clinic": "Dr. o infectologista",
-   "composition": "",
-   "components": [
-    {
-     "name": "Rilavirina",
-     "dose": "30 mg/kg/dose"
-    },
-    {
-     "name": "DMSO",
-     "dose": "20 mg/kg/dose"
-    },
-    {
-     "name": "Vitamina C",
-     "dose": "500 mg"
-    }
-   ],
-   "_by": "[removido]",
-   "_byName": "a tutora",
-   "_at": 1795621780923
   }
  ],
  "prevent": [
