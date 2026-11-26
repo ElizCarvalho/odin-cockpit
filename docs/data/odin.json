@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T15:20:12.410Z",
- "updatedAt": 1795706149303,
+ "exportedAt": "2026-11-26T16:12:54.813Z",
+ "updatedAt": 1795709290286,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -2342,6 +2342,21 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795311634990
+  },
+  {
+   "id": "lMUFmuq35lhlMcI86QNF",
+   "date": "2026-11-26",
+   "time": "13:06",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795709288778
   },
   {
    "id": "lOsEkLTy2XyVQdXITnop",
@@ -5467,6 +5482,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "PyHiipdkNBMVDXzolPZM",
+   "date": "2026-11-26",
+   "time": "13:06",
+   "food": true,
+   "note": "Comida caseira (acém, cenoura, beterraba, batata-doce, inhame) · Almoço",
+   "foodId": "caseira_mwxqw09n",
+   "food_g": 395.8,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795709192262
+  },
+  {
    "id": "Q1iLeMCr00c7FUpgSTFH",
    "date": "2026-11-26",
    "time": "12:15",
@@ -7593,6 +7620,20 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795634480513
+  },
+  {
+   "id": "caseira_mwxqw09n",
+   "name": "Comida caseira (acém, cenoura, beterraba, batata-doce, inhame)",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 95.1,
+   "water": 0.75,
+   "est": true,
+   "src": "estimado pela IA: Acém cozido (300 g crus, perde cerca de 30% no cozimento) 210 g/430 kcal · Cenoura pequena 400 g/136 kcal · Beterraba pequena 100 g/49 kcal · Batata-doce média 180 g/212 kcal · Inhame grande 300 g/291 kcal · Creme de milho (1 colher de chá) 5 g/18 kcal",
+   "receita": "300g de acém \n400g de cenoura pequena+ beterraba pequena + batata doce média+inhame grande+ uma colher ( chá) de creme de milho",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795709192028
   },
   {
    "id": "cha",
