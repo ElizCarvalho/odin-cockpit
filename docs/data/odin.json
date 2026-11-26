@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T08:26:32.409Z",
- "updatedAt": 1795658817356,
+ "exportedAt": "2026-11-26T08:43:44.053Z",
+ "updatedAt": 1795682390953,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -1643,6 +1643,22 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795278352983
+  },
+  {
+   "id": "8HQlwviDBk0bzaBMvktr",
+   "date": "2026-11-26",
+   "time": "05:39",
+   "kind": "urina",
+   "details": {
+    "como": "com escape",
+    "cor": "amarelo",
+    "quantidade": "bastante"
+   },
+   "text": "Xixi com escape, amarelo, bastante. Transpassou o tapete",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795682389541
   },
   {
    "id": "8O68wpwK1WfPmqIHHUUS",
