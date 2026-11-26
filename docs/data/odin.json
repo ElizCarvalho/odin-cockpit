@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T20:35:43.387Z",
- "updatedAt": 1795725080847,
+ "exportedAt": "2026-11-26T21:27:38.250Z",
+ "updatedAt": 1795728217154,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -5624,6 +5624,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "RCChvEAH6RpLfmKjhZ1M",
+   "date": "2026-11-26",
+   "time": "18:23",
+   "food": true,
+   "note": "Iogurte natural integral zero lactose · Com quiabo",
+   "foodId": "iogurte",
+   "food_g": 350,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795728215869
   },
   {
    "id": "S9NXJM48ZdiWuiyTQELQ",
