@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T21:37:59.312Z",
- "updatedAt": 1795728866946,
+ "exportedAt": "2026-11-26T22:50:30.134Z",
+ "updatedAt": 1795732981454,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -177,6 +177,23 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "KZFI5woW5gLetCp0b3nC",
+   "date": "2026-11-16",
+   "time": "18:55",
+   "kind": "PCR quantitativo cinomose (urina)",
+   "lab": "Rio Vet Center (laboratório de apoio)",
+   "params": {},
+   "other": [
+    "Cinomose (CDV) NÃO DETECTADO na urina (qPCR em tempo real)",
+    "Amostra: urina (os PCR anteriores foram no sangue e no líquor)",
+    "Coletado junto com o hemograma de 16/11"
+   ],
+   "labInterpretation": "Não detectado: não houve amplificação de RNA do vírus da cinomose nesta amostra. O laboratório orienta reavaliar com outra amostra representativa se a suspeita clínica persistir.",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795733161327
   },
   {
    "id": "KhnAIxbotW5uzvu3FwYt",
@@ -830,14 +847,6 @@
    "date": "2026-11-16",
    "kind": "Hemograma",
    "lab": "Especilab",
-   "other": [
-    "Anemia normocítica normocrômica com discreta anisocitose",
-    "Eosinopenia e linfopenia",
-    "Neutrofilia",
-    "Trombocitose",
-    "Agregados plaquetários",
-    "Coletados junto: PCR quantitativo de cinomose e dosagem de fenobarbital (em andamento)"
-   ],
    "params": {
     "bands": 0,
     "chcm": 31.46,
@@ -854,8 +863,16 @@
    },
    "time": "18:55",
    "_by": "[removido]",
-   "_at": 1795228835219,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "other": [
+    "Anemia normocítica normocrômica com discreta anisocitose",
+    "Eosinopenia e linfopenia",
+    "Neutrofilia",
+    "Trombocitose",
+    "Agregados plaquetários",
+    "Coletados junto: dosagem de fenobarbital e PCR quantitativo de cinomose na urina (registrados à parte)"
+   ],
+   "_at": 1795733161497
   },
   {
    "id": "e20261118b",
@@ -1109,6 +1126,25 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "kZJqv4dGJ7AsNR2HRljp",
+   "date": "2026-11-16",
+   "time": "18:55",
+   "kind": "Fenobarbital sérico",
+   "lab": "Rio Vet Center (laboratório de apoio)",
+   "params": {
+    "fenob": 6.3
+   },
+   "other": [
+    "Fenobarbital sérico: 6,3 µg/mL (ref. canino 15,0 a 45,0), abaixo da faixa",
+    "Material: soro · método: quimioluminescência",
+    "Coletado junto com o hemograma de 16/11"
+   ],
+   "labInterpretation": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795733161116
   },
   {
    "id": "ktdgbttuab1pdvpzdei0",
@@ -3086,6 +3122,11 @@
    "id": "I2GIrNUSh9Gkrvo4590y",
    "text": "## ✅ Pontos positivos\n- **Comendo bem e sozinho**: calorias acima da meta (950) todo dia desde 17/11, entre 1250 e 1700 kcal.\n- **Peso subindo**: de 17,5 kg (17/11) para cerca de 20 kg. Ainda está bem abaixo dos 27 kg de setembro, mas a direção é boa. Pelo padrão de pesagem novo (depois de urinar e evacuar), compare só as próximas pesagens com a de 22/11.\n- **Sangue**: depois da transfusão, o hematócrito (% de glóbulos vermelhos) está estável entre 26% e 30%, longe dos 12,2% de 08/11. Os reticulócitos (células novas da medula) subiram de 3,7 mil (18/11) para 39 mil (21/11). Foram laboratórios diferentes, então é um sinal animador, não uma certeza.\n- Fezes firmes desde 19/11, sangramento urinário parou e ausculta limpa.\n- Remédios em dia, com poucos pulados.\n- Sem convulsão nova, e a neuro o viu estabilizando.\n\n## ⚠️ Pontos de preocupação\n1. **Febre que não sossega**: máxima de 40,1 °C, com 5 picos ≥39,6 em 21/11 e 2 em 22/11, mesmo com dipirona. O hemograma de 21/11 também mostra leucócitos mais altos e granulações tóxicas (sinal de inflamação/infecção). **Chame a clínica logo** se passar de 40 °C, não baixar ou vier com moleza.\n2. **Urina**: o EAS de 19/11 tinha muitos leucócitos e bactérias (+++), e ele ainda não urina sozinho. A cultura com antibiograma está pendente. Se a bexiga ficar cheia e ele não esvaziar, avise a equipe. Observe se a urina está escura, turva ou com cheiro forte.\n3. **Anemia**: o hematócrito ainda está abaixo do normal. Se aparecer **gengiva branca, moleza forte ou fezes pretas**, fale com a equipe na hora.\n4. **Água**: em 22/11 ele bebeu só 285 mL (958 mL no total, para meta de 1600). Com febre e xixi mais escuro, vale reforçar a hidratação.\n5. **Cinomose e neurológico**: continua sem mexer as patas, com mioclonia (espasmos), perda de massa e olhos com secreção e névoa. O PCR de cinomose e o fenobarbital estão pendentes.\n\n## O que mudou\n- Desde 18/11: o hematócrito foi de 26% para 30% e os reticulócitos subiram.\n- Os leucócitos subiram de 17,2 mil para 26,2 mil, com bastonetes (neutrófilos jovens) de volta.\n- A febre ficou mais frequente em 21/11.\n- Peso e apetite melhoraram.\n\n## Perguntas pra levar à vet\n- A cultura da urina saiu? A urina explica a febre?\n- Como lidar com a bexiga enquanto ele não urina sozinho? Com que frequência aliviar com sonda?\n- A dipirona pode estar escondendo a febre real?\n- Quando repetir o hemograma?\n- O PCR de cinomose e o fenobarbital já têm resultado? Mantém o Gardenal ou muda a dose?\n- Qual a meta de peso e de reabilitação?",
    "createdAt": 1795364680037
+  },
+  {
+   "id": "KA4ltT8mhx5Yl0g5YUq5",
+   "text": "## ✅ Pontos positivos\n- **Febre cedendo:** máxima de 40 °C (20-22/11) para 38,9 °C em 26/11. Os últimos 3 dias ficaram sem febre alta.\n- **Anemia melhor que na internação:** o hematócrito (% de glóbulos vermelhos) saiu de 12% antes da transfusão para cerca de 30% em 21/11. Os reticulócitos (células novas da medula) estavam quase zerados em 18/11 e voltaram a aparecer em 21/11, sinal de que a medula pode estar reagindo.\n- **Peso estável** em 20 kg desde 22/11, depois da queda de 17,5 kg.\n- **Fezes firmes** desde 19/11.\n- **Come bem:** calorias acima da meta quase todos os dias, e o remédio está em dia (poucas doses puladas).\n- **Rins e urina:** creatinina normal, proteína na urina normal, PCR de cinomose na urina não detectado.\n- **Sem convulsão** registrada. A glicemia em jejum está normal.\n\n## ⚠️ Pontos de preocupação\n- **Infecção urinária por *Proteus* resistente (ESBL):** a bactéria resiste à ceftriaxona e à maioria dos antibióticos testados. O exame de urina de 21/11 também mostrou muita bactéria e pus. **Vigie:** urina turva ou fedida, sangue, febre voltando, prostração. **Fale com a vet logo**, sem esperar a consulta de rotina. Ele ainda não urina sozinho, então a bexiga cheia é risco.\n- **Anemia ainda não resolvida:** o hematócrito segue baixo. **Vigie:** gengiva branca, moleza, fezes pretas. Se aparecer, chame a clínica na hora.\n- **Fenobarbital baixo (6,3 em 16/11):** a referência é 15-45, e ele ficou uns dias sem dose adequada. **Vigie** qualquer convulsão ou espasmo diferente. Se tiver convulsão, procure a clínica na hora.\n- **Cinomose e parvovirose ativas (IgM positivo):** observe vômito, diarreia e perda de apetite.\n- **Escaras no quadril (25/11):** observe vermelhidão, cheiro, secreção ou aumento da ferida. Se piorar, chame a vet.\n- **Leucócitos altos em 21/11 com células jovens:** indica infecção ou inflamação, ligada à febre.\n- **Ontem (26/11):** bebeu e comeu menos (1143 mL de água, 920 kcal). Se repetir hoje, avise a vet.\n\n## O que mudou\n- Febre baixou, mas o resultado da urocultura mudou o foco para a bexiga.\n- Surgiram as escaras.\n- A anemia melhorou em relação à entrada, mas não está resolvida.\n- Ontem caiu o consumo de água e comida.\n\n## Perguntas pra levar à vet\n- Com essa bactéria resistente, qual o plano pra tratar a infecção urinária? E as sondagens de alívio, como reduzir o risco?\n- Quando repetir hemograma e reticulócitos? Dá pra olhar a medula?\n- Quando repetir a dosagem de fenobarbital?\n- A dipirona pode estar escondendo febre? Como monitorar?\n- O PCR de cinomose no sangue (coletado em 16/11) saiu?\n- Como cuidar das escaras e prevenir novas?",
+   "createdAt": 1795732979993
   },
   {
    "id": "Kmp53f4mutkBjQolvJv4",
