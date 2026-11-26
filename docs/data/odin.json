@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-26T09:23:49.112Z",
- "updatedAt": 1795684740637,
+ "exportedAt": "2026-11-26T09:41:59.467Z",
+ "updatedAt": 1795685107601,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -3365,8 +3365,6 @@
    "purpose": "Urinário",
    "dose": "9 gotas por via oral, de 6 em 6 horas, por 21 dias",
    "start": "2026-11-23",
-   "end": "2026-12-14",
-   "endEstimated": true,
    "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
    "allergy": false,
    "clinic": "Dr. o infectologista",
@@ -3411,7 +3409,12 @@
    ],
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795621780559
+   "endEstimated": false,
+   "paused": true,
+   "_at": 1795685106114,
+   "pauseReason": "Ainda não começou (receita de 23/11 do o infectologista). Os dias do tratamento contam a partir do início.",
+   "end": null,
+   "pausedAt": "2026-11-23"
   },
   {
    "id": "78fwenijjd7jwbo2uafk",
@@ -3533,8 +3536,6 @@
    "purpose": "",
    "dose": "Uso oral: 4 tabletes, 4 vezes ao dia (6 em 6 horas), por 20 dias. Descansar uma semana e repetir por mais 21 dias.",
    "start": "2026-11-23",
-   "end": "2026-12-13",
-   "endEstimated": true,
    "notes": "da receita: Dr. o infectologista",
    "allergy": false,
    "clinic": "Dr. o infectologista",
@@ -3559,7 +3560,6 @@
    ],
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795684198466,
    "mergedFrom": [
     {
      "id": "DrZW7S4wdIRY3xShJIQu",
@@ -3579,7 +3579,13 @@
      "clinic": "Dr. o infectologista",
      "endEstimated": true
     }
-   ]
+   ],
+   "endEstimated": false,
+   "paused": true,
+   "_at": 1795685105976,
+   "pauseReason": "Ainda não começou (receita de 23/11 do o infectologista). Os dias do tratamento contam a partir do início.",
+   "end": null,
+   "pausedAt": "2026-11-23"
   },
   {
    "id": "OoTTL77IVrZn15dkWPqx",
@@ -3644,16 +3650,19 @@
    "purpose": "",
    "dose": "2,5 mL via oral, de 12 em 12 horas, por 15 dias (1 frasco)",
    "start": "2026-11-23",
-   "end": "2026-12-08",
-   "endEstimated": true,
-   "notes": "da receita: Dr. o infectologista (Médico Veterinário)",
    "allergy": false,
    "clinic": "Dr. o infectologista",
    "composition": "",
    "components": [],
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795621780784
+   "endEstimated": false,
+   "paused": true,
+   "_at": 1795685105697,
+   "notes": "da receita: Dr. o infectologista. 2 frascos de 20 mL chegam em 26/11. Na dose da receita (5 mL/dia por 15 dias) o tratamento todo usa ~75 mL; 40 mL cobrem 8 dias. Bula do Diaziprim Oral: 1 mL/8 kg 1x ao dia por 5 dias; confirmar com o o infectologista o 12/12h por 15 dias.",
+   "pauseReason": "Ainda não começou: 2 frascos de 20 mL comprados, chegam em 26/11.",
+   "end": null,
+   "pausedAt": "2026-11-23"
   },
   {
    "id": "TsoagLwnegWDWyE1er9A",
@@ -4281,11 +4290,11 @@
    "purpose": "imunidade (homeopático)",
    "start": "2026-10-10",
    "dose": "2 mL a cada 2 dias, VIA ORAL misturado na água (orientação da neuro), uso contínuo",
-   "notes": "aplicado pela Animalis; levado para a Rio Vet. Fez 2 mL 3 dias seguidos na internação. A partir de 18/11: 2 mL a cada 2 dias, dado na água (a neuro liberou via oral). Estoque: 2 ampolas = 5 doses segundo a vet (18, 20, 22, 24 e 26/11); comprar mais antes de 26/11.",
    "form": "liquido",
    "_by": "[removido]",
-   "_at": 1795228835366,
-   "_byName": "a tutora"
+   "_byName": "a tutora",
+   "_at": 1795685106350,
+   "notes": "aplicado pela Animalis; levado para a Rio Vet. Fez 2 mL 3 dias seguidos na internação. A partir de 18/11: 2 mL a cada 2 dias, dado na água (a neuro liberou via oral). Estoque: 2 ampolas = 5 doses segundo a vet (18, 20, 22, 24 e 26/11); comprar mais antes de 26/11. 26/11: a ampola virou e as doses restantes se perderam; sem Engystol até comprar mais (a dose de 26/11 não foi dada)."
   },
   {
    "id": "p0i6228h05k74lrugk45",
@@ -4465,8 +4474,6 @@
    "purpose": "Controlar os tremores musculares",
    "dose": "2 tabletes pela manhã, 1 vez ao dia, por 30 dias. Dar 1 hora depois da outra fórmula.",
    "start": "2026-11-23",
-   "end": "2026-12-23",
-   "endEstimated": true,
    "notes": "da receita: Dr. o infectologista, Médico Veterinário",
    "allergy": false,
    "clinic": "Dr. o infectologista",
@@ -4474,7 +4481,12 @@
    "components": [],
    "_by": "[removido]",
    "_byName": "a tutora",
-   "_at": 1795621780327
+   "endEstimated": false,
+   "paused": true,
+   "_at": 1795685106234,
+   "pauseReason": "Ainda não começou (receita de 23/11 do o infectologista). Os dias do tratamento contam a partir do início.",
+   "end": null,
+   "pausedAt": "2026-11-23"
   },
   {
    "id": "vdxMpJ8151ueOFBPjinO",
