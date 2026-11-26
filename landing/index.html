@@ -815,7 +815,7 @@ details.priv p { margin-top: 8px; max-width: 720px; }
       fs.appendChild(el('p', { class: 'dica', text: 'Tudo aqui é opcional.' }));
       var c = contato || {};
       var cx = el('div', { class: 'opcoes' }, [
-        el('label', { class: 'opt' }, [el('input', { type: 'checkbox', name: 'conversa', checked: !!c.conversa }), 'Topo uma conversa de 20 minutos, por vídeo ou ligação']),
+        el('label', { class: 'opt' }, [el('input', { type: 'checkbox', name: 'conversa', checked: !!c.conversa }), 'Topo trocar umas mensagens no WhatsApp sobre os desafios que enfrento']),
         el('label', { class: 'opt' }, [el('input', { type: 'checkbox', name: 'lista', checked: !!c.lista }), 'Quero entrar na lista de espera do app'])
       ]);
       fs.appendChild(cx);
@@ -824,7 +824,7 @@ details.priv p { margin-top: 8px; max-width: 720px; }
       var consent = el('input', { type: 'checkbox', name: 'consent', checked: !!c.consent });
       var blocoContato = el('div', {}, [
         el('div', { class: 'campo' }, [el('label', { for: 'contato', text: 'Seu WhatsApp ou e-mail' }), ci]),
-        el('p', { class: 'aviso-lgpd', text: 'Seu contato só vai ser usado pra combinar a conversa e avisar quando o app abrir. Fica guardado separado das suas respostas, não é compartilhado com ninguém e é apagado quando você pedir (ou em até 12 meses).' }),
+        el('p', { class: 'aviso-lgpd', text: 'Seu contato só vai ser usado pra continuar a conversa e avisar quando o app abrir. Fica guardado separado das suas respostas, não é compartilhado com ninguém e é apagado quando você pedir (ou em até 12 meses).' }),
         el('label', { class: 'opt', style: 'margin-top: 8px' }, [consent, 'Concordo com esse uso do meu contato'])
       ]);
       fs.appendChild(blocoContato);
