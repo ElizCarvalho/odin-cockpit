@@ -646,8 +646,9 @@ details.priv p { margin-top: 8px; max-width: 720px; }
   var params = new URLSearchParams(location.search);
   var utm = params.get('utm_source') || params.get('origem') || '';
 
-  // acesso automatizado (conferência de deploy, testes) não entra na contagem
-  var ROBO = navigator.webdriver === true;
+  // acesso automatizado (conferência de deploy) ou modo teste (?teste=1) não conta visita nem grava resposta
+  var MODO_TESTE = /[?&]teste=1(&|$)/.test(location.search);
+  var ROBO = navigator.webdriver === true || MODO_TESTE;
   function evento(nome) {
     if (PREVIA || ROBO) return;
     var corpo = JSON.stringify({ tipo: 'evento', evento: nome, sessao: sessao, utm: utm });
@@ -893,6 +894,7 @@ details.priv p { margin-top: 8px; max-width: 720px; }
   var pesq1 = document.getElementById('pesq1'), pesq2 = document.getElementById('pesq2');
 
   if (PREVIA) document.getElementById('avisoPrevia').hidden = false;
+  else if (MODO_TESTE) { var av = document.getElementById('avisoPrevia'); av.textContent = 'Modo teste: nada desta pesquisa é contado nem gravado.'; av.hidden = false; }
   evento('visita');
 
   document.getElementById('comecar').addEventListener('click', function () {
