@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-27T22:52:47.021Z",
- "updatedAt": 1795819708306,
+ "exportedAt": "2026-11-27T23:11:30.721Z",
+ "updatedAt": 1795821080620,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -5125,6 +5125,20 @@
    "_at": 1795619051273
   },
   {
+   "id": "62tKzse2WEPeYpF2J99q",
+   "date": "2026-11-27",
+   "time": "20:11",
+   "food": true,
+   "note": "Biscrok Multi · Lanche",
+   "foodId": "biscrok",
+   "qty": 4,
+   "unit": "un",
+   "food_g": 40,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795821079270
+  },
+  {
    "id": "6Bt1WdFWh3zSr9bz9LKV",
    "date": "2026-11-23",
    "time": "12:05",
@@ -5808,6 +5822,18 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795706120889
+  },
+  {
+   "id": "Q2J641APVb5F9As12oXP",
+   "date": "2026-11-27",
+   "time": "20:06",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 63,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795820772584
   },
   {
    "id": "QB9zY9L3IuhV2KxdPjl9",
