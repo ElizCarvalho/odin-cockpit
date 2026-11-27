@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-27T03:25:35.867Z",
- "updatedAt": 1795749685995,
+ "exportedAt": "2026-11-27T07:02:44.407Z",
+ "updatedAt": 1795762711282,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -1685,6 +1685,22 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795299971399
+  },
+  {
+   "id": "6QajHPTzlfKVv7UMJP8Z",
+   "date": "2026-11-27",
+   "time": "03:58",
+   "kind": "urina",
+   "details": {
+    "como": "com escape",
+    "cor": "amarelo",
+    "quantidade": "bastante"
+   },
+   "text": "Xixi com escape, amarelo, bastante.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795762693867
   },
   {
    "id": "6iOQdBvBVT8Tx33C9QPi",
@@ -5896,6 +5912,17 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "WoM0QRuD9GZTXLXBQ01x",
+   "date": "2026-11-27",
+   "time": "03:58",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795762710017
   },
   {
    "id": "Wrv4lH5nN6FXxKbvjQKG",
