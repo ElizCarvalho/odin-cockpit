@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-27T21:21:41.318Z",
- "updatedAt": 1795806287888,
+ "exportedAt": "2026-11-27T22:52:47.021Z",
+ "updatedAt": 1795819708306,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -1972,6 +1972,21 @@
    "_byName": "a tutora"
   },
   {
+   "id": "Heu261GAxN9tsupCxbW8",
+   "date": "2026-11-27",
+   "time": "12:45",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795819695392
+  },
+  {
    "id": "II5xaiFI1MrowxaF9dqa",
    "date": "2026-11-20",
    "time": "18:38",
@@ -2264,6 +2279,21 @@
    "_at": 1795277989601
   },
   {
+   "id": "ZJ5REYkg2gMbQDbjZqxh",
+   "date": "2026-11-27",
+   "time": "19:48",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795819686321
+  },
+  {
    "id": "ZxqHXUH07RSh1TV4speY",
    "date": "2026-11-25",
    "time": null,
@@ -2284,6 +2314,21 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795606874461
+  },
+  {
+   "id": "bcXVqBVNRGd1IWKfVoiF",
+   "date": "2026-11-27",
+   "time": "09:08",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795819707046
   },
   {
    "id": "cWCvPIujG2Zla7zx2JAK",
@@ -5099,6 +5144,16 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "6nAI6F0lT6zD8CwYlmIr",
+   "date": "2026-11-27",
+   "time": "19:39",
+   "temp": 38.2,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795819619616
   },
   {
    "id": "71SSwt1RgwTY6hfTO207",
