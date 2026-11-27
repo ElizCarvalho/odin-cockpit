@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-27T12:50:05.300Z",
- "updatedAt": 1795783531773,
+ "exportedAt": "2026-11-27T13:04:45.887Z",
+ "updatedAt": 1795784216932,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -147,6 +147,23 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795351870166
+  },
+  {
+   "id": "9XA8NHp2x209pWamYf7F",
+   "date": "2026-11-27",
+   "time": "09:54",
+   "kind": "Glicemia (glicosímetro)",
+   "lab": "Em casa",
+   "params": {
+    "glic": 99
+   },
+   "other": [
+    "em jejum",
+    "sangue da orelha, glicosímetro"
+   ],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795784057337
   },
   {
    "id": "ECvd1yEtLsPcsUx9z2Q8",
@@ -1164,6 +1181,20 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "lNlrCOuxw1GW0WFnGoh5",
+   "date": "2026-11-27",
+   "time": "09:56",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "params": {
+    "peso": 21.1
+   },
+   "other": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795784215565
   },
   {
    "id": "m2w14cvnx3ej9izwky6r",
