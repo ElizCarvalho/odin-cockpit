@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-27T01:12:43.036Z",
- "updatedAt": 1795741695591,
+ "exportedAt": "2026-11-27T03:25:35.867Z",
+ "updatedAt": 1795749685995,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -5435,6 +5435,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "IoQqKZ3e20EIPfbnTPF0",
+   "date": "2026-11-27",
+   "time": "00:21",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 126.9,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795749684555
   },
   {
    "id": "JfJczptnNzVYLWsiLThN",
