@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-27T23:30:56.879Z",
- "updatedAt": 1795821720362,
+ "exportedAt": "2026-11-28T01:36:53.004Z",
+ "updatedAt": 1795829548610,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -5758,6 +5758,18 @@
    "_at": 1795485885990
   },
   {
+   "id": "NVbjyjyWB5fhoi7W67W5",
+   "date": "2026-11-27",
+   "time": "22:32",
+   "food": true,
+   "note": "Acém com legumes e creme de milho",
+   "foodId": "caseira_mwzqjmyq",
+   "food_g": 300.3,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795829547336
+  },
+  {
    "id": "PBClZWPPigO8gjUtBTSu",
    "date": "2026-11-27",
    "time": "11:16",
@@ -5799,6 +5811,18 @@
    "_by": "[removido]",
    "_at": 1795228835559,
    "_byName": "a tutora"
+  },
+  {
+   "id": "Pog2uDN3A2COmY9S5TVK",
+   "date": "2026-11-27",
+   "time": "22:29",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 111.2,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795829410613
   },
   {
    "id": "PsbEtsWQIfqOPCQTsPb4",
@@ -6388,6 +6412,18 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795441740617
+  },
+  {
+   "id": "fzWOfGDJHipg14dtJqpI",
+   "date": "2026-11-27",
+   "time": "22:31",
+   "food": true,
+   "note": "Acém cozido com legumes e creme de milho (cenoura, beterraba, batata-doce, inham",
+   "foodId": "caseira_mwzqjhw1",
+   "food_g": 300.3,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795829540905
   },
   {
    "id": "g7be7hMaRLjk0sIPSZDJ",
@@ -8119,6 +8155,34 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795709192028
+  },
+  {
+   "id": "caseira_mwzqjhw1",
+   "name": "Acém cozido com legumes e creme de milho (cenoura, beterraba, batata-doce, inham",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 104.3,
+   "water": 0.74,
+   "est": true,
+   "src": "estimado pela IA: Acém cozido 200 g/430 kcal · Cenoura cozida 100 g/30 kcal · Beterraba cozida 100 g/32 kcal · Batata-doce cozida 150 g/115 kcal · Inhame cozido 120 g/116 kcal · Creme de milho 100 g/80 kcal",
+   "receita": "Acém com cenoura, beterraba, batata doce, inhame, creme de milho",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795829540690
+  },
+  {
+   "id": "caseira_mwzqjmyq",
+   "name": "Acém com legumes e creme de milho",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 117.3,
+   "water": 0.73,
+   "est": true,
+   "src": "estimado pela IA: Acém cozido 500 g/1075 kcal · Cenoura cozida (2 médias) 200 g/60 kcal · Beterraba cozida (1 média) 150 g/48 kcal · Batata-doce cozida (1 média) 200 g/154 kcal · Inhame cozido 200 g/194 kcal · Creme de milho 200 g/170 kcal",
+   "receita": "Acém com cenoura, beterraba, batata doce, inhame, creme de milho",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795829547267
   },
   {
    "id": "cha",
