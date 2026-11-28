@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-28T20:10:07.382Z",
- "updatedAt": 1795885468022,
+ "exportedAt": "2026-11-28T20:17:43.498Z",
+ "updatedAt": 1795896724765,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -1831,6 +1831,22 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795837263705
+  },
+  {
+   "id": "B0jB0bfm9YSohBNz1Gvi",
+   "date": "2026-11-28",
+   "time": "17:11",
+   "kind": "urina",
+   "details": {
+    "como": "com escape",
+    "cor": "amarelo",
+    "quantidade": "normal"
+   },
+   "text": "Xixi com escape, amarelo, normal.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795896694987
   },
   {
    "id": "Bf3WmafOhl9ZLJOGpxwO",
@@ -5549,6 +5565,16 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795524948044
+  },
+  {
+   "id": "FA03FsGvNcj1hsUyezrD",
+   "date": "2026-11-28",
+   "time": "17:11",
+   "temp": 39.1,
+   "note": "",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795896723506
   },
   {
    "id": "FMnszeHDKiToPbJGKkWp",
