@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-28T15:58:58.667Z",
- "updatedAt": 1795881272728,
+ "exportedAt": "2026-11-28T16:09:41.389Z",
+ "updatedAt": 1795881888316,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -6632,6 +6632,18 @@
    "_byName": "a tutora"
   },
   {
+   "id": "hqZDAx7Pzp8H4gDYIYag",
+   "date": "2026-11-28",
+   "time": "13:00",
+   "food": true,
+   "note": "Caldo/ensopado caseiro (pé de frango, inhame, batata, batata-doce, beterraba, ch",
+   "foodId": "caseira_mx0llt2z",
+   "food_g": 700,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795881716734
+  },
+  {
    "id": "iGqnUsiGOBgvTwdGF3Ox",
    "date": "2026-11-24",
    "time": "16:19",
@@ -7910,6 +7922,18 @@
    "_at": 1795278797449
   },
   {
+   "id": "tv6xU3g8OAk1ksAcR7Sq",
+   "date": "2026-11-28",
+   "time": "13:04",
+   "food": true,
+   "note": "Pet Delícia Hipercalórica (úmida)",
+   "foodId": "petdelicia",
+   "food_g": 64.2,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795881886973
+  },
+  {
    "id": "uJ9k11NlGeWzkaFUryCJ",
    "date": "2026-11-25",
    "time": "13:17",
@@ -8353,6 +8377,20 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795829547267
+  },
+  {
+   "id": "caseira_mx0llt2z",
+   "name": "Caldo/ensopado caseiro (pé de frango, inhame, batata, batata-doce, beterraba, ch",
+   "kind": "comida",
+   "unit": "g",
+   "kcal100": 107.2,
+   "water": 0.7,
+   "est": true,
+   "src": "estimado pela IA: Pé de frango cozido 300 g/600 kcal · Inhame grande cozido 250 g/250 kcal · Beterraba pequena cozida 100 g/32 kcal · Batata média cozida 150 g/85 kcal · Batata-doce pequena cozida 130 g/100 kcal · Chuchu pequeno cozido 100 g/19 kcal · Creme de milho (2 colheres de chá) 10 g/30 kcal",
+   "receita": "300 g de pé de frango um inhame grande + uma beterraba pequena + uma batata média + uma batata-doce pequena + um pedaço de chuchu pequeno + duas colheres de chá de creme de milho",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795881716604
   },
   {
    "id": "cha",
