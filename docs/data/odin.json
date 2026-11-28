@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-28T02:10:03.277Z",
- "updatedAt": 1795831524536,
+ "exportedAt": "2026-11-28T03:45:42.941Z",
+ "updatedAt": 1795837265043,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -1802,6 +1802,21 @@
    "_by": "[removido]",
    "_at": 1795228835061,
    "_byName": "a tutora"
+  },
+  {
+   "id": "9dIQJyLJJDRT60hRH68b",
+   "date": "2026-11-28",
+   "time": "00:40",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795837263705
   },
   {
    "id": "Bf3WmafOhl9ZLJOGpxwO",
