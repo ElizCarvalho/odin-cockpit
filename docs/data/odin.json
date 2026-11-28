@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-28T16:51:01.596Z",
- "updatedAt": 1795884400647,
+ "exportedAt": "2026-11-28T17:09:27.566Z",
+ "updatedAt": 1795885468022,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -5810,6 +5810,17 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795310236944
+  },
+  {
+   "id": "MdoMbwWVgjNUYsJ3bdk5",
+   "date": "2026-11-28",
+   "time": "14:00",
+   "water_ml": 150,
+   "drinkId": "coco",
+   "note": "água de coco natural",
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795885466660
   },
   {
    "id": "MiDdnwlseSGAnYN1prli",
