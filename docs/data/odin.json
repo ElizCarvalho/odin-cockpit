@@ -1,6 +1,6 @@
 {
- "exportedAt": "2026-11-28T11:32:40.863Z",
- "updatedAt": 1795865146223,
+ "exportedAt": "2026-11-28T12:40:58.807Z",
+ "updatedAt": 1795869397962,
  "exams": [
   {
    "id": "17Wi06K2y46JnHEXbsbh",
@@ -117,6 +117,20 @@
    "_by": "[removido]",
    "_at": 1795228835219,
    "_byName": "a tutora"
+  },
+  {
+   "id": "7mDbMv9YFBP71xuSPcNh",
+   "date": "2026-11-28",
+   "time": "09:36",
+   "kind": "Pesagem",
+   "lab": "Em casa",
+   "params": {
+    "peso": 21
+   },
+   "other": [],
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795869396678
   },
   {
    "id": "8mzgk0rqnphsl036cv8k",
@@ -2103,6 +2117,21 @@
    "_by": "[removido]",
    "_byName": "a tutora",
    "_at": 1795442892529
+  },
+  {
+   "id": "OX6GEMU1gaGfdAKYFXjO",
+   "date": "2026-11-28",
+   "time": "09:36",
+   "kind": "fezes",
+   "details": {
+    "consistencia": "normal (firme)",
+    "cor": "marrom"
+   },
+   "text": "Fezes normal (firme), marrom.",
+   "mark": false,
+   "_by": "[removido]",
+   "_byName": "a tutora",
+   "_at": 1795869391143
   },
   {
    "id": "PnTIo6xQME8iJYNtJL7p",
